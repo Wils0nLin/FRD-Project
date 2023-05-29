@@ -22,8 +22,8 @@
             - [ ] Publisher 發行商
             - [ ] Merchant Rating
         - [ ] Product Information
-            - [ ] Game Name
-            - [ ] Game Version
+            - [ ] Product Name
+            - [ ] Product Version
             - [ ] Release Date 發行日期
             - [ ] Publisher 發行商
             - [ ] Product Tag
