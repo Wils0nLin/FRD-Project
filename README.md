@@ -1,9 +1,23 @@
 # FRD-Project
-Topic: Game資訊及預購平台
+-[x] Topic
+    -[x] 遊戲資訊及預購平台
+
+-[ ] Website Name
+    -[ ] Waiting for Confirm
+
+-[ ] Function in our Website
+    -[ ] Home Page
+    
+    -[ ] Merchant Side
+        -[ ] Merchant Login
+    
+    -[ ] Consumer Side
+        -[ ] Consumer Login
+
+    -[ ] Admin Side
 
 function by Adams
 QR code攞貨
-login商戶及客戶
 收貨時間分流
 filter search (game版本差異，店舖地址)
 通知
