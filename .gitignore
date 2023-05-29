@@ -1,0 +1,8 @@
+.env
+.python-version
+.DS_Store
+
+node_modules
+pythonServer/tf_python
+test_model
+uploads
