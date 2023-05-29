@@ -1,13 +1,16 @@
 # FRD-Project
 -[x] Topic
+
     -[x] 遊戲資訊及預購平台
 
 -[ ] Website Name
+
     -[ ] Waiting for Confirm
 
 -[ ] Function in our Website
+
     -[ ] Home Page
-    
+
     -[ ] Merchant Side
         -[ ] Merchant Login
     
