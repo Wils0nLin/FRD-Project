@@ -1,23 +1,20 @@
 # FRD-Project
--[x] Topic
+- [x] Topic
+    - [x] 遊戲資訊及預購平台
 
-    -[x] 遊戲資訊及預購平台
+- [ ] Website Name
+    - [ ] Waiting for Confirm
 
--[ ] Website Name
+- [ ] Function in our Website
+    - [ ] Home Page
 
-    -[ ] Waiting for Confirm
-
--[ ] Function in our Website
-
-    -[ ] Home Page
-
-    -[ ] Merchant Side
-        -[ ] Merchant Login
+    - [ ] Merchant Side
+        - [ ] Merchant Login
     
-    -[ ] Consumer Side
-        -[ ] Consumer Login
+    - [ ] Consumer Side
+        - [ ] Consumer Login
 
-    -[ ] Admin Side
+    - [ ] Admin Side
 
 function by Adams
 QR code攞貨
