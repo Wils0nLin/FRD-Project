@@ -1,32 +1,68 @@
 # FRD-Project
-Topic: Game資訊及預購平台
+- [x] Topic
+    - [x] Game Information and Pre-Order Platform 遊戲資訊及預購平台
 
-function by Adams
-QR code攞貨
-login商戶及客戶
-收貨時間分流
-filter search (game版本差異，店舖地址)
-通知
-email通知收貨
-流行game預先填入database，店家可以係放game果陣可以唔洗打太多資料，我地可以提供大嘅遊戲廠商
-填埋game發行商
-願望清單
-考慮預訂機制
-遊戲推薦
-game list update
-商戶通知（市場價格位置）
-季度推薦
-商戶公告功能（入貨，放假，到貨延期）
-評分發評論
-predict（諗到再寫）
+- [ ] Website Name
+    - [ ] Waiting for Confirm
 
-可參考Price.com or steam
+- [ ] Function in our Website
+    - [ ] Main Function
+        - [ ] Game Recommendation 遊戲推薦
+        - [ ] Quarterly Recommendation 每季推薦
+        - [ ] Search by Filter
+            - [ ] Product Type
+                - [ ] Game
+                - [ ] Game Console
+            - [ ] Game Genre 遊戲類型
+            - [ ] Game Theme 遊戲主題
+            - [ ] Game Platform 
+            - [ ] Product Price 產品價格
+            - [ ] Pre-Order Product
+            - [ ] Release Date 發行日期
+            - [ ] Publisher 發行商
+            - [ ] Merchant Rating
+        - [ ] Product Information
+            - [ ] Product Name
+            - [ ] Product Version
+            - [ ] Release Date 發行日期
+            - [ ] Publisher 發行商
+            - [ ] Product Tag
+            - [ ] Search by Filter
+                - [ ] Product Price
+                - [ ] Merchant Location
+            - [ ] Merchant
+                - [ ] Merchant Name
+                - [ ] Merchant Rating
 
-UI Template
-https://yellowimages.com/stock/game-store-ui-kit-67304 
-https://yellowimages.com/stock/good-games-ui-kit-91408 
-https://yellowimages.com/stock/game-portal-ui-kit-69172 
+    - [ ] Merchant Side
+        - [ ] Merchant Login
+        - [ ] Announcement 商戶公告
+            - [ ] Day Off Announcement 休息日公告
+            - [ ] Delayed Arrival 到貨延期
+        - [ ] List of Market Price
+        - [ ] Consumer Flow Management 客戶流量管理
+        - [ ] QR Code Reading
+    
+    - [ ] Consumer Side
+        - [ ] Consumer Login
+        - [ ] WishList 願望清單
+        - [ ] OrderList
+        - [ ] Feedback for Merchant
+            - [ ] Rating
+            - [ ] Comment
+        - [ ] Email / Message Reception
+            - [ ] Successful Pre-Order
+            - [ ] QR Code Reception for Pick Up
 
-category -> type , price, release time, publisher, platform, rating, 預備發售
+    - [ ] Admin Side
+        - [ ] Game List Update 遊戲列表更新
+        - [ ] Game Information Update
+            - [ ] Game Name
+            - [ ] Game Publisher
 
-product -> version -> shop -> price & location -> rating
+- [ ] Reference
+    - [ ] Price.com
+    - [ ] Steam
+    - [ ] https://yellowimages.com/stock/game-store-ui-kit-67304
+    - [ ] https://yellowimages.com/stock/good-games-ui-kit-91408
+    - [ ] https://yellowimages.com/stock/game-portal-ui-kit-69172
