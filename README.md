@@ -7,8 +7,11 @@
 
 - [ ] Function in our Website
     - [ ] Main Function
-        - [ ] Game Recommendation 遊戲推薦
-        - [ ] Quarterly Recommendation 每季推薦
+        - [ ] Home Page
+            - [ ] Game Recommendation 遊戲推薦
+            - [ ] Quarterly Recommendation 每季推薦
+            - [ ] Popular 今季熱門
+            - [ ] Coming Soon
         - [ ] Search by Filter
             - [ ] Product Type
                 - [ ] Game
@@ -33,19 +36,29 @@
             - [ ] Merchant
                 - [ ] Merchant Name
                 - [ ] Merchant Rating
+            - [ ] Contact with Merchant (「Chat on WhatsApp」Button) 聯絡商戶(「Chat on WhatsApp」按鈕)
+                - [ ] Create Link with a Pre-Filled Message 使用預填訊息建立連結
+            - [ ] Pre-Order Detail
 
     - [ ] Merchant Side
         - [ ] Merchant Login
+        - [ ] Profile Page
         - [ ] Announcement 商戶公告
             - [ ] Day Off Announcement 休息日公告
             - [ ] Delayed Arrival 到貨延期
-        - [ ] List of Market Price
-        - [ ] Consumer Flow Management 客戶流量管理
-        - [ ] QR Code Reading
+        - [ ] List of Product
+            - [ ] Product Addition & Update
+                - [ ] Detail of Market Price
+            - [ ] Product Deletion
+        - [ ] Pick Up Arrangement
+            - [ ] Consumer Flow Management 客戶流量管理
+            - [ ] QR Code Reading
     
     - [ ] Consumer Side
         - [ ] Consumer Login
         - [ ] WishList 願望清單
+            - [ ] Following of Merchant
+            - [ ] Following of Product
         - [ ] OrderList
         - [ ] Feedback for Merchant
             - [ ] Rating
@@ -66,3 +79,7 @@
     - [ ] https://yellowimages.com/stock/game-store-ui-kit-67304
     - [ ] https://yellowimages.com/stock/good-games-ui-kit-91408
     - [ ] https://yellowimages.com/stock/game-portal-ui-kit-69172
+    - [ ] https://faq.whatsapp.com/5913398998672934 WhatsApp 的隨點即聊功能
+    - [ ] https://faq.whatsapp.com/5495780857144067/?helpref=hc_fnav&cms_platform=android WhatsApp 購物清單下訂單
+    - [ ] https://me-qr.com/ QR Code Generator
+    - [ ] https://stripe.com/en-hk?utm_campaign=HK_EN_Search_Brand_Stripe_EXA-19299490287&utm_medium=cpc&utm_source=google&ad_content=642259720713&utm_term=stripe&utm_matchtype=e&utm_adposition=&utm_device=c&gclid=Cj0KCQjwmtGjBhDhARIsAEqfDEfij7NR4AbPzRM9TB6GNYgFS3d7sxZHb2D2pA2wX4LB437CzHCkGG4aArBrEALw_wcB Payment
