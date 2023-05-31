@@ -6,6 +6,7 @@ erDiagram
         id int
         username string
         password string
+        email string
         admin boolean
         consumer boolean
         merchant boolean
@@ -16,10 +17,10 @@ erDiagram
         merchant_image string
         merchant_name string
         merchant_phone string
-        merchant_email string
         bank_acc_id int
         opening_hour string
         announcement text
+        rating int
     }
     ADDRESS {
         id int
@@ -58,9 +59,13 @@ erDiagram
         product_image string
         product_name string
         release_date date
-        publisher string
+        platform_id int
         intro text
         availability boolean
+    }
+    PLATFORM {
+        id int
+        platform string
     }
     TAG {
         id int
@@ -71,14 +76,26 @@ erDiagram
         product_id int
         tag_id int
     }
-    ITEM {
+    VERSION {
         id int
         product_id int
-        address_id int
         version string
+    }
+    ITEM {
+        id int
+        address_id int
+        version_id int
         price string
         stock_status string
         availability boolean
+    }
+    RECOMMENDATION {
+        id int
+        product_id int
+    }
+    HOT {
+        id int
+        product_id int
     }
     WISHLIST_MERCHANT {
         id int
@@ -98,7 +115,8 @@ erDiagram
     ORDER {
         id int
         consumer_id int
-        item_id int
+        order_number string
+        pre_payment int
         remain_payment int
     }
     CONSUMER {
@@ -106,7 +124,6 @@ erDiagram
         user_id int
         consumer_name string
         consumer_phone string
-        consumer_email string
     }
     FEEDBACK {
         id int
@@ -117,26 +134,31 @@ erDiagram
         create_time date
     }
     AREA ||--O{ DISTRICT : "one to many"
-    MERCHANT ||--O{ FEEDBACK : "one to many"
     ADDRESS ||--|| DISTRICT : "one to one"  
     ADDRESS ||--O{ ITEM : "one to many"
     BANK ||--O{ BRANCH : "one to many"
     BANK_ACC ||--|| BRANCH : "one to one"
+    MERCHANT ||--O{ FEEDBACK : "one to many"
     CONSUMER ||--O{ FEEDBACK : "one to many"
     CONSUMER ||--|| ORDER : "one to one"
-    CONSUMER ||--|| WISHLIST_ITEM : "one to one"
-    CONSUMER ||--|| WISHLIST_MERCHANT : "one to one"
-    CONSUMER ||--|| WISHLIST_PRODUCT : "one to one"
+    CONSUMER ||--O{ WISHLIST_ITEM : "one to many"
+    CONSUMER ||--O{ WISHLIST_MERCHANT : "one to many"
+    CONSUMER ||--O{ WISHLIST_PRODUCT : "one to many"
+    HOT ||--O{ PRODUCT : "one to many"
     MERCHANT ||--O{ ADDRESS : "one to many"
     MERCHANT ||--|| BANK_ACC : "one to one"
-    PRODUCT ||--|| PRODUCT_TAG : "one to one"
+    PRODUCT ||--O{ PRODUCT_TAG : "one to many"
+    PRODUCT ||--O{ PLATFORM : "one to many"
     PRODUCT ||--O{ ITEM : "one to many"
-    PRODUCT_TAG ||--O{ TAG : "one to many"
-    USER ||--O{ CONSUMER : "one to many"
-    USER ||--O{ MERCHANT : "one to many"
-    WISHLIST_ITEM ||--O{ ITEM : "one to many"
-    WISHLIST_MERCHANT ||--O{ MERCHANT : "one to many"
-    WISHLIST_PRODUCT ||--O{ PRODUCT : "one to many"
+    PRODUCT ||--O{ VERSION : "one to many"
+    TAG ||--O{ PRODUCT_TAG : "one to many"
+    RECOMMENDATION ||--O{ PRODUCT : "one to many"
+    USER ||--|| CONSUMER : "one to one"
+    USER ||--|| MERCHANT : "one to one"
+    VERSION ||--|| ITEM : "one to one"
+    WISHLIST_ITEM ||--|| ITEM : "one to one"
+    WISHLIST_MERCHANT ||--|| MERCHANT : "one to one"
+    WISHLIST_PRODUCT ||--|| PRODUCT : "one to one"
     ORDER ||--O{ ITEM : "one to many"
     
 ```
