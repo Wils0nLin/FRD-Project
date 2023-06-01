@@ -19,8 +19,8 @@ erDiagram
         merchant_phone string
         bank_acc_id int
         opening_hour string
-        announcement text
         rating int
+        announcement text
     }
     ADDRESS {
         id int
@@ -147,7 +147,6 @@ erDiagram
     HOT ||--O{ PRODUCT : "one to many"
     MERCHANT ||--O{ ADDRESS : "one to many"
     MERCHANT ||--|| BANK_ACC : "one to one"
-    PRODUCT ||--O{ PRODUCT_TAG : "one to many"
     PRODUCT ||--O{ PLATFORM : "one to many"
     PRODUCT ||--O{ ITEM : "one to many"
     PRODUCT ||--O{ VERSION : "one to many"
@@ -160,5 +159,5 @@ erDiagram
     WISHLIST_MERCHANT ||--|| MERCHANT : "one to one"
     WISHLIST_PRODUCT ||--|| PRODUCT : "one to one"
     ORDER ||--O{ ITEM : "one to many"
-    
+    PRODUCT ||--O{ PRODUCT_TAG : "one to many"
 ```
