@@ -83,3 +83,4 @@
     - [ ] https://faq.whatsapp.com/5495780857144067/?helpref=hc_fnav&cms_platform=android WhatsApp 購物清單下訂單
     - [ ] https://me-qr.com/ QR Code Generator
     - [ ] https://stripe.com/en-hk?utm_campaign=HK_EN_Search_Brand_Stripe_EXA-19299490287&utm_medium=cpc&utm_source=google&ad_content=642259720713&utm_term=stripe&utm_matchtype=e&utm_adposition=&utm_device=c&gclid=Cj0KCQjwmtGjBhDhARIsAEqfDEfij7NR4AbPzRM9TB6GNYgFS3d7sxZHb2D2pA2wX4LB437CzHCkGG4aArBrEALw_wcB Payment
+    - [ ] https://javascript.plainenglish.io/how-to-count-page-views-with-the-count-api-afc9369c1f8f Click Rate
