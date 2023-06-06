@@ -9,9 +9,10 @@ export class MerchantService {
     console.log(`post item by body`);
   }
   updateItems(form: any) {
-    console.log(`update item by body`);
+    console.log(
+      `update item by body and also running query to get all values with all consumer in wish list sees is there have matches of consumer wishes`,
+    );
   }
-
   changeItemStatus(form: any) {
     console.log(`update item status `);
   }
