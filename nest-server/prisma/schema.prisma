@@ -49,7 +49,7 @@ model Order {
   order_number      String
   pre_payment       Int
   remain_payment    Int
-  create_time       DateTime @default(now())
+  create_date       DateTime @default(now()) @db.Date
 
   order_items       Order_item[]
 
@@ -75,7 +75,7 @@ model Feedback {
   merchant_id       Int      @map("merchant_id")
   rating            Int?     
   comment           String?
-  create_time       DateTime @default(now())
+  create_time       DateTime @default(now()) @db.Date
 
   @@map("feedback")
 }
@@ -96,7 +96,7 @@ model Product {
   id                Int      @id @default(autoincrement())
   product_status    Boolean
   product_image     String
-  release_date      DateTime @default(now())
+  release_date      DateTime @default(now()) @db.Date
   product_intro     String
   view              Int
 
@@ -145,6 +145,8 @@ model Tag {
   id                Int      @id @default(autoincrement())
   tag               String
 
+  product_tags      Product_tag[]
+
   @@map("tag")
 }
 
@@ -152,6 +154,8 @@ model Product_tag {
   id                Int      @id @default(autoincrement())
   product           Product  @relation(fields: [product_id], references: [id])
   product_id        Int      @map("product_id")
+  tag               Tag      @relation(fields: [tag_id], references: [id])
+  tag_id            Int      @map("tag_id")
 
   @@map("product_tag")
 }
