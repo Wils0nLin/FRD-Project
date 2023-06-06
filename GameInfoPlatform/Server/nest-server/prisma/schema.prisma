@@ -1,0 +1,285 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+//差 tag, product_tag, item 3個table
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Article {
+  id          Int      @id @default(autoincrement())
+  username    String   @unique
+  password    String
+  email       String
+  identity    String
+  consumers   Consumer[]
+  merchants   Merchant[]
+
+  @@map("users")
+}
+
+// relationship with consumer
+
+model Consumer {
+  id                Int      @id @default(autoincrement())
+  users              Article  @relation(fields: [users_id], references: [id])
+  users_id           Int      @map("users_id")
+  consumer_name     String  
+  consumer_phone    String
+
+  orders            Order[]
+  wishlist_products Wishlist_product[]
+  wishlist_merchants Wishlist_merchant[]
+  feedbacks         Feedback[]
+
+  @@map("consumer")
+}
+
+
+model Order {
+  id                Int      @id @default(autoincrement())
+  consumer          Consumer @relation(fields: [consumer_id], references: [id])
+  consumer_id       Int      @map("consumer_id")
+  order_number      String
+  pre_payment       Int
+  remain_payment    Int
+  create_time       DateTime @default(now())
+
+  order_items       Order_item[]
+
+  @@map("order")
+}
+
+model Order_item {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int      @map("order_id")
+  order_item        String
+  amount            Int
+  price             Int
+
+  @@map("order_item")
+}
+
+model Feedback {
+  id                Int      @id @default(autoincrement())
+  consumer          Consumer @relation(fields: [consumer_id], references: [id])
+  consumer_id       Int      @map("conumber_id")
+  merchant          Merchant @relation(fields: [merchant_id], references: [id])
+  merchant_id       Int      @map("merchant_id")
+  rating            Int?     
+  comment           String?
+  create_time       DateTime @default(now())
+
+  @@map("feedback")
+}
+
+
+
+model Platform {
+  id                Int      @id @default(autoincrement())
+  platform          String
+
+  product_platforms Product_platform[]
+
+  @@map("platform")
+}
+
+
+model Product {
+  id                Int      @id @default(autoincrement())
+  product_status    Boolean
+  product_image     String
+  release_date      DateTime @default(now())
+  product_intro     String
+  view              Int
+
+  product_platforms Product_platform[]
+  versions          Version[]
+  wishlist_products Wishlist_product[]
+  hots              Hot[]
+  product_tags      Product_tag[] 
+
+  @@map("product")
+}
+
+
+model Product_platform {
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int      @map("product_id")
+  platform          Platform @relation(fields: [platform_id], references: [id])
+  platform_id       Int      @map("platform_id")
+
+  @@map("product_platform")
+}
+
+
+model Version {
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int      @map("product_id")
+  version           String
+  version_image     String
+
+  items             Item[]
+
+  @@map("version")
+}
+
+model Hot {
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int      @map("product_id")
+
+  @@map("hot")
+}
+
+model Tag {
+  id                Int      @id @default(autoincrement())
+  tag               String
+
+  @@map("tag")
+}
+
+model Product_tag {
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int      @map("product_id")
+
+  @@map("product_tag")
+}
+
+////聽日問 address係咪要開多個table
+model Item {
+  id                Int      @id @default(autoincrement())
+  merchant          Merchant @relation(fields: [merchant_id], references: [id])          
+  merchant_id       Int      @map("merchant_id")
+  version           Version  @relation(fields: [version_id], references: [id])
+  version_id        Int      @map("version_id")
+  original_price    Int
+  newest_price      Int
+  stock_status      String
+  availability      Boolean @default(false)
+
+  @@map("item")
+}
+////
+
+
+
+model Wishlist_product {
+  id                Int      @id @default(autoincrement())
+  consumer          Consumer @relation(fields: [consumer_id], references: [id])
+  consumer_id       Int      @map("consumer_id")
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int      @map("product_id")
+  version_id        Int      @map("version_id")
+  target_price      Int
+
+  @@map("wishlist_product")
+}
+
+
+model Wishlist_merchant {
+  id                Int      @id @default(autoincrement())
+  consumer          Consumer @relation(fields: [consumer_id], references: [id])
+  consumer_id       Int      @map("consumer_id")
+  merchant          Merchant @relation(fields: [merchant_id], references: [id])
+  merchant_id       Int      @map("merchant_id")
+
+
+  @@map("wishlist_merchant")
+}
+
+
+
+
+
+
+
+
+// relationship with merchant
+
+model Merchant {
+  id                Int      @id @default(autoincrement())
+  users              Article  @relation(fields: [users_id], references: [id])
+  users_id           Int      @map("users_id")
+  merchant_image    String
+  merchant_name     String
+  merchant_hone     String
+  biz_registration  String
+  district          District @relation(fields: [district_id], references: [id])
+  district_id       Int      @map("district_id")
+  address           String
+  bank_acc          Bank_acc @relation(fields: [bank_acc_id], references: [id])
+  bank_acc_id       Int      @map("bank_acc_id")
+  opening_hour      String
+  announcement      String?
+
+  wishlist_merchants Wishlist_merchant[]
+  feedbacks         Feedback[]
+  items             Item[]
+  
+  @@map("merchant")
+}
+
+model District {
+  id                Int      @id @default(autoincrement())
+  area              Area     @relation(fields: [area_id], references: [id])
+  area_id           Int      @map("area_id")
+
+  merchants         Merchant[]
+
+  @@map("district")
+}
+
+model Area {
+  id                Int      @id @default(autoincrement())
+  area              String
+
+  districts         District[]
+
+  @@map("area")
+}
+
+
+model Bank_acc {
+  id                Int      @id @default(autoincrement())
+  branch            Branch   @relation(fields: [branch_id], references: [id])
+  branch_id         Int      @map("branch_id")
+  account_number    String
+
+  merchants         Merchant[]
+
+
+  @@map("bank_acc")
+}
+
+model Branch {
+  id                Int      @id @default(autoincrement())
+  bank              Bank     @relation(fields: [bank_id], references: [id])
+  bank_id           Int      @map("bank_id")
+  branch_code       String
+  branch_name       String
+
+  bank_accs         Bank_acc[]
+
+  @@map("branch")
+}
+
+model Bank {
+  id                Int      @id @default(autoincrement())
+  bank_code         String
+  bank_name         String
+
+  branchs           Branch[]
+
+  @@map("bank")
+}
