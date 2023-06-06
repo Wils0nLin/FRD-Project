@@ -12,7 +12,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "consumer" (
     "id" SERIAL NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "users_id" INTEGER NOT NULL,
     "consumer_name" TEXT NOT NULL,
     "consumer_phone" TEXT NOT NULL,
 
@@ -153,7 +153,7 @@ CREATE TABLE "wishlist_merchant" (
 -- CreateTable
 CREATE TABLE "merchant" (
     "id" SERIAL NOT NULL,
-    "user_id" INTEGER NOT NULL,
+    "users_id" INTEGER NOT NULL,
     "merchant_image" TEXT NOT NULL,
     "merchant_name" TEXT NOT NULL,
     "merchant_hone" TEXT NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE "bank" (
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- AddForeignKey
-ALTER TABLE "consumer" ADD CONSTRAINT "consumer_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "consumer" ADD CONSTRAINT "consumer_users_id_fkey" FOREIGN KEY ("users_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "order" ADD CONSTRAINT "order_consumer_id_fkey" FOREIGN KEY ("consumer_id") REFERENCES "consumer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -263,7 +263,7 @@ ALTER TABLE "wishlist_merchant" ADD CONSTRAINT "wishlist_merchant_consumer_id_fk
 ALTER TABLE "wishlist_merchant" ADD CONSTRAINT "wishlist_merchant_merchant_id_fkey" FOREIGN KEY ("merchant_id") REFERENCES "merchant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "merchant" ADD CONSTRAINT "merchant_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "merchant" ADD CONSTRAINT "merchant_users_id_fkey" FOREIGN KEY ("users_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "merchant" ADD CONSTRAINT "merchant_district_id_fkey" FOREIGN KEY ("district_id") REFERENCES "district"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
