@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppModuleAdmin } from './Admin/app.moduleAdmin';
-import { AppModuleConsumer } from './Consumer/app.moduleConsumer';
-import { AppModuleMerchant } from './Merchant/app.moduleMerchant';
-import { AppModulePublic } from './Public/app.modulePublic';
+import { AppModuleAdmin } from './Admin/admin.module';
+import { AppModuleConsumer } from './Consumer/consumer.module';
+import { AppModuleMerchant } from './Merchant/merchant.module';
+import { AppModulePublic } from './Public/public.module';
 
 @Module({
   imports: [
