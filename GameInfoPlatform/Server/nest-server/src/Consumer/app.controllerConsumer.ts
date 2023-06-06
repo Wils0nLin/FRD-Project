@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppServiceConsumer } from 'src/service/app.serviceConsumer';
+import { AppServiceConsumer } from './app.serviceConsumer';
 @Controller('consumer')
 export class AppControllerConsumer {
   constructor(private readonly appServiceConsumer: AppServiceConsumer) {}
