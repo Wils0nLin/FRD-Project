@@ -12,7 +12,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Article {
+model Users {
   id          Int      @id @default(autoincrement())
   username    String   @unique
   password    String
@@ -28,7 +28,7 @@ model Article {
 
 model Consumer {
   id                Int      @id @default(autoincrement())
-  users              Article  @relation(fields: [users_id], references: [id])
+  users              Users  @relation(fields: [users_id], references: [id])
   users_id           Int      @map("users_id")
   consumer_name     String  
   consumer_phone    String
@@ -209,7 +209,7 @@ model Wishlist_merchant {
 
 model Merchant {
   id                Int      @id @default(autoincrement())
-  users              Article  @relation(fields: [users_id], references: [id])
+  users              Users  @relation(fields: [users_id], references: [id])
   users_id           Int      @map("users_id")
   merchant_image    String
   merchant_name     String
