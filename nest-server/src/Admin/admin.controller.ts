@@ -1,12 +1,24 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppServiceAdmin } from 'src/Admin/admin.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { AdminService } from 'src/Admin/admin.service';
+import { PublicService } from 'src/Public/public.service';
 
 @Controller('admin')
-export class AppControllerAdmin {
-  constructor(private readonly appServiceAdmin: AppServiceAdmin) {}
+export class AdminController {
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly publicService: PublicService,
+  ) {}
 
-  @Get()
-  getHello(): string {
-    return this.appServiceAdmin.getHello();
+  @Post('uploadProduct')
+  upLoadProduct(@Body() form: any) {
+    return this.adminService.upLoadProduct(form);
+  }
+  @Get('merchantRegistration')
+  merchantReg() {
+    return this.adminService.merchantReg();
+  }
+  @Post('merchant/:merchantId')
+  merchantConfirm(@Param() Param: any) {
+    return this.adminService.merchantConfirm(Param.merchantId);
   }
 }

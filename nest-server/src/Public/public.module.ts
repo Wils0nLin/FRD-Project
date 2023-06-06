@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppControllerPublic } from './public.controller';
-import { AppServicePublic } from './public.service';
+import { PublicController } from './public.controller';
+import { PublicService } from './public.service';
 @Module({
   imports: [],
-  controllers: [AppControllerPublic],
-  providers: [AppServicePublic],
+  controllers: [PublicController],
+  providers: [PublicService],
 })
 export class AppModulePublic {}
