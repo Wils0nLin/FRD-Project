@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppControllerAuth } from './auth.controller';
-import { AppServiceAuth } from './auth.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
 import { JwtModule } from '@nestjs/jwt';
 import { AppModulePublic } from 'src/Public/public.module';
@@ -14,8 +14,8 @@ import { AppModulePublic } from 'src/Public/public.module';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [AppServiceAuth],
-  controllers: [AppControllerAuth],
-  exports: [AppServiceAuth],
+  providers: [AuthService],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AppModuleAuth {}
