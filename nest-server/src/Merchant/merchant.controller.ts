@@ -24,7 +24,7 @@ export class MerchantController {
   @Post('changeStatus')
   changeItemStatus(@Body() form: any) {
     console.log(
-      `change item status to 3 possible status "receiving pre-order","end of pre-order","in-stock"`,
+      `change item status to 3 possible status "receiving pre-order","end of pre-order","in-stock",if start pre-order update period of time `,
     );
     return this.merchantService.changeItemStatus(form);
   }
