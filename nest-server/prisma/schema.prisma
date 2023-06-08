@@ -18,6 +18,7 @@ model Users {
   password    String
   email       String
   identity    String
+
   consumers   Consumer[]
   merchants   Merchant[]
 
@@ -28,14 +29,13 @@ model Users {
 
 model Consumer {
   id                Int      @id @default(autoincrement())
-  users              Users  @relation(fields: [users_id], references: [id])
-  users_id           Int      @map("users_id")
+  users             Users    @relation(fields: [users_id], references: [id])
+  users_id          Int      @map("users_id")
+  QRcode            String
   consumer_name     String  
   consumer_phone    String
 
-  orders            Order[]
   wishlist_products Wishlist_product[]
-  wishlist_merchants Wishlist_merchant[]
   feedbacks         Feedback[]
 
   @@map("consumer")
@@ -44,28 +44,20 @@ model Consumer {
 
 model Order {
   id                Int      @id @default(autoincrement())
-  consumer          Consumer @relation(fields: [consumer_id], references: [id])
-  consumer_id       Int      @map("consumer_id")
-  order_number      String
+  consumer_QRcode   String
+  item              Item   @relation(fields: [item_id], references: [id])
+  item_id           Int      @map("item_id")
+  amount            Int
+  pre_order_status  Boolean
+  order_status      Boolean
   pre_payment       Int
   remain_payment    Int
-  create_date       DateTime @default(now()) @db.Date
-
-  order_items       Order_item[]
+  create_time       DateTime @default(now()) @db.Date
 
   @@map("order")
 }
 
-model Order_item {
-  id                Int      @id @default(autoincrement())
-  order             Order    @relation(fields: [order_id], references: [id])
-  order_id          Int      @map("order_id")
-  order_item        String
-  amount            Int
-  price             Int
 
-  @@map("order_item")
-}
 
 model Feedback {
   id                Int      @id @default(autoincrement())
@@ -86,7 +78,7 @@ model Platform {
   id                Int      @id @default(autoincrement())
   platform          String
 
-  product_platforms Product_platform[]
+  products          Product[]
 
   @@map("platform")
 }
@@ -94,13 +86,15 @@ model Platform {
 
 model Product {
   id                Int      @id @default(autoincrement())
+  product_name      String
   product_status    Boolean
   product_image     String
   release_date      DateTime @default(now()) @db.Date
   product_intro     String
   view              Int
+  platform          Platform @relation(fields: [platform_id], references: [id])
+  platform_id       Int      @map("platform_id")
 
-  product_platforms Product_platform[]
   versions          Version[]
   wishlist_products Wishlist_product[]
   hots              Hot[]
@@ -109,16 +103,6 @@ model Product {
   @@map("product")
 }
 
-
-model Product_platform {
-  id                Int      @id @default(autoincrement())
-  product           Product  @relation(fields: [product_id], references: [id])
-  product_id        Int      @map("product_id")
-  platform          Platform @relation(fields: [platform_id], references: [id])
-  platform_id       Int      @map("platform_id")
-
-  @@map("product_platform")
-}
 
 
 model Version {
@@ -160,7 +144,7 @@ model Product_tag {
   @@map("product_tag")
 }
 
-////聽日問 address係咪要開多個table
+
 model Item {
   id                Int      @id @default(autoincrement())
   merchant          Merchant @relation(fields: [merchant_id], references: [id])          
@@ -170,11 +154,13 @@ model Item {
   original_price    Int
   newest_price      Int
   stock_status      String
-  availability      Boolean @default(false)
+  availability      Boolean @default(true)
+
+  orders            Order[]
 
   @@map("item")
 }
-////
+
 
 
 
@@ -191,19 +177,6 @@ model Wishlist_product {
 }
 
 
-model Wishlist_merchant {
-  id                Int      @id @default(autoincrement())
-  consumer          Consumer @relation(fields: [consumer_id], references: [id])
-  consumer_id       Int      @map("consumer_id")
-  merchant          Merchant @relation(fields: [merchant_id], references: [id])
-  merchant_id       Int      @map("merchant_id")
-
-
-  @@map("wishlist_merchant")
-}
-
-
-
 
 
 
@@ -213,11 +186,11 @@ model Wishlist_merchant {
 
 model Merchant {
   id                Int      @id @default(autoincrement())
-  users              Users  @relation(fields: [users_id], references: [id])
-  users_id           Int      @map("users_id")
+  users             Users    @relation(fields: [users_id], references: [id])
+  users_id          Int      @map("users_id")
   merchant_image    String
   merchant_name     String
-  merchant_hone     String
+  merchant_phone    String
   biz_registration  String
   district          District @relation(fields: [district_id], references: [id])
   district_id       Int      @map("district_id")
@@ -227,7 +200,7 @@ model Merchant {
   opening_hour      String
   announcement      String?
 
-  wishlist_merchants Wishlist_merchant[]
+
   feedbacks         Feedback[]
   items             Item[]
   
@@ -238,6 +211,7 @@ model District {
   id                Int      @id @default(autoincrement())
   area              Area     @relation(fields: [area_id], references: [id])
   area_id           Int      @map("area_id")
+  district          String
 
   merchants         Merchant[]
 
