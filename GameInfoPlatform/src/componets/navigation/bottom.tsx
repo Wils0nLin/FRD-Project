@@ -52,7 +52,7 @@ const BottomTabBar = ({navigation, state}: any) => (
 
 const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
-    <Screen name="應用探索" component={AppScreen} />
+    <Screen name=" " component={AppScreen} />
     <Screen name="商品一覽" component={ProductListScreen} />
     <Screen name="QRcode" component={QRcodeScreen} />
     <Screen name="商品上架" component={ProductUploadScreen} />

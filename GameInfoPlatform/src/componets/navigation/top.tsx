@@ -6,7 +6,7 @@ const TopNavigation = () => {
   return (
     <NavigationContainer>
       <View style={styles.container}>
-        <Text style={styles.logo}>D</Text>
+        <Text style={styles.logo}>ENTITABASE</Text>
         <Text style={styles.search}>Search</Text>
       </View>
     </NavigationContainer>
