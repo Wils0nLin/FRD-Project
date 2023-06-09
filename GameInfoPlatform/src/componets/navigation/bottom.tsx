@@ -34,18 +34,12 @@ const ProductUploadScreen = () => (
   </Layout>
 );
 
-const AccScreen = () => (
-  <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text category="h1"></Text>
-  </Layout>
-);
-
 export const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
     <Screen name="應用探索" component={AppScreen} />
     <Screen name="商品一覽" component={ProductListScreen} />
     <Screen name="QRcode" component={QRcodeScreen} />
     <Screen name="商品上架" component={ProductUploadScreen} />
-    <Screen name="帳號設定" component={AccScreen} />
+    {/* <Screen name="帳號設定" component={AccScreen} /> */}
   </Navigator>
 );
