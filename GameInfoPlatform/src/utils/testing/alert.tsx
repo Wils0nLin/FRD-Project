@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Button, Alert} from 'react-native';
 
-const showAlert = () =>
+const Alerts = () =>
   Alert.alert(
     'Alert Title',
     'My Alert Msg',
@@ -21,9 +21,9 @@ const showAlert = () =>
     },
   );
 
-const Alerts = () => (
+const ahowAlerts = () => (
   <View style={styles.container}>
-    <Button title="Show alert" onPress={showAlert} />
+    <Button title="Show alert" onPress={Alerts} />
   </View>
 );
 

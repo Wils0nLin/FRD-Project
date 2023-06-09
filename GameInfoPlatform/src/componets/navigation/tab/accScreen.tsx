@@ -1,14 +1,13 @@
-import { Button } from "@ui-kitten/components";
 import React from "react";
-import {Text, View } from "react-native/types";
-import Alerts from "../../../utils/testing/alert";
+import {Text, View } from "react-native";
 
 
-const accScreen = (navigation: any)=>{
+const AccScreen = (navigation: any)=>{
 return (
     <View>
         <Text>Acc Screen</Text>
-        <Button onPress={()=>{()=><Alerts />}}/>
     </View>
 )
 }
+
+export default AccScreen
