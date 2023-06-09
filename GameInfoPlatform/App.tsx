@@ -9,7 +9,7 @@ import React from 'react';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
 
-import {AppNavigator} from './src/componets/bottom';
+import {AppNavigator} from './src/componets/navigation/bottom';
 import Tabs from './tab';
 // import {TopNavigation} from './src/componets/top';
 
