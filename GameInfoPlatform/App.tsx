@@ -12,7 +12,11 @@ import BottomTabBar from './src/componets/navigation/bottomTabBar';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-// import {TopNavigation} from './src/componets/top';
+// import {TabNavigator} from './src/componets/navigation/bottom';
+// import Tabs from './tab';
+// import TopNavigation from './src/componets/navigation/top';
+import {View, StyleSheet} from 'react-native';
+import MyStack from './src/componets/navigation/top';
 
 function App(): JSX.Element {
   return (
@@ -23,4 +27,12 @@ function App(): JSX.Element {
     </ApplicationProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#202124',
+  },
+});
+
 export default App;
