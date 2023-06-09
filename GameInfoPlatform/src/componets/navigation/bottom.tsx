@@ -7,8 +7,6 @@ import {
   Layout,
   Text,
 } from '@ui-kitten/components';
-import {View, StyleSheet} from 'react-native';
-
 const {Navigator, Screen} = createBottomTabNavigator();
 
 const AppScreen = () => (
@@ -32,26 +30,10 @@ const ProductUploadScreen = () => (
     <Text category="h1"></Text>
   </Layout>
 );
-const AccScreen = () => (
-  <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text category="h1"></Text>
-  </Layout>
-);
 
-const BottomTabBar = ({navigation, state}: any) => (
-  <BottomNavigation
-    selectedIndex={state.index}
-    onSelect={index => navigation.navigate(state.routeNames[index])}>
-    <BottomNavigationTab title="應用探索" />
-    <BottomNavigationTab title="商品一覽" />
-    <BottomNavigationTab title="QRcode" />
-    <BottomNavigationTab title="商品上架" />
-    <BottomNavigationTab title="帳號設定" />
-  </BottomNavigation>
-);
 
 const TabNavigator = () => (
-  <Navigator tabBar={props => <BottomTabBar {...props} />}>
+  <Navigator>
     <Screen name="應用探索" component={AppScreen} />
     <Screen name="商品一覽" component={ProductListScreen} />
     <Screen name="QRcode" component={QRcodeScreen} />
@@ -60,10 +42,3 @@ const TabNavigator = () => (
   </Navigator>
 );
 
-// import React from 'react';
-
-export const AppNavigator = () => (
-  <NavigationContainer>
-    <TabNavigator />
-  </NavigationContainer>
-);
