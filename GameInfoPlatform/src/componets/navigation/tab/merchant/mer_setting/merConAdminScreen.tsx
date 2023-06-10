@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const MerConAdminScreen = (navigation: any) => {
+const MerConAdminScreen = () => {
   return (
     <View>
       <Text>聯絡網站管理員</Text>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const MerEditPWScreen = (navigation: any) => {
+const MerEditPWScreen = () => {
   return (
     <View>
       <Text>更改密碼</Text>
