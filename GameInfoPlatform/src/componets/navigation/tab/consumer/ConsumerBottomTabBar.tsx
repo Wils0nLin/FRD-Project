@@ -37,7 +37,7 @@ const PopUPButton = () => {
         width="60"
         height="60"
         fill="#E4E4E4"
-        style={{top: -30}}
+        style={{top: -32}}
       />
     </View>
   );
@@ -147,7 +147,7 @@ const BottomTabBar = () => {
         component={ConsumerAppScreen}
         options={focused => ({
           tabBarLabelStyle: {
-            color: 'white',
+            color: '#E4E4E4',
           },
           tabBarIcon: ({focused}) => {
             return <AppScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
@@ -159,7 +159,7 @@ const BottomTabBar = () => {
         component={ProductListScreen}
         options={focused => ({
           tabBarLabelStyle: {
-            color: 'white',
+            color: '#E4E4E4',
           },
           tabBarIcon: ({focused}) => {
             return <ConsumerHeart width="70%" height="70%" fill="#E4E4E4" />;
@@ -181,7 +181,7 @@ const BottomTabBar = () => {
         component={ConsumerCartScreen}
         options={focused => ({
           tabBarLabelStyle: {
-            color: 'white',
+            color: '#E4E4E4',
           },
           tabBarIcon: ({focused}) => {
             return <ConsumerCartSVG width="60%" height="60%" fill="#E4E4E4" />;
@@ -193,7 +193,7 @@ const BottomTabBar = () => {
         component={AccScreen}
         options={focused => ({
           tabBarLabelStyle: {
-            color: 'white',
+            color: '#E4E4E4',
           },
           tabBarIcon: ({focused}) => {
             return <AccScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
