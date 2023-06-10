@@ -23,7 +23,7 @@ import {ProfileScreen} from './pages/searchScreen';
 import Test1 from '../../utils/testing/test1';
 import ReverseHeader from './ReverseHeader';
 import ConsumerAppScreen from './tab/consumer/consumerAppScreen';
-import ConsumerAppScreenSVG from '../../assets/consumer/ConsumerAppScreenSVG';
+import ConsumerAppScreenSVG from '../../assets/consumerSVG/ConsumerAppScreenSVG';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
