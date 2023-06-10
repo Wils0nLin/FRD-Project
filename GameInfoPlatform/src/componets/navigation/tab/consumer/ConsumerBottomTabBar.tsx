@@ -2,16 +2,11 @@ import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import WishListScreen from '../consumer/wishListScreen';
-import ItemListScreen from '../merchant/itemListScreen';
-import ItemAddScreen from '../merchant/itemAddScreen';
 import merAccScreen from '../merchant/merAccScreen';
 import QRScanScreen from '../merchant/QRScanScreen';
 
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
-import ScannerSVG from '../../../../assets/ScannerSVG';
-import ProductUploadSVG from '../../../../assets/productUploadSVG';
 import {View} from 'react-native';
-import {Text} from 'react-native-svg';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TopNavigation} from '../../topBar';
 import {ProfileScreen} from '../../pages/searchScreen';
@@ -38,7 +33,7 @@ const PopUPButton = () => {
         width="60"
         height="60"
         fill="#E4E4E4"
-        style={{top: -32}}
+        style={{top: -40}}
       />
     </View>
   );
