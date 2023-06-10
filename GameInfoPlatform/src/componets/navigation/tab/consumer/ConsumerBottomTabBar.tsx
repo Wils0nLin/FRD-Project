@@ -33,7 +33,12 @@ const Tab = createBottomTabNavigator();
 const PopUPButton = () => {
   return (
     <View style={bottomBarStyles.container}>
-      <ConsumerQRcodeSVG width="60" height="60" fill="#E4E4E4" />
+      <ConsumerQRcodeSVG
+        width="60"
+        height="60"
+        fill="#E4E4E4"
+        style={{top: -30}}
+      />
     </View>
   );
 };
@@ -167,7 +172,6 @@ const BottomTabBar = () => {
         options={focused => ({
           tabBarLabelStyle: {
             display: 'none',
-            color: 'white',
           },
           tabBarButton: () => <PopUPButton />,
         })}
