@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const ItemAddScreen = (navigation: any) => {
+const WishListScreen = (navigation: any) => {
   return (
     <View>
-      <Text>增加商品</Text>
+      <Text>願望清單</Text>
     </View>
   );
 };
 
-export default ItemAddScreen;
+export default WishListScreen;

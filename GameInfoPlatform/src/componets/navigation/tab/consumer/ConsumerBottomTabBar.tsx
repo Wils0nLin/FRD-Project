@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+import WishListScreen from '../consumer/wishListScreen';
 import ItemListScreen from '../merchant/itemListScreen';
 import ItemAddScreen from '../merchant/itemAddScreen';
 import AccScreen from '../merchant/merAccScreen';
@@ -18,24 +19,21 @@ import {ProfileScreen} from '../../pages/searchScreen';
 import ReverseHeader from '../../ReverseHeader';
 import ConsumerAppScreen from './consumerAppScreen';
 import AppScreenSVG from '../../../../assets/AppscreenSVG';
-import ConsumerQRcodeSVG from '../../../../assets/consumer/ConsumerAppScreenSVG';
-import ConsumerHeart from '../../../../assets/consumer/ConsumerHeartSVG';
+import ConsumerQRcodeSVG from '../../../../assets/consumerSVG/ConsumerAppScreenSVG';
+import ConsumerHeart from '../../../../assets/consumerSVG/ConsumerHeartSVG';
+import ConsumerCartSVG from '../../../../assets/consumerSVG/ConsumerCartSVG';
+import ConsumerCartScreen from './ConsumerCartScreen';
+
+//style sheet
+import {bottomBarStyles} from '../../../../assets/styleSheets/BottomBarStyleSheet';
+//
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const PopUPButton = () => {
   return (
-    <View
-      style={{
-        width: '25%',
-        height: '100%',
-        padding: 20,
-        backgroundColor: 'black',
-        alignItems: 'center',
-        position: 'relative',
-        top: -40,
-      }}>
+    <View style={bottomBarStyles.container}>
       <ConsumerQRcodeSVG width="60" height="60" fill="#E4E4E4" />
     </View>
   );
@@ -153,8 +151,8 @@ const BottomTabBar = () => {
         })}
       />
       <Tab.Screen
-        name="商品一覽"
-        component={ItemListScreen}
+        name="願望清單"
+        component={WishListScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
@@ -176,14 +174,14 @@ const BottomTabBar = () => {
         })}
       />
       <Tab.Screen
-        name="商品上架"
-        component={ItemAddScreen}
+        name="購物車"
+        component={ConsumerCartScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
           },
           tabBarIcon: ({focused}) => {
-            return <ProductUploadSVG width="60%" height="60%" fill="#E4E4E4" />;
+            return <ConsumerCartSVG width="60%" height="60%" fill="#E4E4E4" />;
           },
         })}
       />
