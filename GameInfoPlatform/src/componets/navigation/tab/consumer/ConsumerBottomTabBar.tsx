@@ -1,29 +1,25 @@
 import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import AppScreen from './tab/appScreen';
-import ProductListScreen from './tab/productListScreen';
-import ProductUploadScreen from './tab/productUploadScreen';
-import AccScreen from './tab/merchant/accScreen';
-import QrCodeScreen from './tab/qrCodeScreen';
+import ProductListScreen from '../merchant/productListScreen';
+import ProductUploadScreen from '../merchant/productUploadScreen';
+import AccScreen from '../merchant/accScreen';
+import QrCodeScreen from '../merchant/qrCodeScreen';
 
-import ProductlistSVG from '../../assets/ProductlistSVG';
-import AccScreenSVG from '../../assets/AccScreenSVG';
-import AppScreenSVG from '../../assets/AppscreenSVG';
-import ScannerSVG from '../../assets/ScannerSVG';
-import ProductUploadSVG from '../../assets/productUploadSVG';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import AccScreenSVG from '../../../../assets/AccScreenSVG';
+import ScannerSVG from '../../../../assets/ScannerSVG';
+import ProductUploadSVG from '../../../../assets/productUploadSVG';
 import {View} from 'react-native';
 import {Text} from 'react-native-svg';
-import SearchStack from './topBar';
-import test1 from '../../utils/testing/test1';
 import {createStackNavigator} from '@react-navigation/stack';
-import {TopNavigation} from './topBar';
-import {ProfileScreen} from './pages/searchScreen';
-import Test1 from '../../utils/testing/test1';
-import ReverseHeader from './ReverseHeader';
-import ConsumerAppScreen from './tab/consumer/consumerAppScreen';
-import ConsumerAppScreenSVG from '../../assets/consumer/ConsumerAppScreenSVG';
+import {TopNavigation} from '../../topBar';
+import {ProfileScreen} from '../../pages/searchScreen';
+
+import ReverseHeader from '../../ReverseHeader';
+import ConsumerAppScreen from './consumerAppScreen';
+import AppScreenSVG from '../../../../assets/AppscreenSVG';
+import ConsumerQRcodeSVG from '../../../../assets/consumer/ConsumerAppScreenSVG';
+import ConsumerHeart from '../../../../assets/consumer/ConsumerHeartSVG';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -40,7 +36,7 @@ const PopUPButton = () => {
         position: 'relative',
         top: -40,
       }}>
-      <ScannerSVG width="60" height="60" fill="#E4E4E4" />
+      <ConsumerQRcodeSVG width="60" height="60" fill="#E4E4E4" />
     </View>
   );
 };
@@ -117,7 +113,7 @@ const PopUPButton = () => {
 // };
 
 //try
-const AppTabNavigator = () => {
+const ConsumerAppTabNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -164,7 +160,7 @@ const BottomTabBar = () => {
             color: 'white',
           },
           tabBarIcon: ({focused}) => {
-            return <ProductlistSVG width="60%" height="60%" fill="#E4E4E4" />;
+            return <ConsumerHeart width="70%" height="70%" fill="#E4E4E4" />;
           },
         })}
       />
@@ -208,4 +204,4 @@ const BottomTabBar = () => {
 };
 //
 
-export default AppTabNavigator;
+export default ConsumerAppTabNavigator;
