@@ -9,24 +9,46 @@ import React from 'react';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
 import BottomTabBar from './src/componets/navigation/bottomTabBar';
-import { NavigationContainer } from '@react-navigation/native';
-
+import {NavigationContainer} from '@react-navigation/native';
 
 // import {TabNavigator} from './src/componets/navigation/bottom';
 // import Tabs from './tab';
 // import TopNavigation from './src/componets/navigation/top';
 import {View, StyleSheet} from 'react-native';
-import MyStack from './src/componets/navigation/top';
+import SearchStack, {TopNavigation} from './src/componets/navigation/topBar';
+import Test1 from './src/utils/testing/test1';
+import Test from './src/utils/testing/test';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {ProfileScreen} from './src/componets/navigation/pages/searchScreen';
+import AppTabNavigator from './src/componets/navigation/bottomTabBar';
 
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+// function App(): JSX.Element {
+//   return (
+//     // <Test com={<Test1 />} />
+//     <ApplicationProvider {...eva} theme={eva.light}>
+//       <NavigationContainer>
+//         <BottomTabBar />
+//       </NavigationContainer>
+//     </ApplicationProvider>
+//   );
+// }
+
+//try
 function App(): JSX.Element {
   return (
+    // <Test com={<Test1 />} />
     <ApplicationProvider {...eva} theme={eva.light}>
-       <NavigationContainer>
-  <BottomTabBar />
-  </NavigationContainer>
+      <NavigationContainer>
+        <AppTabNavigator />
+      </NavigationContainer>
     </ApplicationProvider>
   );
 }
+//
 
 const styles = StyleSheet.create({
   container: {

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 
-export const TopNavigation = ({navigation}: any) => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>ENTITABASE</Text>
-      <Button title={'Search'} onPress={() => navigation.navigate('Search')} />
-    </View>
-  );
-};
+// export const TopNavigation = ({navigation}: any) => {
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.logo}>ENTITABASE</Text>
+//       <Button title={'Search'} onPress={() => navigation.navigate('Search')} />
+//     </View>
+//   );
+// };
 
 export const ProfileScreen = () => {
   return <Text>遊戲搜尋</Text>;

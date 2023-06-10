@@ -1,13 +1,28 @@
-import React from "react";
-import {Text, View } from "react-native";
+// import React from "react";
+// import {Text, View } from "react-native";
 
+// const AccScreen = (navigation: any)=>{
+// return (
+//     <View>
+//         <Text>Acc Screen</Text>
+//     </View>
+// )
+// }
 
-const AccScreen = (navigation: any)=>{
-return (
+// export default AccScreen
+
+//try
+import React from 'react';
+import {Text, View} from 'react-native';
+
+const AccScreen = (navigation: any) => {
+  return (
     <View>
-        <Text>Acc Screen</Text>
+      <Text>Acc Screen</Text>
     </View>
-)
-}
+  );
+};
 
-export default AccScreen
+export default AccScreen;
+
+//
