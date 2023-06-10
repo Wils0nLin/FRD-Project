@@ -23,6 +23,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ProfileScreen} from './src/componets/navigation/pages/searchScreen';
 import AppTabNavigator from './src/componets/navigation/bottomTabBar';
 import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/ConsumerBottomTabBar';
+import Sharedstyle from './src/assets/styleSheets/StyleSheet';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -42,7 +43,7 @@ const Stack = createNativeStackNavigator();
 function App(): JSX.Element {
   return (
     // <Test com={<Test1 />} />
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={eva.dark}>
       <NavigationContainer>
         <ConsumerAppTabNavigator />
       </NavigationContainer>
