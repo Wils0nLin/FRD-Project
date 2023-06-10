@@ -1,14 +1,8 @@
-import React from "react";
-import {Button, Image, Text, View } from "react-native";
-import Alerts from "../../../utils/testing/alert";
+import React from 'react';
+import {Button, Image, Text, View} from 'react-native';
 
+const ProductUploadScreen = (navigation: any) => {
+  return <View></View>;
+};
 
-
-const ProductUploadScreen = (navigation: any)=>{
-return (
-    <View>
-    </View>
-)
-}
-
-export default ProductUploadScreen
+export default ProductUploadScreen;
