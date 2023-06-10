@@ -8,7 +8,7 @@
 import React from 'react';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, Layout, Text} from '@ui-kitten/components';
-import BottomTabBar from './src/componets/navigation/bottomTabBar';
+import BottomTabBar from './src/componets/navigation/tab/merchant/merFootBar';
 import {NavigationContainer} from '@react-navigation/native';
 
 // import {TabNavigator} from './src/componets/navigation/bottom';
@@ -21,7 +21,7 @@ import Test from './src/utils/testing/test';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ProfileScreen} from './src/componets/navigation/pages/searchScreen';
-import AppTabNavigator from './src/componets/navigation/bottomTabBar';
+import AppTabNavigator from './src/componets/navigation/tab/merchant/merFootBar';
 import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/ConsumerBottomTabBar';
 import Sharedstyle from './src/assets/styleSheets/StyleSheet';
 

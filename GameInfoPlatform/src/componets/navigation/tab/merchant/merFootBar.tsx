@@ -2,21 +2,21 @@ import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import AppScreen from './tab/appScreen';
-import ProductListScreen from './tab/productListScreen';
-import ProductUploadScreen from './tab/productUploadScreen';
-import AccScreen from './tab/merchant/accScreen';
-import QrCodeScreen from './tab/qrCodeScreen';
+import ItemListScreen from './itemListScreen';
+import ItemAddScreen from './itemAddScreen';
+import MerAccScreen from './merAccScreen';
+import QRScanScreen from './QRScanScreen';
 
-import ProductlistSVG from '../../assets/ProductlistSVG';
-import AccScreenSVG from '../../assets/AccScreenSVG';
-import AppScreenSVG from '../../assets/AppscreenSVG';
-import ScannerSVG from '../../assets/ScannerSVG';
-import ProductUploadSVG from '../../assets/productUploadSVG';
+import ProductlistSVG from '../../../../assets/ProductlistSVG';
+import AccScreenSVG from '../../../../assets/AccScreenSVG';
+import AppScreenSVG from '../../../../assets/AppscreenSVG';
+import ScannerSVG from '../../../../assets/ScannerSVG';
+import ProductUploadSVG from '../../../../assets/productUploadSVG';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {View} from 'react-native';
 import {Text} from 'react-native-svg';
-import SearchStack from './topBar';
-import test1 from '../../utils/testing/test1';
+import SearchStack from '../../topBar';
+import test1 from '../../../../utils/testing/test1';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TopNavigation} from './topBar';
 import {ProfileScreen} from './pages/searchScreen';
@@ -158,7 +158,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="商品一覽"
-        component={ProductListScreen}
+        component={ItemListScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
@@ -170,7 +170,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="qrCodeScreen"
-        component={QrCodeScreen}
+        component={QRScanScreen}
         options={focused => ({
           tabBarLabelStyle: {
             display: 'none',
@@ -181,7 +181,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="商品上架"
-        component={ProductUploadScreen}
+        component={ItemAddScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
@@ -193,7 +193,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="帳號設定"
-        component={AccScreen}
+        component={MerAccScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',

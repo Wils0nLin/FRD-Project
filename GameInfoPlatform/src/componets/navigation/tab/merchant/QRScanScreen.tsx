@@ -2,13 +2,13 @@ import React from 'react';
 import {Button, Text, View} from 'react-native';
 import Alerts from '../../../../utils/testing/alert';
 
-const QrCodeScreen = (navigation: any) => {
+const QRScanScreen = (navigation: any) => {
   return (
     <View>
-      <Text>qr code</Text>
+      <Text>讀取訂單</Text>
       <Button title="test" onPress={Alerts} />
     </View>
   );
 };
 
-export default QrCodeScreen;
+export default QRScanScreen;

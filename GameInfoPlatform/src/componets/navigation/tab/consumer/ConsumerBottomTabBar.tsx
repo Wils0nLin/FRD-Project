@@ -1,10 +1,11 @@
 import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import ProductListScreen from '../merchant/productListScreen';
-import ProductUploadScreen from '../merchant/productUploadScreen';
-import AccScreen from '../merchant/accScreen';
-import QrCodeScreen from '../merchant/qrCodeScreen';
+import WishListScreen from '../consumer/wishListScreen';
+import ItemListScreen from '../merchant/itemListScreen';
+import ItemAddScreen from '../merchant/itemAddScreen';
+import AccScreen from '../merchant/merAccScreen';
+import QRScanScreen from '../merchant/QRScanScreen';
 
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
 import ScannerSVG from '../../../../assets/ScannerSVG';
@@ -156,7 +157,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="願望清單"
-        component={ProductListScreen}
+        component={WishListScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: '#E4E4E4',
@@ -168,7 +169,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="qrCodeScreen"
-        component={QrCodeScreen}
+        component={QRScanScreen}
         options={focused => ({
           tabBarLabelStyle: {
             display: 'none',
