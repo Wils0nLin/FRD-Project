@@ -1,9 +1,9 @@
 import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import ProductListScreen from '../merchant/productListScreen';
-import ProductUploadScreen from '../merchant/productUploadScreen';
-import AccScreen from '../merchant/accScreen';
+import ItemListScreen from '../merchant/itemListScreen';
+import ItemAddScreen from '../merchant/itemAddScreen';
+import AccScreen from '../merchant/merAccScreen';
 import QrCodeScreen from '../merchant/qrCodeScreen';
 
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
@@ -154,7 +154,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="商品一覽"
-        component={ProductListScreen}
+        component={ItemListScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
@@ -177,7 +177,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="商品上架"
-        component={ProductUploadScreen}
+        component={ItemAddScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',

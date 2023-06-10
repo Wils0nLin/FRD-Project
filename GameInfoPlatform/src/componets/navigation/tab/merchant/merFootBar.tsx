@@ -2,28 +2,28 @@ import React, {ReactNode} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import AppScreen from './tab/appScreen';
-import ProductListScreen from './tab/productListScreen';
-import ProductUploadScreen from './tab/productUploadScreen';
-import AccScreen from './tab/merchant/accScreen';
+import ItemListScreen from './itemListScreen';
+import ItemAddScreen from './itemAddScreen';
+import MerAccScreen from './merAccScreen';
 import QrCodeScreen from './tab/qrCodeScreen';
 
-import ProductlistSVG from '../../assets/ProductlistSVG';
-import AccScreenSVG from '../../assets/AccScreenSVG';
-import AppScreenSVG from '../../assets/AppscreenSVG';
-import ScannerSVG from '../../assets/ScannerSVG';
-import ProductUploadSVG from '../../assets/productUploadSVG';
+import ProductlistSVG from '../../../../assets/ProductlistSVG';
+import AccScreenSVG from '../../../../assets/AccScreenSVG';
+import AppScreenSVG from '../../../../assets/AppscreenSVG';
+import ScannerSVG from '../../../../assets/ScannerSVG';
+import ProductUploadSVG from '../../../../assets/productUploadSVG';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {View} from 'react-native';
 import {Text} from 'react-native-svg';
-import SearchStack from './topBar';
-import test1 from '../../utils/testing/test1';
+import SearchStack from '../../topBar';
+import test1 from '../../../../utils/testing/test1';
 import {createStackNavigator} from '@react-navigation/stack';
-import {TopNavigation} from './topBar';
-import {ProfileScreen} from './pages/searchScreen';
-import Test1 from '../../utils/testing/test1';
-import ReverseHeader from './ReverseHeader';
-import ConsumerAppScreen from './tab/consumer/consumerAppScreen';
-import ConsumerAppScreenSVG from '../../assets/consumer/ConsumerAppScreenSVG';
+import {TopNavigation} from '../../topBar';
+import {ProfileScreen} from '../../pages/searchScreen';
+import Test1 from '../../../../utils/testing/test1';
+import ReverseHeader from '../../ReverseHeader';
+import ConsumerAppScreen from '../consumer/consumerAppScreen';
+import ConsumerAppScreenSVG from '../../../../assets/consumer/ConsumerAppScreenSVG';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -158,7 +158,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="商品一覽"
-        component={ProductListScreen}
+        component={ItemListScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
@@ -181,7 +181,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="商品上架"
-        component={ProductUploadScreen}
+        component={ItemAddScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
@@ -193,7 +193,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="帳號設定"
-        component={AccScreen}
+        component={MerAccScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
