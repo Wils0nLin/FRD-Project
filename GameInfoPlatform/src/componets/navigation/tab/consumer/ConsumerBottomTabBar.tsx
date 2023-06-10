@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import WishListScreen from '../consumer/wishListScreen';
 import ItemListScreen from '../merchant/itemListScreen';
 import ItemAddScreen from '../merchant/itemAddScreen';
-import AccScreen from '../merchant/merAccScreen';
+import merAccScreen from '../merchant/merAccScreen';
 import QRScanScreen from '../merchant/QRScanScreen';
 
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
@@ -191,7 +191,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="帳號設定"
-        component={AccScreen}
+        component={merAccScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: 'white',
