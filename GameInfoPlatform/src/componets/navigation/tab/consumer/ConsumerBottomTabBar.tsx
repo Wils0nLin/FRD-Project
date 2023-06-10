@@ -5,7 +5,7 @@ import WishListScreen from '../consumer/wishListScreen';
 import ItemListScreen from '../merchant/itemListScreen';
 import ItemAddScreen from '../merchant/itemAddScreen';
 import AccScreen from '../merchant/merAccScreen';
-import QrCodeScreen from '../merchant/qrCodeScreen';
+import QRScanScreen from '../merchant/QRScanScreen';
 
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
 import ScannerSVG from '../../../../assets/ScannerSVG';
@@ -169,7 +169,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="qrCodeScreen"
-        component={QrCodeScreen}
+        component={QRScanScreen}
         options={focused => ({
           tabBarLabelStyle: {
             display: 'none',
