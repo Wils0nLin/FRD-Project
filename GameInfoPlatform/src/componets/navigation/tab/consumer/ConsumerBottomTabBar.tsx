@@ -33,7 +33,7 @@ const PopUPButton = () => {
         width="60"
         height="60"
         fill="#E4E4E4"
-        style={{top: -40}}
+        style={{top: -45}}
       />
     </View>
   );

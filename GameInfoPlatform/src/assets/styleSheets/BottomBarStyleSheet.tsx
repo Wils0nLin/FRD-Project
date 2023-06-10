@@ -4,7 +4,7 @@ export const bottomBarStyles = StyleSheet.create({
   container: {
     width: '25%',
     height: '100%',
-    paddingBottom: 30,
+    paddingBottom: 28,
     paddingTop: 55,
     paddingLeft: 35,
     paddingRight: 35,
