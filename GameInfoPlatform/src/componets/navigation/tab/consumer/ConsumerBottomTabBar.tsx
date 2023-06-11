@@ -38,79 +38,7 @@ const PopUPButton = () => {
     </View>
   );
 };
-// const BottomTabBar = () => {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({route}) => ({
-//         headerShown: false,
-//         tabBarStyle: {
-//           backgroundColor: 'black',
-//         },
-//       })}>
-//       <Tab.Screen
-//         name="應用探索"
-//         component={AccScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: 'white',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <AppScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//       <Tab.Screen
-//         name="商品一覽"
-//         component={ProductListScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: 'white',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <ProductlistSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//       <Tab.Screen
-//         name="qrCodeScreen"
-//         component={QrCodeScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             display: 'none',
-//             color: 'white',
-//           },
-//           tabBarButton: () => <PopUPButton />,
-//         })}
-//       />
-//       <Tab.Screen
-//         name="商品上架"
-//         component={ProductUploadScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: 'white',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <ProductUploadSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//       <Tab.Screen
-//         name="帳號設定"
-//         component={AccScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: 'white',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <AccScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//     </Tab.Navigator>
-//   );
-// };
 
-//try
 const ConsumerAppTabNavigator = () => {
   return (
     <Stack.Navigator
@@ -129,6 +57,7 @@ const ConsumerAppTabNavigator = () => {
   );
 };
 
+//try
 const BottomTabBar = () => {
   return (
     <Tab.Navigator
@@ -202,3 +131,75 @@ const BottomTabBar = () => {
 //
 
 export default ConsumerAppTabNavigator;
+
+// const BottomTabBar = () => {
+//   return (
+//     <Tab.Navigator
+//       screenOptions={({route}) => ({
+//         headerShown: false,
+//         tabBarStyle: {
+//           backgroundColor: 'black',
+//         },
+//       })}>
+//       <Tab.Screen
+//         name="應用探索"
+//         component={AccScreen}
+//         options={focused => ({
+//           tabBarLabelStyle: {
+//             color: 'white',
+//           },
+//           tabBarIcon: ({focused}) => {
+//             return <AppScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
+//           },
+//         })}
+//       />
+//       <Tab.Screen
+//         name="商品一覽"
+//         component={ProductListScreen}
+//         options={focused => ({
+//           tabBarLabelStyle: {
+//             color: 'white',
+//           },
+//           tabBarIcon: ({focused}) => {
+//             return <ProductlistSVG width="60%" height="60%" fill="#E4E4E4" />;
+//           },
+//         })}
+//       />
+//       <Tab.Screen
+//         name="qrCodeScreen"
+//         component={QrCodeScreen}
+//         options={focused => ({
+//           tabBarLabelStyle: {
+//             display: 'none',
+//             color: 'white',
+//           },
+//           tabBarButton: () => <PopUPButton />,
+//         })}
+//       />
+//       <Tab.Screen
+//         name="商品上架"
+//         component={ProductUploadScreen}
+//         options={focused => ({
+//           tabBarLabelStyle: {
+//             color: 'white',
+//           },
+//           tabBarIcon: ({focused}) => {
+//             return <ProductUploadSVG width="60%" height="60%" fill="#E4E4E4" />;
+//           },
+//         })}
+//       />
+//       <Tab.Screen
+//         name="帳號設定"
+//         component={AccScreen}
+//         options={focused => ({
+//           tabBarLabelStyle: {
+//             color: 'white',
+//           },
+//           tabBarIcon: ({focused}) => {
+//             return <AccScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
+//           },
+//         })}
+//       />
+//     </Tab.Navigator>
+//   );
+// };
