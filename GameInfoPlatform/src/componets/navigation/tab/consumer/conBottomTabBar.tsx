@@ -28,10 +28,16 @@ import ConAppScreen from './conAppScreen';
 import ConWishListScreen from './conWishListScreen';
 import ConQRCodeScreen from './conQRCodeScreen';
 import {Button} from '@ui-kitten/components';
+import ConProfileEditScreen from './ConProfileEditScreen';
+import ConFeedback from './ConFeedback';
+import LogIn from './LogIn';
+import ConOrderRrcord from './ConOrderRrcord';
+import ConAdminContact from './ConAdminContact';
 //
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Consumer = createStackNavigator();
 
 const PopUPButton = () => {
   return (
@@ -50,6 +56,7 @@ const PopUPButton = () => {
 const ConsumerAppTabNavigator = () => {
   return (
     <Stack.Navigator
+      initialRouteName="Tabs"
       screenOptions={{
         header: props => <TopNavigation {...props} />,
       }}>
@@ -61,9 +68,52 @@ const ConsumerAppTabNavigator = () => {
           header: () => ReverseHeader('Search'),
         })}
       />
+      <Stack.Screen
+        name="ConFeedBack"
+        component={ConFeedback}
+        options={({}) => ({
+          header: () => ReverseHeader('ConFeedback'),
+        })}
+      />
+      <Stack.Screen
+        name="ConAdminContact"
+        component={ConAdminContact}
+        options={({}) => ({
+          header: () => ReverseHeader('ConAdminContact'),
+        })}
+      />
+      <Stack.Screen
+        name="ConPasswordEditScreen"
+        component={ConProfileEditScreen}
+        options={({}) => ({
+          header: () => ReverseHeader('ConPasswordEditScreen'),
+        })}
+      />
+      <Stack.Screen
+        name="ConProfileEditScreen"
+        component={ConProfileEditScreen}
+        options={({}) => ({
+          header: () => ReverseHeader('ConProfileEditScreen'),
+        })}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LogIn}
+        options={({}) => ({
+          header: () => ReverseHeader('Login'),
+        })}
+      />
+      <Stack.Screen
+        name="ConOrderRrcord"
+        component={ConOrderRrcord}
+        options={({}) => ({
+          header: () => ReverseHeader('ConOrderRrcord'),
+        })}
+      />
     </Stack.Navigator>
   );
 };
+
 //
 
 // Setting下至上跳頁
@@ -111,7 +161,7 @@ const ConsumerAppTabNavigator = () => {
 //
 
 // try下拉上效果
-const BottomTabBar = () => {
+const BottomTabBar = ({navigation}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -129,7 +179,7 @@ const BottomTabBar = () => {
         <View style={styles.modalContent}>
           <View
             style={{
-              margin: 8,
+              margin: 20,
               width: '30%',
               height: 5,
               borderRadius: 5,
@@ -141,48 +191,78 @@ const BottomTabBar = () => {
 
           <Button
             style={styles.text}
-            appearance="fill"
-            accessoryLeft={<AntDesign name="edit" size={20} color="#E4E4E4" />}>
+            status="primary"
+            size="giant"
+            accessoryLeft={<AntDesign name="edit" size={25} color="#E4E4E4" />}
+            onPress={() => {
+              setIsModalVisible(false);
+              navigation.navigate('ConProfileEditScreen');
+            }}>
             修改用戶資料
           </Button>
           <Button
             style={styles.text}
-            appearance="fill"
-            accessoryLeft={<Feather name="lock" size={20} color="#e4e4e4" />}>
+            status="primary"
+            size="giant"
+            accessoryLeft={<Feather name="lock" size={25} color="#e4e4e4" />}
+            onPress={() => {
+              setIsModalVisible(false);
+              navigation.navigate('ConPasswordEditScreen');
+            }}>
             更改密碼
           </Button>
           <Button
             style={styles.text}
-            appearance="fill"
+            status="primary"
+            size="giant"
             accessoryLeft={
               <FontAwesome5
                 name="file-invoice-dollar"
                 size={20}
                 color="#e4e4e4"
               />
-            }>
+            }
+            onPress={() => {
+              setIsModalVisible(false);
+              navigation.navigate('ConOrderRrcord');
+            }}>
             訂單記錄
           </Button>
           <Button
             style={styles.text}
-            appearance="fill"
+            status="primary"
+            size="giant"
             accessoryLeft={
-              <Octicons name="comment-discussion" size={20} color="#e4e4e4" />
-            }>
+              <Octicons name="comment-discussion" size={25} color="#e4e4e4" />
+            }
+            onPress={() => {
+              setIsModalVisible(false);
+              navigation.navigate('ConFeedBack');
+            }}>
             我的評論
           </Button>
           <Button
             style={styles.text}
-            appearance="fill"
+            status="primary"
+            size="giant"
             accessoryLeft={
-              <FontAwesome5 name="headphones-alt" size={20} color="#e4e4e4" />
-            }>
+              <FontAwesome5 name="headphones-alt" size={25} color="#e4e4e4" />
+            }
+            onPress={() => {
+              setIsModalVisible(false);
+              navigation.navigate('ConAdminContact');
+            }}>
             聯絡網站管理員
           </Button>
           <Button
             style={styles.text}
-            appearance="fill"
-            accessoryLeft={<Entypo name="login" size={20} color="#e4e4e4" />}>
+            status="primary"
+            size="giant"
+            accessoryLeft={<Entypo name="login" size={25} color="#e4e4e4" />}
+            onPress={() => {
+              setIsModalVisible(false);
+              navigation.navigate('Login');
+            }}>
             登出
           </Button>
         </View>
@@ -356,7 +436,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    height: '80%',
+    height: '50%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: 'black',
