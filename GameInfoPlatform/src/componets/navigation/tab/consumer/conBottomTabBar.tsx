@@ -1,26 +1,26 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useRef, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import WishListScreen from '../consumer/wishListScreen';
-import merAccScreen from '../merchant/merAccScreen';
-import QRScanScreen from '../merchant/QRScanScreen';
-
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
-import {View} from 'react-native';
+import {View, Animated, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TopNavigation} from '../../topBar';
 import {ProfileScreen} from '../../pages/searchScreen';
 
 import ReverseHeader from '../../ReverseHeader';
-import ConsumerAppScreen from './consumerAppScreen';
+
 import AppScreenSVG from '../../../../assets/AppscreenSVG';
 import ConsumerQRcodeSVG from '../../../../assets/consumerSVG/ConsumerAppScreenSVG';
 import ConsumerHeart from '../../../../assets/consumerSVG/ConsumerHeartSVG';
 import ConsumerCartSVG from '../../../../assets/consumerSVG/ConsumerCartSVG';
-import ConsumerCartScreen from './ConsumerCartScreen';
+import ConsumerCartScreen from './conCartScreen';
 
 //style sheet
 import {bottomBarStyles} from '../../../../assets/styleSheets/BottomBarStyleSheet';
+import ConAppScreen from './conAppScreen';
+import ConWishListScreen from './conWishListScreen';
+import ConQRCodeScreen from './conQRCodeScreen';
+import ConAccScreen from './conAccScreen';
 //
 
 const Stack = createStackNavigator();
@@ -39,6 +39,7 @@ const PopUPButton = () => {
   );
 };
 
+// 包住BottomTabBar and TopNavigation，做search轉頁
 const ConsumerAppTabNavigator = () => {
   return (
     <Stack.Navigator
@@ -56,8 +57,53 @@ const ConsumerAppTabNavigator = () => {
     </Stack.Navigator>
   );
 };
+//
 
-//try
+// Setting下至上跳頁
+// const TabScreenWithPullUp = ({icon}: any) => {
+//   const [isModalVisible, setIsModalVisible] = useState(false);
+//   const slideAnimation = useRef(new Animated.Value(0)).current;
+
+//   const handleToggleModal = () => {
+//     setIsModalVisible(!isModalVisible);
+//     Animated.timing(slideAnimation, {
+//       toValue: isModalVisible ? 0 : 1,
+//       duration: 300,
+//       useNativeDriver: true,
+//     }).start();
+//   };
+
+//   const modalStyle = {
+//     transform: [
+//       {
+//         translateY: slideAnimation.interpolate({
+//           inputRange: [0, 1],
+//           outputRange: [200, 0], // 调整模态框上滑的距离
+//         }),
+//       },
+//     ],
+//     opacity: slideAnimation,
+//   };
+
+//   return (
+//     <View>
+//       <TouchableOpacity onPress={handleToggleModal}>{icon}</TouchableOpacity>
+//       {isModalVisible && (
+//         <Animated.View
+//           style={[
+//             modalStyle,
+//             {position: 'absolute', bottom: 0, left: 0, right: 0},
+//           ]}>
+//           {/* 这里放置你的模态框内容 */}
+//           <View style={{backgroundColor: 'white', height: 300}} />
+//         </Animated.View>
+//       )}
+//     </View>
+//   );
+// };
+//
+
+// try下拉上效果
 const BottomTabBar = () => {
   return (
     <Tab.Navigator
@@ -69,7 +115,7 @@ const BottomTabBar = () => {
       })}>
       <Tab.Screen
         name="應用探索"
-        component={ConsumerAppScreen}
+        component={ConAppScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: '#E4E4E4',
@@ -81,7 +127,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="願望清單"
-        component={WishListScreen}
+        component={ConWishListScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: '#E4E4E4',
@@ -93,7 +139,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="qrCodeScreen"
-        component={QRScanScreen}
+        component={ConQRCodeScreen}
         options={focused => ({
           tabBarLabelStyle: {
             display: 'none',
@@ -115,7 +161,7 @@ const BottomTabBar = () => {
       />
       <Tab.Screen
         name="帳號設定"
-        component={merAccScreen}
+        component={ConAccScreen}
         options={focused => ({
           tabBarLabelStyle: {
             color: '#E4E4E4',
@@ -128,9 +174,8 @@ const BottomTabBar = () => {
     </Tab.Navigator>
   );
 };
-//
 
-export default ConsumerAppTabNavigator;
+//
 
 // const BottomTabBar = () => {
 //   return (
@@ -143,10 +188,10 @@ export default ConsumerAppTabNavigator;
 //       })}>
 //       <Tab.Screen
 //         name="應用探索"
-//         component={AccScreen}
+//         component={ConAppScreen}
 //         options={focused => ({
 //           tabBarLabelStyle: {
-//             color: 'white',
+//             color: '#E4E4E4',
 //           },
 //           tabBarIcon: ({focused}) => {
 //             return <AppScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
@@ -154,46 +199,46 @@ export default ConsumerAppTabNavigator;
 //         })}
 //       />
 //       <Tab.Screen
-//         name="商品一覽"
-//         component={ProductListScreen}
+//         name="願望清單"
+//         component={ConWishListScreen}
 //         options={focused => ({
 //           tabBarLabelStyle: {
-//             color: 'white',
+//             color: '#E4E4E4',
 //           },
 //           tabBarIcon: ({focused}) => {
-//             return <ProductlistSVG width="60%" height="60%" fill="#E4E4E4" />;
+//             return <ConsumerHeart width="70%" height="70%" fill="#E4E4E4" />;
 //           },
 //         })}
 //       />
 //       <Tab.Screen
 //         name="qrCodeScreen"
-//         component={QrCodeScreen}
+//         component={ConQRCodeScreen}
 //         options={focused => ({
 //           tabBarLabelStyle: {
 //             display: 'none',
-//             color: 'white',
 //           },
 //           tabBarButton: () => <PopUPButton />,
 //         })}
 //       />
 //       <Tab.Screen
-//         name="商品上架"
-//         component={ProductUploadScreen}
+//         name="購物車"
+//         component={ConsumerCartScreen}
 //         options={focused => ({
 //           tabBarLabelStyle: {
-//             color: 'white',
+//             color: '#E4E4E4',
 //           },
 //           tabBarIcon: ({focused}) => {
-//             return <ProductUploadSVG width="60%" height="60%" fill="#E4E4E4" />;
+//             return <ConsumerCartSVG width="60%" height="60%" fill="#E4E4E4" />;
 //           },
 //         })}
 //       />
+
 //       <Tab.Screen
 //         name="帳號設定"
-//         component={AccScreen}
+//         component={ConAccScreen}
 //         options={focused => ({
 //           tabBarLabelStyle: {
-//             color: 'white',
+//             color: '#E4E4E4',
 //           },
 //           tabBarIcon: ({focused}) => {
 //             return <AccScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
@@ -203,3 +248,5 @@ export default ConsumerAppTabNavigator;
 //     </Tab.Navigator>
 //   );
 // };
+
+export default ConsumerAppTabNavigator;

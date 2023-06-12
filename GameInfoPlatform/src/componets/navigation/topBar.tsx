@@ -44,24 +44,20 @@ const topBarStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
-    height: 60,
+    height: 40,
     backgroundColor: '#202124',
   },
   logo: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     color: 'white',
-  },
-  search: {
-    fontSize: 16,
-    color: '#000000',
   },
 });
 
 const searchLogoStyle = StyleSheet.create({
   container: {
     position: 'absolute',
-    left: 260,
+    left: 270,
   },
 });
 

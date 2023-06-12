@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const WishListScreen = (navigation: any) => {
+const ConAccScreen = () => {
   return (
     <View>
-      <Text>願望清單</Text>
+      <Text>帳號設定</Text>
     </View>
   );
 };
 
-export default WishListScreen;
+export default ConAccScreen;
