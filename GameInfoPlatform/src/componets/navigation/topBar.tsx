@@ -46,6 +46,8 @@ const topBarStyles = StyleSheet.create({
     paddingHorizontal: 16,
     height: 40,
     backgroundColor: '#202124',
+    borderBottomColor: '#7D7D7D',
+    borderWidth: 1,
   },
   logo: {
     fontSize: 22,
@@ -63,32 +65,3 @@ const searchLogoStyle = StyleSheet.create({
 
 //
 export default SearchStack;
-
-// export const TopNavigation = ({navigation}: any) => {
-//   return (
-//     <View>
-//       <View style={styles.container}>
-//         <Text style={styles.logo}>ENTITABASE</Text>
-//         <Button
-//           title={'Search'}
-//           onPress={() => navigation.navigate('Search')}
-//         />
-//       </View>
-//     </View>
-//   );
-// };
-
-// const SearchStack = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen
-//         name="Hello"
-//         component={TopNavigation}
-//         options={{
-//           headerShown: false,
-//         }}
-//       />
-//       <Stack.Screen name="Search" component={ProfileScreen} />
-//     </Stack.Navigator>
-//   );
-// };

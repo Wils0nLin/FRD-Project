@@ -59,50 +59,6 @@ const ConsumerAppTabNavigator = () => {
 };
 //
 
-// Setting下至上跳頁
-// const TabScreenWithPullUp = ({icon}: any) => {
-//   const [isModalVisible, setIsModalVisible] = useState(false);
-//   const slideAnimation = useRef(new Animated.Value(0)).current;
-
-//   const handleToggleModal = () => {
-//     setIsModalVisible(!isModalVisible);
-//     Animated.timing(slideAnimation, {
-//       toValue: isModalVisible ? 0 : 1,
-//       duration: 300,
-//       useNativeDriver: true,
-//     }).start();
-//   };
-
-//   const modalStyle = {
-//     transform: [
-//       {
-//         translateY: slideAnimation.interpolate({
-//           inputRange: [0, 1],
-//           outputRange: [200, 0], // 调整模态框上滑的距离
-//         }),
-//       },
-//     ],
-//     opacity: slideAnimation,
-//   };
-
-//   return (
-//     <View>
-//       <TouchableOpacity onPress={handleToggleModal}>{icon}</TouchableOpacity>
-//       {isModalVisible && (
-//         <Animated.View
-//           style={[
-//             modalStyle,
-//             {position: 'absolute', bottom: 0, left: 0, right: 0},
-//           ]}>
-//           {/* 这里放置你的模态框内容 */}
-//           <View style={{backgroundColor: 'white', height: 300}} />
-//         </Animated.View>
-//       )}
-//     </View>
-//   );
-// };
-//
-
 // try下拉上效果
 const BottomTabBar = () => {
   return (
