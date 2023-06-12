@@ -10,7 +10,7 @@ import {Button, StyleSheet, Text, View} from 'react-native';
 //   );
 // };
 
-export const ProfileScreen = () => {
+export const GameSearchScreen = () => {
   return <Text>遊戲搜尋</Text>;
 };
 
