@@ -10,7 +10,7 @@ import ActionSVG from '../../../../assets/gameTypeSVG/actionSVG';
 import CompetitiveSVG from '../../../../assets/gameTypeSVG/competitiveSVG';
 import ShotSVG from '../../../../assets/gameTypeSVG/shotSVG';
 import RightArrowSVG from '../../../../assets/gameTypeSVG/rightArrowSVG';
-const ConAppScreen = (navigation: any) => {
+const ConAppScreen = () => {
   return (
     <View style={consumerPageStyle.container}>
       <View>
