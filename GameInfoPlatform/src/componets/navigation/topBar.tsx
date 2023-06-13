@@ -56,7 +56,7 @@ const topBarStyles = StyleSheet.create({
   },
 });
 
-const searchLogoStyle = StyleSheet.create({
+export const searchLogoStyle = StyleSheet.create({
   container: {
     position: 'absolute',
     left: 270,

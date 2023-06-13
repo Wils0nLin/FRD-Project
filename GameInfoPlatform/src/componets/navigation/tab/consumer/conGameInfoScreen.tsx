@@ -3,8 +3,12 @@ import {Button, Image, ScrollView, Text, View} from 'react-native';
 import GameInfoPhotoSVG from '../../../../assets/consumerSVG/ConsumerGameInfoSVG';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GameBoxSVG from '../../../../assets/consumerSVG/ConsumerGameBoxSVG';
+import SearchLogoSVG from '../../../../assets/SearchLogoSVG';
+import OctIcon from 'react-native-vector-icons/Octicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const ConGameInfoScreen = (navigation: any) => {
+const ConGameInfoScreen = ({navigation}: any) => {
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View style={{flexDirection: 'row'}}>
@@ -248,6 +252,263 @@ const ConGameInfoScreen = (navigation: any) => {
         <Text style={{color: 'white', fontSize: 20, marginLeft: 10}}>
           商戶報價
         </Text>
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'column',
+          borderColor: '#B7C1DE',
+          borderWidth: 2,
+          marginLeft: 32,
+          width: 350,
+          borderRadius: 5,
+          marginTop: 10,
+          height: 40,
+        }}>
+        <SearchLogoSVG
+          width="80%"
+          height="80%"
+          fill="#E4E4E4"
+          style={{marginLeft: 180, marginTop: 3}}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingLeft: 35,
+          paddingRight: 35,
+          paddingTop: 10,
+        }}>
+        <Text style={{color: 'white', fontSize: 20}}>共200間商戶</Text>
+        <View style={{borderColor: '#B7C1DE', borderWidth: 2, borderRadius: 5}}>
+          <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text>
+        </View>
+      </View>
+
+      <View style={{marginLeft: 20, marginRight: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: 8,
+            padding: 5,
+            paddingHorizontal: 10,
+            height: 90,
+            borderRadius: 10,
+            backgroundColor: '#rgba(255,255,255,0.25)',
+          }}>
+          <View>
+            <Text
+              style={{
+                width: 165,
+                fontSize: 20,
+                color: 'white',
+              }}
+              numberOfLines={1}
+              onPress={() => navigation.navigate('MerInfo')}>
+              iMobile百盈電訊
+            </Text>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <Entypo name={'location'} color={'white'} size={20} style={{}} />
+
+              <Text style={{color: 'white', paddingLeft: 5}} numberOfLines={2}>
+                好好吃飯粒輭硬適中
+              </Text>
+            </View>
+            <View style={{paddingTop: 5, flexDirection: 'row'}}>
+              <Entypo name={'phone'} size={20} color={'white'} />
+              <Text style={{color: 'white', paddingLeft: 5}}>88888888</Text>
+            </View>
+          </View>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <AntDesign
+                name={'shoppingcart'}
+                size={30}
+                color={'white'}
+                style={{paddingLeft: 20}}
+              />
+            </View>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={{marginLeft: 20, marginRight: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: 8,
+            padding: 5,
+            paddingHorizontal: 10,
+            height: 90,
+            borderRadius: 10,
+            backgroundColor: '#rgba(255,255,255,0.25)',
+          }}>
+          <View>
+            <Text
+              style={{
+                width: 165,
+                fontSize: 20,
+                color: 'white',
+              }}
+              numberOfLines={1}
+              onPress={() => navigation.navigate('MerInfo')}>
+              iMobile百盈電訊
+            </Text>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <Entypo name={'location'} color={'white'} size={20} style={{}} />
+
+              <Text style={{color: 'white', paddingLeft: 5}} numberOfLines={2}>
+                好好吃飯粒輭硬適中
+              </Text>
+            </View>
+            <View style={{paddingTop: 5, flexDirection: 'row'}}>
+              <Entypo name={'phone'} size={20} color={'white'} />
+              <Text style={{color: 'white', paddingLeft: 5}}>88888888</Text>
+            </View>
+          </View>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <AntDesign
+                name={'shoppingcart'}
+                size={30}
+                color={'white'}
+                style={{paddingLeft: 20}}
+              />
+            </View>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={{marginLeft: 20, marginRight: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: 8,
+            padding: 5,
+            paddingHorizontal: 10,
+            height: 90,
+            borderRadius: 10,
+            backgroundColor: '#rgba(255,255,255,0.25)',
+          }}>
+          <View>
+            <Text
+              style={{
+                width: 165,
+                fontSize: 20,
+                color: 'white',
+              }}
+              numberOfLines={1}
+              onPress={() => navigation.navigate('MerInfo')}>
+              iMobile百盈電訊
+            </Text>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <Entypo name={'location'} color={'white'} size={20} style={{}} />
+
+              <Text style={{color: 'white', paddingLeft: 5}} numberOfLines={2}>
+                好好吃飯粒輭硬適中
+              </Text>
+            </View>
+            <View style={{paddingTop: 5, flexDirection: 'row'}}>
+              <Entypo name={'phone'} size={20} color={'white'} />
+              <Text style={{color: 'white', paddingLeft: 5}}>88888888</Text>
+            </View>
+          </View>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <AntDesign
+                name={'shoppingcart'}
+                size={30}
+                color={'white'}
+                style={{paddingLeft: 20}}
+              />
+            </View>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={{marginLeft: 20, marginRight: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            margin: 8,
+            padding: 5,
+            paddingHorizontal: 10,
+            height: 90,
+            borderRadius: 10,
+            backgroundColor: '#rgba(255,255,255,0.25)',
+          }}>
+          <View>
+            <Text
+              style={{
+                width: 165,
+                fontSize: 20,
+                color: 'white',
+              }}
+              numberOfLines={1}
+              onPress={() => navigation.navigate('MerInfo')}>
+              iMobile百盈電訊
+            </Text>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <Entypo name={'location'} color={'white'} size={20} style={{}} />
+
+              <Text style={{color: 'white', paddingLeft: 5}} numberOfLines={2}>
+                好好吃飯粒輭硬適中
+              </Text>
+            </View>
+            <View style={{paddingTop: 5, flexDirection: 'row'}}>
+              <Entypo name={'phone'} size={20} color={'white'} />
+              <Text style={{color: 'white', paddingLeft: 5}}>88888888</Text>
+            </View>
+          </View>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <View style={{flexDirection: 'row', paddingTop: 5}}>
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              <AntDesign
+                name={'shoppingcart'}
+                size={30}
+                color={'white'}
+                style={{paddingLeft: 20}}
+              />
+            </View>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+            </View>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );

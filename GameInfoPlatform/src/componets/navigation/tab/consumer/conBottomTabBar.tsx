@@ -32,6 +32,7 @@ import ConAdminContact from './ConAdminContact';
 import ConGameInfoScreen from './conGameInfoScreen';
 import ConOrderRecord from './ConOrderRecord';
 import ReverseHeader from '../../ReverseHeader';
+import ConMerInfoScreen from './ConMerInfoScreen';
 //
 
 const Stack = createStackNavigator();
@@ -63,56 +64,63 @@ const ConsumerAppTabNavigator = () => {
         name="Search"
         component={GameSearchScreen}
         options={({}) => ({
-          header: () => ReverseHeader('Search'),
+          header: () => ReverseHeader('搜尋'),
         })}
       />
       <Stack.Screen
         name="ConFeedBack"
         component={ConFeedback}
         options={({}) => ({
-          header: () => ReverseHeader('ConFeedback'),
+          header: () => ReverseHeader('客戶回饋'),
         })}
       />
       <Stack.Screen
         name="ConAdminContact"
         component={ConAdminContact}
         options={({}) => ({
-          header: () => ReverseHeader('ConAdminContact'),
+          header: () => ReverseHeader('聯絡客服'),
         })}
       />
       <Stack.Screen
         name="ConPasswordEditScreen"
         component={ConProfileEditScreen}
         options={({}) => ({
-          header: () => ReverseHeader('ConPasswordEditScreen'),
+          header: () => ReverseHeader('修改密碼'),
         })}
       />
       <Stack.Screen
         name="ConProfileEditScreen"
         component={ConProfileEditScreen}
         options={({}) => ({
-          header: () => ReverseHeader('ConProfileEditScreen'),
+          header: () => ReverseHeader('修改資料'),
         })}
       />
       <Stack.Screen
         name="Login"
         component={LogIn}
         options={({}) => ({
-          header: () => ReverseHeader('Login'),
+          header: () => ReverseHeader('登入'),
         })}
       />
       <Stack.Screen
         name="ConOrderRecord"
-        component={ConOrderRrcord}
+        component={ConOrderRecord}
         options={({}) => ({
-          header: () => ReverseHeader('ConOrderRecord'),
+          header: () => ReverseHeader('訂單記錄'),
         })}
       />
       <Stack.Screen
         name="GameInfo"
         component={ConGameInfoScreen}
         options={({}) => ({
-          header: () => ReverseHeader('ConGameInfoScreen'),
+          header: () => ReverseHeader('遊戲資訊'),
+        })}
+      />
+      <Stack.Screen
+        name="MerInfo"
+        component={ConMerInfoScreen}
+        options={({}) => ({
+          header: () => ReverseHeader('商戶資料'),
         })}
       />
     </Stack.Navigator>
