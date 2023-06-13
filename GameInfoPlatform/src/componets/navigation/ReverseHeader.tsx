@@ -17,7 +17,9 @@ const ReverseHeader = (Title: string) => {
     <TopNavigation
       accessoryLeft={BackAction}
       title={Title}
-      style={{backgroundColor: 'black'}}
+      style={{
+        backgroundColor: 'black',
+      }}
     />
   );
 };

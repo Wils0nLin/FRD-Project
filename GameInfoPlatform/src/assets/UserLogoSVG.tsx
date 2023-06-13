@@ -2,8 +2,8 @@ import * as React from 'react';
 import Svg, {Rect, Defs, Pattern, Use, Image} from 'react-native-svg';
 const UserLogoSVG = (props: any) => (
   <Svg
-    width={30}
-    height={30}
+    width={25}
+    height={25}
     viewBox="0 0 53 61"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

@@ -230,9 +230,9 @@ const ConWishListScreen = ({navigation}: any) => {
 export const userInfoOutsideBoxStyle = StyleSheet.create({
   container: {
     backgroundColor: '#D9D9D9',
-    width: 350,
-    height: 80,
-    marginLeft: 32,
+    width: '85%',
+    height: '10%',
+    alignSelf: 'center',
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
   },
@@ -241,12 +241,13 @@ export const userInfoOutsideBoxStyle = StyleSheet.create({
 export const userInfoInsideBoxStyle = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    width: 250,
-    height: 50,
+    width: '90%',
+    height: '60%',
+    alignSelf: 'center',
     borderRadius: 10,
     flexDirection: 'row',
-    marginLeft: 50,
     marginTop: 15,
+    marginBottom: -50,
   },
 });
 
