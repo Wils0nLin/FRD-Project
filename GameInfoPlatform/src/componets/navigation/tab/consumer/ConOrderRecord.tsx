@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const ConOrderRrcord = () => {
+const ConOrderRecord = () => {
   return (
     <View>
       <Text>ConPasswordEditScreen</Text>
@@ -9,4 +9,4 @@ const ConOrderRrcord = () => {
   );
 };
 
-export default ConOrderRrcord;
+export default ConOrderRecord;

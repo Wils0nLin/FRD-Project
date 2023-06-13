@@ -31,8 +31,10 @@ import {Button} from '@ui-kitten/components';
 import ConProfileEditScreen from './ConProfileEditScreen';
 import ConFeedback from './ConFeedback';
 import LogIn from './LogIn';
-import ConOrderRrcord from './ConOrderRrcord';
+import ConOrderRrcord from './ConOrderRecord';
 import ConAdminContact from './ConAdminContact';
+import ConGameInfoScreen from './conGameInfoScreen';
+import ConOrderRecord from './ConOrderRecord';
 //
 
 const Stack = createStackNavigator();
@@ -104,10 +106,17 @@ const ConsumerAppTabNavigator = () => {
         })}
       />
       <Stack.Screen
-        name="ConOrderRrcord"
-        component={ConOrderRrcord}
+        name="ConOrderRecord"
+        component={ConOrderRecord}
         options={({}) => ({
-          header: () => ReverseHeader('ConOrderRrcord'),
+          header: () => ReverseHeader('ConOrderRecord'),
+        })}
+      />
+      <Stack.Screen
+        name="GameInfo"
+        component={ConGameInfoScreen}
+        options={({}) => ({
+          header: () => ReverseHeader('ConGameInfoScreen'),
         })}
       />
     </Stack.Navigator>
@@ -180,7 +189,7 @@ const BottomTabBar = ({navigation}: any) => {
             }
             onPress={() => {
               setIsModalVisible(false);
-              navigation.navigate('ConOrderRrcord');
+              navigation.navigate('ConOrderRecord');
             }}>
             訂單記錄
           </Button>

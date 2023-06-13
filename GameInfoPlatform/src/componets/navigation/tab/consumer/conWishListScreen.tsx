@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
 
 import {consumerPageStyle} from './conAppScreen';
@@ -17,162 +18,211 @@ import Icon2 from 'react-native-vector-icons/Entypo';
 
 const ConWishListScreen = ({navigation}: any) => {
   return (
-    <View style={consumerPageStyle.container}>
-      <View style={userInfoOutsideBoxStyle.container}>
-        <View style={userInfoInsideBoxStyle.container}>
-          <UserLogoSVG style={userIconStyle.container} />
-          <Text style={userNameStyle.container}>Hello World</Text>
+    <ScrollView style={consumerPageStyle.container}>
+      <View>
+        <View style={userInfoOutsideBoxStyle.container}>
+          <View style={userInfoInsideBoxStyle.container}>
+            <UserLogoSVG style={userIconStyle.container} />
+            <Text style={userNameStyle.container}>Hello World</Text>
+          </View>
         </View>
-      </View>
-      <View style={titleStyle.container}>
-        <WhiteLineSVG style={WhiteLineStyle.container} />
-        <Text style={titleName.container}>願望清單</Text>
-      </View>
-
-      {/* change page */}
-      <View style={gameListAreaStyle.container}>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 6,
-            left: 50,
-            width: 150,
-            borderBottomWidth: 3,
-            borderColor: '#7A04EB',
-          }}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+        <View style={titleStyle.container}>
+          <WhiteLineSVG style={WhiteLineStyle.container} />
+          <Text style={titleName.container}>願望清單</Text>
+        </View>
+        {/* game list */}
+        <View style={gameListAreaStyle.container}>
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              width: 80,
-            }}>
-            <Image
-              style={gameImgStyle.container}
-              source={require('../../../../assets/images/zelda.jpg')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-          <View style={{flex: 1}}>
-            <Text style={{fontSize: 25}} numberOfLines={1}>
-              薩爾達 王國之淚
-            </Text>
-            <Text style={{fontSize: 17}}>大量現貨</Text>
-          </View>
-        </TouchableOpacity>
-
-        <View
-          style={{
-            alignItems: 'flex-end',
-            justifyContent: 'space-between',
-          }}>
-          <TouchableOpacity>
-            <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
           </TouchableOpacity>
-          <View style={{alignItems: 'flex-end'}}>
-            <Text style={{fontSize: 20}}>現貨發售中</Text>
-          </View>
-        </View>
-      </View>
-      {/* change page */}
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
 
-      <View style={gameListAreaStyle.container}>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 6,
-            left: 50,
-            width: 150,
-            borderBottomWidth: 3,
-            borderColor: '#7A04EB',
-          }}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              width: 80,
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
             }}>
-            <Image
-              style={gameImgStyle.container}
-              source={require('../../../../assets/images/zelda.jpg')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-          <View style={{flex: 1}}>
-            <Text style={{fontSize: 25}} numberOfLines={1}>
-              薩爾達 王國之淚
-            </Text>
-            <Text style={{fontSize: 17}}>大量現貨</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-          <TouchableOpacity>
-            <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
-          </TouchableOpacity>
-          <View style={{alignItems: 'flex-end'}}>
-            {/* <Text>HK$ 400.00</Text> */}
-            <Text style={{fontSize: 20}}>現貨發售中</Text>
+            <TouchableOpacity>
+              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+            </TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20}}>現貨發售中</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={gameListAreaStyle.container}>
-        <View
-          style={{
-            position: 'absolute',
-            bottom: 6,
-            left: 50,
-            width: 150,
-            borderBottomWidth: 3,
-            borderColor: '#7A04EB',
-          }}
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+        <View style={gameListAreaStyle.container}>
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              width: 80,
-            }}>
-            <Image
-              style={gameImgStyle.container}
-              source={require('../../../../assets/images/zelda.jpg')}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-          <View style={{flex: 1}}>
-            <Text style={{fontSize: 25}} numberOfLines={1}>
-              薩爾達 王國之淚
-            </Text>
-            <Text style={{fontSize: 17}}>大量現貨</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-          <TouchableOpacity>
-            <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
           </TouchableOpacity>
-          <View style={{alignItems: 'flex-end'}}>
-            <Text style={{fontSize: 20}}>現貨發售中</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity>
+              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+            </TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20}}>現貨發售中</Text>
+            </View>
           </View>
         </View>
-      </View>
 
-      <View style={changePageStyle.container}>
-        <Text style={changePageWordStyle.container}>上一頁</Text>
-        <LeftArrowSVG style={changeArrowStyle.container} />
-        <Text style={changePageWordStyle.container}>1</Text>
-        <RightArrowSVG style={changeArrowStyle.container} />
-        <Text style={changePageWordStyle.container}>下一頁</Text>
+        <View style={gameListAreaStyle.container}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <TouchableOpacity>
+              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+            </TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              {/* <Text>HK$ 400.00</Text> */}
+              <Text style={{fontSize: 20}}>現貨發售中</Text>
+            </View>
+          </View>
+        </View>
+        <View style={gameListAreaStyle.container}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <TouchableOpacity>
+              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+            </TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20}}>現貨發售中</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={changePageStyle.container}>
+          <Text style={changePageWordStyle.container}>上一頁</Text>
+          <LeftArrowSVG style={changeArrowStyle.container} />
+          <Text style={changePageWordStyle.container}>1</Text>
+          <RightArrowSVG style={changeArrowStyle.container} />
+          <Text style={changePageWordStyle.container}>下一頁</Text>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
