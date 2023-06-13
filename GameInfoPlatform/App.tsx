@@ -24,8 +24,8 @@ function App(): JSX.Element {
     // <Test com={<Test1 />} />
     <ApplicationProvider {...eva} theme={eva.dark}>
       <NavigationContainer>
-        {/* <ConsumerAppTabNavigator /> */}
-        <Try />
+        <ConsumerAppTabNavigator />
+        {/* <Try /> */}
       </NavigationContainer>
     </ApplicationProvider>
   );
