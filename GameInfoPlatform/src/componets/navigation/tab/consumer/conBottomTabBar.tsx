@@ -103,7 +103,7 @@ const ConsumerAppTabNavigator = () => {
       />
       <Stack.Screen
         name="ConOrderRecord"
-        component={ConOrderRrcord}
+        component={ConOrderRecord}
         options={({}) => ({
           header: () => ReverseHeader('ConOrderRecord'),
         })}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -229,40 +230,39 @@ const ConWishListScreen = ({navigation}: any) => {
 export const userInfoOutsideBoxStyle = StyleSheet.create({
   container: {
     backgroundColor: '#D9D9D9',
-    width: '90%',
-    height: '100%',
+    width: '85%',
+    height: '10%',
     alignSelf: 'center',
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
-    padding: 10,
-    paddingBottom: 10,
   },
 });
 
 export const userInfoInsideBoxStyle = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    width: '95%',
-    height: '80%',
+    width: '90%',
+    height: '60%',
     alignSelf: 'center',
     borderRadius: 10,
     flexDirection: 'row',
-    margin: 10,
+    marginTop: 15,
+    marginBottom: -50,
   },
 });
 
 export const userIconStyle = StyleSheet.create({
   container: {
-    alignSelf: 'center',
-    margin: 5,
+    marginTop: 10,
+    marginLeft: 20,
   },
 });
 
 export const userNameStyle = StyleSheet.create({
   container: {
-    alignSelf: 'center',
+    marginTop: 8,
+    marginLeft: 10,
     fontSize: 25,
-    color: 'black',
   },
 });
 //
