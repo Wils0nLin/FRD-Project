@@ -1,28 +1,13 @@
-import {Layout, Text} from '@ui-kitten/components';
 import React from 'react';
-import {ScrollView, View} from 'react-native';
-import {consumerPageStyle} from './conAppScreen';
-import UserLogoSVG from '../../../../assets/UserLogoSVG';
-import {
-  userIconStyle,
-  userInfoInsideBoxStyle,
-  userInfoOutsideBoxStyle,
-  userNameStyle,
-} from './conWishListScreen';
+import ConsumerInfoHeader from '../../ConsumerInfoHeader';
+import {ScrollView, Text} from 'react-native';
 const ConProfileEditScreen = () => {
   return (
-    <Layout>
-      <ScrollView style={consumerPageStyle.container}>
-        <View>
-          <View style={userInfoOutsideBoxStyle.container}>
-            <View style={userInfoInsideBoxStyle.container}>
-              <UserLogoSVG style={userIconStyle.container} />
-              <Text style={userNameStyle.container}>Hello World</Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-    </Layout>
+    <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
+      {ConsumerInfoHeader('YO')}
+      <Text>title wait for wilson</Text>
+      
+    </ScrollView>
   );
 };
 export default ConProfileEditScreen;

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Image,
-  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -230,8 +229,8 @@ const ConWishListScreen = ({navigation}: any) => {
 export const userInfoOutsideBoxStyle = StyleSheet.create({
   container: {
     backgroundColor: '#D9D9D9',
-    width: '85%',
-    height: '10%',
+    width: 360,
+    height: 65,
     alignSelf: 'center',
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
