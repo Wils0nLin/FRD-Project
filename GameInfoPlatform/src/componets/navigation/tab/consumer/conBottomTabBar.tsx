@@ -31,7 +31,6 @@ import {Button} from '@ui-kitten/components';
 import ConProfileEditScreen from './ConProfileEditScreen';
 import ConFeedback from './ConFeedback';
 import LogIn from './LogIn';
-import ConOrderRrcord from './ConOrderRecord';
 import ConAdminContact from './ConAdminContact';
 import ConGameInfoScreen from './conGameInfoScreen';
 import ConOrderRecord from './ConOrderRecord';
@@ -123,10 +122,7 @@ const ConsumerAppTabNavigator = () => {
   );
 };
 
-//
-
-// try下拉上效果
-const BottomTabBar = ({navigation}: any) => {
+export const BottomTabBar = ({navigation}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
