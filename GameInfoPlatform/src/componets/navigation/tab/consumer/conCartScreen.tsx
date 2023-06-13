@@ -1,10 +1,9 @@
 import React from 'react';
-import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import WhiteLineSVG from '../../../../assets/lineSVG/whiteLineSVG';
 import {
   WhiteLineStyle,
   gameImgStyle,
-  gameListAreaStyle,
   titleName,
 } from './conWishListScreen';
 import {consumerPageStyle} from './conAppScreen';

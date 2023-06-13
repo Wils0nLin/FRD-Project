@@ -7,9 +7,9 @@
 
 import React from 'react';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider, Layout} from '@ui-kitten/components';
+import {ApplicationProvider} from '@ui-kitten/components';
 // import BottomTabBar from './src/componets/navigation/tab/merchant/merFootBar';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/conBottomTabBar';
 // import FullScreenModal from './src/componets/navigation/tab/consumer/test';
@@ -17,7 +17,6 @@ import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/con
 // function App(): JSX.Element {
 //   return <FullScreenModal />;
 // }
-
 function App(): JSX.Element {
   return (
     // <Test com={<Test1 />} />

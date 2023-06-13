@@ -13,9 +13,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-
-import ReverseHeader from '../../ReverseHeader';
-
 import AppScreenSVG from '../../../../assets/AppscreenSVG';
 import ConsumerQRcodeSVG from '../../../../assets/consumerSVG/ConsumerAppScreenSVG';
 import ConsumerHeart from '../../../../assets/consumerSVG/ConsumerHeartSVG';
@@ -33,11 +30,11 @@ import ConFeedback from './ConFeedback';
 import LogIn from './LogIn';
 import ConOrderRrcord from './ConOrderRrcord';
 import ConAdminContact from './ConAdminContact';
+import ReverseHeader from '../../ReverseHeader';
 //
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-const Consumer = createStackNavigator();
 
 const PopUPButton = () => {
   return (
@@ -139,7 +136,7 @@ const BottomTabBar = ({navigation}: any) => {
               width: '30%',
               height: 5,
               borderRadius: 5,
-              backgroundColor: '#e4e4e4',
+              backgroundColor: 'white',
               alignSelf: 'center',
               borderWidth: 0,
             }}
@@ -227,6 +224,8 @@ const BottomTabBar = ({navigation}: any) => {
         screenOptions={({}) => ({
           headerShown: false,
           tabBarStyle: {
+            height: 70,
+            paddingTop: 5,
             backgroundColor: 'black',
           },
         })}>
