@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {View, Text, StyleSheet, Button, TouchableHighlight} from 'react-native';
-import {ProfileScreen} from './pages/searchScreen';
+import {GameSearchScreen} from './pages/searchScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import {SvgUri} from 'react-native-svg';
 import SearchLogoSVG from '../../assets/SearchLogoSVG';
@@ -30,7 +30,7 @@ const SearchStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Hello" component={TopNavigation} options={{}} />
-      <Stack.Screen name="Search" component={ProfileScreen} />
+      <Stack.Screen name="Search" component={GameSearchScreen} />
     </Stack.Navigator>
   );
 };

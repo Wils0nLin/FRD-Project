@@ -6,7 +6,7 @@ import AccScreenSVG from '../../../../assets/AccScreenSVG';
 import {View, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TopNavigation} from '../../topBar';
-import {ProfileScreen} from '../../pages/searchScreen';
+import {GameSearchScreen} from '../../pages/searchScreen';
 import Modal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
@@ -28,8 +28,10 @@ import {Button} from '@ui-kitten/components';
 import ConProfileEditScreen from './ConProfileEditScreen';
 import ConFeedback from './ConFeedback';
 import LogIn from './LogIn';
-import ConOrderRrcord from './ConOrderRrcord';
+import ConOrderRrcord from './ConOrderRecord';
 import ConAdminContact from './ConAdminContact';
+import ConGameInfoScreen from './conGameInfoScreen';
+import ConOrderRecord from './ConOrderRecord';
 import ReverseHeader from '../../ReverseHeader';
 //
 
@@ -60,7 +62,7 @@ const ConsumerAppTabNavigator = () => {
       <Stack.Screen name="Tabs" component={BottomTabBar} />
       <Stack.Screen
         name="Search"
-        component={ProfileScreen}
+        component={GameSearchScreen}
         options={({}) => ({
           header: () => ReverseHeader('Search'),
         })}
@@ -101,10 +103,17 @@ const ConsumerAppTabNavigator = () => {
         })}
       />
       <Stack.Screen
-        name="ConOrderRrcord"
+        name="ConOrderRecord"
         component={ConOrderRrcord}
         options={({}) => ({
-          header: () => ReverseHeader('ConOrderRrcord'),
+          header: () => ReverseHeader('ConOrderRecord'),
+        })}
+      />
+      <Stack.Screen
+        name="GameInfo"
+        component={ConGameInfoScreen}
+        options={({}) => ({
+          header: () => ReverseHeader('ConGameInfoScreen'),
         })}
       />
     </Stack.Navigator>
@@ -177,7 +186,7 @@ const BottomTabBar = ({navigation}: any) => {
             }
             onPress={() => {
               setIsModalVisible(false);
-              navigation.navigate('ConOrderRrcord');
+              navigation.navigate('ConOrderRecord');
             }}>
             訂單記錄
           </Button>
@@ -299,80 +308,6 @@ const BottomTabBar = ({navigation}: any) => {
     </>
   );
 };
-
-//
-
-// const BottomTabBar = () => {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={({route}) => ({
-//         headerShown: false,
-//         tabBarStyle: {
-//           backgroundColor: 'black',
-//         },
-//       })}>
-//       <Tab.Screen
-//         name="應用探索"
-//         component={ConAppScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: '#E4E4E4',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <AppScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//       <Tab.Screen
-//         name="願望清單"
-//         component={ConWishListScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: '#E4E4E4',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <ConsumerHeart width="70%" height="70%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//       <Tab.Screen
-//         name="qrCodeScreen"
-//         component={ConQRCodeScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             display: 'none',
-//           },
-//           tabBarButton: () => <PopUPButton />,
-//         })}
-//       />
-//       <Tab.Screen
-//         name="購物車"
-//         component={ConsumerCartScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: '#E4E4E4',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <ConsumerCartSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-
-//       <Tab.Screen
-//         name="帳號設定"
-//         component={ConAccScreen}
-//         options={focused => ({
-//           tabBarLabelStyle: {
-//             color: '#E4E4E4',
-//           },
-//           tabBarIcon: ({focused}) => {
-//             return <AccScreenSVG width="60%" height="60%" fill="#E4E4E4" />;
-//           },
-//         })}
-//       />
-//     </Tab.Navigator>
-//   );
-// };
 
 const styles = StyleSheet.create({
   container: {

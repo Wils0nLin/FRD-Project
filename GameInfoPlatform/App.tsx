@@ -12,6 +12,7 @@ import {ApplicationProvider} from '@ui-kitten/components';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/conBottomTabBar';
+
 // import FullScreenModal from './src/componets/navigation/tab/consumer/test';
 
 // function App(): JSX.Element {
