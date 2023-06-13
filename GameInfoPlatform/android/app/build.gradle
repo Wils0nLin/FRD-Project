@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 project.ext.vectoricons = [
 
-    iconFontNames: [ 'FontAwesome5_Solid.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Brands.ttf', 'EvilIcons.ttf','AntDesign.ttf','Octicons.ttf' ,'MaterialIcons.ttf','Feather.ttf','FontAwesome.ttf'] // Name of the font files you want to copy
+    iconFontNames: [ 'FontAwesome5_Solid.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Brands.ttf', 'EvilIcons.ttf','AntDesign.ttf','Octicons.ttf' ,'MaterialIcons.ttf','Feather.ttf','FontAwesome.ttf','Foundation.ttf','Fontisto.ttf'] // Name of the font files you want to copy
 
 
 ]
