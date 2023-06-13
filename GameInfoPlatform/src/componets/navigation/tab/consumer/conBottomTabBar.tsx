@@ -25,13 +25,14 @@ import ConAppScreen from './conAppScreen';
 import ConWishListScreen from './conWishListScreen';
 import ConQRCodeScreen from './conQRCodeScreen';
 import {Button} from '@ui-kitten/components';
-import ConProfileEditScreen from './ConProfileEditScreen';
 import ConFeedback from './ConFeedback';
 import LogIn from './LogIn';
 import ConAdminContact from './ConAdminContact';
 import ConGameInfoScreen from './conGameInfoScreen';
 import ConOrderRecord from './ConOrderRecord';
 import ReverseHeader from '../../ReverseHeader';
+import ConPasswordEditScreen from './ConPasswordEditScreen';
+import ConProfileEditScreen from './ConProfileEditScreen';
 import ConMerInfoScreen from './ConMerInfoScreen';
 //
 
@@ -83,7 +84,7 @@ const ConsumerAppTabNavigator = () => {
       />
       <Stack.Screen
         name="ConPasswordEditScreen"
-        component={ConProfileEditScreen}
+        component={ConPasswordEditScreen}
         options={({}) => ({
           header: () => ReverseHeader('修改密碼'),
         })}

@@ -9,7 +9,7 @@ import React from 'react';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider} from '@ui-kitten/components';
 // import BottomTabBar from './src/componets/navigation/tab/merchant/merFootBar';
-import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/conBottomTabBar';
 
