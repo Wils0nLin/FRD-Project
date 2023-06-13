@@ -66,23 +66,42 @@ const ConAppScreen = ({navigation}: any) => {
 
         <View style={gameTypeAreaStyle.container}>
           <LeftArrowSVG style={arrowStyle.container} />
-          <View style={gameTypeStyle.container}>
-            <RolePlaySVG />
-            <Text style={smallWordsStyle.container}>角色扮演</Text>
-          </View>
-          <View style={gameTypeStyle.container}>
-            <ActionSVG />
-            <Text style={smallWordsStyle.container}>動作</Text>
-          </View>
-          <View style={gameTypeStyle.container}>
-            <ShotSVG />
-            <Text style={smallWordsStyle.container}>射擊</Text>
-          </View>
+          <ScrollView horizontal={true}>
+            <View style={gameTypeStyle.container}>
+              <RolePlaySVG />
+              <Text style={smallWordsStyle.container}>角色扮演</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <ActionSVG />
+              <Text style={smallWordsStyle.container}>動作</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <ShotSVG />
+              <Text style={smallWordsStyle.container}>射擊</Text>
+            </View>
 
-          <View style={gameTypeStyle.container}>
-            <CompetitiveSVG />
-            <Text style={smallWordsStyle.container}>競技</Text>
-          </View>
+            <View style={gameTypeStyle.container}>
+              <CompetitiveSVG />
+              <Text style={smallWordsStyle.container}>競技</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <RolePlaySVG />
+              <Text style={smallWordsStyle.container}>角色扮演</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <ActionSVG />
+              <Text style={smallWordsStyle.container}>動作</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <ShotSVG />
+              <Text style={smallWordsStyle.container}>射擊</Text>
+            </View>
+
+            <View style={gameTypeStyle.container}>
+              <CompetitiveSVG />
+              <Text style={smallWordsStyle.container}>競技</Text>
+            </View>
+          </ScrollView>
           <RightArrowSVG style={arrowStyle.container} />
         </View>
 
@@ -257,7 +276,7 @@ const gameTypeStyle = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#B7C1DE',
     borderRadius: 15,
-    width: 80,
+    width: 82,
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 10,
