@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Image,
-  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,14 +11,13 @@ import {
 import {consumerPageStyle} from './conAppScreen';
 import UserLogoSVG from '../../../../assets/UserLogoSVG';
 import WhiteLineSVG from '../../../../assets/lineSVG/whiteLineSVG';
-import LeftArrowSVG from '../../../../assets/gameTypeSVG/leftArrowSVG';
-import RightArrowSVG from '../../../../assets/gameTypeSVG/rightArrowSVG';
-import Icon2 from 'react-native-vector-icons/Entypo';
+
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const ConWishListScreen = ({navigation}: any) => {
   return (
-    <ScrollView style={consumerPageStyle.container}>
-      <View>
+    <ScrollView>
+      <View style={consumerPageStyle.container}>
         <View style={userInfoOutsideBoxStyle.container}>
           <View style={userInfoInsideBoxStyle.container}>
             <UserLogoSVG style={userIconStyle.container} />
@@ -58,10 +56,10 @@ const ConWishListScreen = ({navigation}: any) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
             <View style={{flex: 1}}>
-              <Text style={{fontSize: 25}} numberOfLines={1}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
                 薩爾達 王國之淚
               </Text>
-              <Text style={{fontSize: 17}}>大量現貨</Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
             </View>
           </TouchableOpacity>
 
@@ -71,10 +69,10 @@ const ConWishListScreen = ({navigation}: any) => {
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity>
-              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+              <Entypo name={'cross'} size={35} color={'#E4E4E4'} />
             </TouchableOpacity>
             <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20}}>現貨發售中</Text>
+              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
             </View>
           </View>
         </View>
@@ -105,10 +103,10 @@ const ConWishListScreen = ({navigation}: any) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
             <View style={{flex: 1}}>
-              <Text style={{fontSize: 25}} numberOfLines={1}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
                 薩爾達 王國之淚
               </Text>
-              <Text style={{fontSize: 17}}>大量現貨</Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
             </View>
           </TouchableOpacity>
 
@@ -118,10 +116,10 @@ const ConWishListScreen = ({navigation}: any) => {
               justifyContent: 'space-between',
             }}>
             <TouchableOpacity>
-              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+              <Entypo name={'cross'} size={35} color={'#E4E4E4'} />
             </TouchableOpacity>
             <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20}}>現貨發售中</Text>
+              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
             </View>
           </View>
         </View>
@@ -153,20 +151,20 @@ const ConWishListScreen = ({navigation}: any) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
             <View style={{flex: 1}}>
-              <Text style={{fontSize: 25}} numberOfLines={1}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
                 薩爾達 王國之淚
               </Text>
-              <Text style={{fontSize: 17}}>大量現貨</Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
             </View>
           </TouchableOpacity>
           <View
             style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
             <TouchableOpacity>
-              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+              <Entypo name={'cross'} size={35} color={'#E4E4E4'} />
             </TouchableOpacity>
             <View style={{alignItems: 'flex-end'}}>
               {/* <Text>HK$ 400.00</Text> */}
-              <Text style={{fontSize: 20}}>現貨發售中</Text>
+              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
             </View>
           </View>
         </View>
@@ -197,29 +195,21 @@ const ConWishListScreen = ({navigation}: any) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
             <View style={{flex: 1}}>
-              <Text style={{fontSize: 25}} numberOfLines={1}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
                 薩爾達 王國之淚
               </Text>
-              <Text style={{fontSize: 17}}>大量現貨</Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
             </View>
           </TouchableOpacity>
           <View
             style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
             <TouchableOpacity>
-              <Icon2 name={'cross'} size={35} color={'#E4E4E4'} />
+              <Entypo name={'cross'} size={35} color={'#E4E4E4'} />
             </TouchableOpacity>
             <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20}}>現貨發售中</Text>
+              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
             </View>
           </View>
-        </View>
-
-        <View style={changePageStyle.container}>
-          <Text style={changePageWordStyle.container}>上一頁</Text>
-          <LeftArrowSVG style={changeArrowStyle.container} />
-          <Text style={changePageWordStyle.container}>1</Text>
-          <RightArrowSVG style={changeArrowStyle.container} />
-          <Text style={changePageWordStyle.container}>下一頁</Text>
         </View>
       </View>
     </ScrollView>

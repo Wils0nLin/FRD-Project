@@ -1,5 +1,12 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import SwitchSVG from '../../../../assets/platformSVG/SwitchSVG';
 import PlayStationSVG from '../../../../assets/platformSVG/PlayStationSVG';
 import XboxSVG from '../../../../assets/platformSVG/XboxSVG';
@@ -10,7 +17,11 @@ import ActionSVG from '../../../../assets/gameTypeSVG/actionSVG';
 import CompetitiveSVG from '../../../../assets/gameTypeSVG/competitiveSVG';
 import ShotSVG from '../../../../assets/gameTypeSVG/shotSVG';
 import RightArrowSVG from '../../../../assets/gameTypeSVG/rightArrowSVG';
-const ConAppScreen = () => {
+import {gameImgStyle, gameListAreaStyle} from './conWishListScreen';
+
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+const ConAppScreen = ({navigation}: any) => {
   return (
     <ScrollView>
       <View style={consumerPageStyle.container}>
@@ -79,6 +90,95 @@ const ConAppScreen = () => {
           <Text style={filterWordsStyle.container}>熱門遊戲</Text>
           <Text style={filterWordsStyle.container}>即將發行</Text>
         </View>
+
+        <View style={gameListAreaStyle.container}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <TouchableOpacity>
+              <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />
+            </TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              {/* <Text>HK$ 400.00</Text> */}
+              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
+            </View>
+          </View>
+        </View>
+        <View style={gameListAreaStyle.container}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+            <TouchableOpacity>
+              <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />
+            </TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              {/* <Text>HK$ 400.00</Text> */}
+              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
+            </View>
+          </View>
+        </View>
       </View>
     </ScrollView>
   );
@@ -95,7 +195,7 @@ export const consumerPageStyle = StyleSheet.create({
 const platformStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginLeft: 20,
+    justifyContent: 'space-around',
   },
 });
 
@@ -119,7 +219,6 @@ const playStationStyle = StyleSheet.create({
     paddingRight: 19,
     paddingTop: 10,
     paddingBottom: 10,
-    marginLeft: 30,
     borderRadius: 15,
   },
 });
@@ -128,11 +227,10 @@ const xboxStyle = StyleSheet.create({
   container: {
     borderWidth: 3,
     borderColor: '#65DC98',
-    paddingLeft: 33,
-    paddingRight: 32,
+    paddingLeft: 30,
+    paddingRight: 30,
     paddingTop: 10,
     paddingBottom: 10,
-    marginLeft: 30,
     borderRadius: 15,
   },
 });
@@ -142,9 +240,8 @@ const xboxStyle = StyleSheet.create({
 const gameTypeAreaStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginLeft: 5,
-    marginRight: 5,
     marginTop: 15,
+    justifyContent: 'space-around',
   },
 });
 
@@ -159,12 +256,14 @@ const gameTypeStyle = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#B7C1DE',
     borderRadius: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
+    width: 80,
+    paddingLeft: 10,
+    paddingRight: 10,
     paddingTop: 10,
     paddingBottom: 10,
     marginLeft: 5,
     marginRight: 5,
+    alignItems: 'center',
   },
 });
 //
@@ -184,6 +283,7 @@ const smallWordsStyle = StyleSheet.create({
     color: 'white',
     fontSize: 10,
     textAlign: 'center',
+    padding: 0,
   },
 });
 

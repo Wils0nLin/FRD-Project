@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Image, ScrollView, Text, View} from 'react-native';
+import {Button, Image, ScrollView, Text, TextInput, View} from 'react-native';
 import GameInfoPhotoSVG from '../../../../assets/consumerSVG/ConsumerGameInfoSVG';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GameBoxSVG from '../../../../assets/consumerSVG/ConsumerGameBoxSVG';
@@ -9,6 +9,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const ConGameInfoScreen = ({navigation}: any) => {
+  const [value, onChangeText] = React.useState('');
+
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View style={{flexDirection: 'row'}}>
@@ -256,7 +258,7 @@ const ConGameInfoScreen = ({navigation}: any) => {
 
       <View
         style={{
-          flexDirection: 'column',
+          flexDirection: 'row',
           borderColor: '#B7C1DE',
           borderWidth: 2,
           marginLeft: 32,
@@ -265,13 +267,21 @@ const ConGameInfoScreen = ({navigation}: any) => {
           marginTop: 10,
           height: 40,
         }}>
+        <TextInput
+          onChangeText={(text: React.SetStateAction<string>) =>
+            onChangeText(text)
+          }
+          value={value}
+        />
+
         <SearchLogoSVG
           width="80%"
           height="80%"
           fill="#E4E4E4"
-          style={{marginLeft: 180, marginTop: 3}}
+          style={{marginLeft: 155, marginTop: 3}}
         />
       </View>
+
       <View
         style={{
           flexDirection: 'row',

@@ -199,19 +199,6 @@ export const BottomTabBar = ({navigation}: any) => {
             status="primary"
             size="giant"
             accessoryLeft={
-              <Octicons name="comment-discussion" size={25} color="#e4e4e4" />
-            }
-            onPress={() => {
-              setIsModalVisible(false);
-              navigation.navigate('ConFeedBack');
-            }}>
-            我的評論
-          </Button>
-          <Button
-            style={styles.text}
-            status="primary"
-            size="giant"
-            accessoryLeft={
               <FontAwesome5 name="headphones-alt" size={25} color="#e4e4e4" />
             }
             onPress={() => {
