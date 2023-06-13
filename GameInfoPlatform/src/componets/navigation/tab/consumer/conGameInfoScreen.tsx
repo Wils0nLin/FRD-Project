@@ -3,7 +3,6 @@ import {Button, Image, ScrollView, Text, View} from 'react-native';
 import GameInfoPhotoSVG from '../../../../assets/consumerSVG/ConsumerGameInfoSVG';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GameBoxSVG from '../../../../assets/consumerSVG/ConsumerGameBoxSVG';
-import {BottomTabBar} from './conBottomTabBar';
 
 const ConGameInfoScreen = (navigation: any) => {
   return (
