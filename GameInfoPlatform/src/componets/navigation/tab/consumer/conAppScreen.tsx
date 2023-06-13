@@ -135,6 +135,7 @@ const ConAppScreen = ({navigation}: any) => {
             </View>
           </View>
         </View>
+
         <View style={gameListAreaStyle.container}>
           <View
             style={{

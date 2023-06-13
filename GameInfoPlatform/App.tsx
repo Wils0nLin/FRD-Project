@@ -12,6 +12,7 @@ import {ApplicationProvider} from '@ui-kitten/components';
 import {NavigationContainer} from '@react-navigation/native';
 
 import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/conBottomTabBar';
+import Try from './src/componets/navigation/pages/try';
 
 // import FullScreenModal from './src/componets/navigation/tab/consumer/test';
 
@@ -23,7 +24,8 @@ function App(): JSX.Element {
     // <Test com={<Test1 />} />
     <ApplicationProvider {...eva} theme={eva.dark}>
       <NavigationContainer>
-        <ConsumerAppTabNavigator />
+        {/* <ConsumerAppTabNavigator /> */}
+        <Try />
       </NavigationContainer>
     </ApplicationProvider>
   );
