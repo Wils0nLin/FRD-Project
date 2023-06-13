@@ -1,11 +1,10 @@
+import { Layout, Text } from '@ui-kitten/components';
 import React from 'react';
-import {Text, View} from 'react-native';
+import { View } from 'react-native';
 
 const ConProfileEditScreen = () => {
   return (
-    <View>
-      <Text>PofileEdit</Text>
-    </View>
+   <View><Text>NO</Text></View>
   );
 };
 

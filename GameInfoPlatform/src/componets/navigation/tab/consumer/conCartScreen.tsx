@@ -4,7 +4,6 @@ import WhiteLineSVG from '../../../../assets/lineSVG/whiteLineSVG';
 import {
   WhiteLineStyle,
   gameImgStyle,
-  gameListAreaStyle,
   titleName,
 } from './conWishListScreen';
 import {consumerPageStyle} from './conAppScreen';

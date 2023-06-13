@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import SwitchSVG from '../../../../assets/platformSVG/SwitchSVG';
 import PlayStationSVG from '../../../../assets/platformSVG/PlayStationSVG';
 import XboxSVG from '../../../../assets/platformSVG/XboxSVG';
@@ -12,73 +12,75 @@ import ShotSVG from '../../../../assets/gameTypeSVG/shotSVG';
 import RightArrowSVG from '../../../../assets/gameTypeSVG/rightArrowSVG';
 const ConAppScreen = () => {
   return (
-    <View style={consumerPageStyle.container}>
-      <View>
-        <SliderSVG />
+    <ScrollView>
+      <View style={consumerPageStyle.container}>
+        <View>
+          <SliderSVG />
+        </View>
+
+        <View style={platformStyle.container}>
+          {/* <Text style={smallWordsStyle.container}>Consumer App Screen</Text> */}
+
+          <View style={switchStyle.container}>
+            <SwitchSVG
+              style={{
+                position: 'relative',
+                left: 3,
+                bottom: 2,
+              }}
+            />
+            <Text style={smallWordsStyle.container}>SWITCH</Text>
+          </View>
+          <View style={playStationStyle.container}>
+            <PlayStationSVG
+              style={{
+                position: 'relative',
+                left: 16,
+                bottom: 2,
+              }}
+            />
+            <Text style={smallWordsStyle.container}>PLAYSTATION</Text>
+          </View>
+          <View style={xboxStyle.container}>
+            <XboxSVG
+              style={{
+                position: 'relative',
+                right: 1,
+                bottom: 2,
+              }}
+            />
+            <Text style={smallWordsStyle.container}>XBOX</Text>
+          </View>
+        </View>
+
+        <View style={gameTypeAreaStyle.container}>
+          <LeftArrowSVG style={arrowStyle.container} />
+          <View style={gameTypeStyle.container}>
+            <RolePlaySVG />
+            <Text style={smallWordsStyle.container}>角色扮演</Text>
+          </View>
+          <View style={gameTypeStyle.container}>
+            <ActionSVG />
+            <Text style={smallWordsStyle.container}>動作</Text>
+          </View>
+          <View style={gameTypeStyle.container}>
+            <ShotSVG />
+            <Text style={smallWordsStyle.container}>射擊</Text>
+          </View>
+
+          <View style={gameTypeStyle.container}>
+            <CompetitiveSVG />
+            <Text style={smallWordsStyle.container}>競技</Text>
+          </View>
+          <RightArrowSVG style={arrowStyle.container} />
+        </View>
+
+        <View style={filterTypeStyle.container}>
+          <Text style={filterWordsStyle.container}>熱門遊戲</Text>
+          <Text style={filterWordsStyle.container}>即將發行</Text>
+        </View>
       </View>
-
-      <View style={platformStyle.container}>
-        {/* <Text style={smallWordsStyle.container}>Consumer App Screen</Text> */}
-
-        <View style={switchStyle.container}>
-          <SwitchSVG
-            style={{
-              position: 'relative',
-              left: 3,
-              bottom: 2,
-            }}
-          />
-          <Text style={smallWordsStyle.container}>SWITCH</Text>
-        </View>
-        <View style={playStationStyle.container}>
-          <PlayStationSVG
-            style={{
-              position: 'relative',
-              left: 16,
-              bottom: 2,
-            }}
-          />
-          <Text style={smallWordsStyle.container}>PLAYSTATION</Text>
-        </View>
-        <View style={xboxStyle.container}>
-          <XboxSVG
-            style={{
-              position: 'relative',
-              right: 1,
-              bottom: 2,
-            }}
-          />
-          <Text style={smallWordsStyle.container}>XBOX</Text>
-        </View>
-      </View>
-
-      <View style={gameTypeAreaStyle.container}>
-        <LeftArrowSVG style={arrowStyle.container} />
-        <View style={gameTypeStyle.container}>
-          <RolePlaySVG />
-          <Text style={smallWordsStyle.container}>角色扮演</Text>
-        </View>
-        <View style={gameTypeStyle.container}>
-          <ActionSVG />
-          <Text style={smallWordsStyle.container}>動作</Text>
-        </View>
-        <View style={gameTypeStyle.container}>
-          <ShotSVG />
-          <Text style={smallWordsStyle.container}>射擊</Text>
-        </View>
-
-        <View style={gameTypeStyle.container}>
-          <CompetitiveSVG />
-          <Text style={smallWordsStyle.container}>競技</Text>
-        </View>
-        <RightArrowSVG style={arrowStyle.container} />
-      </View>
-
-      <View style={filterTypeStyle.container}>
-        <Text style={filterWordsStyle.container}>熱門遊戲</Text>
-        <Text style={filterWordsStyle.container}>即將發行</Text>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
