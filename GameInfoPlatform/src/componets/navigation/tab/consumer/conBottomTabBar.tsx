@@ -11,7 +11,6 @@ import Modal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AppScreenSVG from '../../../../assets/AppscreenSVG';
 import ConsumerQRcodeSVG from '../../../../assets/consumerSVG/ConsumerAppScreenSVG';
@@ -25,7 +24,6 @@ import ConAppScreen from './conAppScreen';
 import ConWishListScreen from './conWishListScreen';
 import ConQRCodeScreen from './conQRCodeScreen';
 import {Button} from '@ui-kitten/components';
-import ConFeedback from './ConFeedback';
 import LogIn from './LogIn';
 import ConAdminContact from './ConAdminContact';
 import ConGameInfoScreen from './conGameInfoScreen';
@@ -67,13 +65,6 @@ const ConsumerAppTabNavigator = () => {
         component={GameSearchScreen}
         options={({}) => ({
           header: () => ReverseHeader('搜尋'),
-        })}
-      />
-      <Stack.Screen
-        name="ConFeedBack"
-        component={ConFeedback}
-        options={({}) => ({
-          header: () => ReverseHeader('客戶回饋'),
         })}
       />
       <Stack.Screen

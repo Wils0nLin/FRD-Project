@@ -14,12 +14,288 @@ import SearchLogoSVG from '../../../../assets/SearchLogoSVG';
 import {gameImgStyle, gameListAreaStyle} from './conWishListScreen';
 import Entypo from 'react-native-vector-icons/Entypo';
 import OctIcon from 'react-native-vector-icons/Octicons';
-import {Button} from '@ui-kitten/components';
+import {Button, Layout} from '@ui-kitten/components';
+import {useState} from 'react';
 
 export default function ConMerInfoScreen({navigation}: {navigation: any}) {
   const [search, onChangeText] = React.useState('');
   const [comment, onChangeComment] = React.useState('撰寫商戶評論');
+  const [select, setSelect] = useState('現貨商品');
+  const [list, setList] = useState(() => InStock);
+  function InStock() {
+    return (
+      <Layout>
+        <View
+          id="search"
+          style={{
+            flexDirection: 'row',
+            borderColor: '#B7C1DE',
+            borderWidth: 2,
+            marginLeft: 0,
+            width: 340,
+            borderRadius: 5,
+            marginTop: 10,
+            height: 40,
+          }}>
+          <TextInput
+            onChangeText={(text: React.SetStateAction<string>) =>
+              onChangeText(text)
+            }
+            value={search}
+            style={{width: 300}}
+          />
+          <SearchLogoSVG
+            width="10%"
+            height="80%"
+            fill="#E4E4E4"
+            style={{
+              marginTop: 3,
+            }}
+          />
+        </View>
 
+        <View id="items" style={gameListAreaStyle.container}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
+            </View>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity></TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+            </View>
+          </View>
+        </View>
+      </Layout>
+    );
+  }
+  function PreOrder() {
+    return (
+      <Layout>
+        <View
+          style={{
+            flexDirection: 'row',
+            borderColor: '#B7C1DE',
+            borderWidth: 2,
+            marginLeft: 0,
+            width: 340,
+            borderRadius: 5,
+            marginTop: 10,
+            height: 40,
+          }}>
+          <TextInput
+            onChangeText={(text: React.SetStateAction<string>) =>
+              onChangeText(text)
+            }
+            value={search}
+            style={{width: 300}}
+          />
+          <SearchLogoSVG
+            width="10%"
+            height="80%"
+            fill="#E4E4E4"
+            style={{
+              marginTop: 3,
+            }}
+          />
+        </View>
+        <View
+          id="total-amount"
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '80%',
+            paddingTop: 10,
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{color: 'white', fontSize: 20}}>共</Text>
+            <Text style={{color: 'white', fontSize: 20}}>200</Text>
+            <Text style={{color: 'white', fontSize: 20}}>件商品</Text>
+          </View>
+
+          <View
+            style={{borderColor: '#B7C1DE', borderWidth: 2, borderRadius: 5}}>
+            <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text>
+          </View>
+        </View>
+        <View style={gameListAreaStyle.container}>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 6,
+              left: 50,
+              width: 150,
+              borderBottomWidth: 3,
+              borderColor: '#7A04EB',
+            }}
+          />
+          <TouchableOpacity>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                width: 80,
+              }}>
+              <Image
+                style={gameImgStyle.container}
+                source={require('../../../../assets/images/zelda.jpg')}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={{flex: 1}}>
+              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
+                薩爾達 王國之淚
+              </Text>
+              <Text style={{fontSize: 17, color: 'white'}}>
+                2023年6月3日截訂
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity></TouchableOpacity>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+            </View>
+          </View>
+        </View>
+      </Layout>
+    );
+  }
+  function FeedBack() {
+    return (
+      <Layout>
+        <View
+          style={{
+            flexDirection: 'row',
+            borderColor: '#B7C1DE',
+            borderWidth: 2,
+            marginLeft: 0,
+            width: 340,
+            borderRadius: 5,
+            marginTop: 10,
+            height: 50,
+          }}>
+          <Button style={{width: 336}}>撰寫商戶評論</Button>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '80%',
+            paddingTop: 10,
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{color: 'white', fontSize: 20}}>共</Text>
+            <Text style={{color: 'white', fontSize: 20}}>200</Text>
+            <Text style={{color: 'white', fontSize: 20}}>則評論</Text>
+          </View>
+        </View>
+        <View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              margin: 8,
+              padding: 5,
+              paddingHorizontal: 10,
+              height: 90,
+              borderRadius: 10,
+              backgroundColor: '#rgba(255,255,255,0.25)',
+            }}>
+            <View>
+              <View style={{flexDirection: 'row'}}>
+                <Entypo name={'chat'} size={25} color={'white'} />
+                <Text
+                  style={{
+                    width: 235,
+                    fontSize: 20,
+                    color: 'white',
+                    paddingLeft: 5,
+                  }}
+                  numberOfLines={1}>
+                  CONSUMER NAME
+                </Text>
+              </View>
+
+              <View style={{flexDirection: 'row', paddingTop: 5}}>
+                <Text
+                  style={{color: 'white', paddingLeft: 5}}
+                  numberOfLines={2}>
+                  好好吃飯粒輭硬適中
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
+              <View style={{flexDirection: 'row', paddingTop: 5}}>
+                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
+                <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+                <OctIcon name={'star'} size={20} color={'#7A04EB'} />
+              </View>
+              <View style={{alignItems: 'flex-end'}}>
+                <Text style={{fontSize: 15, color: 'white'}}>2023年6月3日</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Layout>
+    );
+  }
+
+  const isSelect = (button: string) => {
+    if (button == '現貨商品') {
+      setList(() => InStock);
+      setSelect('現貨商品');
+    } else if (button == '預購商品') {
+      setList(() => PreOrder);
+      setSelect('預購商品');
+    } else if (button == '顧客反饋') {
+      setList(() => FeedBack);
+      setSelect('顧客反饋');
+    }
+    return [list, select];
+  };
   return (
     <ScrollView
       style={{
@@ -137,295 +413,54 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
           </Text>
         </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            width: 300,
-            justifyContent: 'space-between',
-          }}>
-          <Text
-            style={{
-              width: 80,
-              fontSize: 20,
-              color: 'white',
-              alignItems: 'flex-start',
-            }}>
+        <Layout id="selectButton" style={styles.row}>
+          <Button
+            style={select == '現貨商品' ? styles.buttonSelect : styles.button}
+            appearance="ghost"
+            status="control"
+            onPress={() => isSelect('現貨商品')}>
             現貨商品
-          </Text>
-          <Text
-            style={{
-              width: 80,
-              fontSize: 20,
-              color: 'white',
-            }}>
+          </Button>
+          <Button
+            style={select == '預購商品' ? styles.buttonSelect : styles.button}
+            appearance="ghost"
+            status="control"
+            onPress={() => isSelect('預購商品')}>
             預購商品
-          </Text>
-          <Text
-            style={{
-              width: 80,
-              fontSize: 20,
-              color: 'white',
-            }}>
+          </Button>
+          <Button
+            style={select == '顧客反饋' ? styles.buttonSelect : styles.button}
+            appearance="ghost"
+            status="control"
+            onPress={() => isSelect('顧客反饋')}>
             顧客反饋
-          </Text>
-        </View>
-        <View
-          style={{
-            alignItems: 'center',
-            width: 40,
-            borderBottomWidth: 3,
-            borderColor: '#7A04EB',
-            paddingTop: 5,
-          }}></View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginLeft: 0,
-            width: 340,
-            borderRadius: 5,
-            marginTop: 10,
-            height: 40,
-          }}>
-          <TextInput
-            onChangeText={(text: React.SetStateAction<string>) =>
-              onChangeText(text)
-            }
-            value={search}
-            style={{width: 300}}
-          />
-          <SearchLogoSVG
-            width="10%"
-            height="80%"
-            fill="#E4E4E4"
-            style={{
-              marginTop: 3,
-            }}
-          />
-        </View>
-
-        <View style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 150,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
-            </View>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-            }}>
-            <TouchableOpacity></TouchableOpacity>
-            <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
-            </View>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginLeft: 0,
-            width: 340,
-            borderRadius: 5,
-            marginTop: 10,
-            height: 40,
-          }}>
-          <TextInput
-            onChangeText={(text: React.SetStateAction<string>) =>
-              onChangeText(text)
-            }
-            value={search}
-            style={{width: 300}}
-          />
-          <SearchLogoSVG
-            width="10%"
-            height="80%"
-            fill="#E4E4E4"
-            style={{
-              marginTop: 3,
-            }}
-          />
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '80%',
-            paddingTop: 10,
-          }}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', fontSize: 20}}>共</Text>
-            <Text style={{color: 'white', fontSize: 20}}>200</Text>
-            <Text style={{color: 'white', fontSize: 20}}>件商品</Text>
-          </View>
-
-          <View
-            style={{borderColor: '#B7C1DE', borderWidth: 2, borderRadius: 5}}>
-            <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text>
-          </View>
-        </View>
-
-        <View style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 150,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>
-                2023年6月3日截訂
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-            }}>
-            <TouchableOpacity></TouchableOpacity>
-            <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
-            </View>
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginLeft: 0,
-            width: 340,
-            borderRadius: 5,
-            marginTop: 10,
-            height: 50,
-          }}>
-          <Button style={{width: 336}}>撰寫商戶評論</Button>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '80%',
-            paddingTop: 10,
-          }}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={{color: 'white', fontSize: 20}}>共</Text>
-            <Text style={{color: 'white', fontSize: 20}}>200</Text>
-            <Text style={{color: 'white', fontSize: 20}}>則評論</Text>
-          </View>
-        </View>
-
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              margin: 8,
-              padding: 5,
-              paddingHorizontal: 10,
-              height: 90,
-              borderRadius: 10,
-              backgroundColor: '#rgba(255,255,255,0.25)',
-            }}>
-            <View>
-              <View style={{flexDirection: 'row'}}>
-                <Entypo name={'chat'} size={25} color={'white'} />
-                <Text
-                  style={{
-                    width: 235,
-                    fontSize: 20,
-                    color: 'white',
-                    paddingLeft: 5,
-                  }}
-                  numberOfLines={1}>
-                  CONSUMER NAME
-                </Text>
-              </View>
-
-              <View style={{flexDirection: 'row', paddingTop: 5}}>
-                <Text
-                  style={{color: 'white', paddingLeft: 5}}
-                  numberOfLines={2}>
-                  好好吃飯粒輭硬適中
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-              <View style={{flexDirection: 'row', paddingTop: 5}}>
-                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star'} size={20} color={'#7A04EB'} />
-              </View>
-              <View style={{alignItems: 'flex-end'}}>
-                <Text style={{fontSize: 15, color: 'white'}}>2023年6月3日</Text>
-              </View>
-            </View>
-          </View>
-        </View>
+          </Button>
+        </Layout>
+        <Layout style={styles.layout}>{list()}</Layout>
       </SafeAreaView>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  layout: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: '90%',
+  },
+  row: {
+    flexDirection: 'row',
+    backgroundColor: '#2A2E32',
+  },
+  button: {
+    marginHorizontal: 1,
+  },
+  buttonSelect: {
+    marginHorizontal: 1,
+    borderWidth: 0,
+    borderColor: 'rgb(121,35,231)',
+    borderBottomColor: 'rgb(121,35,231)',
+    borderBottomWidth: 5,
+  },
+});

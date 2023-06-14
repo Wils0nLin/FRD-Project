@@ -1,9 +1,6 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {
-  gameImgStyle,
-  gameListAreaStyle,
-} from '../tab/consumer/conWishListScreen';
+import {gameListAreaStyle} from '../tab/consumer/conWishListScreen';
 
 const GameInfo = ({navigation, image, name, amount, status, logo}: any) => {
   return (
