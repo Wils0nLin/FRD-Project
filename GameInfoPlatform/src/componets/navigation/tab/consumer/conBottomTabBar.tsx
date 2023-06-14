@@ -268,17 +268,7 @@ export const BottomTabBar = ({navigation}: any) => {
             ),
           })}
         />
-        {/* // */}
-        {/* <Tab.Screen
-          name="qrCodeScreen"
-          component={ConQRCodeScreen}
-          options={() => ({
-            tabBarLabelStyle: {
-              display: 'none',
-            },
-            tabBarButton: () => <PopUPButton />,
-          })}
-        /> */}
+
         <Tab.Screen
           name="購物車"
           component={ConsumerCartScreen}

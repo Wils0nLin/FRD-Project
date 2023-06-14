@@ -11,7 +11,7 @@ export const bottomBarStyles = StyleSheet.create({
     backgroundColor: 'black',
     alignItems: 'center',
     position: 'relative',
-    // top: -25,
+    // top: -25, (搬左去BottomTabBar.tsx嘅qrCodeScreen)
     borderWidth: 4,
     borderColor: '#7a04eb',
     borderRadius: 10,

@@ -16,6 +16,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import OctIcon from 'react-native-vector-icons/Octicons';
 import {Button, Layout} from '@ui-kitten/components';
 import {useState} from 'react';
+import CommentModal from '../../../modals/Comment';
 
 export default function ConMerInfoScreen({navigation}: {navigation: any}) {
   const [search, onChangeText] = React.useState('');
@@ -31,7 +32,7 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
             flexDirection: 'row',
             borderColor: '#B7C1DE',
             borderWidth: 2,
-            marginLeft: 0,
+            marginLeft: 30,
             width: 340,
             borderRadius: 5,
             marginTop: 10,
@@ -102,6 +103,7 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
       </Layout>
     );
   }
+
   function PreOrder() {
     return (
       <Layout>
@@ -110,7 +112,7 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
             flexDirection: 'row',
             borderColor: '#B7C1DE',
             borderWidth: 2,
-            marginLeft: 0,
+            marginLeft: 30,
             width: 340,
             borderRadius: 5,
             marginTop: 10,
@@ -132,25 +134,31 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
             }}
           />
         </View>
+
         <View
           id="total-amount"
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            width: '80%',
             paddingTop: 10,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginLeft: 30}}>
             <Text style={{color: 'white', fontSize: 20}}>共</Text>
             <Text style={{color: 'white', fontSize: 20}}>200</Text>
             <Text style={{color: 'white', fontSize: 20}}>件商品</Text>
           </View>
 
           <View
-            style={{borderColor: '#B7C1DE', borderWidth: 2, borderRadius: 5}}>
+            style={{
+              borderColor: '#B7C1DE',
+              borderWidth: 2,
+              borderRadius: 5,
+              marginRight: 30,
+            }}>
             <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text>
           </View>
         </View>
+
         <View style={gameListAreaStyle.container}>
           <View
             style={{
@@ -205,16 +213,11 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
       <Layout>
         <View
           style={{
-            flexDirection: 'row',
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginLeft: 0,
-            width: 340,
-            borderRadius: 5,
-            marginTop: 10,
+            width: 400,
             height: 50,
+            alignItems: 'center',
           }}>
-          <Button style={{width: 336}}>撰寫商戶評論</Button>
+          <CommentModal />
         </View>
         <View
           style={{
@@ -223,7 +226,7 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
             width: '80%',
             paddingTop: 10,
           }}>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginLeft: 20}}>
             <Text style={{color: 'white', fontSize: 20}}>共</Text>
             <Text style={{color: 'white', fontSize: 20}}>200</Text>
             <Text style={{color: 'white', fontSize: 20}}>則評論</Text>
@@ -296,6 +299,7 @@ export default function ConMerInfoScreen({navigation}: {navigation: any}) {
     }
     return [list, select];
   };
+
   return (
     <ScrollView
       style={{

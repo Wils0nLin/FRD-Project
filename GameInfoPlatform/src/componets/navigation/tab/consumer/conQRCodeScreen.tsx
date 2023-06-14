@@ -3,7 +3,6 @@ import {Button, ScrollView, Text, View} from 'react-native';
 
 import ConsumerInfoHeader from '../../ConsumerInfoHeader';
 import QRcodeSVG from '../../../../assets/consumerSVG/ConsumerQRcodeSVG';
-import {consumerPageStyle} from './conAppScreen';
 
 const ConQRCodeScreen = () => {
   const Name = 'Hello World';
