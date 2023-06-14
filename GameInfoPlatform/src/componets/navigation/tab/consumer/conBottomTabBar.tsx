@@ -32,7 +32,8 @@ import ReverseHeader from '../../ReverseHeader';
 import ConPasswordEditScreen from './ConPasswordEditScreen';
 import ConProfileEditScreen from './ConProfileEditScreen';
 import ConMerInfoScreen from './ConMerInfoScreen';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import ConRegister from './ConRegister';
+import MerRegister from './MerRegister';
 //
 
 const Stack = createStackNavigator();
@@ -116,12 +117,27 @@ const ConsumerAppTabNavigator = () => {
           header: () => ReverseHeader('商戶資料'),
         })}
       />
+      <Stack.Screen
+        name="ConRes"
+        component={ConRegister}
+        options={({}) => ({
+          header: () => ReverseHeader('ConRes'),
+        })}
+      />
+      <Stack.Screen
+        name="MerRes"
+        component={MerRegister}
+        options={({}) => ({
+          header: () => ReverseHeader('MerRes'),
+        })}
+      />
     </Stack.Navigator>
   );
 };
 
 export const BottomTabBar = ({navigation}: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [LoginStatus, setLoginStatus] = useState(false);
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -207,7 +223,8 @@ export const BottomTabBar = ({navigation}: any) => {
             accessoryLeft={<Entypo name="login" size={25} color="#e4e4e4" />}
             onPress={() => {
               setIsModalVisible(false);
-              navigation.navigate('Login');
+              setLoginStatus(false);
+              navigation.navigate('Tabs');
             }}>
             登出
           </Button>
@@ -297,7 +314,12 @@ export const BottomTabBar = ({navigation}: any) => {
           listeners={() => ({
             tabPress: e => {
               e.preventDefault();
-              setIsModalVisible(true);
+              if (LoginStatus == false) {
+                navigation.navigate('Login');
+                setLoginStatus(true);
+              } else {
+                setIsModalVisible(true);
+              }
             },
           })}
         />

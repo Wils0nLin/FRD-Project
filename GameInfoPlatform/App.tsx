@@ -15,7 +15,8 @@ import ConsumerAppTabNavigator from './src/componets/navigation/tab/consumer/con
 
 function App(): JSX.Element {
   return (
-    <ApplicationProvider {...eva} theme={eva.dark}>
+    // <Test com={<Test1 />} />
+    <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
         <ConsumerAppTabNavigator />
       </NavigationContainer>

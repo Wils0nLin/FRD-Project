@@ -1,8 +1,10 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {gameListAreaStyle} from '../tab/consumer/conWishListScreen';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-const GameInfo = ({navigation, image, name, amount, status, logo}: any) => {
+const GameInfo = ({image, name, amount, status, logo}: any) => {
+  const navigation = useNavigation<NavigationProp<{GameInfo: undefined}>>();
   return (
     <View style={gameListAreaStyle.container}>
       <View
