@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AccScreenSVG from '../../../../assets/AccScreenSVG';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TopNavigation} from '../../topBar';
 import {GameSearchScreen} from '../../pages/searchScreen';
