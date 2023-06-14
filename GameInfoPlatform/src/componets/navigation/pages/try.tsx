@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import GameInfo from './gameInfoModule';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 

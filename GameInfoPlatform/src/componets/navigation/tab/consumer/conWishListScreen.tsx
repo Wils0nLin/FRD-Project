@@ -302,30 +302,5 @@ export const gameImgStyle = StyleSheet.create({
 
 //
 // Change page
-const changePageStyle = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    marginTop: 20,
-    marginLeft: 90,
-  },
-});
-
-const changePageWordStyle = StyleSheet.create({
-  container: {
-    color: '#FFFFFF',
-    fontSize: 22,
-    marginLeft: 10,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-});
-
-const changeArrowStyle = StyleSheet.create({
-  container: {
-    marginTop: 7,
-    marginLeft: 5,
-  },
-});
-//
 
 export default ConWishListScreen;

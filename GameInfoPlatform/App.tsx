@@ -22,7 +22,7 @@ import Try from './src/componets/navigation/pages/try';
 function App(): JSX.Element {
   return (
     // <Test com={<Test1 />} />
-    <ApplicationProvider {...eva} theme={eva.dark}>
+    <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
         <ConsumerAppTabNavigator />
         {/* <Try /> */}

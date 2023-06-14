@@ -2,20 +2,133 @@ import {Button, Layout} from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text} from 'react-native';
 import ConsumerInfoHeader from '../../ConsumerInfoHeader';
+import GameInfo from '../../pages/gameInfoModule';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const ConOrderRecord = () => {
+  const preOrderArr = [
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+  ];
+  const WaitArr = [
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+  ];
+  const passTradeArr = [
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚3',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚3',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚3',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚3',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚3',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+  ];
   const [select, setSelect] = useState('');
-  const [list, setList] = useState('');
+  const [list, setList] = useState(preOrderArr);
 
   const isSelect = (button: string) => {
     if (button == '預購商品') {
-      setList('預購商品');
+      setList(preOrderArr);
       setSelect('預購商品');
     } else if (button == '待領商品') {
-      setList('待領商品');
+      setList(WaitArr);
       setSelect('待領商品');
     } else if (button == '過往交易') {
-      setList('過往交易');
+      setList(passTradeArr);
       setSelect('過往交易');
     }
     return [list, select];
@@ -51,8 +164,18 @@ const ConOrderRecord = () => {
             過往交易
           </Button>
         </Layout>
-        <Layout>
-          <Text style={{color: 'white'}}>{list}</Text>
+        <Layout style={styles.gameInfo}>
+          {list.map(items => (
+            <Layout style={styles.gameInfo}>
+              <GameInfo
+                image={items.image}
+                name={items.name}
+                amount={items.amount}
+                status={items.status}
+                logo={items.logo}
+              />
+            </Layout>
+          ))}
         </Layout>
       </Layout>
     </ScrollView>
@@ -81,5 +204,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(121,35,231)',
     borderBottomColor: 'rgb(121,35,231)',
     borderBottomWidth: 5,
+  },
+  gameInfo: {
+    alignItems: 'center',
+    width: '80%',
+    backgroundColor: 'rgb(40,40,40)',
   },
 });

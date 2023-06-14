@@ -17,9 +17,8 @@ import OctIcon from 'react-native-vector-icons/Octicons';
 import {Button, Layout} from '@ui-kitten/components';
 import {useState} from 'react';
 
-export default function ConMerInfoScreen({navigation}: {navigation: any}) {
+export default function ConMerInfoScreen({navigation}: any) {
   const [search, onChangeText] = React.useState('');
-  const [comment, onChangeComment] = React.useState('撰寫商戶評論');
   const [select, setSelect] = useState('現貨商品');
   const [list, setList] = useState(() => InStock);
   function InStock() {
