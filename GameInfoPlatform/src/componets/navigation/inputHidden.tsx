@@ -11,7 +11,7 @@ export const InputAccessories = (): React.ReactElement => {
     setSecureTextEntry(!secureTextEntry);
   };
 
-  const renderIcon = (props): React.ReactElement => (
+  const renderIcon = (props: any): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Entypo name="eye-with-line" size={30} color={'rgb(240,240,240)'} />
     </TouchableWithoutFeedback>

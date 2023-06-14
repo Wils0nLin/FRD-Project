@@ -230,6 +230,7 @@ export const BottomTabBar = ({navigation}: any) => {
           </Button>
         </View>
       </Modal>
+
       <Tab.Navigator
         screenOptions={({}) => ({
           headerShown: false,
@@ -263,6 +264,7 @@ export const BottomTabBar = ({navigation}: any) => {
             },
           })}
         />
+        {/* try */}
         <Tab.Screen
           name="qrCodeScreen"
           component={ConQRCodeScreen}
@@ -270,9 +272,20 @@ export const BottomTabBar = ({navigation}: any) => {
             tabBarLabelStyle: {
               display: 'none',
             },
-            tabBarButton: () => <PopUPButton />,
+            tabBarButton: ({onPress}: any) => (
+              <TouchableOpacity
+                onPress={onPress}
+                style={{
+                  alignItems: 'center',
+                  top: -25,
+                  width: 100,
+                }}>
+                <PopUPButton />
+              </TouchableOpacity>
+            ),
           })}
         />
+
         <Tab.Screen
           name="購物車"
           component={ConsumerCartScreen}

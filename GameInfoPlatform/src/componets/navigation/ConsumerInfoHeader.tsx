@@ -3,8 +3,7 @@ import {Text, View} from 'react-native';
 
 import UserLogoSVG from '../../assets/UserLogoSVG';
 
-const ConsumerInfoHeader = (Name: string) => {
-  Name = 'example';
+const ConsumerInfoHeader = ({Name}: any) => {
   return (
     <View>
       <View
