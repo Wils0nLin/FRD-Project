@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -22,8 +22,98 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {Button, Layout} from '@ui-kitten/components';
+import GameInfo from '../../pages/gameInfoModule';
 
-const ConAppScreen = ({navigation}: any) => {
+const ConAppScreen = () => {
+  const HotArr = [
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚1',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+  ];
+  const ComingArr = [
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+    {
+      image: require('../../../../assets/images/zelda.jpg'),
+      name: '薩爾達 王國之淚2',
+      amount: '大量現貨',
+      status: '現貨發售中',
+      logo: <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />,
+    },
+  ];
+  const [select, setSelect] = useState('');
+  const [list, setList] = useState(HotArr);
+
+  const isSelect = (button: string) => {
+    if (button == '熱門遊戲') {
+      setList(HotArr);
+      setSelect('熱門遊戲');
+    } else if (button == '即將發行') {
+      setList(ComingArr);
+      setSelect('即將發行');
+    }
+    return [list, select];
+  };
+
   return (
     <ScrollView>
       <View style={consumerPageStyle.container}>
@@ -149,100 +239,37 @@ const ConAppScreen = ({navigation}: any) => {
           <RightArrowSVG style={arrowStyle.container} />
         </View>
 
-        <View style={filterTypeStyle.container}>
-          <Text style={filterWordsStyle.container}>熱門遊戲</Text>
-          <Text style={filterWordsStyle.container}>即將發行</Text>
-        </View>
-
-        <View style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 300,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-            <TouchableOpacity>
-              <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />
-            </TouchableOpacity>
-            <View style={{alignItems: 'flex-end'}}>
-              {/* <Text>HK$ 400.00</Text> */}
-              <Text style={{fontSize: 30, color: 'white'}}>現貨發售中</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 300,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-            <TouchableOpacity>
-              <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />
-            </TouchableOpacity>
-            <View style={{alignItems: 'flex-end'}}>
-              {/* <Text>HK$ 400.00</Text> */}
-              <Text style={{fontSize: 30, color: 'white'}}>現貨發售中</Text>
-            </View>
-          </View>
-        </View>
+        <Layout style={styles.layout}>
+          <Layout style={styles.row}>
+            <Button
+              style={select == '熱門遊戲' ? styles.buttonSelect : styles.button}
+              appearance="ghost"
+              status="control"
+              onPress={() => isSelect('熱門遊戲')}>
+              熱門遊戲
+            </Button>
+            <Button
+              style={select == '即將發行' ? styles.buttonSelect : styles.button}
+              appearance="ghost"
+              status="control"
+              onPress={() => isSelect('即將發行')}>
+              即將發行
+            </Button>
+          </Layout>
+          <Layout>
+            {list.map(items => (
+              <Layout style={styles.gameInfo}>
+                <GameInfo
+                  image={items.image}
+                  name={items.name}
+                  amount={items.amount}
+                  status={items.status}
+                  logo={items.logo}
+                />
+              </Layout>
+            ))}
+          </Layout>
+        </Layout>
       </View>
     </ScrollView>
   );
@@ -333,15 +360,6 @@ const gameTypeStyle = StyleSheet.create({
 });
 //
 
-// filter
-const filterTypeStyle = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-});
-
-//
-
 // 文字style
 const smallWordsStyle = StyleSheet.create({
   container: {
@@ -351,14 +369,34 @@ const smallWordsStyle = StyleSheet.create({
     padding: 0,
   },
 });
-
-const filterWordsStyle = StyleSheet.create({
-  container: {
-    color: 'white',
-    fontSize: 18,
-    marginLeft: 50,
-    marginTop: 10,
+const styles = StyleSheet.create({
+  layout: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: '90%',
+    backgroundColor: 'rgb(40,40,40)',
+  },
+  row: {
+    flexDirection: 'row',
+    alignSelf: 'flex-start',
+    backgroundColor: 'rgb(40,40,40)',
+  },
+  button: {
+    marginHorizontal: 1,
+  },
+  buttonSelect: {
+    marginHorizontal: 1,
+    borderWidth: 0,
+    borderColor: 'rgb(121,35,231)',
+    borderBottomColor: 'rgb(121,35,231)',
+    borderBottomWidth: 5,
+  },
+  gameInfo: {
+    alignItems: 'center',
+    width: '80%',
+    backgroundColor: 'rgb(40,40,40)',
   },
 });
-//
+
 export default ConAppScreen;
