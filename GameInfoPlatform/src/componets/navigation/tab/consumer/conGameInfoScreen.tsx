@@ -7,6 +7,7 @@ import SearchLogoSVG from '../../../../assets/SearchLogoSVG';
 import OctIcon from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import AddressModal from '../../../modals/AddressModal';
 
 const ConGameInfoScreen = ({navigation}: any) => {
   const [value, onChangeText] = React.useState('');
@@ -291,8 +292,9 @@ const ConGameInfoScreen = ({navigation}: any) => {
           paddingTop: 10,
         }}>
         <Text style={{color: 'white', fontSize: 20}}>共200間商戶</Text>
-        <View style={{borderColor: '#B7C1DE', borderWidth: 2, borderRadius: 5}}>
-          <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text>
+        <View>
+          {/* <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text> */}
+          <AddressModal />
         </View>
       </View>
 
