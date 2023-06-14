@@ -18,6 +18,8 @@ import CompetitiveSVG from '../../../../assets/gameTypeSVG/competitiveSVG';
 import ShotSVG from '../../../../assets/gameTypeSVG/shotSVG';
 import RightArrowSVG from '../../../../assets/gameTypeSVG/rightArrowSVG';
 import {gameImgStyle, gameListAreaStyle} from './conWishListScreen';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -85,21 +87,63 @@ const ConAppScreen = ({navigation}: any) => {
               <Text style={smallWordsStyle.container}>競技</Text>
             </View>
             <View style={gameTypeStyle.container}>
-              <RolePlaySVG />
-              <Text style={smallWordsStyle.container}>角色扮演</Text>
+              <Icon name={'video'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>劇情</Text>
             </View>
             <View style={gameTypeStyle.container}>
-              <ActionSVG />
-              <Text style={smallWordsStyle.container}>動作</Text>
+              <Icon name={'users'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>合作</Text>
             </View>
             <View style={gameTypeStyle.container}>
-              <ShotSVG />
-              <Text style={smallWordsStyle.container}>射擊</Text>
+              <Icon name={'basketball-ball'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>體育</Text>
             </View>
 
             <View style={gameTypeStyle.container}>
-              <CompetitiveSVG />
-              <Text style={smallWordsStyle.container}>競技</Text>
+              <Icon name={'chess'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>策略</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <LogoIcon name={'boxing-glove'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>格鬥</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <Icon name={'music'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>音樂</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <Icon name={'question'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>解謎</Text>
+            </View>
+
+            <View style={gameTypeStyle.container}>
+              <LogoIcon
+                name={'cards-playing-outline'}
+                size={30}
+                color={'#E4E4E4'}
+              />
+              <Text style={smallWordsStyle.container}>卡牌</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <LogoIcon name={'party-popper'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>家庭</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <Icon name={'hand-holding-heart'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>育成</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <LogoIcon name={'axe-battle'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>生存</Text>
+            </View>
+
+            <View style={gameTypeStyle.container}>
+              <Icon name={'paint-roller'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>工藝</Text>
+            </View>
+            <View style={gameTypeStyle.container}>
+              <Icon name={'skull-crossbones'} size={30} color={'#E4E4E4'} />
+              <Text style={smallWordsStyle.container}>恐怖</Text>
             </View>
           </ScrollView>
           <RightArrowSVG style={arrowStyle.container} />
@@ -116,7 +160,7 @@ const ConAppScreen = ({navigation}: any) => {
               position: 'absolute',
               bottom: 6,
               left: 50,
-              width: 150,
+              width: 300,
               borderBottomWidth: 3,
               borderColor: '#7A04EB',
             }}
@@ -150,7 +194,7 @@ const ConAppScreen = ({navigation}: any) => {
             </TouchableOpacity>
             <View style={{alignItems: 'flex-end'}}>
               {/* <Text>HK$ 400.00</Text> */}
-              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
+              <Text style={{fontSize: 30, color: 'white'}}>現貨發售中</Text>
             </View>
           </View>
         </View>
@@ -161,7 +205,7 @@ const ConAppScreen = ({navigation}: any) => {
               position: 'absolute',
               bottom: 6,
               left: 50,
-              width: 150,
+              width: 300,
               borderBottomWidth: 3,
               borderColor: '#7A04EB',
             }}
@@ -195,7 +239,7 @@ const ConAppScreen = ({navigation}: any) => {
             </TouchableOpacity>
             <View style={{alignItems: 'flex-end'}}>
               {/* <Text>HK$ 400.00</Text> */}
-              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
+              <Text style={{fontSize: 30, color: 'white'}}>現貨發售中</Text>
             </View>
           </View>
         </View>
@@ -206,7 +250,7 @@ const ConAppScreen = ({navigation}: any) => {
 
 export const consumerPageStyle = StyleSheet.create({
   container: {
-    backgroundColor: '#202124',
+    backgroundColor: '#302124',
     height: 600,
     // marginBottom: 32,
   },
@@ -228,7 +272,7 @@ const switchStyle = StyleSheet.create({
     paddingRight: 30,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 15,
+    borderRadius: 30,
   },
 });
 
@@ -240,7 +284,7 @@ const playStationStyle = StyleSheet.create({
     paddingRight: 19,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 15,
+    borderRadius: 30,
   },
 });
 
@@ -252,7 +296,7 @@ const xboxStyle = StyleSheet.create({
     paddingRight: 30,
     paddingTop: 10,
     paddingBottom: 10,
-    borderRadius: 15,
+    borderRadius: 30,
   },
 });
 //
@@ -261,7 +305,7 @@ const xboxStyle = StyleSheet.create({
 const gameTypeAreaStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginTop: 15,
+    marginTop: 10,
     justifyContent: 'space-around',
   },
 });
@@ -276,7 +320,7 @@ const gameTypeStyle = StyleSheet.create({
   container: {
     borderWidth: 3,
     borderColor: '#B7C1DE',
-    borderRadius: 15,
+    borderRadius: 30,
     width: 82,
     paddingLeft: 10,
     paddingRight: 10,
