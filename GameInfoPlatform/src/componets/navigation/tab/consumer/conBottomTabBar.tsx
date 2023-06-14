@@ -34,6 +34,7 @@ import ReverseHeader from '../../ReverseHeader';
 import ConPasswordEditScreen from './ConPasswordEditScreen';
 import ConProfileEditScreen from './ConProfileEditScreen';
 import ConMerInfoScreen from './ConMerInfoScreen';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 //
 
 const Stack = createStackNavigator();
@@ -221,6 +222,7 @@ export const BottomTabBar = ({navigation}: any) => {
           </Button>
         </View>
       </Modal>
+
       <Tab.Navigator
         screenOptions={({}) => ({
           headerShown: false,
@@ -254,7 +256,29 @@ export const BottomTabBar = ({navigation}: any) => {
             },
           })}
         />
+        {/* try */}
         <Tab.Screen
+          name="qrCodeScreen"
+          component={ConQRCodeScreen}
+          options={() => ({
+            tabBarLabelStyle: {
+              display: 'none',
+            },
+            tabBarButton: ({onPress}: any) => (
+              <TouchableOpacity
+                onPress={onPress}
+                style={{
+                  alignItems: 'center',
+                  top: -25,
+                  width: 100,
+                }}>
+                <PopUPButton />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        {/* // */}
+        {/* <Tab.Screen
           name="qrCodeScreen"
           component={ConQRCodeScreen}
           options={() => ({
@@ -263,7 +287,7 @@ export const BottomTabBar = ({navigation}: any) => {
             },
             tabBarButton: () => <PopUPButton />,
           })}
-        />
+        /> */}
         <Tab.Screen
           name="購物車"
           component={ConsumerCartScreen}

@@ -9,8 +9,8 @@ const ConOrderRecord = () => {
 
   const isSelect = (button: string) => {
     if (button == '預購商品') {
-      setList('預購商品');
-      setSelect('預購商品');
+      setList('Hi');
+      setSelect('預購s商品');
     } else if (button == '待領商品') {
       setList('待領商品');
       setSelect('待領商品');

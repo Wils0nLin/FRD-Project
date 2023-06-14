@@ -208,6 +208,7 @@ export const consumerPageStyle = StyleSheet.create({
   container: {
     backgroundColor: '#202124',
     height: 600,
+    // marginBottom: 32,
   },
 });
 
