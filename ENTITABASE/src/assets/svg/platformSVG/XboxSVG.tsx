@@ -1,0 +1,30 @@
+import * as React from 'react';
+import Svg, {Rect, Defs, Pattern, Use, Image} from 'react-native-svg';
+const XboxSVG = (props: any) => (
+  <Svg
+    width={30}
+    height={30}
+    viewBox="0 0 60 60"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    {...props}>
+    <Rect x={0.000244141} width={60} height={60} fill="url(#pattern0)" />
+    <Defs>
+      <Pattern
+        id="pattern0"
+        patternContentUnits="objectBoundingBox"
+        width={1}
+        height={1}>
+        <Use xlinkHref="#image0_125_13114" transform="scale(0.01)" />
+      </Pattern>
+      <Image
+        id="image0_125_13114"
+        width={100}
+        height={100}
+        xlinkHref="data:image/png;base64,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"
+      />
+    </Defs>
+  </Svg>
+);
+export default XboxSVG;
