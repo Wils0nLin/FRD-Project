@@ -1,15 +1,10 @@
-import { Module } from '@nestjs/common';
-import { AdminModule } from './Admin/admin.module';
-import { AppModuleConsumer } from './Consumer/consumer.module';
-import { MerchantModule } from './Merchant/merchant.module';
-
+import { Module } from "@nestjs/common";
+import { AdminModule } from "./Admin/admin.module";
+import { ConsumerModule } from "./Consumer/consumer.module";
+import { MerchantModule } from "./Merchant/merchant.module";
+import { PublicModule } from "./Public/public.module";
 
 @Module({
-  imports: [
-    AppModuleAdmin,
-    AppModuleConsumer,
-    AppModuleMerchant,
-    AppModulePublic,
-  ],
+    imports: [AdminModule, ConsumerModule, MerchantModule, PublicModule],
 })
 export class AppModule {}

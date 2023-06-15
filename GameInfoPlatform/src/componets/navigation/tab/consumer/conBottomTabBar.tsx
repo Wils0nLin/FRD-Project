@@ -34,7 +34,7 @@ import ConProfileEditScreen from './ConProfileEditScreen';
 import ConMerInfoScreen from './ConMerInfoScreen';
 import ConRegister from './ConRegister';
 import MerRegister from './MerRegister';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 //
 
 const Stack = createStackNavigator();

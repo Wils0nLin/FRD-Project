@@ -261,3 +261,4 @@ model Bank {
 
   @@map("bank")
 }
+
