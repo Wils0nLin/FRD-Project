@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import AccScreenSVG from '../../../../assets/AccScreenSVG';
+import AccScreenSVG from '../../../../assets/svg/AccScreenSVG';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TopNavigation} from '../../topBar';
@@ -12,10 +12,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
-import AppScreenSVG from '../../../../assets/AppscreenSVG';
-import ConsumerQRcodeSVG from '../../../../assets/consumerSVG/ConsumerAppScreenSVG';
-import ConsumerHeart from '../../../../assets/consumerSVG/ConsumerHeartSVG';
-import ConsumerCartSVG from '../../../../assets/consumerSVG/ConsumerCartSVG';
+import AppScreenSVG from '../../../../assets/svg/AppscreenSVG';
+import ConsumerQRcodeSVG from '../../../../assets/svg/consumerSVG/ConsumerAppScreenSVG';
+import ConsumerHeart from '../../../../assets/svg/consumerSVG/ConsumerHeartSVG';
+import ConsumerCartSVG from '../../../../assets/svg/consumerSVG/ConsumerCartSVG';
 import ConsumerCartScreen from './conCartScreen';
 
 //style sheet
@@ -24,7 +24,7 @@ import ConAppScreen from './conAppScreen';
 import ConWishListScreen from './conWishListScreen';
 import ConQRCodeScreen from './conQRCodeScreen';
 import {Button} from '@ui-kitten/components';
-import LogIn from './LogIn';
+import LogIn from '../../../../public/screens/LogIn';
 import ConAdminContact from './ConAdminContact';
 import ConGameInfoScreen from './conGameInfoScreen';
 import ConOrderRecord from './ConOrderRecord';
@@ -32,8 +32,8 @@ import ReverseHeader from '../../ReverseHeader';
 import ConPasswordEditScreen from './ConPasswordEditScreen';
 import ConProfileEditScreen from './ConProfileEditScreen';
 import ConMerInfoScreen from './ConMerInfoScreen';
-import ConRegister from './ConRegister';
-import MerRegister from './MerRegister';
+import ConRegister from '../../../../public/screens/ConRegister';
+import MerRegister from '../../../../public/screens/MerRegister';
 
 //
 
