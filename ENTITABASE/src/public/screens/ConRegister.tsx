@@ -8,13 +8,19 @@ import {
 } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import React from 'react';
-import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {Alert, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native';
+import axios from 'axios';
 
 const ConRegister = ({navigation}: any) => {
-  const [value, setValue] = React.useState('');
+  const [Name, setName] = React.useState('');
+  const [Username, setUsername] = React.useState('');
+  const [Password, setPassword] = React.useState('');
+  const [ConfrimePass, setConfrimPass] = React.useState('');
+  const [Email, setEmail] = React.useState('');
+  const [Phone, setPhone] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
   const renderIcon = (): React.ReactElement => (
@@ -25,78 +31,110 @@ const ConRegister = ({navigation}: any) => {
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!setSecureTextEntry);
   };
+  const rNumber = Math.floor(Math.random() * 10);
+  function makeid(length: any) {
+    let result = '';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+  }
 
+  let form = new FormData();
+  const createForm = () => {
+    form.append('usename', Username);
+    form.append('password', Password);
+    form.append('email', Email);
+    form.append('QRcode', makeid(rNumber));
+    form.append('consumer_name', Name);
+    form.append('consumer_phone', Phone);
+  };
+
+  const Submit = () => {
+    createForm();
+    axios
+      .post('http://localhost:3000/public/conRegister', form)
+      .then(function (response) {
+        console.log(response);
+        Alert.alert('success', `${response}`);
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert('Failed', `${error}`);
+      });
+  };
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <Layout style={styles.layout}>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>姓名：</Text>
-            <Input
-              value={value}
-              placeholder="Place your password"
-              onChangeText={nextValue => setValue(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>帳號名稱：</Text>
-            <Input
-              value={value}
-              placeholder="Place your username"
-              onChangeText={nextValue => setValue(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>密碼：</Text>
-            <Input
-              value={value}
-              placeholder="Place your password"
-              accessoryRight={renderIcon}
-              secureTextEntry={secureTextEntry}
-              onChangeText={nextValue => setValue(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>重新輸入密碼：</Text>
-            <Input
-              value={value}
-              placeholder="Place your password"
-              accessoryRight={renderIcon}
-              secureTextEntry={secureTextEntry}
-              onChangeText={nextValue => setValue(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>電油：</Text>
-            <Input
-              value={value}
-              placeholder="Place your password"
-              onChangeText={nextValue => setValue(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>電話：</Text>
-            <Input
-              value={value}
-              placeholder="Place your password"
-              onChangeText={nextValue => setValue(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.row}>
-            <Button
-              style={styles.button}
-              onPress={() => navigation.navigate('Public')}>
-              提交
-            </Button>
-          </Layout>
+      <Layout style={styles.layout}>
+        <Layout style={styles.items}>
+          <Text style={styles.text}>姓名：</Text>
+          <Input
+            value={Name}
+            placeholder="Place your password"
+            onChangeText={nextValue => setName(nextValue)}
+            style={{backgroundColor: 'rgb(40,40,40)'}}
+          />
         </Layout>
-      </ApplicationProvider>
+        <Layout style={styles.items}>
+          <Text style={styles.text}>帳號名稱：</Text>
+          <Input
+            value={Username}
+            placeholder="Place your username"
+            onChangeText={nextValue => setUsername(nextValue)}
+            style={{backgroundColor: 'rgb(40,40,40)'}}
+          />
+        </Layout>
+        <Layout style={styles.items}>
+          <Text style={styles.text}>密碼：</Text>
+          <Input
+            value={Password}
+            placeholder="Place your password"
+            accessoryRight={renderIcon}
+            secureTextEntry={secureTextEntry}
+            onChangeText={nextValue => setPassword(nextValue)}
+            style={{backgroundColor: 'rgb(40,40,40)'}}
+          />
+        </Layout>
+        <Layout style={styles.items}>
+          <Text style={styles.text}>重新輸入密碼：</Text>
+          <Input
+            value={ConfrimePass}
+            placeholder="Place your password"
+            accessoryRight={renderIcon}
+            secureTextEntry={secureTextEntry}
+            onChangeText={nextValue => setConfrimPass(nextValue)}
+            style={{backgroundColor: 'rgb(40,40,40)'}}
+          />
+        </Layout>
+        <Layout style={styles.items}>
+          <Text style={styles.text}>電郵：</Text>
+          <Input
+            value={Email}
+            placeholder="Place your password"
+            onChangeText={nextValue => setEmail(nextValue)}
+            style={{backgroundColor: 'rgb(40,40,40)'}}
+          />
+        </Layout>
+        <Layout style={styles.items}>
+          <Text style={styles.text}>電話：</Text>
+          <Input
+            value={Phone}
+            placeholder="Place your password"
+            onChangeText={nextValue => setPhone(nextValue)}
+            style={{backgroundColor: 'rgb(40,40,40)'}}
+          />
+        </Layout>
+        <Layout style={styles.row}>
+          <Button style={styles.button} onPress={() => Submit}>
+            提交
+          </Button>
+        </Layout>
+      </Layout>
     </ScrollView>
   );
 };
