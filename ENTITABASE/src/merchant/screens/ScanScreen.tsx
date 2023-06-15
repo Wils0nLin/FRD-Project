@@ -1,18 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import {StackNavigationProp} from '@react-navigation/stack';
+
+import {StackParamList} from '../../public/navigators/StackParamList';
 
 import ForeheadView from '../../objects/MerchantForeheadView';
+interface scanner {
+  scanner: any;
+}
 
-export default function ScanScreen({navigation}: {navigation: any}) {
+function QRScanScreen(this: scanner) {
+  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
+
   return (
     <ScrollView
       style={{
@@ -25,26 +28,26 @@ export default function ScanScreen({navigation}: {navigation: any}) {
           <View style={styles.pageTitleLine} />
         </View>
         <View style={styles.QRCodeBox}>
-          <View style={styles.QRCodeBorder}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantOrderInfo')}>
-              <Image
-                style={{
-                  width: 200,
-                  height: 200,
-                }}
-                source={require('../../assets/images/qr-code.jpg')}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={{margin: 10, fontSize: 20}}>
-            請將顧客QR Code放進框內掃描
-          </Text>
+          <View style={{height: 80}} />
+
+          <QRCodeScanner
+            ref={node => {
+              this.scanner = node;
+            }}
+            onRead={() => {
+              navigation.navigate('MerchantOrderInfo');
+            }}
+          />
+          <View style={styles.QRCodeScanner} />
+          <View style={styles.ORCodeBorder} />
+          <Text style={{fontSize: 20}}>請將顧客ENTI-Code放進框內掃描</Text>
         </View>
       </SafeAreaView>
     </ScrollView>
   );
 }
+
+export default QRScanScreen;
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -74,19 +77,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 350,
-    height: 550,
   },
-  QRCodeBorder: {
+  QRCodeScanner: {
+    position: 'absolute',
+    top: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    width: 530,
+    height: 530,
+    borderWidth: 115,
+    borderRadius: 130,
+    borderColor: '#2A2E32',
+  },
+  ORCodeBorder: {
+    position: 'absolute',
+    top: 125,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 8,
     paddingLeft: 10,
     paddingRight: 10,
-    width: 250,
-    height: 250,
+    width: 270,
+    height: 270,
     borderStyle: 'dashed',
     borderRadius: 10,
-    borderWidth: 8,
+    borderWidth: 5,
     borderColor: '#B7C1DE',
   },
 });

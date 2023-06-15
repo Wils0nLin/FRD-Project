@@ -20,7 +20,7 @@ import AnnoEditScreen from '../screens/AnnoEditScreen';
 import BREditScreen from '../screens/BREditScreen';
 import PasswordScreen from '../screens/MerchantPasswordScreen';
 import AdminContactScreen from '../screens/MerchantAdminContactScreen';
-import ScanScreen from '../screens/ScanScreen';
+import QRScanScreen from '../screens/ScanScreen';
 import OrderInfoScreen from '../screens/MerchantOrderInfoScreen';
 
 import SearchModal from '../modals/MerchantSearchModal';
@@ -225,9 +225,9 @@ const MerchantScreenNavigator = () => {
       />
       <Stack.Screen
         name="MerchantQRScan"
-        component={ScanScreen}
+        component={QRScanScreen}
         options={{
-          headerTitle: 'ENTI CODE READER',
+          headerTitle: 'ENTI-CODE SCAN',
           headerRight: () => (
             <TouchableOpacity onPress={navigation.goBack}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
