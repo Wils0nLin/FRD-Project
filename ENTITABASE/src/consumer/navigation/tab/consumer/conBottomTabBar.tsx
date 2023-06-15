@@ -315,12 +315,8 @@ export const BottomTabBar = ({navigation}: any) => {
           listeners={() => ({
             tabPress: e => {
               e.preventDefault();
-              if (LoginStatus === false) {
-                navigation.navigate('Login');
-                setLoginStatus(true);
-              } else {
-                setIsModalVisible(true);
-              }
+
+              setIsModalVisible(true);
             },
           })}
         />
