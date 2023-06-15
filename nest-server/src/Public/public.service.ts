@@ -1,9 +1,24 @@
 import { Injectable } from "@nestjs/common";
+import { PrismaService } from "src/prisma.service";
+import { Users } from "@prisma/client";
+import { CreateRegisterFormDTO } from "./dto/createPublic.dto";
 
 @Injectable()
 export class PublicService {
-    register(form: any) {
-        console.log("write your register query here", form);
+    constructor(private readonly prisma: PrismaService) {}
+
+    async register(form: CreateRegisterFormDTO, identity: string) {
+        const register = await this.prisma.users.create({
+            data: {
+                username: form.username,
+                password: form.password,
+                email: form.email,
+                identity: identity,
+            },
+        });
+        return register;
+
+        // console.log("write your register query here", form);
     }
 
     login(userloginInfo: any) {
@@ -12,6 +27,7 @@ export class PublicService {
     //Homepage
     hot() {
         console.log(`arrange by views`);
+        return "Test";
     }
     comingSoon() {
         console.log(`select products by a desc of time `);
