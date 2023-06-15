@@ -75,7 +75,7 @@ const MerchantTabNavigator = () => {
         }}>
         {() => (
           <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
               name="MerchantQRScan"
               component={QRScanScreen}
               options={{
@@ -88,7 +88,7 @@ const MerchantTabNavigator = () => {
                 headerStyle: styles.topBarBackground,
                 headerTitleStyle: styles.topBarText,
               }}
-            />
+            /> */}
             <Stack.Screen
               name="MerchantOrderInfo"
               component={OrderInfoScreen}

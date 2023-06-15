@@ -17,18 +17,53 @@ let PublicService = exports.PublicService = class PublicService {
         this.prisma = prisma;
     }
     async register(form, identity) {
-        const register = await this.prisma.users.create({
-            data: {
-                username: form.username,
-                password: form.password,
-                email: form.email,
-                identity: identity,
-            },
-        });
-        return register;
+        let transaction;
+        try {
+            transaction = await this.prisma.$transaction(async (prisma) => {
+                const users = await prisma.users.create({
+                    data: {
+                        username: form.username,
+                        password: form.password,
+                        email: form.email,
+                        identity: identity,
+                    },
+                });
+                if (identity === "consumer") {
+                    await prisma.consumer.create({
+                        data: {
+                            users_id: users.id,
+                            QRcode: form.QRcode,
+                            consumer_name: form.consumer_name,
+                            consumer_phone: form.consumer_phone,
+                        },
+                    });
+                }
+                else if (identity === "merchant") {
+                    await prisma.merchant.create({
+                        data: {
+                            users_id: users.id,
+                            merchant_image: form.merchant_image,
+                            merchant_name: form.merchant_name,
+                            merchant_phone: form.merchant_phone,
+                            biz_registration: form.biz_registration,
+                            district_id: form.district_id,
+                            address: form.address,
+                            bank_acc_id: form.bank_acc_id,
+                            opening_hour: form.opening_hour,
+                            announcement: form.announcement,
+                        },
+                    });
+                }
+                const result = users;
+            });
+        }
+        catch (error) {
+            console.log("error");
+        }
     }
-    login(userloginInfo) {
-        console.log(`compare ${userloginInfo} with query result`);
+    async login(userloginInfo) {
+        const getUserInfo = await this.prisma.users.findMany();
+        return getUserInfo;
     }
     hot() {
         console.log(`arrange by views`);
@@ -67,7 +102,10 @@ let PublicService = exports.PublicService = class PublicService {
     priceAsec(productid, versionId) {
         console.log(`set price asec`, productid, versionId);
     }
-    rating(productid, versionId) {
+    ratingDesc(productid, versionId) {
+        console.log(`set rating asce`, productid, versionId);
+    }
+    ratingAsce(productid, versionId) {
         console.log(`set rating asce`, productid, versionId);
     }
     searchItem(productid, versionId, string) {

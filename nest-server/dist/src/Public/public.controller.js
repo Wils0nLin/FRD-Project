@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PublicController = void 0;
 const common_1 = require("@nestjs/common");
 const public_service_1 = require("./public.service");
-const createPublic_dto_1 = require("./dto/createPublic.dto");
 let PublicController = exports.PublicController = class PublicController {
     constructor(publicService) {
         this.publicService = publicService;
@@ -39,14 +38,14 @@ let PublicController = exports.PublicController = class PublicController {
     displayTag() {
         return this.publicService.displayTag();
     }
+    tagFilter(tag) {
+        return this.publicService.tagFilter(tag);
+    }
     displayPlatform() {
         return this.publicService.displayPlatform();
     }
     platformFilter(platform) {
         return this.publicService.platformFilter(platform);
-    }
-    tagFilter(tag) {
-        return this.publicService.tagFilter(tag);
     }
     search(string) {
         return this.publicService.search(string);
@@ -66,8 +65,11 @@ let PublicController = exports.PublicController = class PublicController {
     priceAsec(productid, versionId) {
         return this.publicService.priceDesc(productid, versionId);
     }
-    rating(productid, versionId) {
-        return this.publicService.rating(productid, versionId);
+    ratingDesc(productid, versionId) {
+        return this.publicService.ratingDesc(productid, versionId);
+    }
+    ratingAsce(productid, versionId) {
+        return this.publicService.ratingAsce(productid, versionId);
     }
     searchItem(productid, versionId, string) {
         return this.publicService.searchItem(productid, versionId, string);
@@ -77,14 +79,14 @@ __decorate([
     (0, common_1.Post)("conRegister"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createPublic_dto_1.CreateRegisterFormDTO]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "conRegister", null);
 __decorate([
     (0, common_1.Post)("merRegister"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createPublic_dto_1.CreateRegisterFormDTO]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "merRegister", null);
 __decorate([
@@ -113,6 +115,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayTag", null);
 __decorate([
+    (0, common_1.Get)("filter/tag"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array]),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "tagFilter", null);
+__decorate([
     (0, common_1.Get)("home/platform"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -125,13 +134,6 @@ __decorate([
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "platformFilter", null);
-__decorate([
-    (0, common_1.Get)("filter/tag"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
-], PublicController.prototype, "tagFilter", null);
 __decorate([
     (0, common_1.Get)("filter/search"),
     __metadata("design:type", Function),
@@ -174,12 +176,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "priceAsec", null);
 __decorate([
-    (0, common_1.Get)("filter/version/rating"),
+    (0, common_1.Get)("filter/version/ratingdesc"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], PublicController.prototype, "rating", null);
+], PublicController.prototype, "ratingDesc", null);
+__decorate([
+    (0, common_1.Get)("filter/version/ratingasce"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "ratingAsce", null);
 __decorate([
     (0, common_1.Get)("filter/version/search"),
     __metadata("design:type", Function),

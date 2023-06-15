@@ -32,7 +32,8 @@ const ConRegister = ({navigation}: any) => {
     setSecureTextEntry(!setSecureTextEntry);
   };
   const rNumber = Math.floor(Math.random() * 10);
-  function makeid(length: any) {
+
+  function makeId(length: any) {
     let result = '';
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -45,20 +46,17 @@ const ConRegister = ({navigation}: any) => {
     return result;
   }
 
-  let form = new FormData();
-  const createForm = () => {
-    form.append('usename', Username);
-    form.append('password', Password);
-    form.append('email', Email);
-    form.append('QRcode', makeid(rNumber));
-    form.append('consumer_name', Name);
-    form.append('consumer_phone', Phone);
-  };
-
   const Submit = () => {
-    createForm();
+    const form = {
+      Username: Username,
+      password: Password,
+      email: Email,
+      qrcode: makeId(rNumber),
+      cunsumer_name: Name,
+      consumer_phone: Phone,
+    };
     axios
-      .post('http://localhost:3000/public/conRegister', form)
+      .post('http://192.168.160.77:3000/public/conRegister', form)
       .then(function (response) {
         console.log(response);
         Alert.alert('success', `${response}`);
@@ -130,7 +128,7 @@ const ConRegister = ({navigation}: any) => {
           />
         </Layout>
         <Layout style={styles.row}>
-          <Button style={styles.button} onPress={() => Submit}>
+          <Button style={styles.button} onPress={() => Submit()}>
             提交
           </Button>
         </Layout>
