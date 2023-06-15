@@ -1,29 +1,82 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Users } from "@prisma/client";
-import { CreateRegisterFormDTO } from "./dto/createPublic.dto";
+import {
+    RegisterConFormDTO,
+    RegisterMerFormDTO,
+    RegisterUserFormDTO,
+} from "./dto/createPublic.dto";
 
 @Injectable()
 export class PublicService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async register(form: CreateRegisterFormDTO, identity: string) {
-        const register = await this.prisma.users.create({
-            data: {
-                username: form.username,
-                password: form.password,
-                email: form.email,
-                identity: identity,
-            },
-        });
-        return register;
+    async register(form: any, identity: string) {
+        let transaction: any;
+        try {
+            transaction = await this.prisma.$transaction(async (prisma) => {
+                const users = await prisma.users.create({
+                    data: {
+                        username: form.username,
+                        password: form.password,
+                        email: form.email,
+                        identity: identity,
+                    },
+                });
+
+                if (identity === "consumer") {
+                    await prisma.consumer.create({
+                        data: {
+                            users_id: users.id,
+                            QRcode: form.QRcode,
+                            consumer_name: form.consumer_name,
+                            consumer_phone: form.consumer_phone,
+                        },
+                    });
+                } else if (identity === "merchant") {
+                    await prisma.merchant.create({
+                        data: {
+                            users_id: users.id,
+                            merchant_image: form.merchant_image,
+                            merchant_name: form.merchant_name,
+                            merchant_phone: form.merchant_phone,
+                            biz_registration: form.biz_registration,
+                            district_id: form.district_id,
+                            address: form.address,
+                            bank_acc_id: form.bank_acc_id,
+                            opening_hour: form.opening_hour,
+                            announcement: form.announcement,
+                        },
+                    });
+                }
+                const result = users;
+            });
+        } catch (error) {
+            console.log("error");
+        }
 
         // console.log("write your register query here", form);
     }
 
-    login(userloginInfo: any) {
-        console.log(`compare ${userloginInfo} with query result`);
+    //     const register = await this.prisma.users.create({
+    //         data: {
+    //             username: form.username,
+    //             password: form.password,
+    //             email: form.email,
+    //             identity: identity,
+    //         },
+    //     });
+    //     return register;
+
+    //     // console.log("write your register query here", form);
+    // }
+
+    async login(userloginInfo: any) {
+        const getUserInfo = await this.prisma.users.findMany();
+        return getUserInfo;
+        // console.log(`compare ${userloginInfo} with query result`);
     }
+
     //Homepage
     hot() {
         console.log(`arrange by views`);
@@ -38,6 +91,8 @@ export class PublicService {
     displayPlatform() {
         console.log(`display platform filter in Homepage`);
     }
+    //
+
     // search engine
     platformFilter(platform: Array<string>) {
         console.log("using query to get all value which is NOT repeat", platform);
@@ -67,7 +122,10 @@ export class PublicService {
     priceAsec(productid: any, versionId: any) {
         console.log(`set price asec`, productid, versionId);
     }
-    rating(productid: any, versionId: any) {
+    ratingDesc(productid: any, versionId: any) {
+        console.log(`set rating asce`, productid, versionId);
+    }
+    ratingAsce(productid: any, versionId: any) {
         console.log(`set rating asce`, productid, versionId);
     }
     searchItem(productid: any, versionId: any, string: Array<string>) {

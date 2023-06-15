@@ -266,7 +266,7 @@ export const BottomTabBar = ({navigation}: any) => {
           })}
         />
         {/* try */}
-        <Tab.Screen
+        {/* <Tab.Screen
           name="qrCodeScreen"
           component={ConQRCodeScreen}
           options={() => ({
@@ -285,7 +285,7 @@ export const BottomTabBar = ({navigation}: any) => {
               </TouchableOpacity>
             ),
           })}
-        />
+        /> */}
 
         <Tab.Screen
           name="購物車"
