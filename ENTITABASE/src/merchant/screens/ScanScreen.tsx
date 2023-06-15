@@ -28,7 +28,7 @@ function QRScanScreen(this: scanner) {
           <View style={styles.pageTitleLine} />
         </View>
         <View style={styles.QRCodeBox}>
-          <View style={{height: 80}} />
+          <View style={{height: 55}} />
 
           <QRCodeScanner
             ref={node => {
@@ -40,7 +40,11 @@ function QRScanScreen(this: scanner) {
           />
           <View style={styles.QRCodeScanner} />
           <View style={styles.ORCodeBorder} />
-          <Text style={{fontSize: 20}}>請將顧客ENTI-Code放進框內掃描</Text>
+          <View style={styles.errorBackground1} />
+          <View style={styles.errorbackground2} />
+          <Text style={{position: 'absolute', bottom: 20, fontSize: 20}}>
+            請將顧客ENTI-Code放進框內掃描
+          </Text>
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -75,25 +79,25 @@ const styles = StyleSheet.create({
   },
   QRCodeBox: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     width: 350,
   },
   QRCodeScanner: {
     position: 'absolute',
-    top: 3,
+    top: -10,
     alignItems: 'center',
     justifyContent: 'center',
     paddingLeft: 10,
     paddingRight: 10,
-    width: 530,
-    height: 530,
-    borderWidth: 115,
-    borderRadius: 130,
+    width: 460,
+    height: 460,
+    borderWidth: 80,
+    borderRadius: 100,
     borderColor: '#2A2E32',
   },
   ORCodeBorder: {
     position: 'absolute',
-    top: 125,
+    top: 78,
     alignItems: 'center',
     justifyContent: 'center',
     margin: 8,
@@ -104,6 +108,20 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     borderRadius: 10,
     borderWidth: 5,
-    borderColor: '#B7C1DE',
+    borderColor: '#7A04EB',
+  },
+  errorBackground1: {
+    position: 'absolute',
+    top: -10,
+    width: 500,
+    height: 50,
+    backgroundColor: '#2A2E32',
+  },
+  errorbackground2: {
+    position: 'absolute',
+    top: 430,
+    width: 500,
+    height: 50,
+    backgroundColor: '#2A2E32',
   },
 });
