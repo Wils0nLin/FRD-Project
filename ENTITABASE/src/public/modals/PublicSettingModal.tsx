@@ -20,7 +20,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 export default function PublicSettingModal() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
-
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
   return (
     <View>
       <Modal
@@ -34,9 +36,10 @@ export default function PublicSettingModal() {
           <Pressable
             style={{width: 400, height: 600}}
             onPress={() => {
-              setModalVisible(!modalVisible);
+              toggleModal();
             }}
           />
+
           <View style={styles.modalStyle}>
             <View style={styles.modalTopLine} />
             <View
@@ -44,7 +47,7 @@ export default function PublicSettingModal() {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
+                  toggleModal();
                   navigation.navigate('Merchant');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
@@ -55,7 +58,7 @@ export default function PublicSettingModal() {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
+                  toggleModal();
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
                   <Icon name={'search-dollar'} size={25} color={'#E4E4E4'} />
@@ -65,7 +68,7 @@ export default function PublicSettingModal() {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
+                  toggleModal();
                   navigation.navigate('PublicAdmin');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
@@ -78,8 +81,8 @@ export default function PublicSettingModal() {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
-                  navigation.navigate('Consumer');
+                  toggleModal();
+                  navigation.navigate('LogIn');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
                   <Icon name={'sign-in-alt'} size={25} color={'#E4E4E4'} />

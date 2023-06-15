@@ -16,7 +16,6 @@ import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../merchant/modals/MerchantSearchModal';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 const Stack = createNativeStackNavigator();
 
 const PublicScreenNavigator = () => {

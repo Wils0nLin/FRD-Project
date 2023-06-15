@@ -8,12 +8,10 @@ import {
 } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
+
 import Entypo from 'react-native-vector-icons/Entypo';
+import {ScrollView} from 'react-native';
 
 const ConRegister = ({navigation}: any) => {
   const [value, setValue] = React.useState('');
@@ -93,7 +91,7 @@ const ConRegister = ({navigation}: any) => {
           <Layout style={styles.row}>
             <Button
               style={styles.button}
-              onPress={() => navigation.navigate('Tabs')}>
+              onPress={() => navigation.navigate('Public')}>
               提交
             </Button>
           </Layout>

@@ -8,11 +8,7 @@ import {
 } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+import {ScrollView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 const LogIn = ({navigation}: any) => {
