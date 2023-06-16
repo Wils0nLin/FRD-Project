@@ -10,7 +10,7 @@ import {StackParamList} from '../../public/navigators/StackParamList';
 import AddScreen from '../screens/AddScreen';
 import ArriveScreen from '../screens/ArriveScreen';
 import CommentScreen from '../screens/CommentScreen';
-import HomeScreen from '../screens/MerchantHomeScreen';
+import MerchantHomeScreen from '../screens/MerchantHomeScreen';
 import ItemScreen from '../screens/MerchantItemScreen';
 import PreOrderItemScreen from '../screens/MerchantPreOrderItemScreen';
 import PreOrderScreen from '../screens/MerchantPreOrderScreen';
@@ -19,7 +19,7 @@ import InfoEditScreen from '../screens/MerchantInfoEditScreen';
 import AnnoEditScreen from '../screens/AnnoEditScreen';
 import BREditScreen from '../screens/BREditScreen';
 import PasswordScreen from '../screens/MerchantPasswordScreen';
-import AdminContactScreen from '../screens/MerchantAdminContactScreen';
+import AdminContactScreen from '../screens/MerchantAdminScreen';
 import QRScanScreen from '../screens/ScanScreen';
 import OrderInfoScreen from '../screens/MerchantOrderInfoScreen';
 
@@ -35,7 +35,7 @@ const MerchantScreenNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="MerchantHome"
-        component={HomeScreen}
+        component={MerchantHomeScreen}
         options={{
           headerTitle: 'ENTITÀBASE',
           headerRight: () => <SearchModal />,
@@ -80,7 +80,8 @@ const MerchantScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'TRADE RECORD',
           headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MerchantHome')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),
@@ -95,7 +96,8 @@ const MerchantScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'PRE-ORDER ITEM',
           headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MerchantHome')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),
@@ -110,7 +112,8 @@ const MerchantScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'PRE-ORDER',
           headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MerchantPreOrderItem')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),
@@ -125,7 +128,8 @@ const MerchantScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'COMMENT',
           headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MerchantHome')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),
@@ -140,7 +144,8 @@ const MerchantScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'NEW ARRIVE',
           headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MerchantHome')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),
@@ -244,7 +249,8 @@ const MerchantScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'ORDER INFO',
           headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MerchantQRScan')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),

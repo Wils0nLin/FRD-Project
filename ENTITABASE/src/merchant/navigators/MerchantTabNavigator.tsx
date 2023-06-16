@@ -1,25 +1,20 @@
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import MerchantScreenNavigator from './MerchantScreenNavigator';
 import {StackParamList} from '../../public/navigators/StackParamList';
-
-import ItemScreen from '../screens/MerchantItemScreen';
-import QRScanScreen from '../screens/ScanScreen';
 import AddScreen from '../screens/AddScreen';
-import OrderInfoScreen from '../screens/MerchantOrderInfoScreen';
-
+import MerchantItemScreen from '../screens/MerchantItemScreen';
+import MerchantScreenNavigator from './MerchantScreenNavigator';
 import MerchantSettingModal from '../modals/MerchantSettingModal';
-
 import NavigatorButton from '../../objects/NavigatorButton';
 import QRIcon from '../../objects/QRIcon';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import QRScanScreen from '../screens/ScanScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -52,7 +47,7 @@ const MerchantTabNavigator = () => {
           <Stack.Navigator>
             <Stack.Screen
               name="MerchantItem"
-              component={ItemScreen}
+              component={MerchantItemScreen}
               options={{
                 headerTitle: 'PRODUCT LIST',
                 headerRight: () => (
@@ -75,26 +70,11 @@ const MerchantTabNavigator = () => {
         }}>
         {() => (
           <Stack.Navigator>
-            {/* <Stack.Screen
+            <Stack.Screen
               name="MerchantQRScan"
               component={QRScanScreen}
               options={{
                 headerTitle: 'ENTI-CODE SCAN',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            /> */}
-            <Stack.Screen
-              name="MerchantOrderInfo"
-              component={OrderInfoScreen}
-              options={{
-                headerBackVisible: false,
-                headerTitle: 'ORDER INFO',
                 headerRight: () => (
                   <TouchableOpacity onPress={navigation.goBack}>
                     <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />

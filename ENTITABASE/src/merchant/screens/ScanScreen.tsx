@@ -9,6 +9,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../../public/navigators/StackParamList';
 
 import ForeheadView from '../../objects/MerchantForeheadView';
+
 interface scanner {
   scanner: any;
 }
@@ -41,7 +42,7 @@ function QRScanScreen(this: scanner) {
           <View style={styles.QRCodeScanner} />
           <View style={styles.ORCodeBorder} />
           <View style={styles.errorBackground1} />
-          <View style={styles.errorbackground2} />
+          <View style={styles.errorBackground2} />
           <Text style={{position: 'absolute', bottom: 20, fontSize: 20}}>
             請將顧客ENTI-Code放進框內掃描
           </Text>
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#2A2E32',
   },
-  errorbackground2: {
+  errorBackground2: {
     position: 'absolute',
     top: 430,
     width: 500,

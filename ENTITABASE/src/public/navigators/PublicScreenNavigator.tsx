@@ -6,13 +6,11 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {StackParamList} from './StackParamList';
-
 import ConAppScreen from '../../consumer/navigation/tab/consumer/conAppScreen';
-import AdminContactScreen from '../screens/PublicAdminContactScreen';
+import PublicAdminScreen from '../screens/PublicAdminScreen';
 import LogIn from '../screens/LogIn';
 import ConRegister from '../screens/ConRegister';
 import MerRegister from '../screens/MerRegister';
-
 import SearchModal from '../../merchant/modals/MerchantSearchModal';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -34,7 +32,7 @@ const PublicScreenNavigator = () => {
       />
       <Stack.Screen
         name="PublicAdmin"
-        component={AdminContactScreen}
+        component={PublicAdminScreen}
         options={{
           headerBackVisible: false,
           headerTitle: 'CONTACT ADMIN',

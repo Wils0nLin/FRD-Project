@@ -12,7 +12,7 @@ import {SafeAreaView} from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function HomeScreen({navigation}: {navigation: any}) {
+export default function MerchantHomeScreen({navigation}: {navigation: any}) {
   return (
     <ScrollView
       style={{

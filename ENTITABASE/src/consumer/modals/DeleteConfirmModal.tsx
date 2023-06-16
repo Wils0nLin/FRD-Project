@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {Modal, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 
-import MerchantItemCard from '../objects/MerchantItemCard';
+import MerchantItemCard from '../../objects/MerchantItemCard';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 

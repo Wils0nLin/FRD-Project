@@ -7,7 +7,7 @@ import ForeheadView from '../../objects/MerchantForeheadView';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function AdminContactScreen({}) {
+export default function MerchantAdminScreen({}) {
   return (
     <ScrollView
       style={{
