@@ -18,7 +18,7 @@ import PageView from '../../objects/PageView';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function ItemScreen({}) {
+export default function MerchantItemScreen({}) {
   const [text, onChangeText] = React.useState('');
   return (
     <ScrollView
