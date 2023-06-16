@@ -20,8 +20,8 @@ export class PublicController {
 
     // login
     @Get("login")
-    login(@Body() userloginInfo: any) {
-        return this.publicService.login(userloginInfo);
+    login(@Body() userLoginInfo: any) {
+        return this.publicService.login(userLoginInfo);
     }
     //
 

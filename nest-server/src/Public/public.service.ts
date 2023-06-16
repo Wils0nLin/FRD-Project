@@ -71,10 +71,10 @@ export class PublicService {
     //     // console.log("write your register query here", form);
     // }
 
-    async login(userloginInfo: any) {
+    async login(userLoginInfo: any) {
         const getUserInfo = await this.prisma.users.findMany();
         return getUserInfo;
-        // console.log(`compare ${userloginInfo} with query result`);
+        // console.log(`compare ${userLoginInfo} with query result`);
     }
 
     //Homepage

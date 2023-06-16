@@ -37,6 +37,7 @@ function QRScanScreen(this: scanner) {
             }}
             onRead={() => {
               navigation.navigate('MerchantOrderInfo');
+              this.scanner.reactivate();
             }}
           />
           <View style={styles.QRCodeScanner} />

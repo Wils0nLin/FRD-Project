@@ -3,7 +3,6 @@ import * as eva from '@eva-design/eva';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ApplicationProvider} from '@ui-kitten/components';
 import {NavigationContainer} from '@react-navigation/native';
-// import ScreenNavigator from './src/public/navigators/ScreenNavigator';
 
 import ConsumerTabNavigator from './src/consumer/navigation/ConsumerTabNavigator';
 import MerchantTabNavigator from './src/merchant/navigators/MerchantTabNavigator';
@@ -22,7 +21,6 @@ export default function App() {
           <Stack.Screen name="Public" component={PublicTabNavigator} />
           <Stack.Screen name="Consumer" component={ConsumerTabNavigator} />
           <Stack.Screen name="Merchant" component={MerchantTabNavigator} />
-          {/* <ScreenNavigator /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>
