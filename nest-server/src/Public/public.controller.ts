@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("public")
 export class PublicController {
     constructor(private readonly publicService: PublicService) {}
-
     // register
     @Post("conRegister")
     conRegister(@Body() form: any) {

@@ -76,7 +76,7 @@ const PublicScreenNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="MerchantRegis"
+        name="MerRegister"
         component={MerRegister}
         options={{
           headerBackVisible: false,
