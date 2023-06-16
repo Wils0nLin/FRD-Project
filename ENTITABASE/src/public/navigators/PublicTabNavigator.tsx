@@ -10,7 +10,7 @@ import PublicScreenNavigator from './PublicScreenNavigator';
 import {StackParamList} from './StackParamList';
 
 import ItemScreen from '../../merchant/screens/MerchantItemScreen';
-import ScanScreen from '../../merchant/screens/ScanScreen';
+// import ScanScreen from '../../merchant/screens/ScanScreen';
 import AddScreen from '../../merchant/screens/AddScreen';
 
 import PublicSettingModal from '../modals/PublicSettingModal';
@@ -71,7 +71,7 @@ const PublicTabNavigator = () => {
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen
+      {/* <Tab.Screen
         name="QRcode"
         options={{
           tabBarLabelStyle: {display: 'none'},
@@ -95,7 +95,7 @@ const PublicTabNavigator = () => {
             />
           </Stack.Navigator>
         )}
-      </Tab.Screen>
+      </Tab.Screen> */}
       <Tab.Screen
         name="cart"
         options={{

@@ -12,58 +12,121 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PublicService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 let PublicService = exports.PublicService = class PublicService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async register(form, identity) {
-        let transaction;
-        try {
-            transaction = await this.prisma.$transaction(async (prisma) => {
-                const users = await prisma.users.create({
-                    data: {
-                        username: form.username,
-                        password: form.password,
-                        email: form.email,
-                        identity: identity,
-                    },
-                });
-                if (identity === "consumer") {
-                    await prisma.consumer.create({
-                        data: {
-                            users_id: users.id,
-                            QRcode: form.QRcode,
-                            consumer_name: form.consumer_name,
-                            consumer_phone: form.consumer_phone,
-                        },
-                    });
-                }
-                else if (identity === "merchant") {
-                    await prisma.merchant.create({
-                        data: {
-                            users_id: users.id,
-                            merchant_image: form.merchant_image,
-                            merchant_name: form.merchant_name,
-                            merchant_phone: form.merchant_phone,
-                            biz_registration: form.biz_registration,
-                            district_id: form.district_id,
-                            address: form.address,
-                            bank_acc_id: form.bank_acc_id,
-                            opening_hour: form.opening_hour,
-                            announcement: form.announcement,
-                        },
-                    });
-                }
-                const result = users;
+    async Register(form, identity) {
+        async function conRegister(form, users_id) {
+            let consumer;
+            consumer = {
+                users: { connect: { id: users_id } },
+                QRcode: form.QRcode,
+                consumer_name: form.consumer_name,
+                consumer_phone: form.consumer_phone,
+            };
+            const createConsumer = await prisma.consumer.create({ data: consumer });
+            return createConsumer;
+        }
+        async function merRegister(form, users_id) {
+            const district_id = 1;
+            const bank_acc_id = 1;
+            let merchant;
+            merchant = {
+                users: { connect: { id: users_id } },
+                merchant_image: form.merchant_image,
+                merchant_name: form.merchant_name,
+                merchant_phone: form.merchant_phone,
+                biz_registration: form.biz_registration,
+                district: { connect: { id: district_id } },
+                address: form.address,
+                bank_acc: { connect: { id: bank_acc_id } },
+                opening_hour: form.opening_hour,
+                announcement: form.announcement,
+            };
+            const createMerchant = await prisma.merchant.create({ data: merchant });
+            console.log(createMerchant);
+            return createMerchant;
+        }
+        async function registerCondition(form, identity) {
+            let users;
+            users = {
+                username: form.username,
+                password: form.password,
+                email: form.email,
+                identity: identity,
+            };
+            const createUser = await prisma.users.create({ data: users });
+            let users_id = Number(createUser.id);
+            console.log("uses_id: ", users_id);
+            return { form, users_id };
+        }
+        if (identity === "consumer") {
+            registerCondition(form, identity)
+                .then((output) => {
+                conRegister(output.form, output.users_id);
+            })
+                .then(async () => {
+                await prisma.$disconnect();
+            })
+                .catch(async (e) => {
+                console.error(e);
+                await prisma.$disconnect();
+                process.exit(1);
             });
         }
-        catch (error) {
-            console.log("error");
+        else if (identity === "merchant") {
+            registerCondition(form, identity)
+                .then((output) => {
+                merRegister(output.form, output.users_id);
+            })
+                .then(async () => {
+                await prisma.$disconnect();
+            })
+                .catch(async (e) => {
+                console.error(e);
+                await prisma.$disconnect();
+                process.exit(1);
+            });
         }
     }
-    async login(userloginInfo) {
-        const getUserInfo = await this.prisma.users.findMany();
-        return getUserInfo;
+    async selectArea() {
+        const selectArea = await prisma.area.findMany();
+        return selectArea;
+    }
+    async selectDistrict(area_id) {
+        const selectDistrict = await prisma.district.findMany({
+            where: {
+                area_id: { in: 1 },
+            },
+        });
+        return selectDistrict;
+    }
+    async bank() {
+        const bank = await prisma.bank.findMany();
+        return bank;
+    }
+    async branch(bank_id) {
+        const branch = await prisma.branch.findMany({
+            where: {
+                bank_id: { in: 1 },
+            },
+        });
+        return branch;
+    }
+    async bankAcc(branch_id) {
+        const bankAcc = await prisma.bank_acc.findMany({
+            where: {
+                branch_id: { in: branch_id },
+            },
+        });
+        return bankAcc;
+    }
+    async login(userLoginInfo) {
+        const userInfo = await prisma.users.findMany();
+        return userInfo;
     }
     hot() {
         console.log(`arrange by views`);
@@ -72,20 +135,44 @@ let PublicService = exports.PublicService = class PublicService {
     comingSoon() {
         console.log(`select products by a desc of time `);
     }
-    displayTag() {
+    async displayTag() {
+        const homeTag = await prisma.tag.findMany();
+        return homeTag;
         console.log(`display Tag filter in Homepage`);
     }
-    displayPlatform() {
+    async displayPlatform() {
+        const homePlatform = await prisma.platform.findMany();
+        return homePlatform;
         console.log(`display platform filter in Homepage`);
     }
-    platformFilter(platform) {
-        console.log("using query to get all value which is NOT repeat", platform);
-    }
-    tagFilter(tag) {
+    async tagFilter(tag) {
+        const searchTag = await prisma.tag.findMany();
+        return searchTag;
         console.log("using query to get all value which is NOT repeat", tag);
     }
-    search(string) {
-        console.log("using query to get all value which is NOT repeat and remember to split with bank", string);
+    async search(search) {
+        const version = await prisma.version.findMany({
+            where: {
+                product: {
+                    product_name: search,
+                },
+            },
+            include: {
+                product: true,
+            },
+        });
+        const merchant = await prisma.merchant.findMany({
+            where: {
+                district: {
+                    district: search,
+                },
+            },
+            include: {
+                district: true,
+            },
+        });
+        return { merchant, version };
+        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
     version(productid, versionId) {
         console.log(`select all iems with props`, productid, versionId);

@@ -1,27 +1,70 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
+import { AnySrvRecord } from "dns";
 
 @Controller("public")
 export class PublicController {
     constructor(private readonly publicService: PublicService) {}
 
     // register
-    @Post("conRegister")
-    conRegister(@Body() form: any) {
-        console.log(form);
-        return this.publicService.register(form, "consumer");
+    //done
+    @Post("register/conRegister")
+    async conRegister(@Body() form: any) {
+        const result = await this.publicService.Register(form, "consumer");
+
+        return result;
     }
-    @Post("merRegister")
-    merRegister(@Body() form: any) {
-        return this.publicService.register(form, "merchant");
+    //done
+    @Post("register/merRegister")
+    async merRegister(@Body() form: any) {
+        return await this.publicService.Register(form, "merchant");
     }
     //
 
+    // area and district only for register select
+    //done
+    @Get("register/selectArea")
+    selectArea() {
+        return this.publicService.selectArea();
+    }
+    //done
+    @Get("register/selectDistrict")
+    selectDistrict() {
+        const area_id = 1; //後刪
+        return this.publicService.selectDistrict(area_id);
+    }
+
+    //
+
+    // area and district only for register select
+    //done
+    @Get("register/bank")
+    bank() {
+        return this.publicService.bank();
+    }
+
+    //done
+    @Get("register/branch")
+    branch() {
+        const bank_id = 1;
+        return this.publicService.branch(bank_id);
+    }
+
+    //done
+    @Get("register/bank_acc")
+    bank_acc() {
+        const branch_id = 1;
+        return this.publicService.bankAcc(branch_id);
+    }
+
+    //
+
     // login
+    //done
     @Get("login")
-    login(@Body() userloginInfo: any) {
-        return this.publicService.login(userloginInfo);
+    login(@Body() userLoginInfo: any) {
+        return this.publicService.login(userLoginInfo);
     }
     //
 
@@ -40,10 +83,12 @@ export class PublicController {
     //
 
     // game type
+    //done
     @Get("home/tag")
     displayTag() {
         return this.publicService.displayTag();
     }
+    //done
     @Get("filter/tag")
     tagFilter(@Body() tag: Array<string>) {
         return this.publicService.tagFilter(tag);
@@ -51,20 +96,23 @@ export class PublicController {
     //
 
     // game platform
+    //done
     @Get("home/platform")
     displayPlatform() {
         return this.publicService.displayPlatform();
     }
-    @Get("filter/platform")
-    platformFilter(@Body() platform: Array<string>) {
-        return this.publicService.platformFilter(platform);
-    }
+    //done
+    // @Get("filter/platform")
+    // platformFilter(@Body() platform: string) {
+    //     return this.publicService.platformFilter(platform);
+    // }
     //
 
     // search for search bar typing for game not version
+    //done
     @Get("filter/search")
-    search(string: Array<string>) {
-        return this.publicService.search(string);
+    search(@Query("search") search: any) {
+        return this.publicService.search(search);
     }
 
     // only game version

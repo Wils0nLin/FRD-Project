@@ -10,7 +10,7 @@ import MerchantScreenNavigator from './MerchantScreenNavigator';
 import {StackParamList} from '../../public/navigators/StackParamList';
 
 import ItemScreen from '../screens/MerchantItemScreen';
-import QRScanScreen from '../screens/ScanScreen';
+// import QRScanScreen from '../screens/ScanScreen';
 import AddScreen from '../screens/AddScreen';
 import OrderInfoScreen from '../screens/MerchantOrderInfoScreen';
 
