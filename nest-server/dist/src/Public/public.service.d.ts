@@ -3,15 +3,26 @@ import { Users } from "@prisma/client";
 export declare class PublicService {
     private readonly prisma;
     constructor(prisma: PrismaService);
-    register(form: any, identity: string): Promise<void>;
-    login(userloginInfo: any): Promise<Users[]>;
+    Register(form: any, identity: string): Promise<void>;
+    selectArea(): Promise<import(".prisma/client").Area[]>;
+    selectDistrict(area_id: number): Promise<import(".prisma/client").District[]>;
+    bank(): Promise<import(".prisma/client").Bank[]>;
+    branch(bank_id: number): Promise<import(".prisma/client").Branch[]>;
+    bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
+    login(userLoginInfo: any): Promise<Users[]>;
     hot(): string;
     comingSoon(): void;
-    displayTag(): void;
-    displayPlatform(): void;
-    platformFilter(platform: Array<string>): void;
-    tagFilter(tag: Array<string>): void;
-    search(string: Array<string>): void;
+    displayTag(): Promise<import(".prisma/client").Tag[]>;
+    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
+    tagFilter(tag: Array<string>): Promise<import(".prisma/client").Tag[]>;
+    search(search: any): Promise<{
+        merchant: (import(".prisma/client").Merchant & {
+            district: import(".prisma/client").District;
+        })[];
+        version: (import(".prisma/client").Version & {
+            product: import(".prisma/client").Product;
+        })[];
+    }>;
     version(productid: any, versionId: any): void;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;

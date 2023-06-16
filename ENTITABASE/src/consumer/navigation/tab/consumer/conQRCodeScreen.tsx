@@ -27,7 +27,7 @@ const ConQRCodeScreen = () => {
         <TouchableOpacity style={styles.QRCodeBox}>
           <View style={styles.ORCodeBorder}>
             <QRCodeStyled
-              data={'KA HEUNG LIN'}
+              data={'IDontKnowtheRulesFXXK'}
               padding={15}
               pieceSize={10}
               color={'#000'}

@@ -19,15 +19,33 @@ let PublicController = exports.PublicController = class PublicController {
     constructor(publicService) {
         this.publicService = publicService;
     }
-    conRegister(form) {
-        console.log(form);
-        return this.publicService.register(form, "consumer");
+    async conRegister(form) {
+        const result = await this.publicService.Register(form, "consumer");
+        return result;
     }
-    merRegister(form) {
-        return this.publicService.register(form, "merchant");
+    async merRegister(form) {
+        return await this.publicService.Register(form, "merchant");
     }
-    login(userloginInfo) {
-        return this.publicService.login(userloginInfo);
+    selectArea() {
+        return this.publicService.selectArea();
+    }
+    selectDistrict() {
+        const area_id = 1;
+        return this.publicService.selectDistrict(area_id);
+    }
+    bank() {
+        return this.publicService.bank();
+    }
+    branch() {
+        const bank_id = 1;
+        return this.publicService.branch(bank_id);
+    }
+    bank_acc() {
+        const branch_id = 1;
+        return this.publicService.bankAcc(branch_id);
+    }
+    login(userLoginInfo) {
+        return this.publicService.login(userLoginInfo);
     }
     hot() {
         return this.publicService.hot();
@@ -44,11 +62,8 @@ let PublicController = exports.PublicController = class PublicController {
     displayPlatform() {
         return this.publicService.displayPlatform();
     }
-    platformFilter(platform) {
-        return this.publicService.platformFilter(platform);
-    }
-    search(string) {
-        return this.publicService.search(string);
+    search(search) {
+        return this.publicService.search(search);
     }
     version(productid, versionId) {
         return this.publicService.version(productid, versionId);
@@ -76,19 +91,49 @@ let PublicController = exports.PublicController = class PublicController {
     }
 };
 __decorate([
-    (0, common_1.Post)("conRegister"),
+    (0, common_1.Post)("register/conRegister"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PublicController.prototype, "conRegister", null);
 __decorate([
-    (0, common_1.Post)("merRegister"),
+    (0, common_1.Post)("register/merRegister"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PublicController.prototype, "merRegister", null);
+__decorate([
+    (0, common_1.Get)("register/selectArea"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "selectArea", null);
+__decorate([
+    (0, common_1.Get)("register/selectDistrict"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "selectDistrict", null);
+__decorate([
+    (0, common_1.Get)("register/bank"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "bank", null);
+__decorate([
+    (0, common_1.Get)("register/branch"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "branch", null);
+__decorate([
+    (0, common_1.Get)("register/bank_acc"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "bank_acc", null);
 __decorate([
     (0, common_1.Get)("login"),
     __param(0, (0, common_1.Body)()),
@@ -128,16 +173,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayPlatform", null);
 __decorate([
-    (0, common_1.Get)("filter/platform"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
-], PublicController.prototype, "platformFilter", null);
-__decorate([
     (0, common_1.Get)("filter/search"),
+    __param(0, (0, common_1.Query)("search")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "search", null);
 __decorate([

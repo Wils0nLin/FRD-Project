@@ -43,16 +43,18 @@ const ConRegister = ({navigation}: any) => {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
       counter += 1;
     }
+    console.log(result);
+
     return result;
   }
 
   const Submit = () => {
     const form = {
-      Username: Username,
+      username: Username,
       password: Password,
       email: Email,
-      qrcode: makeId(rNumber),
-      cunsumer_name: Name,
+      QRcode: makeId(rNumber),
+      consumer_name: Name,
       consumer_phone: Phone,
     };
     axios
@@ -65,6 +67,7 @@ const ConRegister = ({navigation}: any) => {
         console.log(error);
         Alert.alert('Failed', `${error}`);
       });
+    console.log(form);
   };
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
