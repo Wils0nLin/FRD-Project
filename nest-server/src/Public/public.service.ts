@@ -245,34 +245,56 @@ export class PublicService {
     }
 
     //3個未完
-    async version(productId: any, versionId: any) {
-        const product = await prisma.product.findFirst({
+    async version(productId: any) {
+        //try
+
+        const version = await prisma.version.findMany({
             where: {
-                id: productId,
+                product: {
+                    id: productId,
+                },
+            },
+            include: {
+                items: {
+                    include: {
+                        merchant: true,
+                    },
+                },
             },
         });
 
-        if (!product) {
-            throw new NotFoundException("Product not found");
-        }
+        return version.map((version) => ({
+            versionId: version.id,
+            versionName: version.version,
+            items: version.items.map((item) => ({
+                itemId: item.id,
+                merchant: item.merchant_id,
+            })),
+        }));
+        //
 
-        const version = await prisma.version.findFirst({
-            where: {
-                id: versionId,
-                product_id: productId,
-            },
-        });
+        // const product = await prisma.product.findFirst({
+        //     where: {
+        //         id: productId,
+        //     },
+        // });
 
-        if (!version) {
-            throw new NotFoundException("Version not found");
-        }
+        // if (!product) {
+        //     throw new NotFoundException("Product not found");
+        // }
 
-        return {
-            product,
-            version,
-        };
+        // const version = await prisma.version.findFirst({
+        //     where: {
+        //         id: versionId,
+        //         product_id: productId,
+        //     },
+        // });
 
-        console.log(`select all iems with props`, productId, versionId);
+        // if (!version) {
+        //     throw new NotFoundException("Version not found");
+        // }
+
+        console.log(`select all iems with props`, productId);
     }
     district(productid: any, versionId: any, district: any) {
         console.log(`select all iems with props`, productid, versionId, district);

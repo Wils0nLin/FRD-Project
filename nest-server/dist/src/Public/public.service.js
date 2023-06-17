@@ -192,29 +192,30 @@ let PublicService = exports.PublicService = class PublicService {
         return { merchant, version };
         console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
-    async version(productId, versionId) {
-        const product = await prisma.product.findFirst({
+    async version(productId) {
+        const version = await prisma.version.findMany({
             where: {
-                id: productId,
+                product: {
+                    id: productId,
+                },
+            },
+            include: {
+                items: {
+                    include: {
+                        merchant: true,
+                    },
+                },
             },
         });
-        if (!product) {
-            throw new common_1.NotFoundException("Product not found");
-        }
-        const version = await prisma.version.findFirst({
-            where: {
-                id: versionId,
-                product_id: productId,
-            },
-        });
-        if (!version) {
-            throw new common_1.NotFoundException("Version not found");
-        }
-        return {
-            product,
-            version,
-        };
-        console.log(`select all iems with props`, productId, versionId);
+        return version.map((version) => ({
+            versionId: version.id,
+            versionName: version.version,
+            items: version.items.map((item) => ({
+                itemId: item.id,
+                merchant: item.merchant_id,
+            })),
+        }));
+        console.log(`select all iems with props`, productId);
     }
     district(productid, versionId, district) {
         console.log(`select all iems with props`, productid, versionId, district);

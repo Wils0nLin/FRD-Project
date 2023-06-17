@@ -26,10 +26,14 @@ export declare class PublicController {
         merchant: unknown;
         version: unknown;
     }>;
-    version(productId: any, versionId: any): Promise<{
-        product: import(".prisma/client").Product;
-        version: import(".prisma/client").Version;
-    }>;
+    version(productId: any, itemId: any): Promise<{
+        versionId: number;
+        versionName: string;
+        items: {
+            itemId: number;
+            merchant: number;
+        }[];
+    }[]>;
     district(productId: any, versionId: any, district: any): void;
     area(productId: any, versionId: any, area: any): void;
     priceDesc(productId: any, versionId: any): Promise<(import(".prisma/client").Item & {

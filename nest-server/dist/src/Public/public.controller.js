@@ -68,8 +68,9 @@ let PublicController = exports.PublicController = class PublicController {
     search(search) {
         return this.publicService.search(search);
     }
-    version(productId, versionId) {
-        return this.publicService.version(productId, versionId);
+    version(productId, itemId) {
+        productId = 1;
+        return this.publicService.version(productId, itemId);
     }
     district(productId, versionId, district) {
         productId = 2;
