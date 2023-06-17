@@ -405,6 +405,21 @@ async function main() {
             },
         ],
     });
+
+    const item = await prisma.item.createMany({
+        data: [
+            {
+                merchant_id: existMerchant[0].id,
+                version_id: existVersion[0].id,
+                original_price: 400,
+                newest_price: 420,
+                end_date: new Date("2023-12-06"),
+                stock_status: "大量存貨",
+                availability: true,
+            },
+        ],
+    });
+    const existItem = await prisma.item.findMany();
     //
 }
 

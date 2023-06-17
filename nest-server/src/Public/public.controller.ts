@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
 import { AnySrvRecord } from "dns";
@@ -63,8 +63,8 @@ export class PublicController {
     // login
     //done
     @Get("login")
-    login(@Body() userLoginInfo: any) {
-        return this.publicService.login(userLoginInfo);
+    login(@Body() form: any) {
+        return this.publicService.login(form);
     }
     //
 
@@ -120,8 +120,9 @@ export class PublicController {
     // only game version
     //未完
     @Get("filter/version")
-    version(@Body() productId: any, versionId: any) {
-        return this.publicService.version(productId, versionId);
+    version(@Body() productId: any, itemId: any) {
+        productId = 1;
+        return this.publicService.version(productId, itemId);
     }
     //
 

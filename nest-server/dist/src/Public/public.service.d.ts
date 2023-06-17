@@ -1,19 +1,25 @@
 import { PrismaService } from "src/prisma.service";
-import { Users } from "@prisma/client";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 export declare class PublicService {
     private readonly prisma;
-    constructor(prisma: PrismaService);
+    private readonly jwt;
+    private readonly config;
+    constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
     Register(form: any, identity: string): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
     selectDistrict(area_id: number): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(bank_id: number): Promise<import(".prisma/client").Branch[]>;
     bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
-    login(userLoginInfo: any): Promise<Users[]>;
+    login(form: any): Promise<any>;
+    signToken(userId: number): Promise<{
+        access_token: string;
+    }>;
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
-    displayTag(): void;
-    displayPlatform(): string;
+    displayTag(): Promise<import(".prisma/client").Tag[]>;
+    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
@@ -26,10 +32,13 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
-    version(productId: any, versionId: any): Promise<{
-        product: import(".prisma/client").Product;
-        version: import(".prisma/client").Version;
+    item(itemId: number): Promise<{
+        itemId: number;
+        merchantId: number;
+        merchantName: string;
+        merchantPhone: string;
     }>;
+    version(productId: any, versionId: any): Promise<void>;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
     priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {

@@ -44,8 +44,8 @@ let PublicController = exports.PublicController = class PublicController {
         const branch_id = 1;
         return this.publicService.bankAcc(branch_id);
     }
-    login(userLoginInfo) {
-        return this.publicService.login(userLoginInfo);
+    login(form) {
+        return this.publicService.login(form);
     }
     hot() {
         return this.publicService.hot();
@@ -68,8 +68,9 @@ let PublicController = exports.PublicController = class PublicController {
     search(search) {
         return this.publicService.search(search);
     }
-    version(productId, versionId) {
-        return this.publicService.version(productId, versionId);
+    version(productId, itemId) {
+        productId = 1;
+        return this.publicService.version(productId, itemId);
     }
     district(productId, versionId, district) {
         productId = 2;

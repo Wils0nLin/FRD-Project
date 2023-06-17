@@ -13,10 +13,15 @@ exports.PublicService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
 const client_1 = require("@prisma/client");
+const hash_1 = require("./hash");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 const prisma = new client_1.PrismaClient();
 let PublicService = exports.PublicService = class PublicService {
-    constructor(prisma) {
+    constructor(prisma, jwt, config) {
         this.prisma = prisma;
+        this.jwt = jwt;
+        this.config = config;
     }
     async Register(form, identity) {
         async function conRegister(form, users_id) {
@@ -124,9 +129,25 @@ let PublicService = exports.PublicService = class PublicService {
         });
         return bankAcc;
     }
-    async login(userLoginInfo) {
-        const getUserInfo = await this.prisma.users.findMany();
-        return getUserInfo;
+    async login(form) {
+        const user = await this.prisma.users.findUnique({
+            where: { username: form.username },
+            select: { id: true, password: true },
+        });
+        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return user.id;
+    }
+    async signToken(userId) {
+        const payload = { sub: userId };
+        console.log(this.config.get("JWT_SECRET"));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: "1d",
+                secret: this.config.get("JWT_SECRET"),
+            }),
+        };
     }
     hot() {
         console.log(`arrange by views`);
@@ -143,11 +164,15 @@ let PublicService = exports.PublicService = class PublicService {
         return comingSoon;
         console.log(`select products by a desc of time `);
     }
-    displayTag() {
+    async displayTag() {
+        const homeTag = await prisma.tag.findMany();
+        return homeTag;
         console.log(`display Tag filter in Homepage`);
     }
-    displayPlatform() {
-        return `display platform filter in Homepage`;
+    async displayPlatform() {
+        const homePlatform = await prisma.platform.findMany();
+        return homePlatform;
+        console.log(`display platform filter in Homepage`);
     }
     async platformFilter() {
         const platform = await this.prisma.platform.findMany({
@@ -186,30 +211,29 @@ let PublicService = exports.PublicService = class PublicService {
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
+        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
-    async version(productId, versionId) {
-        const product = await prisma.product.findFirst({
+    async item(itemId) {
+        const item = await prisma.item.findUnique({
             where: {
-                id: productId,
+                id: itemId,
+            },
+            include: {
+                merchant: true,
             },
         });
-        if (!product) {
-            throw new common_1.NotFoundException("Product not found");
-        }
-        const version = await prisma.version.findFirst({
-            where: {
-                id: versionId,
-                product_id: productId,
-            },
-        });
-        if (!version) {
-            throw new common_1.NotFoundException("Version not found");
+        if (!item) {
+            throw new Error("Item not found");
         }
         return {
-            product,
-            version,
+            itemId: item.id,
+            merchantId: item.merchant.id,
+            merchantName: item.merchant.merchant_name,
+            merchantPhone: item.merchant.merchant_phone,
         };
-        console.log(`select all iems with props`, productId, versionId);
+    }
+    async version(productId, versionId) {
+        const version = await console.log(`select all iems with props`, productId);
     }
     district(productid, versionId, district) {
         console.log(`select all iems with props`, productid, versionId, district);
@@ -267,6 +291,8 @@ let PublicService = exports.PublicService = class PublicService {
 };
 exports.PublicService = PublicService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], PublicService);
 //# sourceMappingURL=public.service.js.map

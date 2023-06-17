@@ -9,14 +9,14 @@ export declare class PublicController {
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(): Promise<import(".prisma/client").Branch[]>;
     bank_acc(): Promise<import(".prisma/client").Bank_acc[]>;
-    login(userLoginInfo: any): Promise<import(".prisma/client").Users[]>;
+    login(form: any): Promise<any>;
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
-    displayTag(): void;
+    displayTag(): Promise<import(".prisma/client").Tag[]>;
     tagFilter(tag: string[]): Promise<(import(".prisma/client").Product & {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
-    displayPlatform(): string;
+    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
@@ -26,10 +26,7 @@ export declare class PublicController {
         merchant: unknown;
         version: unknown;
     }>;
-    version(productId: any, versionId: any): Promise<{
-        product: import(".prisma/client").Product;
-        version: import(".prisma/client").Version;
-    }>;
+    version(productId: any, itemId: any): Promise<void>;
     district(productId: any, versionId: any, district: any): void;
     area(productId: any, versionId: any, area: any): void;
     priceDesc(productId: any, versionId: any): Promise<(import(".prisma/client").Item & {

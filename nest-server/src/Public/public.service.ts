@@ -1,16 +1,24 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import { Prisma, Users, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Users } from "@prisma/client";
 import {
     RegisterConFormDTO,
     RegisterMerFormDTO,
     RegisterUserFormDTO,
 } from "./dto/createPublic.dto";
+import { log } from "console";
+import { checkPassword } from "./hash";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 @Injectable()
 export class PublicService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly jwt: JwtService,
+        private readonly config: ConfigService
+    ) {}
 
     //merchant未完
     async Register(form: any, identity: string) {
@@ -54,6 +62,7 @@ export class PublicService {
 
         async function registerCondition(form: any, identity: any) {
             let users: Prisma.UsersCreateInput;
+
             users = {
                 username: form.username,
                 password: form.password,
@@ -142,25 +151,32 @@ export class PublicService {
         return bankAcc;
     }
 
-    //     const register = await this.prisma.users.create({
-    //         data: {
-    //             username: form.username,
-    //             password: form.password,
-    //             email: form.email,
-    //             identity: identity,
-    //         },
-    //     });
-    //     return register;
-
-    //     // console.log("write your register query here", form);
-    // }
+    //
 
     // login info for users
     //done
-    async login(userLoginInfo: any) {
-        const getUserInfo = await this.prisma.users.findMany();
-        return getUserInfo;
-        // console.log(`compare ${userloginInfo} with query result`);
+    async login(form: any) {
+        const user: any = await this.prisma.users.findUnique({
+            where: { username: form.username },
+            select: { id: true, password: true },
+        });
+
+        if (!user || !(await checkPassword(form.password, user.password))) {
+            throw new UnauthorizedException();
+        }
+
+        return user.id;
+    }
+
+    async signToken(userId: number) {
+        const payload = { sub: userId };
+        console.log(this.config.get("JWT_SECRET"));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: "1d",
+                secret: this.config.get("JWT_SECRET"),
+            }),
+        };
     }
 
     //Homepage
@@ -183,11 +199,20 @@ export class PublicService {
 
         console.log(`select products by a desc of time `);
     }
-    displayTag() {
+
+    //done
+    async displayTag() {
+        const homeTag = await prisma.tag.findMany();
+        return homeTag;
         console.log(`display Tag filter in Homepage`);
     }
-    displayPlatform() {
-        return `display platform filter in Homepage`;
+
+    //done
+    async displayPlatform() {
+        const homePlatform = await prisma.platform.findMany();
+
+        return homePlatform;
+        console.log(`display platform filter in Homepage`);
     }
     //
 
@@ -240,38 +265,64 @@ export class PublicService {
             await prisma.$queryRaw`select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
 
         return { merchant, version };
+
+        console.log(
+            "using query to get all value which is NOT repeat and remember to split with bank"
+        );
     }
 
     //3個未完
-    async version(productId: any, versionId: any) {
-        const product = await prisma.product.findFirst({
+    //select product then select version to find which merchant have this item
+    async item(itemId: number) {
+        const item = await prisma.item.findUnique({
             where: {
-                id: productId,
+                id: itemId,
+            },
+            include: {
+                merchant: true,
             },
         });
-
-        if (!product) {
-            throw new NotFoundException("Product not found");
+        if (!item) {
+            throw new Error("Item not found");
         }
-
-        const version = await prisma.version.findFirst({
-            where: {
-                id: versionId,
-                product_id: productId,
-            },
-        });
-
-        if (!version) {
-            throw new NotFoundException("Version not found");
-        }
-
         return {
-            product,
-            version,
+            itemId: item.id,
+            merchantId: item.merchant.id,
+            merchantName: item.merchant.merchant_name,
+            merchantPhone: item.merchant.merchant_phone,
         };
-
-        console.log(`select all iems with props`, productId, versionId);
     }
+
+    async version(productId: any, versionId: any) {
+        //try
+        const version = await // const version = await prisma.version.findMany({
+        //     where: {
+        //         product: {
+        //             id: productId,
+        //         },
+        //     },
+        //     include: {
+        //         items: {
+        //             include: {
+        //                 merchant: true,
+        //             },
+        //         },
+        //     },
+        // });
+
+        // return version.map((version) => ({
+        //     versionId: version.id,
+        //     versionName: version.version,
+        //     items: version.items.map((item) => ({
+        //         itemId: item.id,
+        //         merchant: item.merchant_id,
+        //     })),
+        // }));
+        //
+
+        console.log(`select all iems with props`, productId);
+    }
+
     district(productid: any, versionId: any, district: any) {
         console.log(`select all iems with props`, productid, versionId, district);
     }
@@ -342,3 +393,4 @@ export class PublicService {
     }
     //
 }
+
