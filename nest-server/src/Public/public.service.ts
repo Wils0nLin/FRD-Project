@@ -12,6 +12,7 @@ const prisma = new PrismaClient();
 export class PublicService {
     constructor(private readonly prisma: PrismaService) {}
 
+    //merchant未完
     async Register(form: any, identity: string) {
         async function conRegister(form: any, users_id: number) {
             let consumer: Prisma.ConsumerCreateInput;
@@ -97,10 +98,13 @@ export class PublicService {
     }
 
     // area and district only for register select
+    //done
     async selectArea() {
         const selectArea = await prisma.area.findMany();
         return selectArea;
     }
+
+    //done
     //front end pass個area_id過黎，呢到要攞番個area_id，再用where id = area_id嘅方法做filter fil出邊個area有咩district
     async selectDistrict(area_id: number) {
         const selectDistrict = await prisma.district.findMany({
@@ -112,11 +116,13 @@ export class PublicService {
     }
 
     // bank and branch for register select
+    //done
     async bank() {
         const bank = await prisma.bank.findMany();
         return bank;
     }
 
+    //done
     async branch(bank_id: number) {
         const branch = await prisma.branch.findMany({
             where: {
@@ -126,6 +132,7 @@ export class PublicService {
         return branch;
     }
 
+    //done
     async bankAcc(branch_id: number) {
         const bankAcc = await prisma.bank_acc.findMany({
             where: {
@@ -138,6 +145,7 @@ export class PublicService {
     //
 
     // login info for users
+    //done
     async login(userLoginInfo: any) {
         const userInfo = await prisma.users.findMany();
         return userInfo;
@@ -145,10 +153,12 @@ export class PublicService {
     }
 
     //Homepage
+    //未完
     hot() {
         console.log(`arrange by views`);
         return "Test";
     }
+    //未完 按照product嘅release date做filter
     comingSoon() {
         console.log(`select products by a desc of time `);
     }
@@ -170,40 +180,45 @@ export class PublicService {
     //
 
     // search engine
-    //未完
-    // async platformFilter(platform: Array<string>) {
-    //     const results = await this.prisma.platform.findMany({
-    //         where: {
-    //           products: {
-    //             some: {
-    //               product_name: platform,
-    //             },
-    //           },
-    //         },
-    //         include: {
-    //           products: {
-    //             where: {
-    //               product_name: platform,
-    //             },
-    //             include: {
-    //               versions: true,
-    //             },
-    //           },
-    //         },
-    //       });
+    //done
+    async platformFilter() {
+        const platform = await this.prisma.platform.findMany({
+            include: {
+                products: {
+                    include: {
+                        versions: true,
+                    },
+                },
+            },
+        });
 
-    //     return results;
-    //     console.log("using query to get all value which is NOT repeat", platform);
-    // }
-    //未完
-    async tagFilter(tag: Array<string>) {
-        const searchTag = await prisma.tag.findMany();
-        return searchTag;
-
-        console.log("using query to get all value which is NOT repeat", tag);
+        return platform;
     }
 
-    async search(search: any) {
+    //done
+    async tagFilter(tags: string[]) {
+        const product = await this.prisma.product.findMany({
+            where: {
+                product_tags: {
+                    some: {
+                        tag: {
+                            tag: {
+                                in: tags,
+                            },
+                        },
+                    },
+                },
+            },
+            include: {
+                product_tags: true,
+            },
+        });
+        return product;
+        console.log("using query to get all value which is NOT repeat", tags);
+    }
+
+    //done
+    async search(search: string) {
         const version = await prisma.version.findMany({
             where: {
                 product: {
@@ -215,19 +230,21 @@ export class PublicService {
             },
         });
 
-        //need join table
-        const merchant = await prisma.merchant.findMany({
+        const merchant = await this.prisma.merchant.findMany({
             where: {
                 district: {
                     district: search,
                 },
             },
             include: {
-                district: true,
+                district: {
+                    include: {
+                        area: true,
+                    },
+                },
             },
         });
 
-        // const district = await this.prisma.district.findMany();
         return { merchant, version };
 
         console.log(
@@ -235,6 +252,7 @@ export class PublicService {
         );
     }
 
+    //3個未完
     version(productid: any, versionId: any) {
         console.log(`select all iems with props`, productid, versionId);
     }
@@ -245,12 +263,42 @@ export class PublicService {
         console.log(`select all iems with props`, productid, versionId, area);
     }
 
-    // for 商戶報價
+    // for search 商戶報價 and 評論
 
-    priceDesc(productid: any, versionId: any) {
+    //done
+    async priceDesc(productid: any, versionId: any) {
+        const item = await prisma.item.findMany({
+            orderBy: {
+                newest_price: "desc",
+            },
+            include: {
+                version: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
+        return item;
         console.log(`set price desc`, productid, versionId);
     }
-    priceAsec(productid: any, versionId: any) {
+
+    //done
+    async priceAsec(productid: any, versionId: any) {
+        const item = await prisma.item.findMany({
+            orderBy: {
+                newest_price: "asc",
+            },
+            include: {
+                version: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
+        return item;
+
         console.log(`set price asec`, productid, versionId);
     }
     ratingDesc(productid: any, versionId: any) {

@@ -68,6 +68,7 @@ export class PublicController {
     //
 
     // hot game
+    //按click rate and follow
     @Get("homepage/hot")
     hot() {
         return this.publicService.hot();
@@ -75,6 +76,7 @@ export class PublicController {
     //
 
     // coming soon game
+    // join product and version table，按照release day去做filter，例結if release day < 4 months
     @Get("homepage/comingsoon")
     comingSoon() {
         return this.publicService.comingSoon();
@@ -89,7 +91,7 @@ export class PublicController {
     }
     //done
     @Get("filter/tag")
-    tagFilter(@Body() tag: Array<string>) {
+    tagFilter(@Body("tag") tag: string[]) {
         return this.publicService.tagFilter(tag);
     }
     //
@@ -100,21 +102,22 @@ export class PublicController {
     displayPlatform() {
         return this.publicService.displayPlatform();
     }
+
     //done
-    // @Get("filter/platform")
-    // platformFilter(@Body() platform: string) {
-    //     return this.publicService.platformFilter(platform);
-    // }
-    //
+    @Get("filter/platform")
+    async platformFilter() {
+        return await this.publicService.platformFilter();
+    }
 
     // search for search bar typing for game not version
     //done
     @Get("filter/search")
-    search(@Query("search") search: any) {
+    search(@Body("search") search: string) {
         return this.publicService.search(search);
     }
 
     // only game version
+    //未完
     @Get("filter/version")
     version(@Body() productid: any, versionId: any) {
         return this.publicService.version(productid, versionId);
@@ -122,6 +125,7 @@ export class PublicController {
     //
 
     // game version with store area and district
+    //未完
     @Get("filter/version/district")
     district(@Body() productid: any, versionId: any, district: any) {
         return this.publicService.district(productid, versionId, district);
@@ -129,6 +133,7 @@ export class PublicController {
     //
 
     // game version with store area
+    //未完
     @Get("filter/version/area")
     area(@Body() productid: any, versionId: any, area: any) {
         return this.publicService.area(productid, versionId, area);
@@ -136,6 +141,7 @@ export class PublicController {
     //
 
     // game version with low to high price
+    //done
     @Get("filter/version/pricedesc")
     priceDesc(@Body() productid: any, versionId: any) {
         return this.publicService.priceDesc(productid, versionId);
@@ -143,12 +149,14 @@ export class PublicController {
     //
 
     // game version with high to low price
+    //done
     @Get("filter/version/priceasce")
     priceAsec(@Body() productid: any, versionId: any) {
-        return this.publicService.priceDesc(productid, versionId);
+        return this.publicService.priceAsec(productid, versionId);
     }
     //
 
+    //未做
     // game version with store rating low to high
     @Get("filter/version/ratingdesc")
     ratingDesc(@Body() productid: any, versionId: any) {
@@ -156,6 +164,7 @@ export class PublicController {
     }
     //
 
+    //未做
     // game version with store rating high to low
     @Get("filter/version/ratingasce")
     ratingAsce(@Body() productid: any, versionId: any) {
@@ -164,6 +173,7 @@ export class PublicController {
     //
 
     // search for search bar typing for version
+    //未完
     @Get("filter/version/search")
     searchItem(productid: any, versionId: any, string: Array<string>) {
         return this.publicService.searchItem(productid, versionId, string);
