@@ -28,6 +28,17 @@ async function main() {
 
     const existUsers = await prisma.users.findMany();
 
+    const consumers = await prisma.consumer.createMany({
+        data: [
+            {
+                users_id: existUsers[0].id,
+                QRcode: "ThisIsAQRCodeTest",
+                consumer_name: "Chan Tai Man",
+                consumer_phone: "55555555",
+            },
+        ],
+    });
+
     //
 
     // area

@@ -1,2 +1,2 @@
-export declare class AppModuleAuth {
+export declare class AuthModule {
 }

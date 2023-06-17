@@ -10,18 +10,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
+const prisma_service_1 = require("../prisma.service");
 const common_1 = require("@nestjs/common");
-const public_service_1 = require("../Public/public.service");
+const hash_1 = require("./hash");
 const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let AuthService = exports.AuthService = class AuthService {
-    constructor(publicService, jwtService) {
-        this.publicService = publicService;
-        this.jwtService = jwtService;
+    constructor(prisma, jwt, config) {
+        this.prisma = prisma;
+        this.jwt = jwt;
+        this.config = config;
+    }
+    async login(loginDto) {
+        const user = await this.prisma.users.findUnique({
+            where: { username: loginDto.username },
+            select: { id: true, password: true },
+        });
+        if (!user || !(await (0, hash_1.checkPassword)(loginDto.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return this.signToken(user.id);
+    }
+    async signToken(userId) {
+        const payload = { sub: userId };
+        console.log(this.config.get('JWT_SECRET'));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: '1d',
+                secret: this.config.get('JWT_SECRET'),
+            }),
+        };
     }
 };
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [public_service_1.PublicService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map
