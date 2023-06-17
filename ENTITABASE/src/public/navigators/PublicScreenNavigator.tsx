@@ -11,9 +11,9 @@ import PublicAdminScreen from '../screens/PublicAdminScreen';
 import LogIn from '../screens/LogIn';
 import ConRegister from '../screens/ConRegister';
 import MerRegister from '../screens/MerRegister';
-import SearchModal from '../../merchant/modals/MerchantSearchModal';
-
+import SearchModal from '../../consumer/modals/SearchModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { GameSearchScreen } from '../../consumer/navigation/pages/searchScreen';
 const Stack = createNativeStackNavigator();
 
 const PublicScreenNavigator = () => {
@@ -38,6 +38,22 @@ const PublicScreenNavigator = () => {
           headerTitle: 'CONTACT ADMIN',
           headerRight: () => (
             <TouchableOpacity onPress={navigation.goBack}>
+              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
+            </TouchableOpacity>
+          ),
+          headerStyle: styles.topBarBackground,
+          headerTitleStyle: styles.topBarText,
+        }}
+      />
+      <Stack.Screen
+        name="GameSearchScreen"
+        component={GameSearchScreen}
+        options={{
+          headerBackVisible: false,
+          headerTitle: 'GAME SEARCH',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ConsumerHome')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),

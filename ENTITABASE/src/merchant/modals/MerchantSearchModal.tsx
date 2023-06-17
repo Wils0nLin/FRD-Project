@@ -8,11 +8,13 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-
+import {Button} from '@ui-kitten/components';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 
 export default function SearchModal() {
+  const navigation: any = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = React.useState('');
   return (
@@ -197,9 +199,13 @@ export default function SearchModal() {
                   <Text style={styles.buttonTextWithIcon}>恐怖</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity style={styles.modalButtonFor1}>
+              <Button
+                style={styles.modalButtonFor1}
+                onPress={() => {
+                  navigation.navigate('merSearchResult');
+                }}>
                 <Text style={{fontSize: 17}}>商品搜尋</Text>
-              </TouchableOpacity>
+              </Button>
             </View>
           </View>
         </View>

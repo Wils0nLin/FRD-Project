@@ -12,7 +12,7 @@ export type StackParamList = {
   ConsumerOrder: undefined;
   ConsumerAdmin: undefined;
   ConsumerSearch: undefined;
-  GameInfo: undefined;
+  GameSearchScreen: undefined;
   ShopInfo: undefined;
   LogIn: undefined;
   ConsumerRegis: undefined;

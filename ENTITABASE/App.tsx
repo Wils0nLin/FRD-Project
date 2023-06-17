@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={eva.dark}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
