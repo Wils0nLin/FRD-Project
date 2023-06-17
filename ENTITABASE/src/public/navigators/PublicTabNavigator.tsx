@@ -16,7 +16,7 @@ import AddScreen from '../../merchant/screens/AddScreen';
 import PublicSettingModal from '../modals/PublicSettingModal';
 
 import NavigatorButton from '../../objects/NavigatorButton';
-import QRIcon from '../../objects/QRIcon';
+// import QRIcon from '../../objects/QRIcon';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 

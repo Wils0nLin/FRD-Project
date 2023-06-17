@@ -12,8 +12,8 @@ export declare class PublicService {
     login(userLoginInfo: any): Promise<Users[]>;
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
-    displayTag(): Promise<import(".prisma/client").Tag[]>;
-    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
+    displayTag(): void;
+    displayPlatform(): void;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];

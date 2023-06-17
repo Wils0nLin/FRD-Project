@@ -1,12 +1,26 @@
-import { compare, hash } from "bcryptjs";
+import * as bcrypt from 'bcryptjs';
 
-let ROUND = 15;
-export async function hashPassword(password: string) {
-  let result: string = await hash(password, ROUND);
-  return result;
+const SALT_ROUNDS = 10;
+
+/**
+ * @params plainPassword: supplied when signup
+ */
+export async function hashPassword(plainPassword: string) {
+  const hash: string = await bcrypt.hash(plainPassword, SALT_ROUNDS);
+  return hash;
 }
 
-export async function comparePassword(password: string, password_hash: string) {
-  let isMatch: boolean = await compare(password, password_hash);
-  return isMatch;
+/**
+ * @params plainPassword: supplied when login
+ * @params hashedPassword: looked up from database
+ */
+export async function checkPassword(
+  plainPassword: string,
+  hashedPassword: string,
+) {
+  const isMatched: boolean = await bcrypt.compare(
+    plainPassword,
+    hashedPassword,
+  );
+  return isMatched;
 }

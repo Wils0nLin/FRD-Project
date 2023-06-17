@@ -125,8 +125,8 @@ let PublicService = exports.PublicService = class PublicService {
         return bankAcc;
     }
     async login(userLoginInfo) {
-        const userInfo = await prisma.users.findMany();
-        return userInfo;
+        const getUserInfo = await this.prisma.users.findMany();
+        return getUserInfo;
     }
     hot() {
         console.log(`arrange by views`);
@@ -143,14 +143,10 @@ let PublicService = exports.PublicService = class PublicService {
         return comingSoon;
         console.log(`select products by a desc of time `);
     }
-    async displayTag() {
-        const homeTag = await prisma.tag.findMany();
-        return homeTag;
+    displayTag() {
         console.log(`display Tag filter in Homepage`);
     }
-    async displayPlatform() {
-        const homePlatform = await prisma.platform.findMany();
-        return homePlatform;
+    displayPlatform() {
         console.log(`display platform filter in Homepage`);
     }
     async platformFilter() {
@@ -190,7 +186,6 @@ let PublicService = exports.PublicService = class PublicService {
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
-        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
     async version(productId) {
         const version = await prisma.version.findMany({

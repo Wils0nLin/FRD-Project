@@ -1,12 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  Button,
-  Input,
-  Layout,
-  Text,
-  ApplicationProvider,
-} from '@ui-kitten/components';
-import * as eva from '@eva-design/eva';
+import {Button, Input, Layout, Text} from '@ui-kitten/components';
 import React from 'react';
 import {Alert, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
@@ -14,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native';
 import axios from 'axios';
 
-const ConRegister = ({navigation}: any) => {
+const ConRegister = () => {
   const [Name, setName] = React.useState('');
   const [Username, setUsername] = React.useState('');
   const [Password, setPassword] = React.useState('');
@@ -58,7 +51,7 @@ const ConRegister = ({navigation}: any) => {
       consumer_phone: Phone,
     };
     axios
-      .post('http://192.168.160.77:3000/public/conRegister', form)
+      .post('http://192.168.160.142:3000/public/conRegister', form)
       .then(function (response) {
         console.log(response);
         Alert.alert('success', `${response}`);

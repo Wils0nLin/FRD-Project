@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import { Prisma, PrismaClient, Users } from "@prisma/client";
+import { Prisma, Users, PrismaClient } from "@prisma/client";
 import {
     RegisterConFormDTO,
     RegisterMerFormDTO,
     RegisterUserFormDTO,
 } from "./dto/createPublic.dto";
-import { log } from "console";
-const prisma = new PrismaClient();
+
+const prisma = new PrismaClient()
 @Injectable()
 export class PublicService {
     constructor(private readonly prisma: PrismaService) {}
@@ -142,14 +142,25 @@ export class PublicService {
         return bankAcc;
     }
 
-    //
+    //     const register = await this.prisma.users.create({
+    //         data: {
+    //             username: form.username,
+    //             password: form.password,
+    //             email: form.email,
+    //             identity: identity,
+    //         },
+    //     });
+    //     return register;
+
+    //     // console.log("write your register query here", form);
+    // }
 
     // login info for users
     //done
     async login(userLoginInfo: any) {
-        const userInfo = await prisma.users.findMany();
-        return userInfo;
-        // console.log(`compare ${userLoginInfo} with query result`);
+        const getUserInfo = await this.prisma.users.findMany();
+        return getUserInfo;
+        // console.log(`compare ${userloginInfo} with query result`);
     }
 
     //Homepage
@@ -172,19 +183,10 @@ export class PublicService {
 
         console.log(`select products by a desc of time `);
     }
-
-    //done
-    async displayTag() {
-        const homeTag = await prisma.tag.findMany();
-        return homeTag;
+    displayTag() {
         console.log(`display Tag filter in Homepage`);
     }
-
-    //done
-    async displayPlatform() {
-        const homePlatform = await prisma.platform.findMany();
-
-        return homePlatform;
+    displayPlatform() {
         console.log(`display platform filter in Homepage`);
     }
     //
@@ -238,10 +240,6 @@ export class PublicService {
             await prisma.$queryRaw`select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
 
         return { merchant, version };
-
-        console.log(
-            "using query to get all value which is NOT repeat and remember to split with bank"
-        );
     }
 
     //3個未完

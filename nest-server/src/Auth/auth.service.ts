@@ -1,24 +1,39 @@
+import { PrismaService } from 'src/prisma.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { PublicService } from 'src/Public/public.service';
+import { LoginDto } from './dto';
+import { checkPassword } from './hash';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private publicService: PublicService,
-    private jwtService: JwtService,
+    private readonly prisma: PrismaService,
+    private readonly jwt: JwtService,
+    private readonly config: ConfigService,
   ) {}
 
-  // auth sample:
+  async login(loginDto: LoginDto) {
+    const user = await this.prisma.users.findUnique({
+      where: { username: loginDto.username },
+      select: { id: true, password: true },
+    });
 
-  // async signIn(username, pass) {
-  //   const user = await this.usersService.findOne(username);
-  //   if (user?.password !== pass) {
-  //     throw new UnauthorizedException();
-  //   }
-  //   const payload = { sub: user.userId, username: user.username };
-  //   return {
-  //     access_token: await this.jwtService.signAsync(payload),
-  //   };
-  // }
+    if (!user || !(await checkPassword(loginDto.password, user.password))) {
+      throw new UnauthorizedException();
+    }
+
+    return this.signToken(user.id);
+  }
+
+  async signToken(userId: number) {
+    const payload = { sub: userId };
+    console.log(this.config.get('JWT_SECRET'));
+    return {
+      access_token: await this.jwt.signAsync(payload, {
+        expiresIn: '1d',
+        secret: this.config.get('JWT_SECRET'),
+      }),
+    };
+  }
 }

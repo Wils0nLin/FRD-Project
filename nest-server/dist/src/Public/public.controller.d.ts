@@ -16,7 +16,7 @@ export declare class PublicController {
     tagFilter(tag: string[]): Promise<(import(".prisma/client").Product & {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
-    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
+    displayPlatform(): void;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
