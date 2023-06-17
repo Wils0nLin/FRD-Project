@@ -147,7 +147,7 @@ let PublicService = exports.PublicService = class PublicService {
         console.log(`display Tag filter in Homepage`);
     }
     displayPlatform() {
-        console.log(`display platform filter in Homepage`);
+        return `display platform filter in Homepage`;
     }
     async platformFilter() {
         const platform = await this.prisma.platform.findMany({

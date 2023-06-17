@@ -16,7 +16,7 @@ import AddScreen from '../../merchant/screens/AddScreen';
 import PublicSettingModal from '../modals/PublicSettingModal';
 
 import NavigatorButton from '../../objects/NavigatorButton';
-// import QRIcon from '../../objects/QRIcon';
+import QRIcon from '../../objects/QRIcon';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -71,31 +71,14 @@ const PublicTabNavigator = () => {
           </Stack.Navigator>
         )}
       </Tab.Screen>
-      {/* <Tab.Screen
-        name="QRcode"
+      <Tab.Screen
+        name="QRScan"
         options={{
           tabBarLabelStyle: {display: 'none'},
           tabBarIcon: () => <QRIcon icon="user-alt" />,
         }}>
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="QRCode"
-              component={ScanScreen}
-              options={{
-                headerTitle: 'ENTI CODE READER',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            />
-          </Stack.Navigator>
-        )}
-      </Tab.Screen> */}
+        {() => ''}
+      </Tab.Screen>
       <Tab.Screen
         name="cart"
         options={{

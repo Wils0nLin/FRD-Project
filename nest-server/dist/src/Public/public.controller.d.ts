@@ -12,11 +12,11 @@ export declare class PublicController {
     login(userLoginInfo: any): Promise<import(".prisma/client").Users[]>;
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
-    displayTag(): Promise<import(".prisma/client").Tag[]>;
+    displayTag(): void;
     tagFilter(tag: string[]): Promise<(import(".prisma/client").Product & {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
-    displayPlatform(): void;
+    displayPlatform(): string;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
