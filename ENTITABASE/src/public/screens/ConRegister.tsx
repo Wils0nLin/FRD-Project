@@ -51,7 +51,7 @@ const ConRegister = () => {
       consumer_phone: Phone,
     };
     axios
-      .post('http://192.168.160.77:3000/public/conRegister', form)
+      .post('http://192.168.160.142:3000/public/conRegister', form)
       .then(function (response) {
         console.log(response);
         Alert.alert('success', `${response}`);

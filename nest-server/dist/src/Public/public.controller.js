@@ -62,6 +62,9 @@ let PublicController = exports.PublicController = class PublicController {
     displayPlatform() {
         return this.publicService.displayPlatform();
     }
+    async platformFilter() {
+        return await this.publicService.platformFilter();
+    }
     search(search) {
         return this.publicService.search(search);
     }
@@ -78,7 +81,7 @@ let PublicController = exports.PublicController = class PublicController {
         return this.publicService.priceDesc(productid, versionId);
     }
     priceAsec(productid, versionId) {
-        return this.publicService.priceDesc(productid, versionId);
+        return this.publicService.priceAsec(productid, versionId);
     }
     ratingDesc(productid, versionId) {
         return this.publicService.ratingDesc(productid, versionId);
@@ -161,7 +164,7 @@ __decorate([
 ], PublicController.prototype, "displayTag", null);
 __decorate([
     (0, common_1.Get)("filter/tag"),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)("tag")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Array]),
     __metadata("design:returntype", void 0)
@@ -173,10 +176,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayPlatform", null);
 __decorate([
-    (0, common_1.Get)("filter/search"),
-    __param(0, (0, common_1.Query)("search")),
+    (0, common_1.Get)("filter/platform"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "platformFilter", null);
+__decorate([
+    (0, common_1.Get)("filter/search"),
+    __param(0, (0, common_1.Body)("search")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "search", null);
 __decorate([

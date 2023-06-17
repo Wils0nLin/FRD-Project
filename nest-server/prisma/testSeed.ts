@@ -289,7 +289,7 @@ async function main() {
                 release_date: new Date("2022-11-18"),
                 product_intro: "Hi",
                 view: 0,
-                platform_id: 1,
+                platform_id: 2,
             },
             {
                 product_status: true,
@@ -298,7 +298,7 @@ async function main() {
                 release_date: new Date("2023-06-06"),
                 product_intro: "Hi",
                 view: 0,
-                platform_id: 1,
+                platform_id: 2,
             },
             {
                 product_status: true,
@@ -361,19 +361,19 @@ async function main() {
             },
             {
                 product_id: existProduct[0].id,
-                tag_id: 1,
+                tag_id: 2,
             },
             {
                 product_id: existProduct[0].id,
-                tag_id: 1,
+                tag_id: 4,
             },
             {
                 product_id: existProduct[0].id,
-                tag_id: 1,
+                tag_id: 6,
             },
             {
                 product_id: existProduct[0].id,
-                tag_id: 1,
+                tag_id: 14,
             },
             {
                 product_id: existProduct[1].id,
@@ -381,23 +381,27 @@ async function main() {
             },
             {
                 product_id: existProduct[1].id,
-                tag_id: 1,
+                tag_id: 2,
             },
             {
                 product_id: existProduct[1].id,
-                tag_id: 1,
+                tag_id: 5,
             },
             {
                 product_id: existProduct[1].id,
-                tag_id: 1,
+                tag_id: 11,
             },
             {
                 product_id: existProduct[1].id,
-                tag_id: 1,
+                tag_id: 4,
             },
             {
-                product_id: existProduct[2].id,
-                tag_id: 1,
+                product_id: existProduct[1].id,
+                tag_id: 6,
+            },
+            {
+                product_id: existProduct[1].id,
+                tag_id: 7,
             },
         ],
     });

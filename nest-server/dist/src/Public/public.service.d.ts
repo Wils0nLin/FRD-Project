@@ -3,20 +3,48 @@ import { Users } from "@prisma/client";
 export declare class PublicService {
     private readonly prisma;
     constructor(prisma: PrismaService);
-    register(form: any, identity: string): Promise<void>;
+    Register(form: any, identity: string): Promise<void>;
+    selectArea(): Promise<import(".prisma/client").Area[]>;
+    selectDistrict(area_id: number): Promise<import(".prisma/client").District[]>;
+    bank(): Promise<import(".prisma/client").Bank[]>;
+    branch(bank_id: number): Promise<import(".prisma/client").Branch[]>;
+    bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
     login(userLoginInfo: any): Promise<Users[]>;
     hot(): string;
     comingSoon(): void;
     displayTag(): void;
     displayPlatform(): void;
-    platformFilter(platform: Array<string>): void;
-    tagFilter(tag: Array<string>): void;
-    search(string: Array<string>): void;
+    platformFilter(): Promise<(import(".prisma/client").Platform & {
+        products: (import(".prisma/client").Product & {
+            versions: import(".prisma/client").Version[];
+        })[];
+    })[]>;
+    tagFilter(tags: string[]): Promise<(import(".prisma/client").Product & {
+        product_tags: import(".prisma/client").Product_tag[];
+    })[]>;
+    search(search: string): Promise<{
+        merchant: (import(".prisma/client").Merchant & {
+            district: import(".prisma/client").District & {
+                area: import(".prisma/client").Area;
+            };
+        })[];
+        version: (import(".prisma/client").Version & {
+            product: import(".prisma/client").Product;
+        })[];
+    }>;
     version(productid: any, versionId: any): void;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
-    priceDesc(productid: any, versionId: any): void;
-    priceAsec(productid: any, versionId: any): void;
+    priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {
+        version: import(".prisma/client").Version & {
+            product: import(".prisma/client").Product;
+        };
+    })[]>;
+    priceAsec(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {
+        version: import(".prisma/client").Version & {
+            product: import(".prisma/client").Product;
+        };
+    })[]>;
     ratingDesc(productid: any, versionId: any): void;
     ratingAsce(productid: any, versionId: any): void;
     searchItem(productid: any, versionId: any, string: Array<string>): void;

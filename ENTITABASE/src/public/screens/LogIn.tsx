@@ -37,7 +37,7 @@ const LogIn = ({navigation}: any) => {
       password: password,
     };
     axios
-      .post('http://192.168.160.77:3000/auth/login', form)
+      .post('http://192.168.160.142:3000/auth/login', form)
       .then(function (response) {
         console.log(response);
         Alert.alert('success', `${response}`);
