@@ -8,20 +8,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
+const prisma_service_1 = require("../prisma.service");
 const common_1 = require("@nestjs/common");
-const public_service_1 = require("../Public/public.service");
+const hash_1 = require("./hash");
 const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let AuthService = exports.AuthService = class AuthService {
-    constructor(publicService, jwtService) {
-        this.publicService = publicService;
-        this.jwtService = jwtService;
+    constructor(prisma, jwt, config) {
+        this.prisma = prisma;
+        this.jwt = jwt;
+        this.config = config;
+    }
+    async login(loginDto) {
+        const user = await this.prisma.users.findUnique({
+            where: { username: loginDto.username },
+            select: { id: true, password: true },
+        });
+        if (!user || !(await (0, hash_1.checkPassword)(loginDto.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return this.signToken(user.id);
+    }
+    async signToken(userId) {
+        const payload = { sub: userId };
+        console.log(this.config.get('JWT_SECRET'));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: '1d',
+                secret: this.config.get('JWT_SECRET'),
+            }),
+        };
     }
 };
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [public_service_1.PublicService,
-        jwt_1.JwtService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        jwt_1.JwtService, typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

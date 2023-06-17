@@ -7,12 +7,19 @@ import {
   ApplicationProvider,
 } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
-import React from 'react';
-import {ScrollView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import React, {useState} from 'react';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
 
 const LogIn = ({navigation}: any) => {
-  const [value, setValue] = React.useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
 
   const renderIcon = (): React.ReactElement => (
@@ -24,6 +31,24 @@ const LogIn = ({navigation}: any) => {
     setSecureTextEntry(!setSecureTextEntry);
   };
 
+  const Submit = () => {
+    const form = {
+      username: username,
+      password: password,
+    };
+    axios
+      .post('http://192.168.160.142:3000/auth/login', form)
+      .then(function (response) {
+        console.log(response);
+        Alert.alert('success', `${response}`);
+      })
+      .catch(function (error) {
+        console.log(error);
+        Alert.alert('Failed', `${error}`);
+      });
+    console.log(form);
+  };
+
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
       <ApplicationProvider {...eva} theme={eva.light}>
@@ -31,20 +56,20 @@ const LogIn = ({navigation}: any) => {
           <Layout style={styles.items}>
             <Text style={styles.text}>帳號名稱：</Text>
             <Input
-              value={value}
+              value={username}
               placeholder="Place your username"
-              onChangeText={nextValue => setValue(nextValue)}
+              onChangeText={nextValue => setUsername(nextValue)}
               style={{backgroundColor: 'rgb(40,40,40)'}}
             />
           </Layout>
           <Layout style={styles.items}>
             <Text style={styles.text}>密碼：</Text>
             <Input
-              value={value}
+              value={password}
               placeholder="Place your password"
               accessoryRight={renderIcon}
               secureTextEntry={secureTextEntry}
-              onChangeText={nextValue => setValue(nextValue)}
+              onChangeText={nextValue => setPassword(nextValue)}
               style={{backgroundColor: 'rgb(40,40,40)'}}
             />
           </Layout>
@@ -53,6 +78,9 @@ const LogIn = ({navigation}: any) => {
               style={styles.button}
               onPress={() => navigation.navigate('Consumer')}>
               登入
+            </Button>
+            <Button style={styles.button} onPress={() => Submit()}>
+              REAL登入
             </Button>
             <Button
               style={styles.button}

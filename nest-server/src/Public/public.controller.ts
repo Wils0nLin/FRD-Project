@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
 import { AnySrvRecord } from "dns";
@@ -119,64 +119,66 @@ export class PublicController {
     // only game version
     //未完
     @Get("filter/version")
-    version(@Body() productid: any, versionId: any) {
-        return this.publicService.version(productid, versionId);
+    version(@Body() productId: any, itemId: any) {
+        productId = 1;
+        return this.publicService.version(productId, itemId);
     }
     //
 
     // game version with store area and district
     //未完
     @Get("filter/version/district")
-    district(@Body() productid: any, versionId: any, district: any) {
-        return this.publicService.district(productid, versionId, district);
+    district(@Body() productId: any, versionId: any, district: any) {
+        productId = 2;
+        return this.publicService.district(productId, versionId, district);
     }
     //
 
     // game version with store area
     //未完
     @Get("filter/version/area")
-    area(@Body() productid: any, versionId: any, area: any) {
-        return this.publicService.area(productid, versionId, area);
+    area(@Body() productId: any, versionId: any, area: any) {
+        return this.publicService.area(productId, versionId, area);
     }
     //
 
     // game version with low to high price
     //done
     @Get("filter/version/pricedesc")
-    priceDesc(@Body() productid: any, versionId: any) {
-        return this.publicService.priceDesc(productid, versionId);
+    priceDesc(@Body() productId: any, versionId: any) {
+        return this.publicService.priceDesc(productId, versionId);
     }
     //
 
     // game version with high to low price
     //done
     @Get("filter/version/priceasce")
-    priceAsec(@Body() productid: any, versionId: any) {
-        return this.publicService.priceAsec(productid, versionId);
+    priceAsec(@Body() productId: any, versionId: any) {
+        return this.publicService.priceAsec(productId, versionId);
     }
     //
 
     //未做
     // game version with store rating low to high
     @Get("filter/version/ratingdesc")
-    ratingDesc(@Body() productid: any, versionId: any) {
-        return this.publicService.ratingDesc(productid, versionId);
+    ratingDesc(@Body() productId: any, versionId: any) {
+        return this.publicService.ratingDesc(productId, versionId);
     }
     //
 
     //未做
     // game version with store rating high to low
     @Get("filter/version/ratingasce")
-    ratingAsce(@Body() productid: any, versionId: any) {
-        return this.publicService.ratingAsce(productid, versionId);
+    ratingAsce(@Body() productId: any, versionId: any) {
+        return this.publicService.ratingAsce(productId, versionId);
     }
     //
 
     // search for search bar typing for version
     //未完
     @Get("filter/version/search")
-    searchItem(productid: any, versionId: any, string: Array<string>) {
-        return this.publicService.searchItem(productid, versionId, string);
+    searchItem(productId: any, versionId: any, string: Array<string>) {
+        return this.publicService.searchItem(productId, versionId, string);
     }
     //
 }

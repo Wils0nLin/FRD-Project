@@ -11,9 +11,9 @@ export declare class PublicService {
     bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
     login(userLoginInfo: any): Promise<Users[]>;
     hot(): string;
-    comingSoon(): void;
-    displayTag(): Promise<import(".prisma/client").Tag[]>;
-    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
+    comingSoon(): Promise<import(".prisma/client").Product[]>;
+    displayTag(): void;
+    displayPlatform(): void;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
@@ -23,16 +23,17 @@ export declare class PublicService {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
     search(search: string): Promise<{
-        merchant: (import(".prisma/client").Merchant & {
-            district: import(".prisma/client").District & {
-                area: import(".prisma/client").Area;
-            };
-        })[];
-        version: (import(".prisma/client").Version & {
-            product: import(".prisma/client").Product;
-        })[];
+        merchant: unknown;
+        version: unknown;
     }>;
-    version(productid: any, versionId: any): void;
+    version(productId: any): Promise<{
+        versionId: number;
+        versionName: string;
+        items: {
+            itemId: number;
+            merchant: number;
+        }[];
+    }[]>;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
     priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {

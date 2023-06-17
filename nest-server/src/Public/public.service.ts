@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
-import { Prisma, PrismaClient, Users } from "@prisma/client";
+import { Prisma, Users, PrismaClient } from "@prisma/client";
 import {
     RegisterConFormDTO,
     RegisterMerFormDTO,
     RegisterUserFormDTO,
 } from "./dto/createPublic.dto";
-import { log } from "console";
-const prisma = new PrismaClient();
+
+const prisma = new PrismaClient()
 @Injectable()
 export class PublicService {
     constructor(private readonly prisma: PrismaService) {}
@@ -142,14 +142,25 @@ export class PublicService {
         return bankAcc;
     }
 
-    //
+    //     const register = await this.prisma.users.create({
+    //         data: {
+    //             username: form.username,
+    //             password: form.password,
+    //             email: form.email,
+    //             identity: identity,
+    //         },
+    //     });
+    //     return register;
+
+    //     // console.log("write your register query here", form);
+    // }
 
     // login info for users
     //done
     async login(userLoginInfo: any) {
-        const userInfo = await prisma.users.findMany();
-        return userInfo;
-        // console.log(`compare ${userLoginInfo} with query result`);
+        const getUserInfo = await this.prisma.users.findMany();
+        return getUserInfo;
+        // console.log(`compare ${userloginInfo} with query result`);
     }
 
     //Homepage
@@ -158,23 +169,24 @@ export class PublicService {
         console.log(`arrange by views`);
         return "Test";
     }
-    //未完 按照product嘅release date做filter
-    comingSoon() {
+
+    //done
+    async comingSoon() {
+        const limit = 10;
+        const comingSoon = await prisma.product.findMany({
+            orderBy: {
+                release_date: "desc",
+            },
+            take: limit,
+        });
+        return comingSoon;
+
         console.log(`select products by a desc of time `);
     }
-
-    //done
-    async displayTag() {
-        const homeTag = await prisma.tag.findMany();
-        return homeTag;
+    displayTag() {
         console.log(`display Tag filter in Homepage`);
     }
-
-    //done
-    async displayPlatform() {
-        const homePlatform = await prisma.platform.findMany();
-
-        return homePlatform;
+    displayPlatform() {
         console.log(`display platform filter in Homepage`);
     }
     //
@@ -219,42 +231,68 @@ export class PublicService {
 
     //done
     async search(search: string) {
+        const target = `%${search}%`;
+
+        const version =
+            await prisma.$queryRaw`select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
+
+        const merchant =
+            await prisma.$queryRaw`select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
+
+        return { merchant, version };
+    }
+
+    //3個未完
+    async version(productId: any) {
+        //try
+
         const version = await prisma.version.findMany({
             where: {
                 product: {
-                    product_name: search,
+                    id: productId,
                 },
             },
             include: {
-                product: true,
-            },
-        });
-
-        const merchant = await this.prisma.merchant.findMany({
-            where: {
-                district: {
-                    district: search,
-                },
-            },
-            include: {
-                district: {
+                items: {
                     include: {
-                        area: true,
+                        merchant: true,
                     },
                 },
             },
         });
 
-        return { merchant, version };
+        return version.map((version) => ({
+            versionId: version.id,
+            versionName: version.version,
+            items: version.items.map((item) => ({
+                itemId: item.id,
+                merchant: item.merchant_id,
+            })),
+        }));
+        //
 
-        console.log(
-            "using query to get all value which is NOT repeat and remember to split with bank"
-        );
-    }
+        // const product = await prisma.product.findFirst({
+        //     where: {
+        //         id: productId,
+        //     },
+        // });
 
-    //3個未完
-    version(productid: any, versionId: any) {
-        console.log(`select all iems with props`, productid, versionId);
+        // if (!product) {
+        //     throw new NotFoundException("Product not found");
+        // }
+
+        // const version = await prisma.version.findFirst({
+        //     where: {
+        //         id: versionId,
+        //         product_id: productId,
+        //     },
+        // });
+
+        // if (!version) {
+        //     throw new NotFoundException("Version not found");
+        // }
+
+        console.log(`select all iems with props`, productId);
     }
     district(productid: any, versionId: any, district: any) {
         console.log(`select all iems with props`, productid, versionId, district);
