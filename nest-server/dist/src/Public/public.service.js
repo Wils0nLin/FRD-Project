@@ -132,7 +132,15 @@ let PublicService = exports.PublicService = class PublicService {
         console.log(`arrange by views`);
         return "Test";
     }
-    comingSoon() {
+    async comingSoon() {
+        const limit = 10;
+        const comingSoon = await prisma.product.findMany({
+            orderBy: {
+                release_date: "desc",
+            },
+            take: limit,
+        });
+        return comingSoon;
         console.log(`select products by a desc of time `);
     }
     displayTag() {
@@ -174,34 +182,34 @@ let PublicService = exports.PublicService = class PublicService {
         console.log("using query to get all value which is NOT repeat", tags);
     }
     async search(search) {
-        const version = await prisma.version.findMany({
-            where: {
-                product: {
-                    product_name: search,
-                },
-            },
-            include: {
-                product: true,
-            },
-        });
-        const merchant = await this.prisma.merchant.findMany({
-            where: {
-                district: {
-                    district: search,
-                },
-            },
-            include: {
-                district: {
-                    include: {
-                        area: true,
-                    },
-                },
-            },
-        });
+        const target = `%${search}%`;
+        const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
+        const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
     }
-    version(productid, versionId) {
-        console.log(`select all iems with props`, productid, versionId);
+    async version(productId, versionId) {
+        const product = await prisma.product.findFirst({
+            where: {
+                id: productId,
+            },
+        });
+        if (!product) {
+            throw new common_1.NotFoundException("Product not found");
+        }
+        const version = await prisma.version.findFirst({
+            where: {
+                id: versionId,
+                product_id: productId,
+            },
+        });
+        if (!version) {
+            throw new common_1.NotFoundException("Version not found");
+        }
+        return {
+            product,
+            version,
+        };
+        console.log(`select all iems with props`, productId, versionId);
     }
     district(productid, versionId, district) {
         console.log(`select all iems with props`, productid, versionId, district);

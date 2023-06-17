@@ -68,29 +68,30 @@ let PublicController = exports.PublicController = class PublicController {
     search(search) {
         return this.publicService.search(search);
     }
-    version(productid, versionId) {
-        return this.publicService.version(productid, versionId);
+    version(productId, versionId) {
+        return this.publicService.version(productId, versionId);
     }
-    district(productid, versionId, district) {
-        return this.publicService.district(productid, versionId, district);
+    district(productId, versionId, district) {
+        productId = 2;
+        return this.publicService.district(productId, versionId, district);
     }
-    area(productid, versionId, area) {
-        return this.publicService.area(productid, versionId, area);
+    area(productId, versionId, area) {
+        return this.publicService.area(productId, versionId, area);
     }
-    priceDesc(productid, versionId) {
-        return this.publicService.priceDesc(productid, versionId);
+    priceDesc(productId, versionId) {
+        return this.publicService.priceDesc(productId, versionId);
     }
-    priceAsec(productid, versionId) {
-        return this.publicService.priceAsec(productid, versionId);
+    priceAsec(productId, versionId) {
+        return this.publicService.priceAsec(productId, versionId);
     }
-    ratingDesc(productid, versionId) {
-        return this.publicService.ratingDesc(productid, versionId);
+    ratingDesc(productId, versionId) {
+        return this.publicService.ratingDesc(productId, versionId);
     }
-    ratingAsce(productid, versionId) {
-        return this.publicService.ratingAsce(productid, versionId);
+    ratingAsce(productId, versionId) {
+        return this.publicService.ratingAsce(productId, versionId);
     }
-    searchItem(productid, versionId, string) {
-        return this.publicService.searchItem(productid, versionId, string);
+    searchItem(productId, versionId, string) {
+        return this.publicService.searchItem(productId, versionId, string);
     }
 };
 __decorate([
