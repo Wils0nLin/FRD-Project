@@ -6,7 +6,6 @@ import { AnySrvRecord } from "dns";
 @Controller("public")
 export class PublicController {
     constructor(private readonly publicService: PublicService) {}
-
     // register
     //done
     @Post("register/conRegister")

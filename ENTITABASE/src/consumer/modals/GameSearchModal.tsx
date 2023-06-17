@@ -15,10 +15,27 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
 
 export default function GameSearchModal() {
+  // let stringArr: Array<string>;
+  let tagArr: Array<string> = [];
+  const navigation: any = useNavigation();
+  const [tag, setTag] = useState(tagArr);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = React.useState('');
+  const tagSelect = (tag: string) => {
+    console.log('HI');
+    if (tagArr.includes(tag)) {
+      let index = tagArr.indexOf(tag);
+      tagArr = tagArr.splice(index, 1);
+      setTag(tagArr);
+    } else {
+      tagArr.push(tag);
+      setTag(tagArr);
+    }
+    console.log(tagArr);
+  };
   return (
     <View>
       <Modal
@@ -161,35 +178,49 @@ export default function GameSearchModal() {
                   </Text>
                 </View>
                 <View style={styles.modalButtonBox}>
-                  <TouchableOpacity style={styles.modalButtonFor2}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor2}
+                    onPress={() => tagSelect('角色扮演')}>
                     <Icon name={'theater-masks'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>角色扮演</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor2}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor2}
+                    onPress={() => tagSelect('動作冒險')}>
                     <Icon name={'running'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>動作冒險</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.modalButtonBox}>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('射擊')}>
                     <Icon name={'crosshairs'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>射擊</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('競技')}>
                     <Icon name={'trophy'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>競技</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('劇情')}>
                     <Icon name={'video'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>劇情</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.modalButtonBox}>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('合作')}>
                     <Icon name={'users'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>合作</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('體育')}>
                     <Icon
                       name={'basketball-ball'}
                       size={15}
@@ -197,13 +228,17 @@ export default function GameSearchModal() {
                     />
                     <Text style={styles.buttonTextWithIcon}>體育</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('策略')}>
                     <Icon name={'chess'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>策略</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.modalButtonBox}>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('格鬥')}>
                     <LogoIcon
                       name={'boxing-glove'}
                       size={20}
@@ -211,17 +246,23 @@ export default function GameSearchModal() {
                     />
                     <Text style={styles.buttonTextWithIcon}>格鬥</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('音樂')}>
                     <Icon name={'music'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>音樂</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('解謎')}>
                     <Icon name={'question'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>解謎</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.modalButtonBox}>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('卡牌')}>
                     <LogoIcon
                       name={'cards-playing-outline'}
                       size={20}
@@ -229,7 +270,9 @@ export default function GameSearchModal() {
                     />
                     <Text style={styles.buttonTextWithIcon}>卡牌</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('家庭')}>
                     <LogoIcon
                       name={'party-popper'}
                       size={20}
@@ -237,7 +280,9 @@ export default function GameSearchModal() {
                     />
                     <Text style={styles.buttonTextWithIcon}>家庭</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('育成')}>
                     <Icon
                       name={'hand-holding-heart'}
                       size={15}
@@ -247,15 +292,21 @@ export default function GameSearchModal() {
                   </TouchableOpacity>
                 </View>
                 <View style={styles.modalButtonBox}>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('生存')}>
                     <LogoIcon name={'axe-battle'} size={20} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>生存</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('工藝')}>
                     <Icon name={'paint-roller'} size={15} color={'#E4E4E4'} />
                     <Text style={styles.buttonTextWithIcon}>工藝</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButtonFor3}>
+                  <TouchableOpacity
+                    style={styles.modalButtonFor3}
+                    onPress={() => tagSelect('恐怖')}>
                     <Icon
                       name={'skull-crossbones'}
                       size={15}
@@ -264,7 +315,9 @@ export default function GameSearchModal() {
                     <Text style={styles.buttonTextWithIcon}>恐怖</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.modalButtonFor1}>
+                <TouchableOpacity
+                  style={styles.modalButtonFor1}
+                  onPress={() => navigation.navigate('GameSearchScreen')}>
                   <Text style={{fontSize: 17, color: 'white'}}>商品搜尋</Text>
                 </TouchableOpacity>
               </View>

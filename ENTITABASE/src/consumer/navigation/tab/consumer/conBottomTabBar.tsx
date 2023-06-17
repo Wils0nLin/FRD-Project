@@ -63,7 +63,7 @@ const ConsumerAppTabNavigator = () => {
       }}>
       <Stack.Screen name="Tabs" component={BottomTabBar} />
       <Stack.Screen
-        name="Search"
+        name="GameSearchScreen"
         component={GameSearchScreen}
         options={({}) => ({
           header: () => ReverseHeader('搜尋'),
@@ -105,28 +105,28 @@ const ConsumerAppTabNavigator = () => {
         })}
       />
       <Stack.Screen
-        name="GameInfo"
+        name="ConGameInfoScreen"
         component={ConGameInfoScreen}
         options={({}) => ({
           header: () => ReverseHeader('遊戲資訊'),
         })}
       />
       <Stack.Screen
-        name="MerInfo"
+        name="ConMerInfoScreen"
         component={ConMerInfoScreen}
         options={({}) => ({
           header: () => ReverseHeader('商戶資料'),
         })}
       />
       <Stack.Screen
-        name="ConRes"
+        name="ConRegister"
         component={ConRegister}
         options={({}) => ({
           header: () => ReverseHeader('ConRes'),
         })}
       />
       <Stack.Screen
-        name="MerRes"
+        name="MerRegister"
         component={MerRegister}
         options={({}) => ({
           header: () => ReverseHeader('MerRes'),

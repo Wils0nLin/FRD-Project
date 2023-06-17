@@ -1,14 +1,25 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Button, Input, Layout, Text} from '@ui-kitten/components';
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+import React, {useState} from 'react';
+import {Alert, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+
 import Entypo from 'react-native-vector-icons/Entypo';
-const MerRegister = ({navigation}: any) => {
-  const [value, setValue] = React.useState('');
+import {ScrollView} from 'react-native';
+import axios from 'axios';
+import {
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+const MerRegister = () => {
+  const [Name, setName] = React.useState('');
+  const [Username, setUsername] = React.useState('');
+  const [Password, setPassword] = React.useState('');
+  const [ConfrimePass, setConfrimPass] = React.useState('');
+  const [Email, setEmail] = React.useState('');
+  const [Phone, setPhone] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const [selectedImage, setSelectedImage] =
+    useState<ImagePickerResponse | null>(null);
 
   const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
@@ -19,73 +30,124 @@ const MerRegister = ({navigation}: any) => {
     setSecureTextEntry(!setSecureTextEntry);
   };
 
+  const handleImageSelection = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxHeight: 100,
+        maxWidth: 100,
+      },
+      response => {
+        if (response.didCancel) {
+          console.log('用户取消了选择');
+        } else if (response.errorMessage) {
+          console.log('选择图片时出现错误:', response.errorMessage);
+        } else {
+          // 图片选择成功
+          setSelectedImage(response);
+          console.log('handle selected data check', selectedImage);
+          uploadImage(response);
+        }
+      },
+    );
+  };
+
+  const uploadImage = async (response: ImagePickerResponse) => {
+    // const folderName = '../../utils/merUpload/';
+    const newFileName = `image${Date.now()}.jpg`; // 替换为新的文件名
+
+    console.log('check hi', response);
+    const formData = new FormData();
+    formData.append('file', {
+      uri: response.assets![0].uri,
+      type: 'image/jpeg/jpg',
+      name: newFileName,
+    });
+
+    console.log('formData', formData);
+
+    try {
+      // const uploadResponse =
+      await fetch('http://localhost:3000/public/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
+
+      // console.log('Upload successful:', uploadResponse.data);
+      Alert.alert('Upload successful', 'Image uploaded successfully');
+    } catch (error) {
+      console.log('Upload failed:', error);
+      Alert.alert('Upload failed', 'Image upload failed');
+    }
+  };
+
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
       <Layout style={styles.layout}>
         <Layout style={styles.items}>
           <Text style={styles.text}>姓名：</Text>
           <Input
-            value={value}
+            value={Name}
             placeholder="Place your password"
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={nextValue => setName(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
         </Layout>
         <Layout style={styles.items}>
           <Text style={styles.text}>帳號名稱：</Text>
           <Input
-            value={value}
+            value={Username}
             placeholder="Place your username"
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={nextValue => setUsername(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
         </Layout>
         <Layout style={styles.items}>
           <Text style={styles.text}>密碼：</Text>
           <Input
-            value={value}
+            value={Password}
             placeholder="Place your password"
             accessoryRight={renderIcon}
             secureTextEntry={secureTextEntry}
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={nextValue => setPassword(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
         </Layout>
         <Layout style={styles.items}>
           <Text style={styles.text}>重新輸入密碼：</Text>
           <Input
-            value={value}
+            value={ConfrimePass}
             placeholder="Place your password"
             accessoryRight={renderIcon}
             secureTextEntry={secureTextEntry}
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={nextValue => setConfrimPass(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
         </Layout>
         <Layout style={styles.items}>
-          <Text style={styles.text}>電油：</Text>
+          <Text style={styles.text}>電郵：</Text>
           <Input
-            value={value}
+            value={Email}
             placeholder="Place your password"
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={nextValue => setEmail(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
         </Layout>
         <Layout style={styles.items}>
           <Text style={styles.text}>電話：</Text>
           <Input
-            value={value}
+            value={Phone}
             placeholder="Place your password"
-            onChangeText={nextValue => setValue(nextValue)}
+            onChangeText={nextValue => setPhone(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
         </Layout>
         <Layout style={styles.row}>
-          <Button
-            style={styles.button}
-            onPress={() => navigation.navigate('Tabs')}>
-            提交
-          </Button>
+          <Button style={styles.button}>提交</Button>
+          <Button onPress={handleImageSelection}>选择图片</Button>
         </Layout>
       </Layout>
     </ScrollView>

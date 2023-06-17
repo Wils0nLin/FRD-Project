@@ -145,7 +145,7 @@ const ConsumerScreenNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="ConsumerSearch"
+        name="GameSearchScreen"
         component={GameSearchScreen}
         options={{
           headerBackVisible: false,

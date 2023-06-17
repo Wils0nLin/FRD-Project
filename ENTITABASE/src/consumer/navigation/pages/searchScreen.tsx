@@ -17,10 +17,12 @@ import {
   gameImgStyle,
   gameListAreaStyle,
 } from '../tab/consumer/conWishListScreen';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-export const GameSearchScreen = ({navigation}: any) => {
-  const [text, onChangeText] = React.useState('');
-
+export const GameSearchScreen = ({route, navigation}: any) => {
+  const [texts, onChangeText] = React.useState('');
+  const {tagArr, platformArr, text, highest, newest} = route.params;
+  console.log(tagArr, platformArr, text, highest, newest);
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View>
