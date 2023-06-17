@@ -145,10 +145,37 @@ let PublicService = exports.PublicService = class PublicService {
         return homePlatform;
         console.log(`display platform filter in Homepage`);
     }
-    async tagFilter(tag) {
-        const searchTag = await prisma.tag.findMany();
-        return searchTag;
-        console.log("using query to get all value which is NOT repeat", tag);
+    async platformFilter() {
+        const platform = await this.prisma.platform.findMany({
+            include: {
+                products: {
+                    include: {
+                        versions: true,
+                    },
+                },
+            },
+        });
+        return platform;
+    }
+    async tagFilter(tags) {
+        const product = await this.prisma.product.findMany({
+            where: {
+                product_tags: {
+                    some: {
+                        tag: {
+                            tag: {
+                                in: tags,
+                            },
+                        },
+                    },
+                },
+            },
+            include: {
+                product_tags: true,
+            },
+        });
+        return product;
+        console.log("using query to get all value which is NOT repeat", tags);
     }
     async search(search) {
         const version = await prisma.version.findMany({
@@ -161,14 +188,18 @@ let PublicService = exports.PublicService = class PublicService {
                 product: true,
             },
         });
-        const merchant = await prisma.merchant.findMany({
+        const merchant = await this.prisma.merchant.findMany({
             where: {
                 district: {
                     district: search,
                 },
             },
             include: {
-                district: true,
+                district: {
+                    include: {
+                        area: true,
+                    },
+                },
             },
         });
         return { merchant, version };
@@ -183,10 +214,36 @@ let PublicService = exports.PublicService = class PublicService {
     area(productid, versionId, area) {
         console.log(`select all iems with props`, productid, versionId, area);
     }
-    priceDesc(productid, versionId) {
+    async priceDesc(productid, versionId) {
+        const item = await prisma.item.findMany({
+            orderBy: {
+                newest_price: "desc",
+            },
+            include: {
+                version: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
+        return item;
         console.log(`set price desc`, productid, versionId);
     }
-    priceAsec(productid, versionId) {
+    async priceAsec(productid, versionId) {
+        const item = await prisma.item.findMany({
+            orderBy: {
+                newest_price: "asc",
+            },
+            include: {
+                version: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
+        return item;
         console.log(`set price asec`, productid, versionId);
     }
     ratingDesc(productid, versionId) {
