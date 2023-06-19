@@ -9,7 +9,9 @@ export declare class PublicController {
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(): Promise<import(".prisma/client").Branch[]>;
     bank_acc(): Promise<import(".prisma/client").Bank_acc[]>;
-    login(form: any): Promise<any>;
+    login(form: any): Promise<{
+        access_token: string;
+    }>;
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;

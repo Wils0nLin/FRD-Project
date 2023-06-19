@@ -7,7 +7,7 @@ import {
     RegisterUserFormDTO,
 } from "./dto/createPublic.dto";
 import { log } from "console";
-import { checkPassword } from "./hash";
+import { hashPassword, checkPassword } from "./hash";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 
@@ -61,11 +61,12 @@ export class PublicService {
         }
 
         async function registerCondition(form: any, identity: any) {
+            let hashedPassword = await hashPassword(form.password);
             let users: Prisma.UsersCreateInput;
 
             users = {
                 username: form.username,
-                password: form.password,
+                password: hashedPassword,
                 email: form.email,
                 identity: identity,
             };
@@ -165,7 +166,7 @@ export class PublicService {
             throw new UnauthorizedException();
         }
 
-        return user.id;
+        return this.signToken(user.id);
     }
 
     async signToken(userId: number) {

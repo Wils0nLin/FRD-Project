@@ -12,7 +12,9 @@ export declare class PublicService {
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(bank_id: number): Promise<import(".prisma/client").Branch[]>;
     bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
-    login(form: any): Promise<any>;
+    login(form: any): Promise<{
+        access_token: string;
+    }>;
     signToken(userId: number): Promise<{
         access_token: string;
     }>;

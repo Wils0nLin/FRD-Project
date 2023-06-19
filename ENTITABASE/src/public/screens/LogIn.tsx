@@ -1,35 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  Button,
-  Input,
-  Layout,
-  Text,
-  ApplicationProvider,
-} from '@ui-kitten/components';
-import * as eva from '@eva-design/eva';
 import React, {useState} from 'react';
 import {
+  Text,
+  View,
   Alert,
   ScrollView,
   StyleSheet,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
+  TextInput,
 } from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 
-const LogIn = ({navigation}: any) => {
+import {SafeAreaView} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import PublicForehead from '../../objects/PublicForeheadView';
+
+export default function LogIn({navigation}: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
-
-  const renderIcon = (): React.ReactElement => (
-    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Entypo name="eye-with-line" size={30} color={'rgb(240,240,240)'} />
-    </TouchableWithoutFeedback>
-  );
-  const toggleSecureEntry = (): void => {
-    setSecureTextEntry(!setSecureTextEntry);
-  };
+  const [secure, setSecure] = useState(true);
 
   const Submit = () => {
     const form = {
@@ -37,10 +27,11 @@ const LogIn = ({navigation}: any) => {
       password: password,
     };
     axios
-      .post('http://192.168.160.142:3000/auth/login', form)
+      .post('http://192.168.160.142:3000/public/login', form)
       .then(function (response) {
         console.log(response);
         Alert.alert('success', `${response}`);
+        navigation.navigate('Consumer');
       })
       .catch(function (error) {
         console.log(error);
@@ -50,90 +41,205 @@ const LogIn = ({navigation}: any) => {
   };
 
   return (
-    <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <Layout style={styles.layout}>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>帳號名稱：</Text>
-            <Input
-              value={username}
-              placeholder="Place your username"
-              onChangeText={nextValue => setUsername(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.items}>
-            <Text style={styles.text}>密碼：</Text>
-            <Input
-              value={password}
-              placeholder="Place your password"
-              accessoryRight={renderIcon}
-              secureTextEntry={secureTextEntry}
-              onChangeText={nextValue => setPassword(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
-          <Layout style={styles.row}>
-            <Button
-              style={styles.button}
-              onPress={() => navigation.navigate('Consumer')}>
-              登入
-            </Button>
-            <Button style={styles.button} onPress={() => Submit()}>
-              REAL登入
-            </Button>
-            <Button
-              style={styles.button}
-              onPress={() => navigation.navigate('ConsumerRegis')}>
-              Con登記
-            </Button>
-            <Button
-              style={styles.button}
-              onPress={() => navigation.navigate('Merchant')}>
-              Mer登入
-            </Button>
-          </Layout>
-        </Layout>
-      </ApplicationProvider>
+    <ScrollView
+      style={{
+        backgroundColor: '#2A2E32',
+      }}>
+      <SafeAreaView style={styles.safeArea}>
+        <PublicForehead />
+        <View style={styles.pageTitle}>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>用戶登入</Text>
+          <View style={styles.pageTitleLine} />
+        </View>
+        <View style={styles.loginBox}>
+          <View style={{width: 320}}>
+            <View style={styles.inputBox}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{alignItems: 'center', width: 20}}>
+                  <FontAwesome5
+                    name={'user-lock'}
+                    size={15}
+                    color={'#E4E4E4'}
+                  />
+                </View>
+                <TextInput
+                  style={styles.inputText}
+                  onChangeText={nextValue => setUsername(nextValue)}
+                  value={username}
+                  placeholder="帳戶號碼"
+                />
+              </View>
+            </View>
+          </View>
+          <View style={{width: 320}}>
+            <View style={styles.inputBox}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{alignItems: 'center', width: 20}}>
+                  <FontAwesome5 name={'key'} size={15} color={'#E4E4E4'} />
+                </View>
+                <TextInput
+                  style={styles.inputText}
+                  onChangeText={nextValue => setPassword(nextValue)}
+                  value={password}
+                  placeholder="密碼"
+                  secureTextEntry={secure}
+                />
+              </View>
+              <TouchableOpacity
+                onPress={() => setSecure(!secure)}
+                style={{width: 35, alignItems: 'center'}}>
+                <FontAwesome5
+                  name={secure ? 'eye' : 'eye-slash'}
+                  size={25}
+                  color={'#E4E4E4'}
+                />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={{alignItems: 'flex-end', paddingHorizontal: 10}}>
+              <Text style={{color: '#E4E4E4'}}>忘記密碼？</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{width: 320}}>
+            <TouchableOpacity
+              style={styles.modalButtonFor1}
+              onPress={() => {
+                navigation.navigate('Consumer');
+              }}>
+              <Text style={{fontSize: 17, color: '#E4E4E4'}}>登入</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalButtonFor1}
+              onPress={() => Submit()}>
+              <Text style={{fontSize: 17, color: '#E4E4E4'}}>REAL 登入</Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                paddingHorizontal: 10,
+              }}>
+              <Text style={{color: '#E4E4E4'}}>新用戶？</Text>
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    color: '#E4E4E4',
+                    borderBottomWidth: 1,
+                    borderBottomColor: '#E4E4E4',
+                  }}
+                  onPress={() => navigation.navigate('ConsumerRegis')}>
+                  註冊
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{width: 320, alignItems: 'center'}}>
+            <View style={styles.divLine} />
+            <Text style={styles.divText}>或</Text>
+          </View>
+          <View style={{width: 320, marginTop: 10}}>
+            <TouchableOpacity
+              style={styles.modalButtonFor1}
+              onPress={() => {
+                navigation.navigate('Merchant');
+              }}>
+              <Ionicons name={'logo-google'} size={20} color={'#E4E4E4'} />
+              <Text style={{marginLeft: 10, fontSize: 17, color: '#E4E4E4'}}>
+                GOOGLE 登入
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
-};
-export default LogIn;
+}
+
 const styles = StyleSheet.create({
-  layout: {
-    alignSelf: 'center',
-    marginVertical: '25%',
+  safeArea: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(40,40,40)',
-    borderColor: 'rgb(121,35,231)',
-    borderWidth: 5,
-    width: '90%',
-    padding: 10,
-    paddingBottom: 30,
-    borderRadius: 15,
   },
-  items: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    backgroundColor: 'rgb(40,40,40)',
-    width: '80%',
-    marginVertical: 10,
-  },
-  text: {
-    color: '#e4e4e4',
-    fontSize: 25,
-    marginVertical: 10,
-  },
-  row: {
+  pageTitle: {
     flexDirection: 'row',
-    backgroundColor: 'rgb(40,40,40)',
+    marginTop: 10,
+    marginBottom: 15,
+    marginLeft: 10,
+    paddingLeft: 10,
+    width: 350,
+    borderLeftWidth: 3,
+    borderColor: '#7D7D7D',
   },
-  button: {
-    marginTop: 30,
-    marginHorizontal: 10,
+  pageTitleLine: {
+    position: 'absolute',
+    bottom: -3,
+    left: 60,
+    width: 100,
+    borderBottomWidth: 3,
+    borderColor: '#7A04EB',
+  },
+  subTitle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    margin: 5,
+    marginBottom: 0,
+    marginTop: 10,
+    paddingLeft: 10,
+    width: 350,
+  },
+  loginBox: {
+    marginTop: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 30,
+    width: 340,
+    backgroundColor: '#2A2E32',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: '#B7C1DE',
+  },
+  inputBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    margin: 8,
     paddingHorizontal: 10,
-    backgroundColor: 'rgb(30,30,30)',
-    borderColor: 'rgb(121,35,231)',
+    height: 45,
+    borderBottomWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  modalButtonFor1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 8,
+    marginVertical: 15,
+    height: 35,
+    backgroundColor: '#202124',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#7A04EB',
+  },
+  inputText: {
+    fontSize: 17,
+    marginLeft: 10,
+    padding: 0,
+    color: '#E4E4E4',
+    width: 200,
+  },
+  divLine: {
+    width: 200,
+    height: 40,
+    borderBottomWidth: 2,
+    borderBottomColor: '#E4E4E4',
+  },
+  divText: {
+    position: 'absolute',
+    top: 26,
+    fontSize: 17,
+    paddingHorizontal: 10,
+    backgroundColor: '#2A2E32',
   },
 });

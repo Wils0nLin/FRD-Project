@@ -13,7 +13,10 @@ import ConRegister from '../screens/ConRegister';
 import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../consumer/modals/SearchModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { GameSearchScreen } from '../../consumer/navigation/pages/searchScreen';
+import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
+import MerchantCenterScreen from '../screens/MerchantCenterScreen';
+import ConGameInfoScreen from '../../consumer/navigation/tab/consumer/conGameInfoScreen';
+// import GameInfoScreen from '../../consumer/navigation/tab/consumer/GameInfoScreen';
 const Stack = createNativeStackNavigator();
 
 const PublicScreenNavigator = () => {
@@ -97,6 +100,36 @@ const PublicScreenNavigator = () => {
         options={{
           headerBackVisible: false,
           headerTitle: 'REGISTRATION',
+          headerRight: () => (
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
+            </TouchableOpacity>
+          ),
+          headerStyle: styles.topBarBackground,
+          headerTitleStyle: styles.topBarText,
+        }}
+      />
+      <Stack.Screen
+        name="MerchantCenter"
+        component={MerchantCenterScreen}
+        options={{
+          headerBackVisible: false,
+          headerTitle: 'MERCHANT CENTER',
+          headerRight: () => (
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
+            </TouchableOpacity>
+          ),
+          headerStyle: styles.topBarBackground,
+          headerTitleStyle: styles.topBarText,
+        }}
+      />
+      <Stack.Screen
+        name="GameInfo"
+        component={ConGameInfoScreen}
+        options={{
+          headerBackVisible: false,
+          headerTitle: 'GAME INFO',
           headerRight: () => (
             <TouchableOpacity onPress={navigation.goBack}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />

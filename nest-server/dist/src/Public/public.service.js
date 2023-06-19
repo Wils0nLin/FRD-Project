@@ -56,10 +56,11 @@ let PublicService = exports.PublicService = class PublicService {
             return createMerchant;
         }
         async function registerCondition(form, identity) {
+            let hashedPassword = await (0, hash_1.hashPassword)(form.password);
             let users;
             users = {
                 username: form.username,
-                password: form.password,
+                password: hashedPassword,
                 email: form.email,
                 identity: identity,
             };
@@ -137,7 +138,7 @@ let PublicService = exports.PublicService = class PublicService {
         if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
             throw new common_1.UnauthorizedException();
         }
-        return user.id;
+        return this.signToken(user.id);
     }
     async signToken(userId) {
         const payload = { sub: userId };

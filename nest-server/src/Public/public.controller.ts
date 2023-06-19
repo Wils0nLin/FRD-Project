@@ -61,7 +61,7 @@ export class PublicController {
 
     // login
     //done
-    @Get("login")
+    @Post("login")
     login(@Body() form: any) {
         return this.publicService.login(form);
     }

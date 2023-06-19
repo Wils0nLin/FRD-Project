@@ -15,6 +15,7 @@ export type StackParamList = {
   GameSearchScreen: undefined;
   ShopInfo: undefined;
   LogIn: undefined;
+  GameInfo: undefined;
   ConsumerRegis: undefined;
   MerchantRegis: undefined;
   MerchantHome: undefined;
@@ -33,6 +34,7 @@ export type StackParamList = {
   MerchantPreOrder: undefined;
   MerchantPreOrderItem: undefined;
   MerchantComment: undefined;
+  MerchantCenter: undefined;
   MerchantArrive: undefined;
   PublicHome: undefined;
   PublicSetting: undefined;
