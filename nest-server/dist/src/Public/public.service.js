@@ -13,10 +13,14 @@ exports.PublicService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
 const client_1 = require("@prisma/client");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 const prisma = new client_1.PrismaClient();
 let PublicService = exports.PublicService = class PublicService {
-    constructor(prisma) {
+    constructor(prisma, jwt, config) {
         this.prisma = prisma;
+        this.jwt = jwt;
+        this.config = config;
     }
     async Register(form, identity) {
         async function conRegister(form, users_id) {
@@ -96,24 +100,16 @@ let PublicService = exports.PublicService = class PublicService {
         const selectArea = await prisma.area.findMany();
         return selectArea;
     }
-    async selectDistrict(area_id) {
-        const selectDistrict = await prisma.district.findMany({
-            where: {
-                area_id: { in: 1 },
-            },
-        });
+    async selectDistrict() {
+        const selectDistrict = await prisma.district.findMany();
         return selectDistrict;
     }
     async bank() {
         const bank = await prisma.bank.findMany();
         return bank;
     }
-    async branch(bank_id) {
-        const branch = await prisma.branch.findMany({
-            where: {
-                bank_id: { in: 1 },
-            },
-        });
+    async branch() {
+        const branch = await prisma.branch.findMany();
         return branch;
     }
     async bankAcc(branch_id) {
@@ -124,18 +120,12 @@ let PublicService = exports.PublicService = class PublicService {
         });
         return bankAcc;
     }
-    async login(userLoginInfo) {
-        const userInfo = await prisma.users.findMany();
-        return userInfo;
     async login(form) {
         const user = await this.prisma.users.findUnique({
             where: { username: form.username },
             select: { id: true, password: true },
         });
-        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
-            throw new common_1.UnauthorizedException();
-        }
-        return user.id;
+        return this.signToken(user.id);
     }
     async signToken(userId) {
         const payload = { sub: userId };
@@ -209,17 +199,9 @@ let PublicService = exports.PublicService = class PublicService {
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
-        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
-<<<<<<< HEAD
-    async version(productId, itemId) {
-        const version = await prisma.version.findMany({
-=======
-    async getMerchantByItemId() {
+    async getMerchantByItemId(itemId) {
         const item = await prisma.item.findUnique({
-    async item(itemId) {
-        const item = await prisma.item.findUnique({
->>>>>>> 24e92c717485a4f5f3cf5e58e253c032785f5f7c
             where: {
                 id: itemId,
             },
@@ -244,9 +226,6 @@ let PublicService = exports.PublicService = class PublicService {
             },
             include: {
                 items: true,
-            },
-            include: {
-                merchant: true,
             },
         });
         if (!version || version.product_id !== productId) {
@@ -322,6 +301,8 @@ let PublicService = exports.PublicService = class PublicService {
 };
 exports.PublicService = PublicService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        jwt_1.JwtService,
+        config_1.ConfigService])
 ], PublicService);
 //# sourceMappingURL=public.service.js.map

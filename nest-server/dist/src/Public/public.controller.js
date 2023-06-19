@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PublicController = void 0;
 const common_1 = require("@nestjs/common");
 const public_service_1 = require("./public.service");
+const platform_express_1 = require("@nestjs/platform-express");
 let PublicController = exports.PublicController = class PublicController {
     constructor(publicService) {
         this.publicService = publicService;
@@ -23,26 +24,21 @@ let PublicController = exports.PublicController = class PublicController {
         const result = await this.publicService.Register(form, "consumer");
         return result;
     }
-    async merRegister(form) {
-        return await this.publicService.Register(form, "merchant");
+    async merRegister(file, form) {
+        console.log(file, form);
+        return file;
     }
     selectArea() {
         return this.publicService.selectArea();
     }
     selectDistrict() {
-        const area_id = 1;
-        return this.publicService.selectDistrict(area_id);
+        return this.publicService.selectDistrict();
     }
     bank() {
         return this.publicService.bank();
     }
     branch() {
-        const bank_id = 1;
-        return this.publicService.branch(bank_id);
-    }
-    bank_acc() {
-        const branch_id = 1;
-        return this.publicService.bankAcc(branch_id);
+        return this.publicService.branch();
     }
     login(userLoginInfo) {
         return this.publicService.login(userLoginInfo);
@@ -115,9 +111,14 @@ __decorate([
 ], PublicController.prototype, "conRegister", null);
 __decorate([
     (0, common_1.Post)("register/merRegister"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
+        { name: 'IconImg', maxCount: 1 },
+        { name: 'RegisImg', maxCount: 1 }
+    ])),
+    __param(0, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], PublicController.prototype, "merRegister", null);
 __decorate([
@@ -144,12 +145,6 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "branch", null);
-__decorate([
-    (0, common_1.Get)("register/bank_acc"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], PublicController.prototype, "bank_acc", null);
 __decorate([
     (0, common_1.Get)("login"),
     __param(0, (0, common_1.Body)()),

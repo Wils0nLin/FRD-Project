@@ -114,12 +114,8 @@ export class PublicService {
 
     //done
     //front end pass個area_id過黎，呢到要攞番個area_id，再用where id = area_id嘅方法做filter fil出邊個area有咩district
-    async selectDistrict(area_id: number) {
-        const selectDistrict = await prisma.district.findMany({
-            where: {
-                area_id: { in: 1 },
-            },
-        });
+    async selectDistrict() {
+        const selectDistrict = await prisma.district.findMany();
         return selectDistrict;
     }
 
@@ -131,12 +127,8 @@ export class PublicService {
     }
 
     //done
-    async branch(bank_id: number) {
-        const branch = await prisma.branch.findMany({
-            where: {
-                bank_id: { in: 1 },
-            },
-        });
+    async branch() {
+        const branch = await prisma.branch.findMany();
         return branch;
     }
 
@@ -272,10 +264,6 @@ export class PublicService {
     }
 
     //3個未完
-<<<<<<< HEAD
-    async version(productId: any,itemId: any) {
-        //try
-=======
     //select product then select version to find which merchant have this item
     async getMerchantByItemId(itemId: any) {
         const item = await prisma.item.findUnique({
@@ -296,7 +284,6 @@ export class PublicService {
             merchantPhone: item.merchant.merchant_phone,
         };
     }
->>>>>>> 24e92c717485a4f5f3cf5e58e253c032785f5f7c
 
     //done
     async version(productId: any, versionId: any) {
