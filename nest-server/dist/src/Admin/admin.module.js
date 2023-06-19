@@ -12,13 +12,15 @@ const admin_controller_1 = require("./admin.controller");
 const admin_service_1 = require("./admin.service");
 const public_service_1 = require("../Public/public.service");
 const prisma_service_1 = require("../prisma.service");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let AdminModule = exports.AdminModule = class AdminModule {
 };
 exports.AdminModule = AdminModule = __decorate([
     (0, common_1.Module)({
         imports: [],
         controllers: [admin_controller_1.AdminController],
-        providers: [admin_service_1.AdminService, public_service_1.PublicService, prisma_service_1.PrismaService],
+        providers: [admin_service_1.AdminService, public_service_1.PublicService, prisma_service_1.PrismaService, jwt_1.JwtService, config_1.ConfigService],
     })
 ], AdminModule);
 //# sourceMappingURL=admin.module.js.map

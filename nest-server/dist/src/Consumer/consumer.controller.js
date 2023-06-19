@@ -24,14 +24,33 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     getQrCodeId(JWTpayload) {
         return this.consumerService.getQrCodeId(JWTpayload);
     }
-    displayWishList() {
-        return this.consumerService.displayWishList();
+    displayWishList(consumer_id) {
+        return this.consumerService.displayWishList(consumer_id);
     }
-    uploadWishList(parm) {
-        return this.consumerService.uploadWishList(parm.id);
+    async uploadWishList(formData) {
+        let consumerId = 2;
+        let productId = 2;
+        let versionId = 1;
+        try {
+            const { targetPrice, notification } = formData;
+            const uploadWishList = await this.consumerService.uploadWishList(consumerId, productId, versionId, targetPrice, notification);
+            return { success: true, data: uploadWishList };
+        }
+        catch (error) {
+            return { success: false, error: error.message };
+        }
     }
-    updateWishList(parm) {
-        return this.consumerService.updateWishList(parm.id);
+    async deleteWishList(requestData) {
+        const consumerId = 1;
+        const productId = 1;
+        const versionId = 1;
+        try {
+            const deleteWishList = await this.consumerService.deleteWishList(consumerId, productId, versionId);
+            return { success: true, data: deleteWishList };
+        }
+        catch (error) {
+            return { success: false, error: error.message };
+        }
     }
     displayOrder(JWTpayload) {
         return this.publicService.displayOrder(JWTpayload);
@@ -40,7 +59,7 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
         return this.publicService.displayOrderHistory(JWTpayload);
     }
     createOrder(param) {
-        return this.consumerService.creatOrder(param.itemId);
+        return this.consumerService.createOrder(param.itemId);
     }
     prePaymentConfirm(paymentstatus) {
         return this.consumerService.prePaymentConfirm(paymentstatus);
@@ -48,101 +67,95 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     remainPaymentConfirm(paymentstatus) {
         return this.consumerService.remainPaymentConfirm(paymentstatus);
     }
-    editProfile(form) {
-        return this.consumerService.editProfile(form);
+    async editConProfile(consumerId, form) {
+        return await this.consumerService.editConProfile(consumerId, form);
     }
     feedback(reaction) {
-        return this.consumerService.feedback(reaction.feedback, reaction.merchantId);
-    }
-    rating(reaction) {
-        return this.consumerService.feedback(reaction.rating, reaction.merchantId);
+        let merchantId = 1;
+        let consumerId = 1;
+        return this.consumerService.feedback(reaction.comment, reaction.rating, merchantId, consumerId);
     }
 };
 __decorate([
-    (0, common_1.Get)('qrcode'),
+    (0, common_1.Get)("qrcode"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "getQrCodeId", null);
 __decorate([
-    (0, common_1.Get)('wishlist'),
+    (0, common_1.Get)("wishlist"),
+    __param(0, (0, common_1.Query)("consumer_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "displayWishList", null);
 __decorate([
-    (0, common_1.Post)('wishlist/upload/'),
+    (0, common_1.Post)("wishlist/upload"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "uploadWishList", null);
 __decorate([
-    (0, common_1.Post)('wishlist/update/'),
+    (0, common_1.Delete)("wishlist/delete/"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ConsumerController.prototype, "updateWishList", null);
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "deleteWishList", null);
 __decorate([
-    (0, common_1.Get)('order'),
+    (0, common_1.Get)("order"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "displayOrder", null);
 __decorate([
-    (0, common_1.Get)('order/history'),
+    (0, common_1.Get)("order/history"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "displayOrderHistory", null);
 __decorate([
-    (0, common_1.Post)('order/create/'),
+    (0, common_1.Post)("order/create/"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "createOrder", null);
 __decorate([
-    (0, common_1.Post)('order/pre/payment'),
+    (0, common_1.Post)("order/pre/payment"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "prePaymentConfirm", null);
 __decorate([
-    (0, common_1.Post)('order/remain/payment'),
+    (0, common_1.Post)("order/remain/payment"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "remainPaymentConfirm", null);
 __decorate([
-    (0, common_1.Post)('profile/edit'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Put)("profile/edit/:consumerId"),
+    __param(0, (0, common_1.Param)("consumerId")),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ConsumerController.prototype, "editProfile", null);
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "editConProfile", null);
 __decorate([
-    (0, common_1.Post)('reaction/feedback/'),
+    (0, common_1.Post)("reaction/feedback/"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "feedback", null);
-__decorate([
-    (0, common_1.Post)('reaction/rating/'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ConsumerController.prototype, "rating", null);
 exports.ConsumerController = ConsumerController = __decorate([
-    (0, common_1.Controller)('consumer'),
+    (0, common_1.Controller)("consumer"),
     __metadata("design:paramtypes", [consumer_service_1.ConsumerService,
         public_service_1.PublicService])
 ], ConsumerController);

@@ -11,13 +11,15 @@ const common_1 = require("@nestjs/common");
 const public_controller_1 = require("./public.controller");
 const public_service_1 = require("./public.service");
 const prisma_service_1 = require("../prisma.service");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 let PublicModule = exports.PublicModule = class PublicModule {
 };
 exports.PublicModule = PublicModule = __decorate([
     (0, common_1.Module)({
         imports: [],
         controllers: [public_controller_1.PublicController],
-        providers: [public_service_1.PublicService, prisma_service_1.PrismaService],
+        providers: [public_service_1.PublicService, prisma_service_1.PrismaService, jwt_1.JwtService, config_1.ConfigService],
     })
 ], PublicModule);
 //# sourceMappingURL=public.module.js.map

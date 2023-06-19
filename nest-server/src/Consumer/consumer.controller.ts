@@ -1,62 +1,128 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ConsumerService } from './consumer.service';
-import { PublicService } from 'src/Public/public.service';
-@Controller('consumer')
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { ConsumerService } from "./consumer.service";
+import { PublicService } from "src/Public/public.service";
+@Controller("consumer")
 export class ConsumerController {
-  constructor(
-    private readonly consumerService: ConsumerService,
-    private readonly publicService: PublicService,
-  ) {}
-  @Get('qrcode')
-  getQrCodeId(@Body() JWTpayload: any) {
-    return this.consumerService.getQrCodeId(JWTpayload);
-  }
-  @Get('wishlist')
-  displayWishList() {
-    return this.consumerService.displayWishList();
-  }
+    constructor(
+        private readonly consumerService: ConsumerService,
+        private readonly publicService: PublicService
+    ) {}
+    // ---------------------------------------------------------------------------------------------------------
+    @Get("qrcode")
+    getQrCodeId(@Body() JWTpayload: any) {
+        return this.consumerService.getQrCodeId(JWTpayload);
+    }
+    // ---------------------------------------------------------------------------------------------------------
+    //未攞到consumer id
+    @Get("wishlist")
+    displayWishList(@Query("consumer_id") consumer_id: number) {
+        return this.consumerService.displayWishList(consumer_id);
+    }
+    // ---------------------------------------------------
+    //done
+    @Post("wishlist/upload")
+    async uploadWishList(@Body() formData: any) {
+        let consumerId = 2;
+        let productId = 2;
+        let versionId = 1;
 
-  @Post('wishlist/upload/')
-  uploadWishList(@Body() parm: any) {
-    return this.consumerService.uploadWishList(parm.id);
-  }
-  @Post('wishlist/update/')
-  updateWishList(@Body() parm: any) {
-    return this.consumerService.updateWishList(parm.id);
-  }
-  @Get('order')
-  displayOrder(@Body() JWTpayload: any) {
-    return this.publicService.displayOrder(JWTpayload);
-  }
-  @Get('order/history')
-  displayOrderHistory(@Body() JWTpayload: any) {
-    return this.publicService.displayOrderHistory(JWTpayload);
-  }
-  @Post('order/create/')
-  createOrder(@Body() param: any) {
-    return this.consumerService.creatOrder(param.itemId);
-  }
-  @Post('order/pre/payment')
-  prePaymentConfirm(@Body() paymentstatus: any) {
-    return this.consumerService.prePaymentConfirm(paymentstatus);
-  }
-  @Post('order/remain/payment')
-  remainPaymentConfirm(@Body() paymentstatus: any) {
-    return this.consumerService.remainPaymentConfirm(paymentstatus);
-  }
-  @Post('profile/edit')
-  editProfile(@Body() form: any) {
-    return this.consumerService.editProfile(form);
-  }
-  @Post('reaction/feedback/')
-  feedback(@Body() reaction: any) {
-    return this.consumerService.feedback(
-      reaction.feedback,
-      reaction.merchantId,
-    );
-  }
-  @Post('reaction/rating/')
-  rating(@Body() reaction: any) {
-    return this.consumerService.feedback(reaction.rating, reaction.merchantId);
-  }
+        try {
+            const { targetPrice, notification } = formData;
+            const uploadWishList = await this.consumerService.uploadWishList(
+                consumerId,
+                productId,
+                versionId,
+                targetPrice,
+                notification
+            );
+            return { success: true, data: uploadWishList };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    // @Post("wishlist/upload/")
+    // async uploadWishList(@Body() parm: any) {
+    //     return this.consumerService.uploadWishList(parm.id);
+    // }
+    // ---------------------------------------------------
+    //done
+    @Delete("wishlist/delete/")
+    async deleteWishList(@Body() requestData: any) {
+        // const { consumerId, productId, versionId } = requestData;
+        const consumerId = 1;
+        const productId = 1;
+        const versionId = 1;
+        try {
+            const deleteWishList = await this.consumerService.deleteWishList(
+                consumerId,
+                productId,
+                versionId
+            );
+            return { success: true, data: deleteWishList };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+    // @Delete("wishlist/update/")
+    // async deleteWishList(@Body() parm: any) {
+
+    //     return this.consumerService.updateWishList(parm.id);
+    // }
+    // ---------------------------------------------------------------------------------------------------------
+    @Get("order")
+    displayOrder(@Body() JWTpayload: any) {
+        return this.publicService.displayOrder(JWTpayload);
+    }
+    @Get("order/history")
+    displayOrderHistory(@Body() JWTpayload: any) {
+        return this.publicService.displayOrderHistory(JWTpayload);
+    }
+    @Post("order/create/")
+    createOrder(@Body() param: any) {
+        return this.consumerService.createOrder(param.itemId);
+    }
+    @Post("order/pre/payment")
+    prePaymentConfirm(@Body() paymentstatus: any) {
+        return this.consumerService.prePaymentConfirm(paymentstatus);
+    }
+    @Post("order/remain/payment")
+    remainPaymentConfirm(@Body() paymentstatus: any) {
+        return this.consumerService.remainPaymentConfirm(paymentstatus);
+    }
+    // ---------------------------------------------------------------------------------------------------------
+    //done
+    @Put("profile/edit/:consumerId")
+    async editConProfile(@Param("consumerId") consumerId: any, @Body() form: any) {
+        return await this.consumerService.editConProfile(consumerId, form);
+    }
+    // @Post("profile/edit")
+    // editProfile(@Body() form: any) {
+    //     return this.consumerService.editProfile(form);
+    // }
+    // ---------------------------------------------------------------------------------------------------------
+    //唔知點解加左rating就唔work
+    @Post("reaction/feedback/")
+    feedback(@Body() reaction: any) {
+        let merchantId = 1;
+        let consumerId = 1;
+
+        return this.consumerService.feedback(
+            reaction.comment,
+            reaction.rating,
+            merchantId,
+            consumerId
+        );
+    }
+
+    // @Post("reaction/rating/")
+    // rating(@Body() reaction: any) {
+    //     const merchantId = 1
+    //     const consumerId = 1
+    //     return this.consumerService.rating(reaction.rating, merchantId, consumerId);
+    // }
+    // @Post("reaction/rating/")
+    // rating(@Body() reaction: any) {
+    //     return this.consumerService.rating(reaction.rating, reaction.merchantId);
+    // }
 }

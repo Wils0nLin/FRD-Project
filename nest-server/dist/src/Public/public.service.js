@@ -125,8 +125,27 @@ let PublicService = exports.PublicService = class PublicService {
         return bankAcc;
     }
     async login(userLoginInfo) {
-        const getUserInfo = await this.prisma.users.findMany();
-        return getUserInfo;
+        const userInfo = await prisma.users.findMany();
+        return userInfo;
+    async login(form) {
+        const user = await this.prisma.users.findUnique({
+            where: { username: form.username },
+            select: { id: true, password: true },
+        });
+        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return user.id;
+    }
+    async signToken(userId) {
+        const payload = { sub: userId };
+        console.log(this.config.get("JWT_SECRET"));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: "1d",
+                secret: this.config.get("JWT_SECRET"),
+            }),
+        };
     }
     hot() {
         console.log(`arrange by views`);
@@ -143,10 +162,14 @@ let PublicService = exports.PublicService = class PublicService {
         return comingSoon;
         console.log(`select products by a desc of time `);
     }
-    displayTag() {
+    async displayTag() {
+        const homeTag = await prisma.tag.findMany();
+        return homeTag;
         console.log(`display Tag filter in Homepage`);
     }
-    displayPlatform() {
+    async displayPlatform() {
+        const homePlatform = await prisma.platform.findMany();
+        return homePlatform;
         console.log(`display platform filter in Homepage`);
     }
     async platformFilter() {
@@ -186,31 +209,62 @@ let PublicService = exports.PublicService = class PublicService {
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
+        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
+<<<<<<< HEAD
     async version(productId, itemId) {
         const version = await prisma.version.findMany({
+=======
+    async getMerchantByItemId() {
+        const item = await prisma.item.findUnique({
+    async item(itemId) {
+        const item = await prisma.item.findUnique({
+>>>>>>> 24e92c717485a4f5f3cf5e58e253c032785f5f7c
             where: {
-                product: {
-                    id: productId,
-                },
+                id: itemId,
             },
             include: {
-                items: {
-                    include: {
-                        merchant: true,
-                    },
-                },
+                merchant: true,
             },
         });
-        return version.map((version) => ({
+        if (!item) {
+            throw new Error("Item not found");
+        }
+        return {
+            itemId: item.id,
+            merchantId: item.merchant.id,
+            merchantName: item.merchant.merchant_name,
+            merchantPhone: item.merchant.merchant_phone,
+        };
+    }
+    async version(productId, versionId) {
+        const version = await prisma.version.findUnique({
+            where: {
+                id: versionId,
+            },
+            include: {
+                items: true,
+            },
+            include: {
+                merchant: true,
+            },
+        });
+        if (!version || version.product_id !== productId) {
+            throw new Error("Version not found");
+        }
+        const items = version.items.map((item) => ({
+            itemId: item.id,
+            merchantId: item.merchant_id,
+        }));
+        const merchants = await Promise.all(items.map((item) => this.getMerchantByItemId(item.itemId)));
+        return {
             versionId: version.id,
             versionName: version.version,
-            items: version.items.map((item) => ({
-                itemId: item.id,
-                merchant: item.merchant_id,
+            items: items.map((item, index) => ({
+                itemId: item.itemId,
+                merchant: merchants[index],
             })),
-        }));
-        console.log(`select all iems with props`, productId);
+        };
     }
     district(productid, versionId, district) {
         console.log(`select all iems with props`, productid, versionId, district);

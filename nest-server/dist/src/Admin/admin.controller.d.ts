@@ -1,5 +1,5 @@
-import { AdminService } from 'src/Admin/admin.service';
-import { PublicService } from 'src/Public/public.service';
+import { AdminService } from "src/Admin/admin.service";
+import { PublicService } from "src/Public/public.service";
 export declare class AdminController {
     private readonly adminService;
     private readonly publicService;

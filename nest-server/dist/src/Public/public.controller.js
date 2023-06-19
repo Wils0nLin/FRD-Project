@@ -68,9 +68,20 @@ let PublicController = exports.PublicController = class PublicController {
     search(search) {
         return this.publicService.search(search);
     }
-    version(productId, itemId) {
-        productId = 1;
-        return this.publicService.version(productId, itemId);
+    async getItem() {
+        const itemId = 1;
+        try {
+            const merchant = await this.publicService.getMerchantByItemId(itemId);
+            return merchant;
+        }
+        catch (error) {
+            return { error: error.message };
+        }
+    }
+    version() {
+        let productId = 1;
+        let versionId = 1;
+        return this.publicService.version(productId, versionId);
     }
     district(productId, versionId, district) {
         productId = 2;
@@ -191,10 +202,15 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "search", null);
 __decorate([
-    (0, common_1.Get)("filter/version"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)("/filter/version/:itemId/merchant"),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "getItem", null);
+__decorate([
+    (0, common_1.Get)("/filter/version"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "version", null);
 __decorate([
