@@ -10,11 +10,14 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import * as eva from '@eva-design/eva';
-import {Button, Layout, ApplicationProvider} from '@ui-kitten/components';
-import GameInfo from '../../pages/gameInfoModule';
+import GameTypeSlider from '../../../../objects/GameTypeSlider';
+import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import HomeItemCard from '../../../../objects/HomeItemCard';
+import HomePageSlider from '../../../../objects/HomePageSlider';
+import {Switch} from 'react-native-gesture-handler';
 
-export default function ConAppScreen() {
+export default function ConAppScreen({navigation}: any) {
   const HotArr = [
     {
       image: (
@@ -142,46 +145,36 @@ export default function ConAppScreen() {
   };
 
   return (
-    <ScrollView>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <View style={consumerPageStyle.container}>
-          <View>
-            <SliderSVG />
-          </View>
+    <ScrollView
+      style={{
+        backgroundColor: '#2A2E32',
+      }}>
+      <SafeAreaView style={styles.safeArea}>
+        <HomePageSlider />
 
-          <View style={platformStyle.container}>
-            {/* <Text style={smallWordsStyle.container}>Consumer App Screen</Text> */}
-
-            <View style={switchStyle.container}>
-              <SwitchSVG
-                style={{
-                  position: 'relative',
-                  left: 3,
-                  bottom: 2,
-                }}
-              />
-              <Text style={smallWordsStyle.container}>SWITCH</Text>
-            </View>
-            <View style={playStationStyle.container}>
-              <PlayStationSVG
-                style={{
-                  position: 'relative',
-                  left: 16,
-                  bottom: 2,
-                }}
-              />
-              <Text style={smallWordsStyle.container}>PLAYSTATION</Text>
-            </View>
-            <View style={xboxStyle.container}>
-              <XboxSVG
-                style={{
-                  position: 'relative',
-                  right: 1,
-                  bottom: 2,
-                }}
-              />
-              <Text style={smallWordsStyle.container}>XBOX</Text>
-            </View>
+        <View style={{flexDirection: 'row', width: 350, marginTop: 10}}>
+          <TouchableOpacity
+            style={styles.SwitchButton}
+            onPress={() => {
+              navigation.navigate('GameSearchScreen', {
+                platform: 'Switch',
+              });
+            }}>
+            <MaterialCom name={'nintendo-switch'} size={25} color={'#E4E4E4'} />
+            <Text style={{color: '#E4E4E4', fontSize: 12}}>SWITCH</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.PlayStatButton}>
+            <Fontisto name={'playstation'} size={25} color={'#E4E4E4'} />
+            <Text style={{color: '#E4E4E4', fontSize: 12}}>PLAYSTATION</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.XboxButton}>
+            <MaterialCom name={'microsoft-xbox'} size={25} color={'#E4E4E4'} />
+            <Text style={{color: '#E4E4E4', fontSize: 12}}>XBOX</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.gameTypeBox}>
+          <View style={{marginRight: 5}}>
+            <FontAwesome5 name={'chevron-left'} size={25} color={'#E4E4E4'} />
           </View>
           <GameTypeSlider />
           <View style={{marginLeft: 5}}>

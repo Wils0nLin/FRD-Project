@@ -110,7 +110,7 @@ const PublicScreenNavigator = () => {
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
         }}
-      />
+      /> */}
       <Stack.Screen
         name="MerchantCenter"
         component={MerchantCenterScreen}

@@ -93,9 +93,13 @@ export class PublicController {
     }
     //done
     @Get("filter/tag")
-    tagFilter(@Body("tag") tag: string[]) {
-        return this.publicService.tagFilter(tag);
+    tagFilter(@Body("tag") tags: string[]) {
+        return this.publicService.tagFilter(tags);
     }
+    // @Get("filter/tag")
+    // tagFilter(@Body("tag") tags: string[]) {
+    //     return this.publicService.tagFilter(tags);
+    // }
     //
 
     // game platform
@@ -106,7 +110,7 @@ export class PublicController {
     }
 
     //done
-    @Get("filter/platform/:platformArr")
+    @Get("filter/platform/:platformName")
     async platformFilter(@Param("platformName") platformName: any) {
         console.log(platformName);
         // return await this.publicService.platformFilter(platformName);

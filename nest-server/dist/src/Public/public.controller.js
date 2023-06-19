@@ -56,8 +56,8 @@ let PublicController = exports.PublicController = class PublicController {
     displayTag() {
         return this.publicService.displayTag();
     }
-    tagFilter(tag) {
-        return this.publicService.tagFilter(tag);
+    tagFilter(tags) {
+        return this.publicService.tagFilter(tags);
     }
     displayPlatform() {
         return this.publicService.displayPlatform();
@@ -189,7 +189,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayPlatform", null);
 __decorate([
-    (0, common_1.Get)("filter/platform/:platformArr"),
+    (0, common_1.Get)("filter/platform/:platformName"),
     __param(0, (0, common_1.Param)("platformName")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

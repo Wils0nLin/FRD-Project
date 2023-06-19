@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import {consumerPageStyle} from './conAppScreen';
+// import {consumerPageStyle} from './conAppScreen';
 import UserLogoSVG from '../../../../assets/svg/UserLogoSVG';
 import WhiteLineSVG from '../../../../assets/svg/lineSVG/whiteLineSVG';
 
@@ -18,7 +18,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 const ConWishListScreen = ({navigation}: any) => {
   return (
     <ScrollView>
-      <View style={consumerPageStyle.container}>
+      <View>
         <View style={userInfoOutsideBoxStyle.container}>
           <View style={userInfoInsideBoxStyle.container}>
             <UserLogoSVG style={userIconStyle.container} />

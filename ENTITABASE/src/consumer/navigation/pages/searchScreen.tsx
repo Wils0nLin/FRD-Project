@@ -13,12 +13,6 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import GameSearchModal from '../../modals/GameSearchModal';
-import {
-  gameImgStyle,
-  gameListAreaStyle,
-} from '../tab/consumer/conWishListScreen';
-import axios from 'axios';
 import {useState} from 'react';
 import {Layout} from '@ui-kitten/components';
 interface info {
@@ -33,25 +27,56 @@ export const GameSearchScreen = ({route, navigation}: any) => {
   const [Texting, onChangeText] = React.useState(text);
   const [Tag, setTag] = useState<any>();
   const [Platform, setPlatform] = useState<Array<string>>([]);
-  const [High, setHighest] = useState();
+  //未拆到個array object
+  const [High, setHighest] = useState<
+    {
+      original_price: number;
+      version_image: string;
+      end_date: string;
+      stock_status: string;
+      product_name: string;
+      version: string;
+    }[]
+  >([]);
   const [News, setNew] = useState();
+
+  //game types search
   const tagSearch = async () => {
     if (tagArr) {
-      const tag = await fetch('');
+      const tagParams = tagArr
+        .map(tag => `tag=${encodeURIComponent(tag)}`)
+        .join('&');
+      const tag = await fetch(
+        'http://192.168.160.77:3000/public/filter/tag?${tagParams}',
+      );
       const tagResult = await tag.json();
-
+      console.log('Hi tag: ', tagResult);
       setTag(tagResult);
     } else {
       console.log('bye');
       return;
     }
   };
+  // const tagSearch = async () => {
+  //   if (tagArr) {
+  //     console.log('Hi tag: ', tagArr);
 
+  //     const tag = await fetch('http://192.168.160.77:3000/public/filter/tag');
+  //     const tagResult = await tag.json();
+
+  //     setTag(tagResult);
+  //   } else {
+  //     console.log('bye');
+  //     return;
+  //   }
+  // };
+
+  //platform search
   const platformSearch = async () => {
     if (platformArr) {
       const clonedPlatformArr = platformArr.slice();
       let a = clonedPlatformArr.toString();
-      console.log('Yo man: ', clonedPlatformArr);
+      // console.log('Yo man: ', clonedPlatformArr);
 
       let clonedPlatformPush = Platform.slice();
 
@@ -60,7 +85,8 @@ export const GameSearchScreen = ({route, navigation}: any) => {
           `http://192.168.160.77:3000/public/filter/platform/${items}`,
         );
         const platformResult = await platform.json();
-        console.log('Good fetch: ', platformResult);
+        setPlatform(platformResult);
+        // console.log('Good fetch: ', platformResult);
 
         clonedPlatformPush.push(platformResult);
         setPlatform(clonedPlatformPush);
@@ -73,6 +99,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
     }
   };
 
+  //search bar text
   const textSearch = async () => {
     if (text) {
       const tag = await fetch('');
@@ -82,19 +109,29 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       return;
     }
   };
+  //price
   const hightestSearch = async () => {
     if (highest == null || highest == undefined) {
       return;
-    } else if (highest!) {
-      const tag = await fetch('');
-      const tagResult = await tag.json();
-      setTag(tagResult);
+    } else if (!highest) {
+      const tag = await fetch(
+        'http://192.168.160.77:3000/public/filter/version/priceasce',
+      );
+      const lowerPrice = await tag.json();
+      console.log('lower price: ', lowerPrice);
+
+      setHighest(lowerPrice);
     } else if (highest) {
-      const tag = await fetch('');
-      const tagResult = await tag.json();
-      setTag(tagResult);
+      const tag = await fetch(
+        'http://192.168.160.77:3000/public/filter/version/pricedesc',
+      );
+
+      const higherPrice = await tag.json();
+      console.log('higher price: ', higherPrice);
+      setHighest(higherPrice);
     }
   };
+
   const newSearch = async () => {
     if (newest == null || newest == undefined) {
       return;
@@ -115,7 +152,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
     hightestSearch();
     newSearch();
   }, [Texting]);
-  // axios.get('http://192.168.160.142:3000/auth/login', form);
+
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View>
@@ -159,7 +196,24 @@ export const GameSearchScreen = ({route, navigation}: any) => {
             style={{marginTop: 3}}
           />
         </View>
-        <View></View>
+
+        {/* higher or lower price render */}
+        <View>
+          {High.map((item, index) => {
+            return (
+              <View key={index}>
+                <View>
+                  <Text>{item.original_price}</Text>
+                  <Text>{item.stock_status}</Text>
+                  <Text>{item.version_image}</Text>
+                  <Text>{item.end_date}</Text>
+                  <Text>{item.product_name}</Text>
+                  {/* <Text>{item.version}</Text> */}
+                </View>
+              </View>
+            );
+          })}
+        </View>
       </View>
     </ScrollView>
   );
