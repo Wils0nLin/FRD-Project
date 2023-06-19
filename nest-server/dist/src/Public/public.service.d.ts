@@ -22,7 +22,7 @@ export declare class PublicService {
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(): Promise<(import(".prisma/client").Platform & {
+    platformFilter(platformName: string): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
         })[];

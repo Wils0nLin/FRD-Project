@@ -14,6 +14,9 @@ import { ConfigService } from "@nestjs/config";
 const prisma = new PrismaClient();
 @Injectable()
 export class PublicService {
+    // getMerchantByItemId(itemId: number) {
+    //     throw new Error("Method not implemented.");
+    // }
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwt: JwtService,
@@ -150,7 +153,7 @@ export class PublicService {
     async login(form: any) {
         const user: any = await this.prisma.users.findUnique({
             where: { username: form.username },
-            select: { id: true, password: true , identity: true},
+            select: { id: true, password: true, identity: true },
         });
 
         if (!user || !(await checkPassword(form.password, user.password))) {
@@ -210,8 +213,13 @@ export class PublicService {
 
     // search engine
     //done
-    async platformFilter() {
+    async platformFilter(platformName: string) {
         const platform = await this.prisma.platform.findMany({
+            where: {
+                platform: {
+                    equals: platformName,
+                },
+            },
             include: {
                 products: {
                     include: {
@@ -224,15 +232,29 @@ export class PublicService {
         return platform;
     }
 
-    //done
+    //done tag search game
     async tagFilter(tags: string[]) {
+        const tagIds = await this.prisma.tag
+            .findMany({
+                where: {
+                    tag: {
+                        in: tags,
+                    },
+                },
+                select: {
+                    id: true,
+                },
+            })
+            .then((tags) => tags.map((tag) => tag.id));
+
+        // 使用獲取的標籤ID進行產品搜索
         const product = await this.prisma.product.findMany({
             where: {
                 product_tags: {
                     some: {
                         tag: {
-                            tag: {
-                                in: tags,
+                            id: {
+                                in: tagIds,
                             },
                         },
                     },
@@ -242,9 +264,30 @@ export class PublicService {
                 product_tags: true,
             },
         });
-        return product;
+
         console.log("using query to get all value which is NOT repeat", tags);
+        return product;
     }
+    // async tagFilter(tags: string[]) {
+    //     const product = await this.prisma.product.findMany({
+    //         where: {
+    //             product_tags: {
+    //                 some: {
+    //                     tag: {
+    //                         tag: {
+    //                             in: tags,
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //         },
+    //         include: {
+    //             product_tags: true,
+    //         },
+    //     });
+    //     return product;
+    //     console.log("using query to get all value which is NOT repeat", tags);
+    // }
 
     //done
     async search(search: string) {
@@ -334,7 +377,7 @@ export class PublicService {
     async priceDesc(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                newest_price: "desc",
+                original_price: "desc",
             },
             include: {
                 version: {
@@ -352,7 +395,7 @@ export class PublicService {
     async priceAsec(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                newest_price: "asc",
+                original_price: "asc",
             },
             include: {
                 version: {

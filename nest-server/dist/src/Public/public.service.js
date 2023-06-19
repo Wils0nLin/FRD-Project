@@ -167,8 +167,13 @@ let PublicService = exports.PublicService = class PublicService {
         return homePlatform;
         console.log(`display platform filter in Homepage`);
     }
-    async platformFilter() {
+    async platformFilter(platformName) {
         const platform = await this.prisma.platform.findMany({
+            where: {
+                platform: {
+                    equals: platformName,
+                },
+            },
             include: {
                 products: {
                     include: {
@@ -180,13 +185,25 @@ let PublicService = exports.PublicService = class PublicService {
         return platform;
     }
     async tagFilter(tags) {
+        const tagIds = await this.prisma.tag
+            .findMany({
+            where: {
+                tag: {
+                    in: tags,
+                },
+            },
+            select: {
+                id: true,
+            },
+        })
+            .then((tags) => tags.map((tag) => tag.id));
         const product = await this.prisma.product.findMany({
             where: {
                 product_tags: {
                     some: {
                         tag: {
-                            tag: {
-                                in: tags,
+                            id: {
+                                in: tagIds,
                             },
                         },
                     },
@@ -196,8 +213,8 @@ let PublicService = exports.PublicService = class PublicService {
                 product_tags: true,
             },
         });
-        return product;
         console.log("using query to get all value which is NOT repeat", tags);
+        return product;
     }
     async search(search) {
         const target = `%${search}%`;
@@ -259,7 +276,7 @@ let PublicService = exports.PublicService = class PublicService {
     async priceDesc(productid, versionId) {
         const item = await prisma.item.findMany({
             orderBy: {
-                newest_price: "desc",
+                original_price: "desc",
             },
             include: {
                 version: {
@@ -275,7 +292,7 @@ let PublicService = exports.PublicService = class PublicService {
     async priceAsec(productid, versionId) {
         const item = await prisma.item.findMany({
             orderBy: {
-                newest_price: "asc",
+                original_price: "asc",
             },
             include: {
                 version: {

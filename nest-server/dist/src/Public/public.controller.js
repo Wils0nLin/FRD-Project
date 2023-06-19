@@ -52,14 +52,15 @@ let PublicController = exports.PublicController = class PublicController {
     displayTag() {
         return this.publicService.displayTag();
     }
-    tagFilter(tag) {
-        return this.publicService.tagFilter(tag);
+    tagFilter(tags) {
+        return this.publicService.tagFilter(tags);
     }
     displayPlatform() {
         return this.publicService.displayPlatform();
     }
-    async platformFilter() {
-        return await this.publicService.platformFilter();
+    async platformFilter(platformName) {
+        console.log(platformName);
+        return await this.publicService.platformFilter(platformName);
     }
     search(search) {
         return this.publicService.search(search);
@@ -184,9 +185,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayPlatform", null);
 __decorate([
-    (0, common_1.Get)("filter/platform"),
+    (0, common_1.Get)("filter/platform/:platformName"),
+    __param(0, (0, common_1.Param)("platformName")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], PublicController.prototype, "platformFilter", null);
 __decorate([
