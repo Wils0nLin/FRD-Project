@@ -13,7 +13,7 @@ import ConRegister from '../screens/ConRegister';
 import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../consumer/modals/SearchModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { GameSearchScreen } from '../../consumer/navigation/pages/searchScreen';
+import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
 const Stack = createNativeStackNavigator();
 
 const PublicScreenNavigator = () => {
@@ -25,7 +25,10 @@ const PublicScreenNavigator = () => {
         component={ConAppScreen}
         options={{
           headerTitle: 'ENTITÀBASE',
-          headerRight: () => <SearchModal />,
+          headerRight: () => {
+            console.log('hi');
+            return <SearchModal />;
+          },
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
         }}
@@ -52,8 +55,7 @@ const PublicScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'GAME SEARCH',
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ConsumerHome')}>
+            <TouchableOpacity onPress={() => navigation.navigate('PublicHome')}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),

@@ -26,7 +26,7 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
-    version(productId: any): Promise<{
+    version(productId: any, itemId: any): Promise<{
         versionId: number;
         versionName: string;
         items: {

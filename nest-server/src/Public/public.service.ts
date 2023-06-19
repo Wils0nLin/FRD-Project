@@ -243,7 +243,7 @@ export class PublicService {
     }
 
     //3個未完
-    async version(productId: any) {
+    async version(productId: any,itemId: any) {
         //try
 
         const version = await prisma.version.findMany({
