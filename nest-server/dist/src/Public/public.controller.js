@@ -68,7 +68,8 @@ let PublicController = exports.PublicController = class PublicController {
     search(search) {
         return this.publicService.search(search);
     }
-    async getMerchantByItemId() {
+    async getItem() {
+        const itemId = 1;
         try {
             const merchant = await this.publicService.getMerchantByItemId(itemId);
             return merchant;
@@ -205,7 +206,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], PublicController.prototype, "getMerchantByItemId", null);
+], PublicController.prototype, "getItem", null);
 __decorate([
     (0, common_1.Get)("/filter/version"),
     __metadata("design:type", Function),

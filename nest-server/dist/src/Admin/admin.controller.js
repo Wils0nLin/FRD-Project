@@ -32,27 +32,27 @@ let AdminController = exports.AdminController = class AdminController {
     }
 };
 __decorate([
-    (0, common_1.Post)('uploadProduct'),
+    (0, common_1.Post)("uploadProduct"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "upLoadProduct", null);
 __decorate([
-    (0, common_1.Get)('merchantRegistration'),
+    (0, common_1.Get)("merchantRegistration"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "merchantReg", null);
 __decorate([
-    (0, common_1.Post)('merchant/:merchantId'),
+    (0, common_1.Post)("merchant/:merchantId"),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "merchantConfirm", null);
 exports.AdminController = AdminController = __decorate([
-    (0, common_1.Controller)('admin'),
+    (0, common_1.Controller)("admin"),
     __metadata("design:paramtypes", [admin_service_1.AdminService,
         public_service_1.PublicService])
 ], AdminController);

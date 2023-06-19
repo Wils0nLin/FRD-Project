@@ -121,7 +121,8 @@ export class PublicController {
     // only game version
     //未完
     @Get("/filter/version/:itemId/merchant")
-    async getMerchantByItemId() {
+    async getItem() {
+        const itemId = 1;
         try {
             const merchant = await this.publicService.getMerchantByItemId(itemId);
             return merchant;

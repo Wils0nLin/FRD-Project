@@ -127,6 +127,25 @@ let PublicService = exports.PublicService = class PublicService {
     async login(userLoginInfo) {
         const userInfo = await prisma.users.findMany();
         return userInfo;
+    async login(form) {
+        const user = await this.prisma.users.findUnique({
+            where: { username: form.username },
+            select: { id: true, password: true },
+        });
+        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return user.id;
+    }
+    async signToken(userId) {
+        const payload = { sub: userId };
+        console.log(this.config.get("JWT_SECRET"));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: "1d",
+                secret: this.config.get("JWT_SECRET"),
+            }),
+        };
     }
     hot() {
         console.log(`arrange by views`);
@@ -190,8 +209,11 @@ let PublicService = exports.PublicService = class PublicService {
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
+        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
     async getMerchantByItemId() {
+        const item = await prisma.item.findUnique({
+    async item(itemId) {
         const item = await prisma.item.findUnique({
             where: {
                 id: itemId,
@@ -217,6 +239,9 @@ let PublicService = exports.PublicService = class PublicService {
             },
             include: {
                 items: true,
+            },
+            include: {
+                merchant: true,
             },
         });
         if (!version || version.product_id !== productId) {

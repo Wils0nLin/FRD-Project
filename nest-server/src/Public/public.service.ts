@@ -1,11 +1,24 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
+import {
+    RegisterConFormDTO,
+    RegisterMerFormDTO,
+    RegisterUserFormDTO,
+} from "./dto/createPublic.dto";
+import { log } from "console";
+import { checkPassword } from "./hash";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from "@nestjs/config";
 
 const prisma = new PrismaClient();
 @Injectable()
 export class PublicService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly jwt: JwtService,
+        private readonly config: ConfigService
+    ) {}
 
     //merchant未完
     async Register(form: any, identity: string) {
@@ -141,10 +154,29 @@ export class PublicService {
 
     // login info for users
     //done
-    async login(userLoginInfo: any) {
-        const userInfo = await prisma.users.findMany();
-        return userInfo;
-        // console.log(`compare ${userLoginInfo} with query result`);
+
+    async login(form: any) {
+        const user: any = await this.prisma.users.findUnique({
+            where: { username: form.username },
+            select: { id: true, password: true },
+        });
+
+        // if (!user || !(await checkPassword(form.password, user.password))) {
+        //     throw new UnauthorizedException();
+        // }
+
+        return this.signToken(user.id);
+    }
+
+    async signToken(userId: number) {
+        const payload = { sub: userId };
+        console.log(this.config.get("JWT_SECRET"));
+        return {
+            access_token: await this.jwt.signAsync(payload, {
+                expiresIn: "1d",
+                secret: this.config.get("JWT_SECRET"),
+            }),
+        };
     }
 
     //Homepage
@@ -241,7 +273,7 @@ export class PublicService {
 
     //3個未完
     //select product then select version to find which merchant have this item
-    async getMerchantByItemId() {
+    async getMerchantByItemId(itemId: any) {
         const item = await prisma.item.findUnique({
             where: {
                 id: itemId,
