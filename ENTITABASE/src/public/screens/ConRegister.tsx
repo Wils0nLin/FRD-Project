@@ -52,7 +52,7 @@ export default function ConRegister({navigation}: any) {
       consumer_phone: Phone,
     };
     axios
-      .post('http://192.168.160.142:3000/public/register/conRegister', form)
+      .post('http://192.168.160.78:3000/public/register/conRegister', form)
       .then(function (response) {
         console.log(response);
         Alert.alert('success', `${response}`);

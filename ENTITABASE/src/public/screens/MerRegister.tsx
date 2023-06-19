@@ -1,15 +1,33 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Button, Input, Layout, Text} from '@ui-kitten/components';
-import React, {useState} from 'react';
+import {
+  Button,
+  IndexPath,
+  Input,
+  Layout,
+  Select,
+  SelectItem,
+  Text,
+} from '@ui-kitten/components';
+import React, {useEffect, useState} from 'react';
 import {Alert, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native';
-import axios from 'axios';
 import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
+
+interface district {
+  id: any;
+  area_id: any;
+  district: any;
+}
+interface Area {
+  id: any;
+  area: any;
+}
+
 const MerRegister = () => {
   const [Name, setName] = React.useState('');
   const [Username, setUsername] = React.useState('');
@@ -18,8 +36,25 @@ const MerRegister = () => {
   const [Email, setEmail] = React.useState('');
   const [Phone, setPhone] = React.useState('');
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
-  const [selectedImage, setSelectedImage] =
+  const [selectedImageICON, setSelectedImageICON] =
     useState<ImagePickerResponse | null>(null);
+  const [selectedImageREGIS, setSelectedImageREGIS] =
+    useState<ImagePickerResponse | null>(null);
+  const [openingHour, setHour] = useState<string>();
+
+  const [bankList, setBankList] = useState<Array<any>>([]);
+  const [branchList, setbranchList] = useState<Array<any>>([]);
+  const [branchLists, setbranchLists] = useState<Array<any>>([]);
+
+  const [AreaList, setAreaList] = useState<Array<Area>>([]);
+
+  const [districtList, setDristList] = useState<Array<district>>([]);
+  const [districtLists, setDristLists] = useState<Array<district>>([]);
+  const [district, setDistrict] = useState('');
+  const [Area, setArea] = useState(0);
+  const [bank, setBank] = useState(0);
+  const [branch, setBranch] = useState(0);
+  const [accountNum, setAccountNum] = useState('');
 
   const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
@@ -30,7 +65,7 @@ const MerRegister = () => {
     setSecureTextEntry(!setSecureTextEntry);
   };
 
-  const handleImageSelection = () => {
+  const handleImageSelectionICON = () => {
     launchImageLibrary(
       {
         mediaType: 'photo',
@@ -44,46 +79,123 @@ const MerRegister = () => {
           console.log('选择图片时出现错误:', response.errorMessage);
         } else {
           // 图片选择成功
-          setSelectedImage(response);
-          console.log('handle selected data check', selectedImage);
-          uploadImage(response);
+          setSelectedImageICON(response);
+          console.log('handle selected data check', selectedImageICON);
         }
       },
     );
   };
-
-  const uploadImage = async (response: ImagePickerResponse) => {
+  const handleImageSelectionREGIS = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxHeight: 100,
+        maxWidth: 100,
+      },
+      response => {
+        if (response.didCancel) {
+          console.log('用户取消了选择');
+        } else if (response.errorMessage) {
+          console.log('选择图片时出现错误:', response.errorMessage);
+        } else {
+          // 图片选择成功
+          setSelectedImageREGIS(response);
+          console.log('handle selected data check', selectedImageREGIS);
+        }
+      },
+    );
+  };
+  const upload = async () => {
     // const folderName = '../../utils/merUpload/';
-    const newFileName = `image${Date.now()}.jpg`; // 替换为新的文件名
-
-    console.log('check hi', response);
+    const newFileNameIcon = `Icon${Date.now()}.jpg`; // 替换为新的文件名
+    const newFileNameRegis = `Regis${Date.now()}.jpg`;
+    console.log('Regis', selectedImageICON);
     const formData = new FormData();
-    formData.append('file', {
-      uri: response.assets![0].uri,
-      type: 'image/jpeg/jpg',
-      name: newFileName,
-    });
-
+    if (selectedImageICON == null || selectedImageREGIS == null) {
+      return;
+    } else {
+      formData.append('Img', [
+        {
+          name: 'IconImg',
+          uri: selectedImageICON.assets![0].uri,
+          type: 'image/jpeg',
+          names: newFileNameIcon,
+        },
+        {
+          name: 'RegisImg',
+          uri: selectedImageREGIS.assets![0].uri,
+          type: 'image/jpeg',
+          names: newFileNameRegis,
+        },
+      ]);
+    }
+    formData.append('name', Name);
+    formData.append('username', Username);
+    formData.append('password', Password);
+    formData.append('email', Email);
+    formData.append('phone', Phone);
+    formData.append('area', Area);
+    formData.append('district', district);
+    formData.append('bank', bank);
+    formData.append('branch', branch);
+    formData.append('Hour', openingHour);
+    formData.append('accNum', accountNum);
     console.log('formData', formData);
 
     try {
       // const uploadResponse =
-      await fetch('http://192.168.160.142:3000/public/register/merRegister', {
+      await fetch('http://10.0.2.2:3000/public/register/merRegister', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
         },
         body: formData,
       });
-
-      // console.log('Upload successful:', uploadResponse.data);
       Alert.alert('Upload successful', 'Image uploaded successfully');
     } catch (error) {
       console.log('Upload failed:', error);
       Alert.alert('Upload failed', 'Image upload failed');
     }
   };
+  let getCurrentDistrict = (id: string) => {
+    console.log(id);
+    let clonedDistriclist = districtList.slice();
+    let districlistpush: Array<district> = [];
 
+    clonedDistriclist.map(items => {
+      if (items.area_id == id) {
+        console.log(items.area_id);
+        districlistpush.push(items);
+      } else {
+        console.log('delete');
+      }
+    });
+    console.log('filtered', districlistpush);
+    setDristLists(districlistpush);
+  };
+  let getCurrentBranch = (id: number) => {
+    console.log(id);
+    let clonedBranch = branchList.slice();
+    let branchpush: Array<district> = [];
+
+    clonedBranch.map(items => {
+      if (items.bank_id == id) {
+        console.log(items.bank_id);
+        branchpush.push(items);
+      } else {
+        console.log('delete');
+      }
+    });
+    console.log('filtered', branchpush);
+    setbranchLists(branchpush);
+    console.log(branchLists);
+  };
+  useEffect(() => {
+    getAreaList();
+    getDistricList();
+    getBankList();
+    getBranchList();
+  }, [Area, bank]);
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
       <Layout style={styles.layout}>
@@ -144,10 +256,101 @@ const MerRegister = () => {
             onChangeText={nextValue => setPhone(nextValue)}
             style={{backgroundColor: 'rgb(40,40,40)'}}
           />
+          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
+            <Text style={styles.text}>地區：</Text>
+            <Select
+              style={{width: '100%'}}
+              placeholder={'地區'}
+              onSelect={(index): any => {
+                areaSelect(index);
+              }}>
+              {AreaList.map(items => (
+                <SelectItem title={items.area} />
+              ))}
+            </Select>
+          </Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
+            <Text style={styles.text}>分區：</Text>
+            <Select
+              style={{width: '100%'}}
+              placeholder={'分區'}
+              onSelect={(index): any => {
+                districtSelect(index);
+              }}>
+              {districtLists.map(items => (
+                <SelectItem title={items.district} />
+              ))}
+            </Select>
+          </Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
+            <Text style={styles.text}>銀行編號：</Text>
+            <Select
+              style={{width: '100%'}}
+              placeholder={'銀行編號'}
+              onSelect={(index): any => {
+                bankSelect(index);
+              }}>
+              {bankList.map(items => (
+                <SelectItem title={items.bank_code + '\n' + items.bank_name} />
+              ))}
+            </Select>
+          </Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
+            <Text style={styles.text}>分行編號：</Text>
+            <Select
+              style={{width: '100%'}}
+              placeholder={'分行編號'}
+              onSelect={(index): any => {
+                branchSelect(index);
+              }}>
+              {branchLists.map(items => (
+                <SelectItem
+                  title={items.branch_code + '\n' + items.branch_name}
+                />
+              ))}
+            </Select>
+          </Layout>
+
+          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
+            <Text style={styles.text}>銀行卡號碼：</Text>
+            <Input
+              value={accountNum}
+              placeholder="Place your card code"
+              accessoryRight={renderIcon}
+              secureTextEntry={secureTextEntry}
+              onChangeText={nextValue => setAccountNum(nextValue)}
+              style={{backgroundColor: 'rgb(40,40,40)'}}
+            />
+          </Layout>
+
+          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}>
+            <Text style={styles.text}>營業時間：</Text>
+            <Input
+              editable
+              multiline
+              numberOfLines={7}
+              value={openingHour}
+              placeholder="Place your Text"
+              onChangeText={nextValue => setHour(nextValue)}
+              style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}
+            />
+          </Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}></Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}></Layout>
+          <Layout
+            style={{backgroundColor: 'rgb(40,40,40)', alignSelf: 'center'}}>
+            <Button style={styles.button} onPress={handleImageSelectionICON}>
+              選擇商標
+            </Button>
+            <Button style={styles.button} onPress={handleImageSelectionREGIS}>
+              選擇商業登記證
+            </Button>
+          </Layout>
         </Layout>
         <Layout style={styles.row}>
-          <Button style={styles.button}>提交</Button>
-          <Button onPress={handleImageSelection}>选择图片</Button>
+          <Button style={styles.button} onPress={() => upload()}>
+            提交
+          </Button>
         </Layout>
       </Layout>
     </ScrollView>

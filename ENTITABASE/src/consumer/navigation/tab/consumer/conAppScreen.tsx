@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import HomePageSlider from '../../../../objects/HomePageSlider';
-import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import HomeItemCard from '../../../../objects/HomeItemCard';
+import HomePageSlider from '../../../../objects/HomePageSlider';
+import {Switch} from 'react-native-gesture-handler';
 
-export default function ConAppScreen() {
+export default function ConAppScreen({navigation}: any) {
   const HotArr = [
     {
       image: (
@@ -125,6 +126,24 @@ export default function ConAppScreen() {
     return [list, select];
   };
 
+  const findSwitchGames = async () => {
+    try {
+      const process = await fetch(
+        `http://192.168.160.142:3000/public/filter/platform/?platformId=${1}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const result = await process.json();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ScrollView
       style={{
@@ -134,7 +153,13 @@ export default function ConAppScreen() {
         <HomePageSlider />
 
         <View style={{flexDirection: 'row', width: 350, marginTop: 10}}>
-          <TouchableOpacity style={styles.SwitchButton}>
+          <TouchableOpacity
+            style={styles.SwitchButton}
+            onPress={() => {
+              navigation.navigate('GameSearchScreen', {
+                platform: 'Switch',
+              });
+            }}>
             <MaterialCom name={'nintendo-switch'} size={25} color={'#E4E4E4'} />
             <Text style={{color: '#E4E4E4', fontSize: 12}}>SWITCH</Text>
           </TouchableOpacity>

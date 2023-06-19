@@ -8,9 +8,9 @@ export declare class PublicService {
     constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
     Register(form: any, identity: string): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
-    selectDistrict(area_id: number): Promise<import(".prisma/client").District[]>;
+    selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
-    branch(bank_id: number): Promise<import(".prisma/client").Branch[]>;
+    branch(): Promise<import(".prisma/client").Branch[]>;
     bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
     login(form: any): Promise<{
         access_token: string;
@@ -22,7 +22,7 @@ export declare class PublicService {
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(): Promise<(import(".prisma/client").Platform & {
+    platformFilter(platformName: string): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
         })[];
