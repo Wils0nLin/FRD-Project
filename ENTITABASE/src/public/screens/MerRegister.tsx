@@ -66,15 +66,15 @@
 
 //     console.log('formData', formData);
 
-//     try {
-//       // const uploadResponse =
-//       await fetch('http://localhost:3000/public/upload', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//         },
-//         body: formData,
-//       });
+    try {
+      // const uploadResponse =
+      await fetch('http://192.168.160.142:3000/public/register/merRegister', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData,
+      });
 
 //       // console.log('Upload successful:', uploadResponse.data);
 //       Alert.alert('Upload successful', 'Image uploaded successfully');

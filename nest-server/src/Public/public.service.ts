@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
 import {
@@ -7,7 +7,7 @@ import {
     RegisterUserFormDTO,
 } from "./dto/createPublic.dto";
 import { log } from "console";
-import { checkPassword } from "./hash";
+import { hashPassword, checkPassword } from "./hash";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from "@nestjs/config";
 
@@ -64,10 +64,11 @@ export class PublicService {
         }
 
         async function registerCondition(form: any, identity: any) {
+            let hashedPassword = await hashPassword(form.password);
             let users: Prisma.UsersCreateInput;
             users = {
                 username: form.username,
-                password: form.password,
+                password: hashedPassword,
                 email: form.email,
                 identity: identity,
             };
@@ -157,22 +158,21 @@ export class PublicService {
 
     // login info for users
     //done
-
     async login(form: any) {
         const user: any = await this.prisma.users.findUnique({
             where: { username: form.username },
-            select: { id: true, password: true },
+            select: { id: true, password: true, identity: true },
         });
 
-        // if (!user || !(await checkPassword(form.password, user.password))) {
-        //     throw new UnauthorizedException();
-        // }
+        if (!user || !(await checkPassword(form.password, user.password))) {
+            throw new UnauthorizedException();
+        }
 
-        return this.signToken(user.id);
+        return this.signToken(user.id, user.identity);
     }
 
-    async signToken(userId: number) {
-        const payload = { sub: userId };
+    async signToken(userId: number, userIdentity: string) {
+        const payload = { signId: userId, signIdentity: userIdentity };
         console.log(this.config.get("JWT_SECRET"));
         return {
             access_token: await this.jwt.signAsync(payload, {
@@ -280,8 +280,26 @@ export class PublicService {
     }
 
     //3個未完
-
-    //try
+    //select product then select version to find which merchant have this item
+    async getMerchantByItemId(itemId: any) {
+        const item = await prisma.item.findUnique({
+            where: {
+                id: itemId,
+            },
+            include: {
+                merchant: true,
+            },
+        });
+        if (!item) {
+            throw new Error("Item not found");
+        }
+        return {
+            itemId: item.id,
+            merchantId: item.merchant.id,
+            merchantName: item.merchant.merchant_name,
+            merchantPhone: item.merchant.merchant_phone,
+        };
+    }
 
     //done
     async version(productId: any, versionId: any) {

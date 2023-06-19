@@ -16,16 +16,18 @@ exports.ConsumerController = void 0;
 const common_1 = require("@nestjs/common");
 const consumer_service_1 = require("./consumer.service");
 const public_service_1 = require("../Public/public.service");
+const guard_1 = require("../Public/guard");
+const decorator_1 = require("../Public/decorator");
 let ConsumerController = exports.ConsumerController = class ConsumerController {
     constructor(consumerService, publicService) {
         this.consumerService = consumerService;
         this.publicService = publicService;
     }
+    async getSelfInfo(userId) {
+        return await this.consumerService.getSelfInfo(userId);
+    }
     getQrCodeId(JWTpayload) {
         return this.consumerService.getQrCodeId(JWTpayload);
-    }
-    displayWishList(consumer_id) {
-        return this.consumerService.displayWishList(consumer_id);
     }
     async uploadWishList(formData) {
         let consumerId = 2;
@@ -74,19 +76,20 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     }
 };
 __decorate([
+    (0, common_1.Get)("userInfo"),
+    (0, common_1.UseGuards)(guard_1.JwtGuard),
+    __param(0, (0, decorator_1.GetUser)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "getSelfInfo", null);
+__decorate([
     (0, common_1.Get)("qrcode"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "getQrCodeId", null);
-__decorate([
-    (0, common_1.Get)("wishlist"),
-    __param(0, (0, common_1.Query)("consumer_id")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
-], ConsumerController.prototype, "displayWishList", null);
 __decorate([
     (0, common_1.Post)("wishlist/upload"),
     __param(0, (0, common_1.Body)()),

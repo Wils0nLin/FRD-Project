@@ -13,13 +13,11 @@ exports.PublicService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
 const client_1 = require("@prisma/client");
+const hash_1 = require("./hash");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const prisma = new client_1.PrismaClient();
 let PublicService = exports.PublicService = class PublicService {
-    getMerchantByItemId(itemId) {
-        throw new Error("Method not implemented.");
-    }
     constructor(prisma, jwt, config) {
         this.prisma = prisma;
         this.jwt = jwt;
@@ -58,10 +56,11 @@ let PublicService = exports.PublicService = class PublicService {
             return createMerchant;
         }
         async function registerCondition(form, identity) {
+            let hashedPassword = await (0, hash_1.hashPassword)(form.password);
             let users;
             users = {
                 username: form.username,
-                password: form.password,
+                password: hashedPassword,
                 email: form.email,
                 identity: identity,
             };
@@ -134,12 +133,15 @@ let PublicService = exports.PublicService = class PublicService {
     async login(form) {
         const user = await this.prisma.users.findUnique({
             where: { username: form.username },
-            select: { id: true, password: true },
+            select: { id: true, password: true, identity: true },
         });
-        return this.signToken(user.id);
+        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return this.signToken(user.id, user.identity);
     }
-    async signToken(userId) {
-        const payload = { sub: userId };
+    async signToken(userId, userIdentity) {
+        const payload = { signId: userId, signIdentity: userIdentity };
         console.log(this.config.get("JWT_SECRET"));
         return {
             access_token: await this.jwt.signAsync(payload, {
@@ -191,13 +193,25 @@ let PublicService = exports.PublicService = class PublicService {
         return platform;
     }
     async tagFilter(tags) {
+        const tagIds = await this.prisma.tag
+            .findMany({
+            where: {
+                tag: {
+                    in: tags,
+                },
+            },
+            select: {
+                id: true,
+            },
+        })
+            .then((tags) => tags.map((tag) => tag.id));
         const product = await this.prisma.product.findMany({
             where: {
                 product_tags: {
                     some: {
                         tag: {
-                            tag: {
-                                in: tags,
+                            id: {
+                                in: tagIds,
                             },
                         },
                     },
@@ -207,14 +221,33 @@ let PublicService = exports.PublicService = class PublicService {
                 product_tags: true,
             },
         });
-        return product;
         console.log("using query to get all value which is NOT repeat", tags);
+        return product;
     }
     async search(search) {
         const target = `%${search}%`;
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
+    }
+    async getMerchantByItemId(itemId) {
+        const item = await prisma.item.findUnique({
+            where: {
+                id: itemId,
+            },
+            include: {
+                merchant: true,
+            },
+        });
+        if (!item) {
+            throw new Error("Item not found");
+        }
+        return {
+            itemId: item.id,
+            merchantId: item.merchant.id,
+            merchantName: item.merchant.merchant_name,
+            merchantPhone: item.merchant.merchant_phone,
+        };
     }
     async version(productId, versionId) {
         const version = await prisma.version.findUnique({
@@ -251,7 +284,7 @@ let PublicService = exports.PublicService = class PublicService {
     async priceDesc(productid, versionId) {
         const item = await prisma.item.findMany({
             orderBy: {
-                newest_price: "desc",
+                original_price: "desc",
             },
             include: {
                 version: {
@@ -267,7 +300,7 @@ let PublicService = exports.PublicService = class PublicService {
     async priceAsec(productid, versionId) {
         const item = await prisma.item.findMany({
             orderBy: {
-                newest_price: "asc",
+                original_price: "asc",
             },
             include: {
                 version: {

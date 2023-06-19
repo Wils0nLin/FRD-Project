@@ -1,24 +1,19 @@
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
-import PublicScreenNavigator from './PublicScreenNavigator';
 import {StackParamList} from './StackParamList';
-
-import ItemScreen from '../../merchant/screens/MerchantItemScreen';
-// import ScanScreen from '../../merchant/screens/ScanScreen';
-import AddScreen from '../../merchant/screens/AddScreen';
-
-import PublicSettingModal from '../modals/PublicSettingModal';
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Login from '../../features/auth/LogIn';
 import NavigatorButton from '../../objects/NavigatorButton';
-import QRIcon from '../../objects/QRIcon';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import PublicLoginModal from '../modals/PublicLoginModal';
+import PublicScreenNavigator from './PublicScreenNavigator';
+import PublicSettingModal from '../modals/PublicSettingModal';
+import PublicTabButton from '../../objects/PublicTabButton';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -50,18 +45,31 @@ const PublicTabNavigator = () => {
         name="Wish"
         options={{
           tabBarLabelStyle: {display: 'none'},
-          tabBarIcon: () => <NavigatorButton icon="heart" name="願望清單" />,
+          tabBarIcon: () => <PublicLoginModal icon="heart" name="願望清單" />,
+        }}>
+        {() => ''}
+      </Tab.Screen>
+      <Tab.Screen
+        name="NULL"
+        options={{
+          tabBarLabelStyle: {display: 'none'},
+          tabBarIcon: () => <PublicTabButton />,
         }}>
         {() => (
           <Stack.Navigator>
             <Stack.Screen
-              name="Item"
-              component={ItemScreen}
+              name="LogIn"
+              component={Login}
               options={{
-                headerTitle: 'PRODUCT LIST',
+                headerBackVisible: false,
+                headerTitle: 'LOG IN',
                 headerRight: () => (
                   <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
+                    <FontAwesome5
+                      name={'arrow-left'}
+                      size={30}
+                      color={'#E4E4E4'}
+                    />
                   </TouchableOpacity>
                 ),
                 headerStyle: styles.topBarBackground,
@@ -70,41 +78,16 @@ const PublicTabNavigator = () => {
             />
           </Stack.Navigator>
         )}
-      </Tab.Screen>
-      <Tab.Screen
-        name="QRScan"
-        options={{
-          tabBarLabelStyle: {display: 'none'},
-          tabBarIcon: () => <QRIcon icon="user-alt" />,
-        }}>
-        {() => ''}
       </Tab.Screen>
       <Tab.Screen
         name="cart"
         options={{
           tabBarLabelStyle: {display: 'none'},
           tabBarIcon: () => (
-            <NavigatorButton icon="shopping-cart" name="購物車" />
+            <PublicLoginModal icon="shopping-cart" name="購物車" />
           ),
         }}>
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Home"
-              component={AddScreen}
-              options={{
-                headerTitle: 'PRODUCT RELEASE',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            />
-          </Stack.Navigator>
-        )}
+        {() => ''}
       </Tab.Screen>
       <Tab.Screen
         name="PublicSetting"
@@ -112,7 +95,7 @@ const PublicTabNavigator = () => {
           tabBarIcon: () => <PublicSettingModal />,
           tabBarLabelStyle: {display: 'none'},
         }}>
-        {() => <PublicScreenNavigator />}
+        {() => ''}
       </Tab.Screen>
     </Tab.Navigator>
   );

@@ -3,7 +3,7 @@ import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
 
-import ForeheadView from '../../objects/MerchantForeheadView';
+import PublicForehead from '../../objects/PublicForeheadView';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -14,7 +14,7 @@ export default function PublicAdminScreen({}) {
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <PublicForehead />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>聯絡網站管理員</Text>
           <View style={styles.pageTitleLine} />

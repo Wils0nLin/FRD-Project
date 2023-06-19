@@ -1,12 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { ConsumerService } from "./consumer.service";
 import { PublicService } from "src/Public/public.service";
+import { JwtGuard } from "src/Public/guard";
+import { GetUser } from "src/Public/decorator";
 @Controller("consumer")
 export class ConsumerController {
     constructor(
         private readonly consumerService: ConsumerService,
         private readonly publicService: PublicService
     ) {}
+    @Get("userInfo")
+    @UseGuards(JwtGuard)
+    async getSelfInfo(@GetUser("id") userId: number) {
+        return await this.consumerService.getSelfInfo(userId);
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     @Get("qrcode")
     getQrCodeId(@Body() JWTpayload: any) {
@@ -14,10 +22,10 @@ export class ConsumerController {
     }
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
-    @Get("wishlist")
-    displayWishList(@Query("consumer_id") consumer_id: number) {
-        return this.consumerService.displayWishList(consumer_id);
-    }
+    // @Get("wishlist")
+    // displayWishList(@Query("consumer_id") consumer_id: number) {
+    //     return this.consumerService.displayWishList(consumer_id);
+    // }
     // ---------------------------------------------------
     //done
     @Post("wishlist/upload")

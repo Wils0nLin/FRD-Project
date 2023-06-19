@@ -5,7 +5,6 @@ export declare class PublicService {
     private readonly prisma;
     private readonly jwt;
     private readonly config;
-    getMerchantByItemId(itemId: number): void;
     constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
     Register(form: any, identity: string): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
@@ -16,7 +15,7 @@ export declare class PublicService {
     login(form: any): Promise<{
         access_token: string;
     }>;
-    signToken(userId: number): Promise<{
+    signToken(userId: number, userIdentity: string): Promise<{
         access_token: string;
     }>;
     hot(): string;
@@ -35,12 +34,23 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
+    getMerchantByItemId(itemId: any): Promise<{
+        itemId: number;
+        merchantId: number;
+        merchantName: string;
+        merchantPhone: string;
+    }>;
     version(productId: any, versionId: any): Promise<{
         versionId: number;
         versionName: string;
         items: {
             itemId: number;
-            merchant: void;
+            merchant: {
+                itemId: number;
+                merchantId: number;
+                merchantName: string;
+                merchantPhone: string;
+            };
         }[];
     }>;
     district(productid: any, versionId: any, district: any): void;
