@@ -1,7 +1,17 @@
-import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Post,
+    Query,
+    UploadedFile,
+    UseInterceptors,
+} from "@nestjs/common";
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
 import { AnySrvRecord } from "dns";
+import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("public")
 export class PublicController {
@@ -17,8 +27,14 @@ export class PublicController {
     }
     //done
     @Post("register/merRegister")
-    async merRegister(@Body() form: any) {
-        return await this.publicService.Register(form, "merchant");
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'IconImg', maxCount: 1},
+        {name: 'RegisImg', maxCount: 1}
+    ]))
+    async merRegister(@UploadedFile() file: Express.Multer.File, @Body() form: any) {
+        console.log(file, form);
+        return file;
+        // return await this.publicService.Register(form, "merchant");
     }
     //
 
@@ -31,8 +47,7 @@ export class PublicController {
     //done
     @Get("register/selectDistrict")
     selectDistrict() {
-        const area_id = 1; //後刪
-        return this.publicService.selectDistrict(area_id);
+        return this.publicService.selectDistrict();
     }
 
     //
@@ -47,17 +62,10 @@ export class PublicController {
     //done
     @Get("register/branch")
     branch() {
-        const bank_id = 1;
-        return this.publicService.branch(bank_id);
+        return this.publicService.branch();
     }
 
     //done
-    @Get("register/bank_acc")
-    bank_acc() {
-        const branch_id = 1;
-        return this.publicService.bankAcc(branch_id);
-    }
-
     //
 
     // login

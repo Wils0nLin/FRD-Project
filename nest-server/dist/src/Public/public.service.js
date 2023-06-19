@@ -102,24 +102,16 @@ let PublicService = exports.PublicService = class PublicService {
         const selectArea = await prisma.area.findMany();
         return selectArea;
     }
-    async selectDistrict(area_id) {
-        const selectDistrict = await prisma.district.findMany({
-            where: {
-                area_id: { in: 1 },
-            },
-        });
+    async selectDistrict() {
+        const selectDistrict = await prisma.district.findMany();
         return selectDistrict;
     }
     async bank() {
         const bank = await prisma.bank.findMany();
         return bank;
     }
-    async branch(bank_id) {
-        const branch = await prisma.branch.findMany({
-            where: {
-                bank_id: { in: 1 },
-            },
-        });
+    async branch() {
+        const branch = await prisma.branch.findMany();
         return branch;
     }
     async bankAcc(branch_id) {

@@ -1,14 +1,14 @@
+/// <reference types="multer" />
 import { PublicService } from "./public.service";
 export declare class PublicController {
     private readonly publicService;
     constructor(publicService: PublicService);
     conRegister(form: any): Promise<void>;
-    merRegister(form: any): Promise<void>;
+    merRegister(file: Express.Multer.File, form: any): Promise<Express.Multer.File>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(): Promise<import(".prisma/client").Branch[]>;
-    bank_acc(): Promise<import(".prisma/client").Bank_acc[]>;
     login(form: any): Promise<{
         access_token: string;
     }>;
