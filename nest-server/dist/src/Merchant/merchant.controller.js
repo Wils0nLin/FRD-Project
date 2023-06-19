@@ -21,72 +21,90 @@ let MerchantController = exports.MerchantController = class MerchantController {
         this.merchantService = merchantService;
         this.publicService = publicService;
     }
-    editProfile(form) {
-        return this.merchantService.editProfile(form);
+    async editMerProfile(merchantId, form) {
+        return await this.merchantService.editMerProfile(merchantId, form);
     }
-    upLoadItems(form) {
-        return this.merchantService.upLoadItems(form);
+    async uploadItems(itemData) {
+        const merchantId = 1;
+        const productId = 3;
+        const versionIds = [1, 2];
+        try {
+            const result = await this.merchantService.uploadItems(merchantId, productId, versionIds, itemData);
+            return { success: true, data: result };
+        }
+        catch (error) {
+            console.log("itemData: ", itemData);
+            return { success: false, error: error.message };
+        }
     }
     updateItems(form) {
         return this.merchantService.updateItems(form);
     }
-    changeItemStatus(form) {
-        console.log(`change item status to 3 possible status "receiving pre-order","end of pre-order","in-stock",if start pre-order update period of time `);
-        return this.merchantService.changeItemStatus(form);
+    async changeItemStatus(itemId, formData) {
+        try {
+            const changeItemStatus = await this.merchantService.changeItemStatus(itemId, formData.stock_status);
+            console.log(changeItemStatus);
+            return { success: true, data: changeItemStatus };
+        }
+        catch (error) {
+            return { success: false, error: error.message };
+        }
     }
     pairUserId(parms) {
         console.log(`scanning the consumer qr code will get the item by merchant id and consumer id `);
         return this.merchantService.pairUserId(parms.userId);
     }
     paymentConfirm(resultStatus) {
-        console.log('get payment result by stripe any display success or not');
+        console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
     }
 };
 __decorate([
-    (0, common_1.Post)('edit'),
+    (0, common_1.Put)("/profile/edit/:merchantId"),
+    __param(0, (0, common_1.Param)("merchantId")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "editMerProfile", null);
+__decorate([
+    (0, common_1.Post)("uploadItems"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], MerchantController.prototype, "editProfile", null);
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "uploadItems", null);
 __decorate([
-    (0, common_1.Post)('upload'),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], MerchantController.prototype, "upLoadItems", null);
-__decorate([
-    (0, common_1.Post)('update'),
+    (0, common_1.Post)("update"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "updateItems", null);
 __decorate([
-    (0, common_1.Post)('changeStatus'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Put)("changeStatus/:itemId"),
+    __param(0, (0, common_1.Param)("itemId")),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "changeItemStatus", null);
 __decorate([
-    (0, common_1.Get)('scanner/:userId'),
+    (0, common_1.Get)("scanner/:userId"),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "pairUserId", null);
 __decorate([
-    (0, common_1.Post)('Result'),
+    (0, common_1.Post)("Result"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "paymentConfirm", null);
 exports.MerchantController = MerchantController = __decorate([
-    (0, common_1.Controller)('merchant'),
+    (0, common_1.Controller)("merchant"),
     __metadata("design:paramtypes", [merchant_service_1.MerchantService,
         public_service_1.PublicService])
 ], MerchantController);

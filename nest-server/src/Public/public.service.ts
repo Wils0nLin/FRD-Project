@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
 import {
@@ -63,7 +63,6 @@ export class PublicService {
         async function registerCondition(form: any, identity: any) {
             let hashedPassword = await hashPassword(form.password);
             let users: Prisma.UsersCreateInput;
-
             users = {
                 username: form.username,
                 password: hashedPassword,
@@ -162,9 +161,9 @@ export class PublicService {
             select: { id: true, password: true },
         });
 
-        if (!user || !(await checkPassword(form.password, user.password))) {
-            throw new UnauthorizedException();
-        }
+        // if (!user || !(await checkPassword(form.password, user.password))) {
+        //     throw new UnauthorizedException();
+        // }
 
         return this.signToken(user.id);
     }
@@ -267,14 +266,14 @@ export class PublicService {
 
         return { merchant, version };
 
-        console.log(
-            "using query to get all value which is NOT repeat and remember to split with bank"
-        );
+        // console.log(
+        //     "using query to get all value which is NOT repeat and remember to split with bank"
+        // );
     }
 
     //3個未完
     //select product then select version to find which merchant have this item
-    async item(itemId: number) {
+    async getMerchantByItemId(itemId: any) {
         const item = await prisma.item.findUnique({
             where: {
                 id: itemId,
@@ -294,34 +293,40 @@ export class PublicService {
         };
     }
 
+    //done
     async version(productId: any, versionId: any) {
         //try
-        const version = await // const version = await prisma.version.findMany({
-        //     where: {
-        //         product: {
-        //             id: productId,
-        //         },
-        //     },
-        //     include: {
-        //         items: {
-        //             include: {
-        //                 merchant: true,
-        //             },
-        //         },
-        //     },
-        // });
+        const version = await prisma.version.findUnique({
+            where: {
+                id: versionId,
+            },
+            include: {
+                items: true,
+            },
+        });
 
-        // return version.map((version) => ({
-        //     versionId: version.id,
-        //     versionName: version.version,
-        //     items: version.items.map((item) => ({
-        //         itemId: item.id,
-        //         merchant: item.merchant_id,
-        //     })),
-        // }));
-        //
+        if (!version || version.product_id !== productId) {
+            throw new Error("Version not found");
+        }
 
-        console.log(`select all iems with props`, productId);
+        const items = version.items.map((item) => ({
+            itemId: item.id,
+            merchantId: item.merchant_id,
+        }));
+
+        const merchants = await Promise.all(
+            items.map((item) => this.getMerchantByItemId(item.itemId))
+        );
+        return {
+            versionId: version.id,
+            versionName: version.version,
+            items: items.map((item, index) => ({
+                itemId: item.itemId,
+                merchant: merchants[index],
+            })),
+        };
+
+        // console.log(`select all iems with props`, productId);
     }
 
     district(productid: any, versionId: any, district: any) {
@@ -394,4 +399,3 @@ export class PublicService {
     }
     //
 }
-

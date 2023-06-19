@@ -135,9 +135,6 @@ let PublicService = exports.PublicService = class PublicService {
             where: { username: form.username },
             select: { id: true, password: true },
         });
-        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
-            throw new common_1.UnauthorizedException();
-        }
         return this.signToken(user.id);
     }
     async signToken(userId) {
@@ -212,9 +209,8 @@ let PublicService = exports.PublicService = class PublicService {
         const version = await prisma.$queryRaw `select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
-        console.log("using query to get all value which is NOT repeat and remember to split with bank");
     }
-    async item(itemId) {
+    async getMerchantByItemId(itemId) {
         const item = await prisma.item.findUnique({
             where: {
                 id: itemId,
@@ -234,7 +230,30 @@ let PublicService = exports.PublicService = class PublicService {
         };
     }
     async version(productId, versionId) {
-        const version = await console.log(`select all iems with props`, productId);
+        const version = await prisma.version.findUnique({
+            where: {
+                id: versionId,
+            },
+            include: {
+                items: true,
+            },
+        });
+        if (!version || version.product_id !== productId) {
+            throw new Error("Version not found");
+        }
+        const items = version.items.map((item) => ({
+            itemId: item.id,
+            merchantId: item.merchant_id,
+        }));
+        const merchants = await Promise.all(items.map((item) => this.getMerchantByItemId(item.itemId)));
+        return {
+            versionId: version.id,
+            versionName: version.version,
+            items: items.map((item, index) => ({
+                itemId: item.itemId,
+                merchant: merchants[index],
+            })),
+        };
     }
     district(productid, versionId, district) {
         console.log(`select all iems with props`, productid, versionId, district);

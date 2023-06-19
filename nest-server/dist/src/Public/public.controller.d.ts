@@ -28,7 +28,27 @@ export declare class PublicController {
         merchant: unknown;
         version: unknown;
     }>;
-    version(productId: any, itemId: any): Promise<void>;
+    getItem(): Promise<{
+        itemId: number;
+        merchantId: number;
+        merchantName: string;
+        merchantPhone: string;
+    } | {
+        error: any;
+    }>;
+    version(): Promise<{
+        versionId: number;
+        versionName: string;
+        items: {
+            itemId: number;
+            merchant: {
+                itemId: number;
+                merchantId: number;
+                merchantName: string;
+                merchantPhone: string;
+            };
+        }[];
+    }>;
     district(productId: any, versionId: any, district: any): void;
     area(productId: any, versionId: any, area: any): void;
     priceDesc(productId: any, versionId: any): Promise<(import(".prisma/client").Item & {

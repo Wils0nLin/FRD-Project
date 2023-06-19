@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
+import {clear} from 'console';
 import React, {useState} from 'react';
 import {
   Modal,
@@ -24,7 +25,14 @@ export default function SearchModal() {
   const navigation: any = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [text, onChangeText] = React.useState('');
-
+  const clear = () => {
+    setPlatformArr([]);
+    setTagArr([]);
+    setHighest(false);
+    setnewest(true);
+    onChangeText('');
+    setModalVisible(false);
+  };
   const tagSelect = (tag: string) => {
     const cloneTagArr = tagArr.slice();
     if (cloneTagArr.includes(tag)) {
@@ -404,6 +412,7 @@ export default function SearchModal() {
                       newest,
                       text,
                     });
+                    clear();
                   }}>
                   <Text style={{fontSize: 17, color: '#E4E4E4'}}>商品搜尋</Text>
                 </TouchableOpacity>

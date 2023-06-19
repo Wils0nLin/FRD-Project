@@ -151,8 +151,7 @@ const ConsumerScreenNavigator = () => {
           headerBackVisible: false,
           headerTitle: 'GAME SEARCH',
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ConsumerHome')}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
             </TouchableOpacity>
           ),

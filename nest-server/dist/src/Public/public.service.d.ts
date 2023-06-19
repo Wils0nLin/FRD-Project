@@ -34,13 +34,25 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
-    item(itemId: number): Promise<{
+    getMerchantByItemId(itemId: any): Promise<{
         itemId: number;
         merchantId: number;
         merchantName: string;
         merchantPhone: string;
     }>;
-    version(productId: any, versionId: any): Promise<void>;
+    version(productId: any, versionId: any): Promise<{
+        versionId: number;
+        versionName: string;
+        items: {
+            itemId: number;
+            merchant: {
+                itemId: number;
+                merchantId: number;
+                merchantName: string;
+                merchantPhone: string;
+            };
+        }[];
+    }>;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
     priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {

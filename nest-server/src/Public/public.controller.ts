@@ -6,6 +6,7 @@ import { AnySrvRecord } from "dns";
 @Controller("public")
 export class PublicController {
     constructor(private readonly publicService: PublicService) {}
+
     // register
     //done
     @Post("register/conRegister")
@@ -77,6 +78,7 @@ export class PublicController {
 
     // coming soon game
     // join product and version table，按照release day去做filter，例結if release day < 4 months
+    //done
     @Get("homepage/comingsoon")
     comingSoon() {
         return this.publicService.comingSoon();
@@ -118,11 +120,30 @@ export class PublicController {
 
     // only game version
     //未完
-    @Get("filter/version")
-    version(@Body() productId: any, itemId: any) {
-        productId = 1;
-        return this.publicService.version(productId, itemId);
+    @Get("/filter/version/:itemId/merchant")
+    async getItem() {
+        const itemId = 1;
+        try {
+            const merchant = await this.publicService.getMerchantByItemId(itemId);
+            return merchant;
+        } catch (error) {
+            return { error: error.message };
+        }
     }
+    //done
+    @Get("/filter/version")
+    version() {
+        let productId = 1;
+        let versionId = 1;
+        // const { productId, itemId } = body;
+        return this.publicService.version(productId, versionId);
+    }
+
+    // @Get("filter/version")
+    // version(@Body() productId: any, itemId: any) {
+    //     productId = 1;
+    //     return this.publicService.version(productId, itemId);
+    // }
     //
 
     // game version with store area and district
