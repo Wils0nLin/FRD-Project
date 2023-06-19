@@ -14,6 +14,9 @@ import { ConfigService } from "@nestjs/config";
 const prisma = new PrismaClient();
 @Injectable()
 export class PublicService {
+    getMerchantByItemId(itemId: number) {
+        throw new Error("Method not implemented.");
+    }
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwt: JwtService,
@@ -218,8 +221,13 @@ export class PublicService {
 
     // search engine
     //done
-    async platformFilter() {
+    async platformFilter(platformName: string) {
         const platform = await this.prisma.platform.findMany({
+            where: {
+                platform: {
+                    equals: platformName,
+                },
+            },
             include: {
                 products: {
                     include: {
@@ -272,31 +280,8 @@ export class PublicService {
     }
 
     //3個未完
-<<<<<<< HEAD
-    async version(productId: any,itemId: any) {
-        //try
-=======
-    //select product then select version to find which merchant have this item
-    async getMerchantByItemId(itemId: any) {
-        const item = await prisma.item.findUnique({
-            where: {
-                id: itemId,
-            },
-            include: {
-                merchant: true,
-            },
-        });
-        if (!item) {
-            throw new Error("Item not found");
-        }
-        return {
-            itemId: item.id,
-            merchantId: item.merchant.id,
-            merchantName: item.merchant.merchant_name,
-            merchantPhone: item.merchant.merchant_phone,
-        };
-    }
->>>>>>> 24e92c717485a4f5f3cf5e58e253c032785f5f7c
+
+    //try
 
     //done
     async version(productId: any, versionId: any) {

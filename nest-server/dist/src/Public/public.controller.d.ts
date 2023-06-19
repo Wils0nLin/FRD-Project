@@ -19,21 +19,12 @@ export declare class PublicController {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(): Promise<(import(".prisma/client").Platform & {
-        products: (import(".prisma/client").Product & {
-            versions: import(".prisma/client").Version[];
-        })[];
-    })[]>;
+    platformFilter(platformName: any): Promise<void>;
     search(search: string): Promise<{
         merchant: unknown;
         version: unknown;
     }>;
-    getItem(): Promise<{
-        itemId: number;
-        merchantId: number;
-        merchantName: string;
-        merchantPhone: string;
-    } | {
+    getItem(): Promise<void | {
         error: any;
     }>;
     version(): Promise<{
@@ -41,12 +32,7 @@ export declare class PublicController {
         versionName: string;
         items: {
             itemId: number;
-            merchant: {
-                itemId: number;
-                merchantId: number;
-                merchantName: string;
-                merchantPhone: string;
-            };
+            merchant: void;
         }[];
     }>;
     district(productId: any, versionId: any, district: any): void;

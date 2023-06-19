@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import SwitchSVG from '../../../../assets/svg/platformSVG/SwitchSVG';
 import PlayStationSVG from '../../../../assets/svg/platformSVG/PlayStationSVG';
 import XboxSVG from '../../../../assets/svg/platformSVG/XboxSVG';
@@ -19,8 +25,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import * as eva from '@eva-design/eva';
 import {Button, Layout, ApplicationProvider} from '@ui-kitten/components';
 import GameInfo from '../../pages/gameInfoModule';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StackParamList} from '../../../../public/navigators/StackParamList';
+import {ShareAsset} from 'react-native-share';
 
-const ConAppScreen = () => {
+const ConAppScreen = ({navigation}: any) => {
   const HotArr = [
     {
       image: require('../../../../assets/images/zelda.jpg'),
@@ -109,6 +119,24 @@ const ConAppScreen = () => {
     return [list, select];
   };
 
+  const findSwitchGames = async () => {
+    try {
+      const process = await fetch(
+        `http://192.168.160.142:3000/public/filter/platform/?platformId=${1}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      const result = await process.json();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ScrollView>
       <ApplicationProvider {...eva} theme={eva.light}>
@@ -121,15 +149,23 @@ const ConAppScreen = () => {
             {/* <Text style={smallWordsStyle.container}>Consumer App Screen</Text> */}
 
             <View style={switchStyle.container}>
-              <SwitchSVG
-                style={{
-                  position: 'relative',
-                  left: 3,
-                  bottom: 2,
-                }}
-              />
-              <Text style={smallWordsStyle.container}>SWITCH</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('GameSearchScreen', {
+                    platformArr: 'Switch',
+                  });
+                }}>
+                <SwitchSVG
+                  style={{
+                    position: 'relative',
+                    left: 3,
+                    bottom: 2,
+                  }}
+                />
+                <Text style={smallWordsStyle.container}>SWITCH</Text>
+              </TouchableOpacity>
             </View>
+
             <View style={playStationStyle.container}>
               <PlayStationSVG
                 style={{

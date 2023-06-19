@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
+import {useEffect} from 'react';
 import {
   Image,
   ScrollView,
@@ -18,13 +19,103 @@ import {
   gameListAreaStyle,
 } from '../tab/consumer/conWishListScreen';
 import axios from 'axios';
+import {useState} from 'react';
+import {Layout} from '@ui-kitten/components';
+interface info {
+  tagArr: Array<any>;
+  platformArr: Array<string>;
+  text: string;
+  highest: boolean;
+  newest: boolean;
+}
 export const GameSearchScreen = ({route, navigation}: any) => {
-  const {tagArr, platformArr, text, highest, newest} = route.params;
-  const [texts, onChangeText] = React.useState(text);
-  const form = {tagArr, platformArr, text, highest, newest};
-  console.log(tagArr, platformArr, texts, highest, newest);
+  const {tagArr, platformArr, text, highest, newest}: info = route.params;
+  const [Texting, onChangeText] = React.useState(text);
+  const [Tag, setTag] = useState<any>();
+  const [Platform, setPlatform] = useState<Array<string>>([]);
+  const [High, setHighest] = useState();
+  const [News, setNew] = useState();
+  const tagSearch = async () => {
+    if (tagArr) {
+      const tag = await fetch('');
+      const tagResult = await tag.json();
 
-  axios.get('http://192.168.160.142:3000/auth/login', form);
+      setTag(tagResult);
+    } else {
+      console.log('bye');
+      return;
+    }
+  };
+
+  const platformSearch = async () => {
+    if (platformArr) {
+      const clonedPlatformArr = platformArr.slice();
+      let a = clonedPlatformArr.toString();
+      console.log('Yo man: ', clonedPlatformArr);
+
+      let clonedPlatformPush = Platform.slice();
+
+      clonedPlatformArr.map(async items => {
+        const platform = await fetch(
+          `http://192.168.160.77:3000/public/filter/platform/${items}`,
+        );
+        const platformResult = await platform.json();
+        console.log('Good fetch: ', platformResult);
+
+        clonedPlatformPush.push(platformResult);
+        setPlatform(clonedPlatformPush);
+      });
+
+      const clonedplatformRepeat = Platform.slice();
+      let uniqueplatformArr = [...new Set(clonedplatformRepeat)];
+    } else {
+      return;
+    }
+  };
+
+  const textSearch = async () => {
+    if (text) {
+      const tag = await fetch('');
+      const tagResult = await tag.json();
+      setTag(tagResult);
+    } else {
+      return;
+    }
+  };
+  const hightestSearch = async () => {
+    if (highest == null || highest == undefined) {
+      return;
+    } else if (highest!) {
+      const tag = await fetch('');
+      const tagResult = await tag.json();
+      setTag(tagResult);
+    } else if (highest) {
+      const tag = await fetch('');
+      const tagResult = await tag.json();
+      setTag(tagResult);
+    }
+  };
+  const newSearch = async () => {
+    if (newest == null || newest == undefined) {
+      return;
+    } else if (newest!) {
+      const tag = await fetch('');
+      const tagResult = await tag.json();
+      setTag(tagResult);
+    } else if (newest) {
+      const tag = await fetch('');
+      const tagResult = await tag.json();
+      setTag(tagResult);
+    }
+  };
+  useEffect(() => {
+    tagSearch();
+    platformSearch();
+    textSearch();
+    hightestSearch();
+    newSearch();
+  }, [Texting]);
+  // axios.get('http://192.168.160.142:3000/auth/login', form);
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View>
@@ -54,10 +145,10 @@ export const GameSearchScreen = ({route, navigation}: any) => {
             height: 40,
           }}>
           <TextInput
-            onChangeText={(texts: React.SetStateAction<string>) =>
-              onChangeText(texts)
+            onChangeText={(nextValue: React.SetStateAction<string>) =>
+              onChangeText(nextValue)
             }
-            value={texts}
+            value={Texting}
             style={{width: 310, color: '#e4e4e4'}}
           />
 
@@ -68,6 +159,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
             style={{marginTop: 3}}
           />
         </View>
+        <View></View>
       </View>
     </ScrollView>
   );

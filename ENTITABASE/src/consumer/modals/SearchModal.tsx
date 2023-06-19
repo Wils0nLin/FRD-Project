@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useNavigation} from '@react-navigation/native';
-import {clear} from 'console';
 import React, {useState} from 'react';
 import {
   Modal,
@@ -15,6 +14,7 @@ import {ScrollView} from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
 
 export default function SearchModal() {
   const [platformArr, setPlatformArr] = useState<Array<string>>([]);
@@ -57,6 +57,26 @@ export default function SearchModal() {
 
     setPlatformArr(clonedPlatformArr);
   };
+
+  //search bar connect to backend
+  const handleSearch = () => {
+    const url = `http://192.168.160.77:3000/public/filter/search`;
+    axios
+      .get(url, {
+        params: {
+          search: text,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   return (
     <View>
       <Modal
@@ -94,7 +114,12 @@ export default function SearchModal() {
                     value={text}
                     placeholder="請輸入關鍵字"
                   />
-                  <Icon name={'search'} size={25} color={'#E4E4E4'} />
+                  <Icon
+                    name={'search'}
+                    size={25}
+                    color={'#E4E4E4'}
+                    onPress={handleSearch}
+                  />
                 </View>
                 <View style={styles.subTitle}>
                   <Icon name={'location-arrow'} size={15} color={'#E4E4E4'} />

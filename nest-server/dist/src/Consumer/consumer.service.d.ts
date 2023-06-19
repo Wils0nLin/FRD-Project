@@ -3,8 +3,8 @@ import { Prisma } from "@prisma/client";
 export declare class ConsumerService {
     getQrCodeId(userId: string): void;
     displayWishList(consumer_id: number): Promise<(Wishlist_product & {
-        product: import(".prisma/client").Product;
         version: import(".prisma/client").Version;
+        product: import(".prisma/client").Product;
     })[]>;
     uploadWishList(consumerId: number, productId: number, versionId: number, targetPrice: number, notification: boolean): Promise<Wishlist_product>;
     deleteWishList(consumerId: number, productId: number, versionId: number): Promise<Prisma.BatchPayload>;
