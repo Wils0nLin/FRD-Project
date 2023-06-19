@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {SafeAreaView} from 'react-native';
@@ -8,18 +9,46 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import {useEffect, useState} from 'react';
 import QRCodeStyled from 'react-native-qrcode-styled';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ConsumerForehead from '../../../../objects/ConsumerForeheadView';
 
-import ForeheadView from '../../../../objects/ConsumerForeheadView';
+export default function ConQRCodeScreen() {
+  const [id, setId] = useState<any>();
+  const [name, setName] = useState('');
 
-const ConQRCodeScreen = () => {
+  const getId = async () => {
+    const savedUser = await AsyncStorage.getItem('id');
+    setId(savedUser);
+    console.log(id);
+  };
+  const getName = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/consumer/userInfo/${id}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data[0].consumer_name);
+    setName(data[0].consumer_name);
+  };
+
+  useEffect(() => {
+    getId().then(() => {
+      getName();
+    });
+  }, []);
+
   return (
     <ScrollView
       style={{
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <ConsumerForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>我的 ENTI-CODE</Text>
           <View style={styles.pageTitleLine} />
@@ -55,9 +84,7 @@ const ConQRCodeScreen = () => {
       </SafeAreaView>
     </ScrollView>
   );
-};
-
-export default ConQRCodeScreen;
+}
 
 const styles = StyleSheet.create({
   safeArea: {

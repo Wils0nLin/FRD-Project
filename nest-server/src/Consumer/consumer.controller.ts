@@ -9,9 +9,8 @@ export class ConsumerController {
         private readonly consumerService: ConsumerService,
         private readonly publicService: PublicService
     ) {}
-    @Get("userInfo")
-    @UseGuards(JwtGuard)
-    async getSelfInfo(@GetUser("id") userId: number) {
+    @Get("userInfo/:userId")
+    async getSelfInfo(@Param("userId") userId: any) {
         return await this.consumerService.getSelfInfo(userId);
     }
 

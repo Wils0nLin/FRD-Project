@@ -1,11 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import {View, Text, Image, StyleSheet} from 'react-native';
+type userName = {
+  name: string;
+};
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-
-export default function ForeheadView() {
+export default function ConsumerForehead(props: userName) {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Image
@@ -13,8 +15,8 @@ export default function ForeheadView() {
         source={require('../assets/images/merchant_background.jpg')}
       />
       <View style={styles.nameBox}>
-        <Icon name={'user-tag'} size={20} color={'#000000'} />
-        <Text style={styles.nameText}>KA HEUNG LIN</Text>
+        <FontAwesome5 name={'user-tag'} size={20} color={'#000000'} />
+        <Text style={styles.nameText}>{props.name}</Text>
       </View>
     </View>
   );

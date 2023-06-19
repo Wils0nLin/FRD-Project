@@ -1,18 +1,47 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import ConsumerInfoHeader from '../../ConsumerInfoHeader';
+import ConsumerForehead from '../../../../objects/ConsumerForeheadView';
 import {ScrollView, StyleSheet, Text} from 'react-native';
 import * as eva from '@eva-design/eva';
 import {Button, Layout, ApplicationProvider} from '@ui-kitten/components';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {InputAccessories} from '../../inputHidden';
 import Feather from 'react-native-vector-icons/Feather';
+import {useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ConProfileEditScreen = () => {
+  const [id, setId] = useState<any>();
+  const [name, setName] = useState('');
+
+  const getId = async () => {
+    const savedUser = await AsyncStorage.getItem('id');
+    setId(savedUser);
+    console.log(id);
+  };
+  const getName = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/consumer/userInfo/${id}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data[0].consumer_name);
+    setName(data[0].consumer_name);
+  };
+
+  useEffect(() => {
+    getId().then(() => {
+      getName();
+    });
+  }, []);
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
       <ApplicationProvider {...eva} theme={eva.light}>
-        {ConsumerInfoHeader('YO')}
+        <ConsumerForehead name={name} />
         <Text>title wait for wilson</Text>
         <Layout style={styles.left}>
           <Layout style={styles.row}>
