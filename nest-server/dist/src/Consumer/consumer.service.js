@@ -68,11 +68,8 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
     createOrder(itemID) {
         console.log(`upload items to `);
     }
-    prePaymentConfirm(paymentStatus) {
+    paymentConfirm(paymentStatus) {
         console.log(`confirm payment success or not if  change status`);
-    }
-    remainPaymentConfirm(paymentStatus) {
-        console.log(`update to payed by case`);
     }
     async editConProfile(consumerId, form) {
         const consumer = {

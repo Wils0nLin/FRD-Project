@@ -90,12 +90,14 @@ export class ConsumerService {
     createOrder(itemID: string) {
         console.log(`upload items to `);
     }
-    prePaymentConfirm(paymentStatus: any) {
+    //full pay
+    paymentConfirm(paymentStatus: any) {
         console.log(`confirm payment success or not if  change status`);
     }
-    remainPaymentConfirm(paymentStatus: any) {
-        console.log(`update to payed by case`);
-    }
+
+    // remainPaymentConfirm(paymentStatus: any) {
+    //     console.log(`update to payed by case`);
+    // }
     // ---------------------------------------------------------------------------------------------------------
     //done
     async editConProfile(consumerId: any, form: any) {
@@ -113,7 +115,7 @@ export class ConsumerService {
     }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
-    async feedback(comment: any, merchantId: any, consumerId: any, rating: any) {
+    async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
         const savedFeedback = await prisma.feedback.create({
             data: {
                 comment: comment,

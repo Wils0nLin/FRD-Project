@@ -82,14 +82,17 @@ export class ConsumerController {
     createOrder(@Body() param: any) {
         return this.consumerService.createOrder(param.itemId);
     }
-    @Post("order/pre/payment")
-    prePaymentConfirm(@Body() paymentstatus: any) {
-        return this.consumerService.prePaymentConfirm(paymentstatus);
+
+    //full pay
+    @Post("order/payment")
+    paymentConfirm(@Body() paymentstatus: any) {
+        return this.consumerService.paymentConfirm(paymentstatus);
     }
-    @Post("order/remain/payment")
-    remainPaymentConfirm(@Body() paymentstatus: any) {
-        return this.consumerService.remainPaymentConfirm(paymentstatus);
-    }
+
+    // @Post("order/remain/payment")
+    // remainPaymentConfirm(@Body() paymentstatus: any) {
+    //     return this.consumerService.remainPaymentConfirm(paymentstatus);
+    // }
     // ---------------------------------------------------------------------------------------------------------
     //done
     @Put("profile/edit/:consumerId")

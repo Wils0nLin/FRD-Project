@@ -10,10 +10,10 @@ import ConAppScreen from '../../consumer/navigation/tab/consumer/conAppScreen';
 import PublicAdminScreen from '../screens/PublicAdminScreen';
 import LogIn from '../screens/LogIn';
 import ConRegister from '../screens/ConRegister';
-import MerRegister from '../screens/MerRegister';
+// import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../consumer/modals/SearchModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { GameSearchScreen } from '../../consumer/navigation/pages/searchScreen';
+import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
 const Stack = createNativeStackNavigator();
 
 const PublicScreenNavigator = () => {
@@ -91,7 +91,7 @@ const PublicScreenNavigator = () => {
           headerTitleStyle: styles.topBarText,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="MerRegister"
         component={MerRegister}
         options={{
@@ -105,7 +105,7 @@ const PublicScreenNavigator = () => {
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
         }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

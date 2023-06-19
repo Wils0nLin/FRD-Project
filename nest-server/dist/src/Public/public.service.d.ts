@@ -12,7 +12,9 @@ export declare class PublicService {
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(bank_id: number): Promise<import(".prisma/client").Branch[]>;
     bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
-    login(form: any): Promise<any>;
+    login(form: any): Promise<{
+        access_token: string;
+    }>;
     signToken(userId: number): Promise<{
         access_token: string;
     }>;
@@ -20,32 +22,25 @@ export declare class PublicService {
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(): Promise<
-        (import(".prisma/client").Platform & {
-            products: (import(".prisma/client").Product & {
-                versions: import(".prisma/client").Version[];
-            })[];
-        })[]
-    >;
-    tagFilter(tags: string[]): Promise<
-        (import(".prisma/client").Product & {
-            product_tags: import(".prisma/client").Product_tag[];
-        })[]
-    >;
+    platformFilter(): Promise<(import(".prisma/client").Platform & {
+        products: (import(".prisma/client").Product & {
+            versions: import(".prisma/client").Version[];
+        })[];
+    })[]>;
+    tagFilter(tags: string[]): Promise<(import(".prisma/client").Product & {
+        product_tags: import(".prisma/client").Product_tag[];
+    })[]>;
     search(search: string): Promise<{
         merchant: unknown;
         version: unknown;
     }>;
-    getMerchantByItemId(): Promise<{
+    getMerchantByItemId(itemId: any): Promise<{
         itemId: number;
         merchantId: number;
         merchantName: string;
         merchantPhone: string;
     }>;
-    version(
-        productId: any,
-        versionId: any
-    ): Promise<{
+    version(productId: any, versionId: any): Promise<{
         versionId: number;
         versionName: string;
         items: {
@@ -60,26 +55,16 @@ export declare class PublicService {
     }>;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
-    priceDesc(
-        productid: any,
-        versionId: any
-    ): Promise<
-        (import(".prisma/client").Item & {
-            version: import(".prisma/client").Version & {
-                product: import(".prisma/client").Product;
-            };
-        })[]
-    >;
-    priceAsec(
-        productid: any,
-        versionId: any
-    ): Promise<
-        (import(".prisma/client").Item & {
-            version: import(".prisma/client").Version & {
-                product: import(".prisma/client").Product;
-            };
-        })[]
-    >;
+    priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {
+        version: import(".prisma/client").Version & {
+            product: import(".prisma/client").Product;
+        };
+    })[]>;
+    priceAsec(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {
+        version: import(".prisma/client").Version & {
+            product: import(".prisma/client").Product;
+        };
+    })[]>;
     ratingDesc(productid: any, versionId: any): void;
     ratingAsce(productid: any, versionId: any): void;
     searchItem(productid: any, versionId: any, string: Array<string>): void;

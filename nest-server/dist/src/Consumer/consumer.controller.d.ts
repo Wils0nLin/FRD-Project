@@ -30,8 +30,7 @@ export declare class ConsumerController {
     displayOrder(JWTpayload: any): void;
     displayOrderHistory(JWTpayload: any): void;
     createOrder(param: any): void;
-    prePaymentConfirm(paymentstatus: any): void;
-    remainPaymentConfirm(paymentstatus: any): void;
+    paymentConfirm(paymentstatus: any): void;
     editConProfile(consumerId: any, form: any): Promise<import(".prisma/client").Consumer>;
     feedback(reaction: any): Promise<import(".prisma/client").Feedback>;
 }
