@@ -113,6 +113,7 @@ model Version {
   version_image     String
 
   items             Item[]
+  wishlist_products Wishlist_product[]
 
   @@map("version")
 }
@@ -171,8 +172,10 @@ model Wishlist_product {
   consumer_id       Int      @map("consumer_id")
   product           Product  @relation(fields: [product_id], references: [id])
   product_id        Int      @map("product_id")
+  version           Version  @relation(fields: [version_id], references: [id])
   version_id        Int      @map("version_id")
   target_price      Int
+  notification      Boolean
 
   @@map("wishlist_product")
 }

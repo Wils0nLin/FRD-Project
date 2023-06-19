@@ -12,8 +12,8 @@ export declare class PublicService {
     login(userLoginInfo: any): Promise<Users[]>;
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
-    displayTag(): void;
-    displayPlatform(): void;
+    displayTag(): Promise<import(".prisma/client").Tag[]>;
+    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
     platformFilter(): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
@@ -26,14 +26,25 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
-    version(productId: any): Promise<{
+    getMerchantByItemId(): Promise<{
+        itemId: number;
+        merchantId: number;
+        merchantName: string;
+        merchantPhone: string;
+    }>;
+    version(productId: any, versionId: any): Promise<{
         versionId: number;
         versionName: string;
         items: {
             itemId: number;
-            merchant: number;
+            merchant: {
+                itemId: number;
+                merchantId: number;
+                merchantName: string;
+                merchantPhone: string;
+            };
         }[];
-    }[]>;
+    }>;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
     priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {

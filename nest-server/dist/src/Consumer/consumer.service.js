@@ -8,17 +8,64 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsumerService = void 0;
 const common_1 = require("@nestjs/common");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 let ConsumerService = exports.ConsumerService = class ConsumerService {
-    displayWishList() {
-        console.log(`display wish list`);
+    getQrCodeId(userId) {
+        console.log("get qrCode id by user id ");
     }
-    uploadWishList(id) {
+    async displayWishList(consumer_id) {
+        try {
+            const displayWishlist = await prisma.wishlist_product.findMany({
+                where: {
+                    consumer: { id: consumer_id },
+                },
+                include: {
+                    product: true,
+                    version: true,
+                },
+            });
+            return displayWishlist;
+        }
+        catch (error) {
+            throw new Error("無法獲取願望清單");
+        }
+    }
+    async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
+        const existingWishlistProduct = await prisma.wishlist_product.findFirst({
+            where: {
+                consumer_id: consumerId,
+                product_id: productId,
+                version_id: versionId,
+            },
+        });
+        if (existingWishlistProduct) {
+            throw new Error("該產品和版本已經在願望清單中");
+        }
+        const wishlistProduct = await prisma.wishlist_product.create({
+            data: {
+                consumer: { connect: { id: consumerId } },
+                product: { connect: { id: productId } },
+                version: { connect: { id: versionId } },
+                target_price: targetPrice,
+                notification: notification,
+            },
+        });
+        return wishlistProduct;
         console.log(`upload product by id`);
     }
-    updateWishList(id) {
+    async deleteWishList(consumerId, productId, versionId) {
+        const deleteWishList = await prisma.wishlist_product.deleteMany({
+            where: {
+                consumer_id: consumerId,
+                product_id: productId,
+                version_id: versionId,
+            },
+        });
+        return deleteWishList;
         console.log(`del product by id`);
     }
-    creatOrder(itemID) {
+    createOrder(itemID) {
         console.log(`upload items to `);
     }
     prePaymentConfirm(paymentStatus) {
@@ -27,17 +74,30 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
     remainPaymentConfirm(paymentStatus) {
         console.log(`update to payed by case`);
     }
-    getQrCodeId(userId) {
-        console.log('get qrCode id by user id ');
-    }
-    editProfile(form) {
+    async editConProfile(consumerId, form) {
+        const consumer = {
+            QRcode: form.QRcode,
+            consumer_name: form.consumer_name,
+            consumer_phone: form.consumer_phone,
+        };
+        const editConProfile = await prisma.consumer.update({
+            where: { id: Number(consumerId) },
+            data: consumer,
+        });
+        return editConProfile;
         console.log(`update profile by ${form}`);
     }
-    feedback(merchantId, feedback) {
+    async feedback(comment, merchantId, consumerId, rating) {
+        const savedFeedback = await prisma.feedback.create({
+            data: {
+                comment: comment,
+                merchant: { connect: { id: merchantId } },
+                consumer: { connect: { id: consumerId } },
+                rating: rating,
+            },
+        });
+        return savedFeedback;
         console.log(`insert feedback`);
-    }
-    rating(merchantId, rating) {
-        console.log(`inserting rating by merchantID`);
     }
 };
 exports.ConsumerService = ConsumerService = __decorate([
