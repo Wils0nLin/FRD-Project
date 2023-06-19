@@ -1,8 +1,6 @@
-import { Prisma, Users } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 export declare class ConsumerService {
-    getSelfInfo(userId: number): Promise<(Users & {
-        consumers: import(".prisma/client").Consumer[];
-    }) | null>;
+    getSelfInfo(userId: any): Promise<unknown>;
     getQrCodeId(userId: string): void;
     uploadWishList(consumerId: number, productId: number, versionId: number, targetPrice: number, notification: boolean): Promise<void>;
     deleteWishList(consumerId: number, productId: number, versionId: number): Promise<Prisma.BatchPayload>;

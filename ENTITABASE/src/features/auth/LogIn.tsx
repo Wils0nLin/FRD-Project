@@ -33,12 +33,18 @@ export default function Login({navigation}: any) {
     const data = await resp.json();
     const result = data.access_token;
     let decoded: any = jwt_decode(result);
-    AsyncStorage.setItem('id', decoded.signId);
-    console.log(AsyncStorage.getItem('id'));
     if (decoded.signIdentity === 'consumer') {
       navigation.navigate('Consumer');
     } else if (decoded.signIdentity === 'merchant') {
       navigation.navigate('Merchant');
+    }
+
+    try {
+      await AsyncStorage.setItem('id', JSON.stringify(decoded.signId));
+      const test = await AsyncStorage.getItem('id');
+      console.log(test);
+    } catch (error) {
+      console.log(error);
     }
   };
 

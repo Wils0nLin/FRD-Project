@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import HomeItemCard from '../../../../objects/HomeItemCard';
 import HomePageSlider from '../../../../objects/HomePageSlider';
 import {Switch} from 'react-native-gesture-handler';
 

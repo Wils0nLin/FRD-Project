@@ -34,8 +34,8 @@ export class MerchantController {
         any
     ) {
         const merchantId = 1;
-        const productId = 3;
-        const versionIds = [1, 2];
+        const productId = 2;
+        const versionIds = [3, 4];
 
         try {
             const result = await this.merchantService.uploadItems(

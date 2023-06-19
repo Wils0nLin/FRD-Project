@@ -12,10 +12,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let ConsumerService = exports.ConsumerService = class ConsumerService {
     async getSelfInfo(userId) {
-        const foundUser = await prisma.users.findUnique({
-            where: { id: userId },
-            include: { consumers: true },
-        });
+        const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
     }
     getQrCodeId(userId) {

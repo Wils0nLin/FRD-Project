@@ -16,8 +16,6 @@ exports.ConsumerController = void 0;
 const common_1 = require("@nestjs/common");
 const consumer_service_1 = require("./consumer.service");
 const public_service_1 = require("../Public/public.service");
-const guard_1 = require("../Public/guard");
-const decorator_1 = require("../Public/decorator");
 let ConsumerController = exports.ConsumerController = class ConsumerController {
     constructor(consumerService, publicService) {
         this.consumerService = consumerService;
@@ -63,6 +61,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     createOrder(param) {
         return this.consumerService.createOrder(param.itemId);
     }
+    paymentConfirm(paymentstatus) {
+        return this.consumerService.paymentConfirm(paymentstatus);
+    }
     async editConProfile(consumerId, form) {
         return await this.consumerService.editConProfile(consumerId, form);
     }
@@ -73,11 +74,10 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     }
 };
 __decorate([
-    (0, common_1.Get)("userInfo"),
-    (0, common_1.UseGuards)(guard_1.JwtGuard),
-    __param(0, (0, decorator_1.GetUser)("id")),
+    (0, common_1.Get)("userInfo/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "getSelfInfo", null);
 __decorate([
@@ -122,6 +122,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "createOrder", null);
+__decorate([
+    (0, common_1.Post)("order/payment"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ConsumerController.prototype, "paymentConfirm", null);
 __decorate([
     (0, common_1.Put)("profile/edit/:consumerId"),
     __param(0, (0, common_1.Param)("consumerId")),
