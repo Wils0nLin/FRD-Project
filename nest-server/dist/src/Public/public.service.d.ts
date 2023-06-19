@@ -15,7 +15,7 @@ export declare class PublicService {
     login(form: any): Promise<{
         access_token: string;
     }>;
-    signToken(userId: number): Promise<{
+    signToken(userId: number, userIdentity: string): Promise<{
         access_token: string;
     }>;
     hot(): string;

@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from './StackParamList';
 import ConAppScreen from '../../consumer/navigation/tab/consumer/conAppScreen';
 import PublicAdminScreen from '../screens/PublicAdminScreen';
-import LogIn from '../screens/LogIn';
+import Login from '../../features/auth/LogIn';
 import ConRegister from '../screens/ConRegister';
 import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../consumer/modals/SearchModal';
@@ -68,7 +68,7 @@ const PublicScreenNavigator = () => {
       />
       <Stack.Screen
         name="LogIn"
-        component={LogIn}
+        component={Login}
         options={{
           headerBackVisible: false,
           headerTitle: 'LOG IN',

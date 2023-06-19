@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
 import {
@@ -158,18 +158,18 @@ export class PublicService {
     async login(form: any) {
         const user: any = await this.prisma.users.findUnique({
             where: { username: form.username },
-            select: { id: true, password: true },
+            select: { id: true, password: true , identity: true},
         });
 
-        // if (!user || !(await checkPassword(form.password, user.password))) {
-        //     throw new UnauthorizedException();
-        // }
+        if (!user || !(await checkPassword(form.password, user.password))) {
+            throw new UnauthorizedException();
+        }
 
-        return this.signToken(user.id);
+        return this.signToken(user.id, user.identity);
     }
 
-    async signToken(userId: number) {
-        const payload = { sub: userId };
+    async signToken(userId: number, userIdentity: string) {
+        const payload = { signId: userId, signIdentity: userIdentity };
         console.log(this.config.get("JWT_SECRET"));
         return {
             access_token: await this.jwt.signAsync(payload, {

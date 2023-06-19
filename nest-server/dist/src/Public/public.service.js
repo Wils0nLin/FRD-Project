@@ -133,12 +133,15 @@ let PublicService = exports.PublicService = class PublicService {
     async login(form) {
         const user = await this.prisma.users.findUnique({
             where: { username: form.username },
-            select: { id: true, password: true },
+            select: { id: true, password: true, identity: true },
         });
-        return this.signToken(user.id);
+        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return this.signToken(user.id, user.identity);
     }
-    async signToken(userId) {
-        const payload = { sub: userId };
+    async signToken(userId, userIdentity) {
+        const payload = { signId: userId, signIdentity: userIdentity };
         console.log(this.config.get("JWT_SECRET"));
         return {
             access_token: await this.jwt.signAsync(payload, {

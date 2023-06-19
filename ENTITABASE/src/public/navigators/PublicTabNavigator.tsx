@@ -8,7 +8,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import {StackParamList} from './StackParamList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import LogIn from '../screens/LogIn';
+import Login from '../../features/auth/LogIn';
 import NavigatorButton from '../../objects/NavigatorButton';
 import PublicLoginModal from '../modals/PublicLoginModal';
 import PublicScreenNavigator from './PublicScreenNavigator';
@@ -59,7 +59,7 @@ const PublicTabNavigator = () => {
           <Stack.Navigator>
             <Stack.Screen
               name="LogIn"
-              component={LogIn}
+              component={Login}
               options={{
                 headerBackVisible: false,
                 headerTitle: 'LOG IN',

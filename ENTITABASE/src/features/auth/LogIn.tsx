@@ -3,41 +3,43 @@ import React, {useState} from 'react';
 import {
   Text,
   View,
-  Alert,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import axios from 'axios';
-
+import jwt_decode from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {SafeAreaView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PublicForehead from '../../objects/PublicForeheadView';
 
-export default function LogIn({navigation}: any) {
+export default function Login({navigation}: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [secure, setSecure] = useState(true);
 
-  const Submit = () => {
+  const Submit = async () => {
     const form = {
       username: username,
       password: password,
     };
-    axios
-      .post('http://192.168.160.142:3000/public/login', form)
-      .then(function (response) {
-        console.log(response);
-        Alert.alert('success', `${response}`);
-        navigation.navigate('Consumer');
-      })
-      .catch(function (error) {
-        console.log(error);
-        Alert.alert('Failed', `${error}`);
-      });
-    console.log(form);
+    const resp = await fetch('http://192.168.160.142:3000/public/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(form),
+    });
+    const data = await resp.json();
+    const result = data.access_token;
+    let decoded: any = jwt_decode(result);
+    AsyncStorage.setItem('id', decoded.signId);
+    console.log(AsyncStorage.getItem('id'));
+    if (decoded.signIdentity === 'consumer') {
+      navigation.navigate('Consumer');
+    } else if (decoded.signIdentity === 'merchant') {
+      navigation.navigate('Merchant');
+    }
   };
 
   return (
@@ -103,15 +105,8 @@ export default function LogIn({navigation}: any) {
           <View style={{width: 320}}>
             <TouchableOpacity
               style={styles.modalButtonFor1}
-              onPress={() => {
-                navigation.navigate('Consumer');
-              }}>
-              <Text style={{fontSize: 17, color: '#E4E4E4'}}>登入</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.modalButtonFor1}
               onPress={() => Submit()}>
-              <Text style={{fontSize: 17, color: '#E4E4E4'}}>REAL 登入</Text>
+              <Text style={{fontSize: 17, color: '#E4E4E4'}}>登入</Text>
             </TouchableOpacity>
             <View
               style={{

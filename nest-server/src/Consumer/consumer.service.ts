@@ -6,30 +6,38 @@ import { Prisma, PrismaClient, Users } from "@prisma/client";
 const prisma = new PrismaClient();
 @Injectable()
 export class ConsumerService {
+    async getSelfInfo(userId: number) {
+        const foundUser = await prisma.users.findUnique({
+            where: { id: userId },
+            include: { consumers: true },
+        });
+        return foundUser;
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     getQrCodeId(userId: string) {
         console.log("get qrCode id by user id ");
     }
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
-    async displayWishList(consumer_id: number) {
-        try {
-            const displayWishlist = await prisma.wishlist_product.findMany({
-                where: {
-                    consumer: { id: consumer_id },
-                },
-                include: {
-                    product: true,
-                    version: true,
-                },
-            });
-            return displayWishlist;
-        } catch (error) {
-            throw new Error("無法獲取願望清單");
-        }
+    // async displayWishList(consumer_id: number) {
+    //     try {
+    //         const displayWishlist = await prisma.wishlist_product.findMany({
+    //             where: {
+    //                 consumer: { id: consumer_id },
+    //             },
+    //             include: {
+    //                 product: true,
+    //                 version: true,
+    //             },
+    //         });
+    //         return displayWishlist;
+    //     } catch (error) {
+    //         throw new Error("無法獲取願望清單");
+    //     }
 
-        // console.log(`display wish list`);
-    }
+    //     // console.log(`display wish list`);
+    // }
     // displayWishList() {
     //     console.log(`display wish list`);
     // }
@@ -56,16 +64,16 @@ export class ConsumerService {
             throw new Error("該產品和版本已經在願望清單中");
         }
 
-        const wishlistProduct = await prisma.wishlist_product.create({
-            data: {
-                consumer: { connect: { id: consumerId } },
-                product: { connect: { id: productId } },
-                version: { connect: { id: versionId } },
-                target_price: targetPrice,
-                notification: notification,
-            },
-        });
-        return wishlistProduct;
+        // const wishlistProduct = await prisma.wishlist_product.create({
+        //     data: {
+        //         consumer: { connect: { id: consumerId } },
+        //         product: { connect: { id: productId } },
+        //         version: { connect: { id: versionId } },
+        //         target_price: targetPrice,
+        //         notification: notification,
+        //     },
+        // });
+        // return wishlistProduct;
         console.log(`upload product by id`);
     }
 
@@ -90,12 +98,14 @@ export class ConsumerService {
     createOrder(itemID: string) {
         console.log(`upload items to `);
     }
-    prePaymentConfirm(paymentStatus: any) {
+    //full pay
+    paymentConfirm(paymentStatus: any) {
         console.log(`confirm payment success or not if  change status`);
     }
-    remainPaymentConfirm(paymentStatus: any) {
-        console.log(`update to payed by case`);
-    }
+
+    // remainPaymentConfirm(paymentStatus: any) {
+    //     console.log(`update to payed by case`);
+    // }
     // ---------------------------------------------------------------------------------------------------------
     //done
     async editConProfile(consumerId: any, form: any) {
@@ -113,7 +123,7 @@ export class ConsumerService {
     }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
-    async feedback(comment: any, merchantId: any, consumerId: any, rating: any) {
+    async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
         const savedFeedback = await prisma.feedback.create({
             data: {
                 comment: comment,
