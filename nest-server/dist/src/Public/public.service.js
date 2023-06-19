@@ -13,6 +13,7 @@ exports.PublicService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma.service");
 const client_1 = require("@prisma/client");
+const hash_1 = require("./hash");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const prisma = new client_1.PrismaClient();
@@ -55,10 +56,11 @@ let PublicService = exports.PublicService = class PublicService {
             return createMerchant;
         }
         async function registerCondition(form, identity) {
+            let hashedPassword = await (0, hash_1.hashPassword)(form.password);
             let users;
             users = {
                 username: form.username,
-                password: form.password,
+                password: hashedPassword,
                 email: form.email,
                 identity: identity,
             };
@@ -123,12 +125,15 @@ let PublicService = exports.PublicService = class PublicService {
     async login(form) {
         const user = await this.prisma.users.findUnique({
             where: { username: form.username },
-            select: { id: true, password: true },
+            select: { id: true, password: true, identity: true },
         });
-        return this.signToken(user.id);
+        if (!user || !(await (0, hash_1.checkPassword)(form.password, user.password))) {
+            throw new common_1.UnauthorizedException();
+        }
+        return this.signToken(user.id, user.identity);
     }
-    async signToken(userId) {
-        const payload = { sub: userId };
+    async signToken(userId, userIdentity) {
+        const payload = { signId: userId, signIdentity: userIdentity };
         console.log(this.config.get("JWT_SECRET"));
         return {
             access_token: await this.jwt.signAsync(payload, {

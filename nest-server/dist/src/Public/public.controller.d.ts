@@ -9,7 +9,7 @@ export declare class PublicController {
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(): Promise<import(".prisma/client").Branch[]>;
-    login(userLoginInfo: any): Promise<{
+    login(form: any): Promise<{
         access_token: string;
     }>;
     hot(): string;

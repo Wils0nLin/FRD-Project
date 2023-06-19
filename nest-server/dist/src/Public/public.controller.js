@@ -40,8 +40,8 @@ let PublicController = exports.PublicController = class PublicController {
     branch() {
         return this.publicService.branch();
     }
-    login(userLoginInfo) {
-        return this.publicService.login(userLoginInfo);
+    login(form) {
+        return this.publicService.login(form);
     }
     hot() {
         return this.publicService.hot();
@@ -146,7 +146,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "branch", null);
 __decorate([
-    (0, common_1.Get)("login"),
+    (0, common_1.Post)("login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

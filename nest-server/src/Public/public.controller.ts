@@ -70,9 +70,9 @@ export class PublicController {
 
     // login
     //done
-    @Get("login")
-    login(@Body() userLoginInfo: any) {
-        return this.publicService.login(userLoginInfo);
+    @Post("login")
+    login(@Body() form: any) {
+        return this.publicService.login(form);
     }
     //
 
