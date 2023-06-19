@@ -272,6 +272,10 @@ export class PublicService {
     }
 
     //3個未完
+<<<<<<< HEAD
+    async version(productId: any,itemId: any) {
+        //try
+=======
     //select product then select version to find which merchant have this item
     async getMerchantByItemId(itemId: any) {
         const item = await prisma.item.findUnique({
@@ -292,6 +296,7 @@ export class PublicService {
             merchantPhone: item.merchant.merchant_phone,
         };
     }
+>>>>>>> 24e92c717485a4f5f3cf5e58e253c032785f5f7c
 
     //done
     async version(productId: any, versionId: any) {

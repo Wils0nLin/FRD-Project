@@ -17,12 +17,14 @@ import {
   gameImgStyle,
   gameListAreaStyle,
 } from '../tab/consumer/conWishListScreen';
-import {useNavigation, useRoute} from '@react-navigation/native';
-
+import axios from 'axios';
 export const GameSearchScreen = ({route, navigation}: any) => {
-  const [texts, onChangeText] = React.useState('');
   const {tagArr, platformArr, text, highest, newest} = route.params;
-  console.log(tagArr, platformArr, text, highest, newest);
+  const [texts, onChangeText] = React.useState(text);
+  const form = {tagArr, platformArr, text, highest, newest};
+  console.log(tagArr, platformArr, texts, highest, newest);
+
+  axios.get('http://192.168.160.142:3000/auth/login', form);
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View>
@@ -52,11 +54,11 @@ export const GameSearchScreen = ({route, navigation}: any) => {
             height: 40,
           }}>
           <TextInput
-            onChangeText={(text: React.SetStateAction<string>) =>
-              onChangeText(text)
+            onChangeText={(texts: React.SetStateAction<string>) =>
+              onChangeText(texts)
             }
-            value={text}
-            style={{width: 310}}
+            value={texts}
+            style={{width: 310, color: '#e4e4e4'}}
           />
 
           <FontAwesome5
@@ -65,64 +67,6 @@ export const GameSearchScreen = ({route, navigation}: any) => {
             color={'#E4E4E4'}
             style={{marginTop: 3}}
           />
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingLeft: 35,
-            paddingRight: 35,
-            paddingTop: 10,
-          }}>
-          <Text style={{color: 'white', fontSize: 20}}>共200種遊戲</Text>
-          <View>
-            <GameSearchModal />
-          </View>
-        </View>
-        <View style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 150,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('GameInfo')}>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-            <TouchableOpacity>
-              <FontAwesome5 name={'heart'} size={35} color={'#7A04EB'} />
-            </TouchableOpacity>
-            <View style={{alignItems: 'flex-end'}}>
-              {/* <Text>HK$ 400.00</Text> */}
-              <Text style={{fontSize: 20, color: 'white'}}>現貨發售中</Text>
-            </View>
-          </View>
         </View>
       </View>
     </ScrollView>

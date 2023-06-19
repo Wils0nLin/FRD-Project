@@ -5,6 +5,7 @@ export declare class PublicService {
     private readonly prisma;
     private readonly jwt;
     private readonly config;
+    getMerchantByItemId(itemId: number): void;
     constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
     Register(form: any, identity: string): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
@@ -22,7 +23,7 @@ export declare class PublicService {
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(): Promise<(import(".prisma/client").Platform & {
+    platformFilter(platformName: string): Promise<(import(".prisma/client").Platform & {
         products: (import(".prisma/client").Product & {
             versions: import(".prisma/client").Version[];
         })[];
@@ -34,23 +35,12 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
-    getMerchantByItemId(itemId: any): Promise<{
-        itemId: number;
-        merchantId: number;
-        merchantName: string;
-        merchantPhone: string;
-    }>;
     version(productId: any, versionId: any): Promise<{
         versionId: number;
         versionName: string;
         items: {
             itemId: number;
-            merchant: {
-                itemId: number;
-                merchantId: number;
-                merchantName: string;
-                merchantPhone: string;
-            };
+            merchant: void;
         }[];
     }>;
     district(productid: any, versionId: any, district: any): void;
