@@ -6,6 +6,7 @@ import {
     Post,
     Query,
     UploadedFile,
+    UploadedFiles,
     UseInterceptors,
 } from "@nestjs/common";
 import { PublicService } from "./public.service";
@@ -25,7 +26,7 @@ export class PublicController {
     //done
     @Post("register/conRegister")
     async conRegister(@Body() form: any) {
-        const result = await this.publicService.Register(form, "consumer");
+        const result = await this.publicService.Register(form, "consumer", null);
 
         return result;
     }
@@ -37,10 +38,14 @@ export class PublicController {
             { name: "RegisImg", maxCount: 1 },
         ])
     )
-    async merRegister(@UploadedFile() file: Express.Multer.File, @Body() form: any) {
-        console.log("Hi File: ", file);
+    async merRegister(
+        @UploadedFiles()
+        files: { IconImg?: Express.Multer.File[]; RegisImg?: Express.Multer.File[] },
+        @Body() form: any
+    ) {
+        console.log(form);
 
-        return await this.publicService.Register(form, "merchant");
+        return await this.publicService.Register(form, "merchant", files);
     }
     //
 

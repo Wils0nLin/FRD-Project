@@ -192,10 +192,10 @@ model Merchant {
   id                Int      @id @default(autoincrement())
   users             Users    @relation(fields: [users_id], references: [id])
   users_id          Int      @map("users_id")
-  merchant_image    String
+  merchant_image    Bytes    @default("")
   merchant_name     String
   merchant_phone    String
-  biz_registration  String
+  biz_registration  Bytes    @default("")
   district          District @relation(fields: [district_id], references: [id])
   district_id       Int      @map("district_id")
   address           String

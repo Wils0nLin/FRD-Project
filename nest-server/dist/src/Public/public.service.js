@@ -23,7 +23,7 @@ let PublicService = exports.PublicService = class PublicService {
         this.jwt = jwt;
         this.config = config;
     }
-    async Register(form, identity) {
+    async Register(form, identity, files) {
         async function conRegister(form, users_id) {
             let consumer;
             consumer = {
@@ -34,6 +34,26 @@ let PublicService = exports.PublicService = class PublicService {
             };
             const createConsumer = await prisma.consumer.create({ data: consumer });
             return createConsumer;
+        }
+        async function merRegister(form, users_id, files) {
+            console.log("files: ", files);
+            console.log("form: ", form);
+            let merchant;
+            merchant = {
+                users_id: users_id,
+                merchant_image: files.IconImg[0].buffer,
+                merchant_name: form.name,
+                merchant_phone: form.phone,
+                biz_registration: files.RegisImg[0].buffer,
+                district_id: parseInt(form.district),
+                address: form.address,
+                branch_id: parseInt(form.branch),
+                bank_account: form.accNum,
+                opening_hour: form.Hour,
+            };
+            const createMerchant = await prisma.merchant.create({ data: merchant });
+            console.log(createMerchant);
+            return createMerchant;
         }
         async function registerCondition(form, identity) {
             let hashedPassword = await (0, hash_1.hashPassword)(form.password);
@@ -46,10 +66,36 @@ let PublicService = exports.PublicService = class PublicService {
             };
             const createUser = await prisma.users.create({ data: users });
             let users_id = Number(createUser.id);
-            console.log("uses_id: ", users_id);
-            return { form, users_id };
+            return { form, users_id, files };
         }
-        console.log("Hi service form: ", form);
+        if (identity === "consumer") {
+            registerCondition(form, identity)
+                .then((output) => {
+                conRegister(output.form, output.users_id);
+            })
+                .then(async () => {
+                await prisma.$disconnect();
+            })
+                .catch(async (e) => {
+                console.error(e);
+                await prisma.$disconnect();
+                process.exit(1);
+            });
+        }
+        else if (identity === "merchant") {
+            registerCondition(form, identity)
+                .then((output) => {
+                merRegister(output.form, output.users_id, output.files);
+            })
+                .then(async () => {
+                await prisma.$disconnect();
+            })
+                .catch(async (e) => {
+                console.error(e);
+                await prisma.$disconnect();
+                process.exit(1);
+            });
+        }
     }
     async selectArea() {
         const selectArea = await prisma.area.findMany();

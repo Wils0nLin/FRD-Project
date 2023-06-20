@@ -34,10 +34,10 @@ async function main() {
         data: [
             {
                 users_id: existUsers[1].id,
-                merchant_image: "../imageUpload/imageMerchant/storeImage/2000Fun.png",
+                merchant_image: Buffer.from("hi"),
                 merchant_name: "2000Fun",
                 merchant_phone: "24983168",
-                biz_registration: "../imageUpload/imageMerchant/BRImage/fake_BR.jpeg",
+                biz_registration: Buffer.from("biz_registration_data"),
                 district_id: 1,
                 address: "樓角路138-168號荃豐中心地下A7A鋪",
                 bank_account: "102846961961",

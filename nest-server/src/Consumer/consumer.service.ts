@@ -7,7 +7,9 @@ const prisma = new PrismaClient();
 @Injectable()
 export class ConsumerService {
     async getSelfInfo(userId: any) {
-        const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
+        const foundUser = await prisma.$queryRawUnsafe(
+            `select * from users join consumer on users.id = users_id where users.id = ${userId};`
+        );
         return foundUser;
     }
 
@@ -92,7 +94,7 @@ export class ConsumerService {
         console.log(`del product by id`);
     }
     // ---------------------------------------------------------------------------------------------------------
-    createOrder(itemID: string) {
+    createOrder(itemId: string) {
         console.log(`upload items to `);
     }
     //full pay

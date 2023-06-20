@@ -6,7 +6,7 @@ export declare class PublicService {
     private readonly jwt;
     private readonly config;
     constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
-    Register(form: any, identity: string): Promise<void>;
+    Register(form: any, identity: string, files: any | null): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
