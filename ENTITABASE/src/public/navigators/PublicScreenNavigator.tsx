@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from './StackParamList';
 import ConAppScreen from '../../consumer/navigation/tab/consumer/conAppScreen';
 import PublicAdminScreen from '../screens/PublicAdminScreen';
-import Login from '../screens/LogIn';
+import Login from '../../features/auth/LogIn';
 import ConRegister from '../screens/ConRegister';
 import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../consumer/modals/SearchModal';

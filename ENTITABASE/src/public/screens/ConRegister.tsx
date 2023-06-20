@@ -1,18 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  View,
-  Text,
   Alert,
-  StyleSheet,
+  SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native';
+import axios from 'axios';
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
-import axios from 'axios';
 import PublicForehead from '../../objects/PublicForeheadView';
 
 export default function ConRegister({navigation}: any) {
@@ -24,46 +25,57 @@ export default function ConRegister({navigation}: any) {
   const [Phone, setPhone] = React.useState('');
   const [secure, setSecure] = useState(true);
   const [secureAgain, setSecureAgain] = useState(true);
+  const [QRcode, setQRcode] = useState('');
 
-  const rNumber = Math.floor(Math.random() * 10);
-
-  function makeId(length: any) {
+  const createQRcode = () => {
     let result = '';
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     let counter = 0;
-    while (counter < length) {
+    while (counter < 1 + Math.floor(Math.random() * 30)) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
       counter += 1;
     }
     console.log(result);
-
-    return result;
-  }
+    setQRcode(result);
+  };
 
   const Submit = () => {
-    const form = {
-      username: Username,
-      password: Password,
-      email: Email,
-      QRcode: makeId(rNumber),
-      consumer_name: Name,
-      consumer_phone: Phone,
-    };
-    axios
-      .post('http://192.168.160.78:3000/public/register/conRegister', form)
-      .then(function (response) {
-        console.log(response);
-        Alert.alert('success', `${response}`);
-        navigation.navigate('LogIn');
-      })
-      .catch(function (error) {
-        console.log(error);
-        Alert.alert('Failed', `${error}`);
-      });
-    console.log(form);
+    if (!Password || !ConfirmPass) {
+      Alert.alert('密碼有誤', '密碼不能為空白');
+    } else if (!Name || !Username || !Phone || !Email) {
+      Alert.alert('資料有誤', '資料不能為空白');
+    } else if (Password !== ConfirmPass) {
+      Alert.alert('密碼有誤', '兩次密碼須一致');
+    } else if (Password === ConfirmPass) {
+      const form = {
+        username: Username,
+        password: Password,
+        email: Email,
+        QRcode: QRcode,
+        consumer_name: Name,
+        consumer_phone: Phone,
+      };
+      axios
+        .post('http://192.168.160.142:3000/public/register/conRegister', form)
+        .then(function (response) {
+          console.log(response);
+          Alert.alert('success', `${response}`);
+          navigation.navigate('LogIn');
+        })
+        .catch(function (error) {
+          console.log(error);
+          Alert.alert('Failed', `${error}`);
+        });
+      console.log(form);
+    }
   };
+
+  useEffect(() => {
+    createQRcode();
+  }, []);
+
   return (
     <ScrollView
       style={{
