@@ -33,6 +33,7 @@ export declare class PublicService {
         merchant: unknown;
         version: unknown;
     }>;
+    searchText(Text: string): Promise<unknown>;
     getMerchantByItemId(itemId: any): Promise<{
         itemId: number;
         merchantId: number;

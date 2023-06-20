@@ -213,6 +213,13 @@ let PublicService = exports.PublicService = class PublicService {
         const merchant = await prisma.$queryRaw `select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
         return { merchant, version };
     }
+    async searchText(Text) {
+        console.log('i am service', Text);
+        let value = `%${Text}%`;
+        console.log(value);
+        const result = await prisma.$queryRaw `select * from product where product_name like ${value};`;
+        return result;
+    }
     async getMerchantByItemId(itemId) {
         const item = await prisma.item.findUnique({
             where: {

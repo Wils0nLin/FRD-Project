@@ -138,9 +138,10 @@ export class PublicController {
 
     // search for search bar typing for game not version
     //done
-    @Get("filter/search")
-    search(@Body("search") search: string) {
-        return this.publicService.search(search);
+    @Get("filter/search/:Texts")
+    async searchText(@Param("Texts") Texts: string) {
+        console.log(Texts)
+        return this.publicService.searchText(Texts);
     }
 
     // only game version

@@ -308,6 +308,14 @@ export class PublicService {
         // );
     }
 
+    async searchText (Text:string){
+        console.log('i am service',Text)
+        let value= `%${Text}%`
+        console.log(value) 
+        const result = await prisma.$queryRaw`select * from product where product_name like ${value};`
+        return result;
+    }
+
     //3個未完
     //select product then select version to find which merchant have this item
     async getMerchantByItemId(itemId: any) {
