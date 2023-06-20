@@ -24,7 +24,7 @@ export class PublicService {
     ) {}
 
     //merchant未完
-    async Register(form: any, identity: string) {
+    async Register(form: any, identity: string, files: any | null) {
         async function conRegister(form: any, users_id: number) {
             let consumer: Prisma.ConsumerCreateInput;
             consumer = {
@@ -38,30 +38,33 @@ export class PublicService {
             return createConsumer;
         }
 
-        // async function merRegister(form: any, users_id: number) {
-        //     //係呢到攞番由front
+        async function merRegister(form: any, users_id: number, files: any) {
+            //係呢到攞番由front
+            console.log("files: ", files);
+            console.log("form: ", form);
+            // const merchant =
+            // await prisma.$queryRaw`insert into merchant (users_id,merchant_image,merchant_name,merchant_phone,biz_registration,district_id,address,opening_hour,bank_account,branch_id) values ();`;
 
-        //     let merchant: Prisma.MerchantCreateInput;
-        //     merchant = {
-        //         users: { connect: { id: users_id } },
-        //         merchant_image: form.merchant_image,
-        //         merchant_name: form.merchant_name,
-        //         merchant_phone: form.merchant_phone,
-        //         biz_registration: form.biz_registration,
-        //         district: form.district,
-        //         address: form.address,
-        //         branch: form.branch,
-        //         bank_account: form.bank_account,
-        //         opening_hour: form.opening_hour,
-        //         announcement: form.announcement,
-        //     };
+            let merchant: Prisma.MerchantUncheckedCreateInput;
+            merchant = {
+                users_id: users_id,
+                merchant_image: files.IconImg[0].buffer,
+                merchant_name: form.name,
+                merchant_phone: form.phone,
+                biz_registration: files.RegisImg[0].buffer,
+                district_id: parseInt(form.district),
+                address: form.address,
+                branch_id: parseInt(form.branch),
+                bank_account: form.accNum,
+                opening_hour: form.Hour,
+            };
 
-        //     const createMerchant = await prisma.merchant.create({ data: merchant });
-        //     console.log(createMerchant);
+            const createMerchant = await prisma.merchant.create({ data: merchant });
+            console.log(createMerchant);
 
-        //     return createMerchant;
-        //     // console.log("write your register query here", form);
-        // }
+            return createMerchant;
+            // console.log("write your register query here", form);
+        }
 
         async function registerCondition(form: any, identity: any) {
             let hashedPassword = await hashPassword(form.password);
@@ -75,39 +78,37 @@ export class PublicService {
 
             const createUser = await prisma.users.create({ data: users });
             let users_id = Number(createUser.id);
-            console.log("uses_id: ", users_id);
 
-            return { form, users_id };
+            return { form, users_id, files };
         }
-        console.log("Hi service form: ", form);
 
-        // if (identity === "consumer") {
-        //     registerCondition(form, identity)
-        //         .then((output) => {
-        //             conRegister(output.form, output.users_id);
-        //         })
-        //         .then(async () => {
-        //             await prisma.$disconnect();
-        //         })
-        //         .catch(async (e) => {
-        //             console.error(e);
-        //             await prisma.$disconnect();
-        //             process.exit(1);
-        //         });
-        // } else if (identity === "merchant") {
-        //     registerCondition(form, identity)
-        //         .then((output) => {
-        //             merRegister(output.form, output.users_id);
-        //         })
-        //         .then(async () => {
-        //             await prisma.$disconnect();
-        //         })
-        //         .catch(async (e) => {
-        //             console.error(e);
-        //             await prisma.$disconnect();
-        //             process.exit(1);
-        //         });
-        // }
+        if (identity === "consumer") {
+            registerCondition(form, identity)
+                .then((output) => {
+                    conRegister(output.form, output.users_id);
+                })
+                .then(async () => {
+                    await prisma.$disconnect();
+                })
+                .catch(async (e) => {
+                    console.error(e);
+                    await prisma.$disconnect();
+                    process.exit(1);
+                });
+        } else if (identity === "merchant") {
+            registerCondition(form, identity)
+                .then((output) => {
+                    merRegister(output.form, output.users_id, output.files);
+                })
+                .then(async () => {
+                    await prisma.$disconnect();
+                })
+                .catch(async (e) => {
+                    console.error(e);
+                    await prisma.$disconnect();
+                    process.exit(1);
+                });
+        }
     }
 
     // area and district only for register select

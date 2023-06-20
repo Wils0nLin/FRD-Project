@@ -9,7 +9,12 @@ import {
   Text,
 } from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
-import {Alert, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  useAnimatedValue,
+} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native';
@@ -55,6 +60,7 @@ const MerRegister = () => {
   const [bank, setBank] = useState(0);
   const [branch, setBranch] = useState(0);
   const [accountNum, setAccountNum] = useState('');
+  const [address, setAddress] = useState('');
 
   const getAreaList = async () => {
     const area = await fetch(
@@ -165,21 +171,20 @@ const MerRegister = () => {
     if (selectedImageICON == null || selectedImageREGIS == null) {
       return;
     } else {
-      formData.append('Img', [
-        {
-          name: 'IconImg',
-          uri: selectedImageICON.assets![0].uri,
-          type: 'image/jpeg',
-          names: newFileNameIcon,
-        },
-        {
-          name: 'RegisImg',
-          uri: selectedImageREGIS.assets![0].uri,
-          type: 'image/jpeg',
-          names: newFileNameRegis,
-        },
-      ]);
+      formData.append('RegisImg', {
+        name: 'RegisImg',
+        uri: selectedImageREGIS.assets![0].uri,
+        type: 'image/jpeg',
+        names: newFileNameRegis,
+      });
     }
+    formData.append('IconImg', {
+      name: 'IconImg',
+      uri: selectedImageICON.assets![0].uri,
+      type: 'image/jpeg',
+      names: newFileNameIcon,
+    });
+    formData.append('address', address);
     formData.append('name', Name);
     formData.append('username', Username);
     formData.append('password', Password);
@@ -332,6 +337,18 @@ const MerRegister = () => {
                 <SelectItem title={items.district} />
               ))}
             </Select>
+          </Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}>
+            <Text style={styles.text}>地址：</Text>
+            <Input
+              editable
+              multiline
+              numberOfLines={7}
+              value={address}
+              placeholder="Place your Text"
+              onChangeText={nextValue => setAddress(nextValue)}
+              style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}
+            />
           </Layout>
           <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
             <Text style={styles.text}>銀行編號：</Text>

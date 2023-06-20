@@ -21,12 +21,12 @@ let PublicController = exports.PublicController = class PublicController {
         this.publicService = publicService;
     }
     async conRegister(form) {
-        const result = await this.publicService.Register(form, "consumer");
+        const result = await this.publicService.Register(form, "consumer", null);
         return result;
     }
-    async merRegister(file, form) {
-        console.log("Hi File: ", file);
-        return await this.publicService.Register(form, "merchant");
+    async merRegister(files, form) {
+        console.log(form);
+        return await this.publicService.Register(form, "merchant", files);
     }
     selectArea() {
         return this.publicService.selectArea();
@@ -116,7 +116,7 @@ __decorate([
         { name: "IconImg", maxCount: 1 },
         { name: "RegisImg", maxCount: 1 },
     ])),
-    __param(0, (0, common_1.UploadedFile)()),
+    __param(0, (0, common_1.UploadedFiles)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),

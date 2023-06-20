@@ -58,8 +58,11 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     displayOrderHistory(JWTpayload) {
         return this.publicService.displayOrderHistory(JWTpayload);
     }
-    createOrder(param) {
-        return this.consumerService.createOrder(param.itemId);
+    createOrder(itemId) {
+        try {
+        }
+        catch (error) { }
+        return this.consumerService.createOrder(itemId);
     }
     paymentConfirm(paymentstatus) {
         return this.consumerService.paymentConfirm(paymentstatus);
@@ -116,8 +119,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "displayOrderHistory", null);
 __decorate([
-    (0, common_1.Post)("order/create/"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Post)("order/create/:itemId"),
+    __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
