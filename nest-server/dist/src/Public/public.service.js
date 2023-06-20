@@ -35,26 +35,6 @@ let PublicService = exports.PublicService = class PublicService {
             const createConsumer = await prisma.consumer.create({ data: consumer });
             return createConsumer;
         }
-        async function merRegister(form, users_id) {
-            const district_id = 1;
-            const bank_acc_id = 1;
-            let merchant;
-            merchant = {
-                users: { connect: { id: users_id } },
-                merchant_image: form.merchant_image,
-                merchant_name: form.merchant_name,
-                merchant_phone: form.merchant_phone,
-                biz_registration: form.biz_registration,
-                district: { connect: { id: district_id } },
-                address: form.address,
-                bank_acc: { connect: { id: bank_acc_id } },
-                opening_hour: form.opening_hour,
-                announcement: form.announcement,
-            };
-            const createMerchant = await prisma.merchant.create({ data: merchant });
-            console.log(createMerchant);
-            return createMerchant;
-        }
         async function registerCondition(form, identity) {
             let hashedPassword = await (0, hash_1.hashPassword)(form.password);
             let users;
@@ -69,34 +49,7 @@ let PublicService = exports.PublicService = class PublicService {
             console.log("uses_id: ", users_id);
             return { form, users_id };
         }
-        if (identity === "consumer") {
-            registerCondition(form, identity)
-                .then((output) => {
-                conRegister(output.form, output.users_id);
-            })
-                .then(async () => {
-                await prisma.$disconnect();
-            })
-                .catch(async (e) => {
-                console.error(e);
-                await prisma.$disconnect();
-                process.exit(1);
-            });
-        }
-        else if (identity === "merchant") {
-            registerCondition(form, identity)
-                .then((output) => {
-                merRegister(output.form, output.users_id);
-            })
-                .then(async () => {
-                await prisma.$disconnect();
-            })
-                .catch(async (e) => {
-                console.error(e);
-                await prisma.$disconnect();
-                process.exit(1);
-            });
-        }
+        console.log("Hi service form: ", form);
     }
     async selectArea() {
         const selectArea = await prisma.area.findMany();
@@ -113,14 +66,6 @@ let PublicService = exports.PublicService = class PublicService {
     async branch() {
         const branch = await prisma.branch.findMany();
         return branch;
-    }
-    async bankAcc(branch_id) {
-        const bankAcc = await prisma.bank_acc.findMany({
-            where: {
-                branch_id: { in: branch_id },
-            },
-        });
-        return bankAcc;
     }
     async login(form) {
         const user = await this.prisma.users.findUnique({

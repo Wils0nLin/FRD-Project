@@ -4,7 +4,7 @@ export declare class PublicController {
     private readonly publicService;
     constructor(publicService: PublicService);
     conRegister(form: any): Promise<void>;
-    merRegister(file: Express.Multer.File, form: any): Promise<Express.Multer.File>;
+    merRegister(file: Express.Multer.File, form: any): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
