@@ -21,12 +21,12 @@ let PublicController = exports.PublicController = class PublicController {
         this.publicService = publicService;
     }
     async conRegister(form) {
-        const result = await this.publicService.Register(form, "consumer");
+        const result = await this.publicService.Register(form, "consumer", null);
         return result;
     }
-    async merRegister(file, form) {
-        console.log(file, form);
-        return file;
+    async merRegister(files, form) {
+        console.log(form);
+        return await this.publicService.Register(form, "merchant", files);
     }
     selectArea() {
         return this.publicService.selectArea();
@@ -52,7 +52,8 @@ let PublicController = exports.PublicController = class PublicController {
     displayTag() {
         return this.publicService.displayTag();
     }
-    tagFilter(tags) {
+    async tagFilter(tags) {
+        console.log(tags);
         return this.publicService.tagFilter(tags);
     }
     displayPlatform() {
@@ -113,10 +114,10 @@ __decorate([
 __decorate([
     (0, common_1.Post)("register/merRegister"),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
-        { name: 'IconImg', maxCount: 1 },
-        { name: 'RegisImg', maxCount: 1 }
+        { name: "IconImg", maxCount: 1 },
+        { name: "RegisImg", maxCount: 1 },
     ])),
-    __param(0, (0, common_1.UploadedFile)()),
+    __param(0, (0, common_1.UploadedFiles)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
@@ -172,11 +173,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayTag", null);
 __decorate([
-    (0, common_1.Get)("filter/tag"),
-    __param(0, (0, common_1.Body)("tag")),
+    (0, common_1.Get)("filter/tag/:tags"),
+    __param(0, (0, common_1.Param)("tags")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], PublicController.prototype, "tagFilter", null);
 __decorate([
     (0, common_1.Get)("home/platform"),

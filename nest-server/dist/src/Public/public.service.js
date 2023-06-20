@@ -23,7 +23,7 @@ let PublicService = exports.PublicService = class PublicService {
         this.jwt = jwt;
         this.config = config;
     }
-    async Register(form, identity) {
+    async Register(form, identity, files) {
         async function conRegister(form, users_id) {
             let consumer;
             consumer = {
@@ -35,21 +35,21 @@ let PublicService = exports.PublicService = class PublicService {
             const createConsumer = await prisma.consumer.create({ data: consumer });
             return createConsumer;
         }
-        async function merRegister(form, users_id) {
-            const district_id = 1;
-            const bank_acc_id = 1;
+        async function merRegister(form, users_id, files) {
+            console.log("files: ", files);
+            console.log("form: ", form);
             let merchant;
             merchant = {
-                users: { connect: { id: users_id } },
-                merchant_image: form.merchant_image,
-                merchant_name: form.merchant_name,
-                merchant_phone: form.merchant_phone,
-                biz_registration: form.biz_registration,
-                district: { connect: { id: district_id } },
+                users_id: users_id,
+                merchant_image: files.IconImg[0].buffer,
+                merchant_name: form.name,
+                merchant_phone: form.phone,
+                biz_registration: files.RegisImg[0].buffer,
+                district_id: parseInt(form.district),
                 address: form.address,
-                bank_acc: { connect: { id: bank_acc_id } },
-                opening_hour: form.opening_hour,
-                announcement: form.announcement,
+                branch_id: parseInt(form.branch),
+                bank_account: form.accNum,
+                opening_hour: form.Hour,
             };
             const createMerchant = await prisma.merchant.create({ data: merchant });
             console.log(createMerchant);
@@ -66,8 +66,7 @@ let PublicService = exports.PublicService = class PublicService {
             };
             const createUser = await prisma.users.create({ data: users });
             let users_id = Number(createUser.id);
-            console.log("uses_id: ", users_id);
-            return { form, users_id };
+            return { form, users_id, files };
         }
         if (identity === "consumer") {
             registerCondition(form, identity)
@@ -86,7 +85,7 @@ let PublicService = exports.PublicService = class PublicService {
         else if (identity === "merchant") {
             registerCondition(form, identity)
                 .then((output) => {
-                merRegister(output.form, output.users_id);
+                merRegister(output.form, output.users_id, output.files);
             })
                 .then(async () => {
                 await prisma.$disconnect();
@@ -113,14 +112,6 @@ let PublicService = exports.PublicService = class PublicService {
     async branch() {
         const branch = await prisma.branch.findMany();
         return branch;
-    }
-    async bankAcc(branch_id) {
-        const bankAcc = await prisma.bank_acc.findMany({
-            where: {
-                branch_id: { in: branch_id },
-            },
-        });
-        return bankAcc;
     }
     async login(form) {
         const user = await this.prisma.users.findUnique({

@@ -25,7 +25,7 @@ export declare class ConsumerController {
     }>;
     displayOrder(JWTpayload: any): void;
     displayOrderHistory(JWTpayload: any): void;
-    createOrder(param: any): void;
+    createOrder(itemId: any): void;
     paymentConfirm(paymentstatus: any): void;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;

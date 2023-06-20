@@ -3,7 +3,7 @@ export declare class ConsumerService {
     getSelfInfo(userId: any): Promise<unknown>;
     uploadWishList(consumerId: number, productId: number, versionId: number, targetPrice: number, notification: boolean): Promise<void>;
     deleteWishList(consumerId: number, productId: number, versionId: number): Promise<Prisma.BatchPayload>;
-    createOrder(itemID: string): void;
+    createOrder(itemId: string): void;
     paymentConfirm(paymentStatus: any): void;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;

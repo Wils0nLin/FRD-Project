@@ -40,7 +40,7 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         return deleteWishList;
         console.log(`del product by id`);
     }
-    createOrder(itemID) {
+    createOrder(itemId) {
         console.log(`upload items to `);
     }
     paymentConfirm(paymentStatus) {

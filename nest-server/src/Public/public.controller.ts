@@ -6,12 +6,17 @@ import {
     Post,
     Query,
     UploadedFile,
+    UploadedFiles,
     UseInterceptors,
 } from "@nestjs/common";
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
 import { AnySrvRecord } from "dns";
-import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
+import {
+    AnyFilesInterceptor,
+    FileFieldsInterceptor,
+    FileInterceptor,
+} from "@nestjs/platform-express";
 
 @Controller("public")
 export class PublicController {
@@ -21,20 +26,26 @@ export class PublicController {
     //done
     @Post("register/conRegister")
     async conRegister(@Body() form: any) {
-        const result = await this.publicService.Register(form, "consumer");
+        const result = await this.publicService.Register(form, "consumer", null);
 
         return result;
     }
     //done
     @Post("register/merRegister")
-    @UseInterceptors(FileFieldsInterceptor([
-        {name: 'IconImg', maxCount: 1},
-        {name: 'RegisImg', maxCount: 1}
-    ]))
-    async merRegister(@UploadedFile() file: Express.Multer.File, @Body() form: any) {
-        console.log(file, form);
-        return file;
-        // return await this.publicService.Register(form, "merchant");
+    @UseInterceptors(
+        FileFieldsInterceptor([
+            { name: "IconImg", maxCount: 1 },
+            { name: "RegisImg", maxCount: 1 },
+        ])
+    )
+    async merRegister(
+        @UploadedFiles()
+        files: { IconImg?: Express.Multer.File[]; RegisImg?: Express.Multer.File[] },
+        @Body() form: any
+    ) {
+        console.log(form);
+
+        return await this.publicService.Register(form, "merchant", files);
     }
     //
 
@@ -100,8 +111,9 @@ export class PublicController {
         return this.publicService.displayTag();
     }
     //done
-    @Get("filter/tag")
-    tagFilter(@Body("tag") tags: string[]) {
+    @Get("filter/tag/:tags")
+    async tagFilter(@Param("tags") tags: any) {
+        console.log(tags);
         return this.publicService.tagFilter(tags);
     }
     // @Get("filter/tag")

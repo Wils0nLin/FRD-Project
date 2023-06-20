@@ -4,7 +4,10 @@ export declare class PublicController {
     private readonly publicService;
     constructor(publicService: PublicService);
     conRegister(form: any): Promise<void>;
-    merRegister(file: Express.Multer.File, form: any): Promise<Express.Multer.File>;
+    merRegister(files: {
+        IconImg?: Express.Multer.File[];
+        RegisImg?: Express.Multer.File[];
+    }, form: any): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
@@ -15,7 +18,7 @@ export declare class PublicController {
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;
-    tagFilter(tags: string[]): Promise<(import(".prisma/client").Product & {
+    tagFilter(tags: any): Promise<(import(".prisma/client").Product & {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;

@@ -9,7 +9,12 @@ import {
   Text,
 } from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
-import {Alert, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  useAnimatedValue,
+} from 'react-native';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import {ScrollView} from 'react-native';
@@ -55,7 +60,38 @@ const MerRegister = () => {
   const [bank, setBank] = useState(0);
   const [branch, setBranch] = useState(0);
   const [accountNum, setAccountNum] = useState('');
+  const [address, setAddress] = useState('');
 
+  const getAreaList = async () => {
+    const area = await fetch(
+      'http://192.168.160.77:3000/public/register/selectArea',
+    );
+    const arealist = await area.json();
+    setAreaList(arealist);
+  };
+  const getDistricList = async () => {
+    const district = await fetch(
+      'http://192.168.160.77:3000/public/register/selectDistrict',
+    );
+    const districtList = await district.json();
+    setDristList(districtList);
+  };
+  const getBankList = async () => {
+    const branch = await fetch(
+      'http://192.168.160.77:3000/public/register/bank',
+    );
+    const bankList = await branch.json();
+    setBankList(bankList);
+    console.log(bankList);
+  };
+  const getBranchList = async () => {
+    const Branch = await fetch(
+      'http://192.168.160.77:3000/public/register/branch',
+    );
+    const BranchLists = await Branch.json();
+    setbranchList(BranchLists);
+    console.log(branchList);
+  };
   const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Entypo name="eye-with-line" size={30} color={'rgb(240,240,240)'} />
@@ -63,6 +99,27 @@ const MerRegister = () => {
   );
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!setSecureTextEntry);
+  };
+  const areaSelect = (index: any) => {
+    const id = index.row + 1;
+    setArea(id);
+    console.log('a', id);
+    getCurrentDistrict(id);
+  };
+  const districtSelect = (index: any) => {
+    const id = districtLists[index].id;
+    setDistrict(id);
+    console.log('d_id', id);
+  };
+  const bankSelect = (index: any) => {
+    const id = bankList[index].id - 1;
+    setBank(id);
+    getCurrentBranch(id);
+    console.log('b', id);
+  };
+  const branchSelect = (index: any) => {
+    const id = branchList[index].id;
+    setBranch(id);
   };
 
   const handleImageSelectionICON = () => {
@@ -114,21 +171,20 @@ const MerRegister = () => {
     if (selectedImageICON == null || selectedImageREGIS == null) {
       return;
     } else {
-      formData.append('Img', [
-        {
-          name: 'IconImg',
-          uri: selectedImageICON.assets![0].uri,
-          type: 'image/jpeg',
-          names: newFileNameIcon,
-        },
-        {
-          name: 'RegisImg',
-          uri: selectedImageREGIS.assets![0].uri,
-          type: 'image/jpeg',
-          names: newFileNameRegis,
-        },
-      ]);
+      formData.append('RegisImg', {
+        name: 'RegisImg',
+        uri: selectedImageREGIS.assets![0].uri,
+        type: 'image/jpeg',
+        names: newFileNameRegis,
+      });
     }
+    formData.append('IconImg', {
+      name: 'IconImg',
+      uri: selectedImageICON.assets![0].uri,
+      type: 'image/jpeg',
+      names: newFileNameIcon,
+    });
+    formData.append('address', address);
     formData.append('name', Name);
     formData.append('username', Username);
     formData.append('password', Password);
@@ -281,6 +337,18 @@ const MerRegister = () => {
                 <SelectItem title={items.district} />
               ))}
             </Select>
+          </Layout>
+          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}>
+            <Text style={styles.text}>地址：</Text>
+            <Input
+              editable
+              multiline
+              numberOfLines={7}
+              value={address}
+              placeholder="Place your Text"
+              onChangeText={nextValue => setAddress(nextValue)}
+              style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}
+            />
           </Layout>
           <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
             <Text style={styles.text}>銀行編號：</Text>

@@ -80,10 +80,17 @@ export class ConsumerController {
     displayOrderHistory(@Body() JWTpayload: any) {
         return this.publicService.displayOrderHistory(JWTpayload);
     }
-    @Post("order/create/")
-    createOrder(@Body() param: any) {
-        return this.consumerService.createOrder(param.itemId);
+    @Post("order/create/:itemId")
+    createOrder(@Param() itemId: any) {
+        try {
+        } catch (error) {}
+        return this.consumerService.createOrder(itemId);
     }
+    // @Post("order/create/")
+    // createOrder(@Body() param: any) {
+
+    //     return this.consumerService.createOrder(param.itemId);
+    // }
 
     //full pay
     @Post("order/payment")

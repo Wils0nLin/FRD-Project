@@ -30,26 +30,18 @@ async function main() {
             },
         ],
     });
-    const bank_acc = await prisma.bank_acc.createMany({
-        data: [
-            {
-                branch_id: 1,
-                account_number: "456-789-001",
-            },
-        ],
-    });
-    const existBank_acc = await prisma.bank_acc.findMany();
     const merchant = await prisma.merchant.createMany({
         data: [
             {
                 users_id: existUsers[1].id,
-                merchant_image: "../imageUpload/imageMerchant/storeImage/2000Fun.png",
+                merchant_image: Buffer.from("hi"),
                 merchant_name: "2000Fun",
                 merchant_phone: "24983168",
-                biz_registration: "../imageUpload/imageMerchant/BRImage/fake_BR.jpeg",
+                biz_registration: Buffer.from("biz_registration_data"),
                 district_id: 1,
                 address: "樓角路138-168號荃豐中心地下A7A鋪",
-                bank_acc_id: existBank_acc[0].id,
+                bank_account: "102846961961",
+                branch_id: 1,
                 opening_hour: "11am - 9pm",
                 announcement: "2000Fun is good",
             },

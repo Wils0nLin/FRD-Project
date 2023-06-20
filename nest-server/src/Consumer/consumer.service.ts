@@ -91,7 +91,7 @@ export class ConsumerService {
         console.log(`del product by id`);
     }
     // ---------------------------------------------------------------------------------------------------------
-    createOrder(itemID: string) {
+    createOrder(itemId: string) {
         console.log(`upload items to `);
     }
     //full pay
