@@ -15,7 +15,7 @@ export declare class PublicController {
     hot(): string;
     comingSoon(): Promise<import(".prisma/client").Product[]>;
     displayTag(): Promise<import(".prisma/client").Tag[]>;
-    tagFilter(tagss: string[]): Promise<(import(".prisma/client").Product & {
+    tagFilter(tags: string[]): Promise<(import(".prisma/client").Product & {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
@@ -24,7 +24,6 @@ export declare class PublicController {
             versions: import(".prisma/client").Version[];
         })[];
     })[]>;
-    platformFilter(platformName: any): Promise<void>;
     search(search: string): Promise<{
         merchant: unknown;
         version: unknown;
