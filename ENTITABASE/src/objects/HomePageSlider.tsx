@@ -23,6 +23,7 @@ export default function HomePageSlider() {
         paginationBoxVerticalPadding={10}
         autoplay
         circleLoop
+        autoplayInterval={5000}
       />
     </View>
   );

@@ -2,19 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { Wishlist_product } from "@prisma/client";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
+import { hashPassword, checkPassword } from "src/Public/hash";
 
 const prisma = new PrismaClient();
 @Injectable()
 export class ConsumerService {
     async getSelfInfo(userId: any) {
-        const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
+        const foundUser = await prisma.$queryRawUnsafe(
+            `select * from users join consumer on users.id = users_id where users.id = ${userId};`
+        );
         return foundUser;
     }
 
-    // ---------------------------------------------------------------------------------------------------------
-    getQrCodeId(userId: string) {
-        console.log("get qrCode id by user id ");
-    }
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
     // async displayWishList(consumer_id: number) {
@@ -105,18 +104,48 @@ export class ConsumerService {
     // }
     // ---------------------------------------------------------------------------------------------------------
     //done
-    async editConProfile(consumerId: any, form: any) {
-        const consumer: Prisma.ConsumerUpdateInput = {
-            QRcode: form.QRcode,
-            consumer_name: form.consumer_name,
-            consumer_phone: form.consumer_phone,
+    async editUserProfile(userId: any, form: any) {
+        let userInfo: Prisma.UsersUpdateInput = {
+            email: form.email,
         };
-        const editConProfile = await prisma.consumer.update({
-            where: { id: Number(consumerId) },
-            data: consumer,
+        const userUpdate = await prisma.users.update({
+            where: { id: Number(userId) },
+            data: userInfo,
         });
-        return editConProfile;
-        console.log(`update profile by ${form}`);
+        return true;
+    }
+
+    async editConProfile(conId: any, form: any) {
+        let consumerInfo: Prisma.ConsumerUpdateInput = {
+            consumer_name: form.name,
+            consumer_phone: form.phone,
+        };
+        const consumerUpdate = await prisma.consumer.update({
+            where: { id: Number(conId) },
+            data: consumerInfo,
+        });
+        return true;
+    }
+
+    async editPassword(userId: any, form: any) {
+        let hashedPassword = await hashPassword(form.newPassword);
+
+        const foundUser: any = await prisma.users.findUnique({
+            where: { id: Number(userId) },
+            select: { password: true },
+        });
+        if (!foundUser || !(await checkPassword(form.originPassword, foundUser.password))) {
+            return false;
+        } else {
+            let userInfo: Prisma.UsersUpdateInput = {
+                password: hashedPassword,
+            };
+            const userUpdate = await prisma.users.update({
+                where: { id: Number(userId) },
+                data: userInfo,
+            });
+            return true;
+        }
     }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work

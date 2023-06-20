@@ -1,45 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
-import {SafeAreaView} from 'react-native';
+import React, {useEffect} from 'react';
+import {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import {useEffect, useState} from 'react';
 import QRCodeStyled from 'react-native-qrcode-styled';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import {IRootState} from '../../../../app/store';
 import ConsumerForehead from '../../../../objects/ConsumerForeheadView';
 
 export default function ConQRCodeScreen() {
-  const [id, setId] = useState<any>();
+  const userId = useSelector((state: IRootState) => state.auth.userId);
   const [name, setName] = useState('');
+  const [QRcode, setQRcode] = useState('');
 
-  const getId = async () => {
-    const savedUser = await AsyncStorage.getItem('id');
-    setId(savedUser);
-    console.log(id);
-  };
-  const getName = async () => {
+  const getData = async () => {
     const resp = await fetch(
-      `http://192.168.160.142:3000/consumer/userInfo/${id}`,
+      `http://192.168.160.142:3000/consumer/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       },
     );
     const data = await resp.json();
-    console.log(data[0].consumer_name);
     setName(data[0].consumer_name);
+    setQRcode(data[0].QRcode);
   };
-
   useEffect(() => {
-    getId().then(() => {
-      getName();
-    });
+    getData();
   }, []);
 
   return (
@@ -56,20 +51,14 @@ export default function ConQRCodeScreen() {
         <TouchableOpacity style={styles.QRCodeBox}>
           <View style={styles.ORCodeBorder}>
             <QRCodeStyled
-              data={'IDontKnowtheRulesFXXK'}
+              data={QRcode}
               padding={15}
               pieceSize={10}
               color={'#000'}
               isPiecesGlued
               pieceBorderRadius={3}
-              innerEyesOptions={{
-                borderRadius: 5,
-                color: '#000',
-              }}
-              outerEyesOptions={{
-                borderRadius: 12,
-                color: '#7A04EB',
-              }}
+              innerEyesOptions={{borderRadius: 5, color: '#000'}}
+              outerEyesOptions={{borderRadius: 12, color: '#7A04EB'}}
               logo={{
                 href: require('../../../../assets/images/ENTI_logo.png'),
                 padding: 4,
