@@ -12,10 +12,7 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {StackParamList} from '../navigators/StackParamList';
-
-import NavigatorButton from '../../objects/NavigatorButton';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function PublicSettingModal() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -50,7 +47,11 @@ export default function PublicSettingModal() {
                   navigation.navigate('ConsumerRegis');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
-                  <Icon name={'door-open'} size={25} color={'#E4E4E4'} />
+                  <FontAwesome5
+                    name={'door-open'}
+                    size={25}
+                    color={'#E4E4E4'}
+                  />
                 </View>
                 <Text style={{marginLeft: 5, fontSize: 20}}>免費註冊</Text>
               </TouchableOpacity>
@@ -61,7 +62,11 @@ export default function PublicSettingModal() {
                   navigation.navigate('MerchantCenter');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
-                  <Icon name={'search-dollar'} size={25} color={'#E4E4E4'} />
+                  <FontAwesome5
+                    name={'search-dollar'}
+                    size={25}
+                    color={'#E4E4E4'}
+                  />
                 </View>
                 <Text style={{marginLeft: 5, fontSize: 20}}>商戶中心</Text>
               </TouchableOpacity>
@@ -72,7 +77,11 @@ export default function PublicSettingModal() {
                   navigation.navigate('PublicAdmin');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
-                  <Icon name={'headphones'} size={25} color={'#E4E4E4'} />
+                  <FontAwesome5
+                    name={'headphones'}
+                    size={25}
+                    color={'#E4E4E4'}
+                  />
                 </View>
                 <Text style={{marginLeft: 5, fontSize: 20}}>
                   聯絡網站管理員
@@ -85,7 +94,11 @@ export default function PublicSettingModal() {
                   navigation.navigate('LogIn');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
-                  <Icon name={'sign-in-alt'} size={25} color={'#E4E4E4'} />
+                  <FontAwesome5
+                    name={'sign-in-alt'}
+                    size={25}
+                    color={'#E4E4E4'}
+                  />
                 </View>
                 <Text style={{marginLeft: 5, fontSize: 20}}>登入</Text>
               </TouchableOpacity>
@@ -93,8 +106,11 @@ export default function PublicSettingModal() {
           </View>
         </View>
       </Modal>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <NavigatorButton icon="cog" name="帳號設定" />
+      <TouchableOpacity
+        style={{alignItems: 'center', marginTop: 10}}
+        onPress={() => setModalVisible(true)}>
+        <FontAwesome5 name={'cog'} size={30} color={'#E4E4E4'} solid />
+        <Text style={{fontSize: 10}}>帳號設定</Text>
       </TouchableOpacity>
     </View>
   );
