@@ -106,8 +106,9 @@ export class PublicController {
         return this.publicService.displayTag();
     }
     //done
-    @Get("filter/tag")
-    tagFilter(@Body("tag") tags: string[]) {
+    @Get("filter/tag/:tags")
+    async tagFilter(@Param("tags") tags: any) {
+        console.log(tags);
         return this.publicService.tagFilter(tags);
     }
     // @Get("filter/tag")

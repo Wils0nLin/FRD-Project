@@ -52,7 +52,8 @@ let PublicController = exports.PublicController = class PublicController {
     displayTag() {
         return this.publicService.displayTag();
     }
-    tagFilter(tags) {
+    async tagFilter(tags) {
+        console.log(tags);
         return this.publicService.tagFilter(tags);
     }
     displayPlatform() {
@@ -172,11 +173,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "displayTag", null);
 __decorate([
-    (0, common_1.Get)("filter/tag"),
-    __param(0, (0, common_1.Body)("tag")),
+    (0, common_1.Get)("filter/tag/:tags"),
+    __param(0, (0, common_1.Param)("tags")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], PublicController.prototype, "tagFilter", null);
 __decorate([
     (0, common_1.Get)("home/platform"),
