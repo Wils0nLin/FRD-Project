@@ -60,6 +60,7 @@ let PublicController = exports.PublicController = class PublicController {
     }
     async platformFilter(platformName) {
         console.log(platformName);
+        return await this.publicService.platformFilter(platformName);
     }
     search(search) {
         return this.publicService.search(search);

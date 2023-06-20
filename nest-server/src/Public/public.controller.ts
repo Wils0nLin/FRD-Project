@@ -121,7 +121,7 @@ export class PublicController {
     @Get("filter/platform/:platformName")
     async platformFilter(@Param("platformName") platformName: any) {
         console.log(platformName);
-        // return await this.publicService.platformFilter(platformName);
+        return await this.publicService.platformFilter(platformName);
     }
 
     // search for search bar typing for game not version
