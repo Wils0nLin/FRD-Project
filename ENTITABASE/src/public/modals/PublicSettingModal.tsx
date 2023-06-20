@@ -47,7 +47,7 @@ export default function PublicSettingModal() {
                 style={styles.modalButtonFor1}
                 onPress={() => {
                   toggleModal();
-                  navigation.navigate('MerRegister');
+                  navigation.navigate('ConsumerRegis');
                 }}>
                 <View style={{alignContent: 'center', width: 40}}>
                   <Icon name={'door-open'} size={25} color={'#E4E4E4'} />

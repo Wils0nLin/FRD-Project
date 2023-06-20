@@ -1,22 +1,19 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import {StackParamList} from './StackParamList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Login from '../../features/auth/LogIn';
-import NavigatorButton from '../../objects/NavigatorButton';
 import PublicLoginModal from '../modals/PublicLoginModal';
 import PublicScreenNavigator from './PublicScreenNavigator';
 import PublicSettingModal from '../modals/PublicSettingModal';
 import PublicTabButton from '../../objects/PublicTabButton';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 const PublicTabNavigator = () => {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -36,7 +33,17 @@ const PublicTabNavigator = () => {
         options={{
           tabBarLabelStyle: {display: 'none'},
           tabBarIcon: () => (
-            <NavigatorButton icon="store-alt" name="應用探索" />
+            <TouchableOpacity
+              style={{alignItems: 'center', marginTop: 10}}
+              onPress={() => navigation.navigate('PublicHome')}>
+              <FontAwesome5
+                name={'store-alt'}
+                size={30}
+                color={'#E4E4E4'}
+                solid
+              />
+              <Text style={{fontSize: 10}}>應用探索</Text>
+            </TouchableOpacity>
           ),
         }}>
         {() => <PublicScreenNavigator />}
@@ -55,29 +62,7 @@ const PublicTabNavigator = () => {
           tabBarLabelStyle: {display: 'none'},
           tabBarIcon: () => <PublicTabButton />,
         }}>
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="LogIn"
-              component={Login}
-              options={{
-                headerBackVisible: false,
-                headerTitle: 'LOG IN',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <FontAwesome5
-                      name={'arrow-left'}
-                      size={30}
-                      color={'#E4E4E4'}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            />
-          </Stack.Navigator>
-        )}
+        {() => ''}
       </Tab.Screen>
       <Tab.Screen
         name="cart"
