@@ -25,8 +25,7 @@ let PublicController = exports.PublicController = class PublicController {
         return result;
     }
     async merRegister(file, form) {
-        console.log(file, form);
-        console.log("merchant :", form);
+        console.log("Hi File: ", file);
         return await this.publicService.Register(form, "merchant");
     }
     selectArea() {

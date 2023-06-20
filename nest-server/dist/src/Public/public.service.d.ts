@@ -11,7 +11,6 @@ export declare class PublicService {
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
     branch(): Promise<import(".prisma/client").Branch[]>;
-    bankAcc(branch_id: number): Promise<import(".prisma/client").Bank_acc[]>;
     login(form: any): Promise<{
         access_token: string;
     }>;

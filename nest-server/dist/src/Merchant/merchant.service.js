@@ -12,8 +12,6 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MerchantService = exports.MerchantService = class MerchantService {
     async editMerProfile(merchantId, form) {
-        const district_id = 1;
-        const bank_acc_id = 1;
         const merchant = {
             merchant_image: form.merchant_image,
             merchant_name: form.merchant_name,
@@ -22,8 +20,8 @@ let MerchantService = exports.MerchantService = class MerchantService {
             address: form.address,
             opening_hour: form.opening_hour,
             announcement: form.announcement,
-            district: { connect: { id: district_id } },
-            bank_acc: { connect: { id: bank_acc_id } },
+            district: form.district,
+            bank_account: form.bank_account,
         };
         const editMerProfile = await prisma.merchant.update({
             where: { id: Number(merchantId) },

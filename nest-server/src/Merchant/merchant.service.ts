@@ -7,8 +7,6 @@ const prisma = new PrismaClient();
 export class MerchantService {
     //done
     async editMerProfile(merchantId: any, form: any) {
-        const district_id = 1;
-        const bank_acc_id = 1;
         const merchant: Prisma.MerchantUpdateInput = {
             merchant_image: form.merchant_image,
             merchant_name: form.merchant_name,
@@ -17,9 +15,8 @@ export class MerchantService {
             address: form.address,
             opening_hour: form.opening_hour,
             announcement: form.announcement,
-
-            district: { connect: { id: district_id } },
-            bank_acc: { connect: { id: bank_acc_id } },
+            district: form.district,
+            bank_account: form.bank_account,
         };
         const editMerProfile = await prisma.merchant.update({
             where: { id: Number(merchantId) },

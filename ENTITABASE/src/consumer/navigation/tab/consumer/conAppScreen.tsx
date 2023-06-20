@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import HomeItemCard from '../../../../objects/HomeItemCard';
 import HomePageSlider from '../../../../objects/HomePageSlider';
+import GameTypeSlider from '../../../../objects/GameTypeSlider';
+import HomeItemCard from '../../../../objects/HomeItemCard';
 import {Switch} from 'react-native-gesture-handler';
 
 export default function ConAppScreen({navigation}: any) {
@@ -157,7 +157,7 @@ export default function ConAppScreen({navigation}: any) {
             style={styles.SwitchButton}
             onPress={() => {
               navigation.navigate('GameSearchScreen', {
-                platform: 'Switch',
+                platformArr: 'Switch',
               });
             }}>
             <MaterialCom name={'nintendo-switch'} size={25} color={'#E4E4E4'} />

@@ -57,25 +57,31 @@ const MerRegister = () => {
   const [accountNum, setAccountNum] = useState('');
 
   const getAreaList = async () => {
-    const area = await fetch('http://10.0.2.2:3000/public/register/selectArea');
+    const area = await fetch(
+      'http://192.168.160.77:3000/public/register/selectArea',
+    );
     const arealist = await area.json();
     setAreaList(arealist);
   };
   const getDistricList = async () => {
     const district = await fetch(
-      'http://10.0.2.2:3000/public/register/selectDistrict',
+      'http://192.168.160.77:3000/public/register/selectDistrict',
     );
     const districtList = await district.json();
     setDristList(districtList);
   };
   const getBankList = async () => {
-    const branch = await fetch('http://10.0.2.2:3000/public/register/bank');
+    const branch = await fetch(
+      'http://192.168.160.77:3000/public/register/bank',
+    );
     const bankList = await branch.json();
     setBankList(bankList);
     console.log(bankList);
   };
   const getBranchList = async () => {
-    const Branch = await fetch('http://10.0.2.2:3000/public/register/branch');
+    const Branch = await fetch(
+      'http://192.168.160.77:3000/public/register/branch',
+    );
     const BranchLists = await Branch.json();
     setbranchList(BranchLists);
     console.log(branchList);

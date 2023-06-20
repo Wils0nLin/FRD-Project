@@ -8,15 +8,15 @@ import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from './StackParamList';
 import ConAppScreen from '../../consumer/navigation/tab/consumer/conAppScreen';
 import PublicAdminScreen from '../screens/PublicAdminScreen';
-import Login from '../../features/auth/LogIn';
+import Login from '../screens/LogIn';
 import ConRegister from '../screens/ConRegister';
-// import MerRegister from '../screens/MerRegister';
+import MerRegister from '../screens/MerRegister';
 import SearchModal from '../../consumer/modals/SearchModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
 import MerchantCenterScreen from '../screens/MerchantCenterScreen';
 import ConGameInfoScreen from '../../consumer/navigation/tab/consumer/conGameInfoScreen';
-import MerRegister from '../screens/MerRegister';
+// import MerRegister from '../screens/MerRegister';
 import ReverseHeader from '../../consumer/navigation/ReverseHeader';
 // import GameInfoScreen from '../../consumer/navigation/tab/consumer/GameInfoScreen';
 const Stack = createNativeStackNavigator();
@@ -83,13 +83,13 @@ const PublicScreenNavigator = () => {
           headerTitleStyle: styles.topBarText,
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="MerRegister"
         component={MerRegister}
         options={({}) => ({
           header: () => ReverseHeader('MerRes'),
         })}
-      />
+      /> */}
       <Stack.Screen
         name="ConsumerRegis"
         component={ConRegister}
@@ -105,7 +105,7 @@ const PublicScreenNavigator = () => {
           headerTitleStyle: styles.topBarText,
         }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="MerRegister"
         component={MerRegister}
         options={{
@@ -119,7 +119,7 @@ const PublicScreenNavigator = () => {
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
         }}
-      /> */}
+      />
       <Stack.Screen
         name="MerchantCenter"
         component={MerchantCenterScreen}

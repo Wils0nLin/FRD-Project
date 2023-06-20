@@ -6,11 +6,8 @@ import { Prisma, PrismaClient, Users } from "@prisma/client";
 const prisma = new PrismaClient();
 @Injectable()
 export class ConsumerService {
-    async getSelfInfo(userId: number) {
-        const foundUser = await prisma.users.findUnique({
-            where: { id: userId },
-            include: { consumers: true },
-        });
+    async getSelfInfo(userId: any) {
+        const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
     }
 

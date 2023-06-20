@@ -38,8 +38,7 @@ export class PublicController {
         ])
     )
     async merRegister(@UploadedFile() file: Express.Multer.File, @Body() form: any) {
-        console.log(file, form);
-        console.log("merchant :", form);
+        console.log("Hi File: ", file);
 
         return await this.publicService.Register(form, "merchant");
     }

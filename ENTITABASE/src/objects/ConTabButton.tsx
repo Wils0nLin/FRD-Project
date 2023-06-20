@@ -1,24 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StackParamList} from '../public/navigators/StackParamList';
+import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type QRIcon = {
-  icon: string;
-};
-
-export default function QRIcon(props: QRIcon) {
+export default function ConTabButton() {
+  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <View style={styles.errorBackground} />
-      <View style={styles.QRCodeBox}>
-        <LogoIcon name={'scan-helper'} size={55} color={'#E4E4E4'} />
+      <TouchableOpacity
+        style={styles.QRCodeBox}
+        onPress={() => navigation.navigate('ConsumerQRCode')}>
+        <MaterialCom name={'scan-helper'} size={55} color={'#E4E4E4'} />
         <View style={{position: 'absolute', backgroundColor: '#202124'}}>
-          <Icon name={props.icon} size={35} color={'#E4E4E4'} />
+          <MaterialCom name="qrcode" size={45} color={'#E4E4E4'} />
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

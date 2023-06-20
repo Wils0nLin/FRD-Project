@@ -11,8 +11,9 @@ import {
 import {SafeAreaView} from 'react-native';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MerRegister from './MerRegister';
 
-export default function MerchantCenterScreen({navigation}: {navigation: any}) {
+export default function MerchantCenterScreen({navigation}: any) {
   return (
     <ScrollView
       style={{
@@ -92,7 +93,7 @@ export default function MerchantCenterScreen({navigation}: {navigation: any}) {
         <View style={{alignItems: 'center', width: 350}}>
           <TouchableOpacity
             style={styles.screenButtonFor1}
-            onPress={() => navigation.navigate('MerRegister')}>
+            onPress={() => navigation.navigate(MerRegister)}>
             <Text style={{fontSize: 17, color: '#E4E4E4'}}>立即體驗</Text>
           </TouchableOpacity>
         </View>
