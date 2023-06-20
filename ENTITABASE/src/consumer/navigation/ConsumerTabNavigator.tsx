@@ -1,27 +1,18 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 
-import ConsumerScreenNavigator from './ConsumerScreenNavigator';
 import {StackParamList} from '../../public/navigators/StackParamList';
-
-import ConWishListScreen from './tab/consumer/conWishListScreen';
-import ConQRCodeScreen from './tab/consumer/conQRCodeScreen';
-import ConsumerCartScreen from './tab/consumer/conCartScreen';
-
+import ConsumerScreenNavigator from './ConsumerScreenNavigator';
 import ConsumerSettingModal from '../modals/ConsumerSettingModal';
-
-import NavigatorButton from '../../objects/NavigatorButton';
-import QRMatIcon from '../../objects/QRMatIcon';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import ConTabButton from '../../objects/ConTabButton';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
 
 const ConsumerTabNavigator = () => {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -36,7 +27,17 @@ const ConsumerTabNavigator = () => {
         options={{
           tabBarLabelStyle: {display: 'none'},
           tabBarIcon: () => (
-            <NavigatorButton icon="store-alt" name="應用探索" />
+            <TouchableOpacity
+              style={{alignItems: 'center', marginTop: 10}}
+              onPress={() => navigation.navigate('ConsumerHome')}>
+              <FontAwesome5
+                name={'store-alt'}
+                size={30}
+                color={'#E4E4E4'}
+                solid
+              />
+              <Text style={{fontSize: 10}}>應用探索</Text>
+            </TouchableOpacity>
           ),
         }}>
         {() => <ConsumerScreenNavigator />}
@@ -45,78 +46,44 @@ const ConsumerTabNavigator = () => {
         name="Wish"
         options={{
           tabBarLabelStyle: {display: 'none'},
-          tabBarIcon: () => <NavigatorButton icon="heart" name="願望清單" />,
+          tabBarIcon: () => (
+            <TouchableOpacity
+              style={{alignItems: 'center', marginTop: 10}}
+              onPress={() => navigation.navigate('ConsumerWish')}>
+              <FontAwesome5 name={'heart'} size={30} color={'#E4E4E4'} solid />
+              <Text style={{fontSize: 10}}>願望清單</Text>
+            </TouchableOpacity>
+          ),
         }}>
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="ConsumerWish"
-              component={ConWishListScreen}
-              options={{
-                headerTitle: 'WISH LIST',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            />
-          </Stack.Navigator>
-        )}
+        {() => ''}
       </Tab.Screen>
       <Tab.Screen
         name="QRcode"
         options={{
           tabBarLabelStyle: {display: 'none'},
-          tabBarIcon: () => <QRMatIcon icon="qrcode" />,
+          tabBarIcon: () => <ConTabButton />,
         }}>
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="ConsumerQRCode"
-              component={ConQRCodeScreen}
-              options={{
-                headerTitle: 'MY ENTI-CODE',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            />
-          </Stack.Navigator>
-        )}
+        {() => ''}
       </Tab.Screen>
       <Tab.Screen
         name="cart"
         options={{
           tabBarLabelStyle: {display: 'none'},
           tabBarIcon: () => (
-            <NavigatorButton icon="shopping-cart" name="購物車" />
+            <TouchableOpacity
+              style={{alignItems: 'center', marginTop: 10}}
+              onPress={() => navigation.navigate('ConsumerCart')}>
+              <FontAwesome5
+                name={'shopping-cart'}
+                size={30}
+                color={'#E4E4E4'}
+                solid
+              />
+              <Text style={{fontSize: 10}}>購物車</Text>
+            </TouchableOpacity>
           ),
         }}>
-        {() => (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="ConsumerCart"
-              component={ConsumerCartScreen}
-              options={{
-                headerTitle: 'MY CART',
-                headerRight: () => (
-                  <TouchableOpacity onPress={navigation.goBack}>
-                    <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-                  </TouchableOpacity>
-                ),
-                headerStyle: styles.topBarBackground,
-                headerTitleStyle: styles.topBarText,
-              }}
-            />
-          </Stack.Navigator>
-        )}
+        {() => ''}
       </Tab.Screen>
       <Tab.Screen
         name="ConsumerSetting"
@@ -124,7 +91,7 @@ const ConsumerTabNavigator = () => {
           tabBarIcon: () => <ConsumerSettingModal />,
           tabBarLabelStyle: {display: 'none'},
         }}>
-        {() => <ConsumerScreenNavigator />}
+        {() => ''}
       </Tab.Screen>
     </Tab.Navigator>
   );

@@ -13,6 +13,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import HomePageSlider from '../../../../objects/HomePageSlider';
+import GameTypeSlider from '../../../../objects/GameTypeSlider';
+import HomeItemCard from '../../../../objects/HomeItemCard';
 import {Switch} from 'react-native-gesture-handler';
 
 export default function ConAppScreen({navigation}: any) {
