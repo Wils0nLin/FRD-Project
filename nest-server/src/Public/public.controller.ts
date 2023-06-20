@@ -11,7 +11,11 @@ import {
 import { PublicService } from "./public.service";
 import { RegisterConFormDTO } from "./dto/createPublic.dto";
 import { AnySrvRecord } from "dns";
-import { AnyFilesInterceptor, FileFieldsInterceptor, FileInterceptor } from "@nestjs/platform-express";
+import {
+    AnyFilesInterceptor,
+    FileFieldsInterceptor,
+    FileInterceptor,
+} from "@nestjs/platform-express";
 
 @Controller("public")
 export class PublicController {
@@ -27,14 +31,17 @@ export class PublicController {
     }
     //done
     @Post("register/merRegister")
-    @UseInterceptors(FileFieldsInterceptor([
-        {name: 'IconImg', maxCount: 1},
-        {name: 'RegisImg', maxCount: 1}
-    ]))
+    @UseInterceptors(
+        FileFieldsInterceptor([
+            { name: "IconImg", maxCount: 1 },
+            { name: "RegisImg", maxCount: 1 },
+        ])
+    )
     async merRegister(@UploadedFile() file: Express.Multer.File, @Body() form: any) {
         console.log(file, form);
-        return file;
-        // return await this.publicService.Register(form, "merchant");
+        console.log("merchant :", form);
+
+        return await this.publicService.Register(form, "merchant");
     }
     //
 
@@ -121,7 +128,7 @@ export class PublicController {
     @Get("filter/platform/:platformName")
     async platformFilter(@Param("platformName") platformName: any) {
         console.log(platformName);
-        // return await this.publicService.platformFilter(platformName);
+        return await this.publicService.platformFilter(platformName);
     }
 
     // search for search bar typing for game not version

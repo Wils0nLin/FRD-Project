@@ -69,6 +69,7 @@ let PublicService = exports.PublicService = class PublicService {
             console.log("uses_id: ", users_id);
             return { form, users_id };
         }
+        console.log("Hi service form: ", form);
         if (identity === "consumer") {
             registerCondition(form, identity)
                 .then((output) => {

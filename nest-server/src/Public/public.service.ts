@@ -38,10 +38,14 @@ export class PublicService {
             return createConsumer;
         }
 
-        async function merRegister(form: any, users_id: number) {
+        async function merRegister(
+            form: any,
+            users_id: number,
+            district_id: any,
+            bank_acc_id: any
+        ) {
             //係呢到攞番由front
-            const district_id = 1;
-            const bank_acc_id = 1;
+
             let merchant: Prisma.MerchantCreateInput;
             merchant = {
                 users: { connect: { id: users_id } },
@@ -51,7 +55,8 @@ export class PublicService {
                 biz_registration: form.biz_registration,
                 district: { connect: { id: district_id } },
                 address: form.address,
-                bank_acc: { connect: { id: bank_acc_id } },
+                branch: { connect: { id: branch_id } },
+                bank_account: form.bank_account,
                 opening_hour: form.opening_hour,
                 announcement: form.announcement,
             };
@@ -77,8 +82,9 @@ export class PublicService {
             let users_id = Number(createUser.id);
             console.log("uses_id: ", users_id);
 
-            return { form, users_id };
+            return { form, users_id, district_id: form.district_id, branch_id: form.branch_id };
         }
+        console.log("Hi service form: ", form);
 
         if (identity === "consumer") {
             registerCondition(form, identity)
@@ -96,7 +102,7 @@ export class PublicService {
         } else if (identity === "merchant") {
             registerCondition(form, identity)
                 .then((output) => {
-                    merRegister(output.form, output.users_id);
+                    merRegister(output.form, output.users_id, output.district_id, output.branch_id);
                 })
                 .then(async () => {
                     await prisma.$disconnect();

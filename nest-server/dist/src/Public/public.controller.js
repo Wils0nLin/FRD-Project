@@ -26,7 +26,8 @@ let PublicController = exports.PublicController = class PublicController {
     }
     async merRegister(file, form) {
         console.log(file, form);
-        return file;
+        console.log("merchant :", form);
+        return await this.publicService.Register(form, "merchant");
     }
     selectArea() {
         return this.publicService.selectArea();
@@ -60,6 +61,7 @@ let PublicController = exports.PublicController = class PublicController {
     }
     async platformFilter(platformName) {
         console.log(platformName);
+        return await this.publicService.platformFilter(platformName);
     }
     search(search) {
         return this.publicService.search(search);
@@ -112,8 +114,8 @@ __decorate([
 __decorate([
     (0, common_1.Post)("register/merRegister"),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
-        { name: 'IconImg', maxCount: 1 },
-        { name: 'RegisImg', maxCount: 1 }
+        { name: "IconImg", maxCount: 1 },
+        { name: "RegisImg", maxCount: 1 },
     ])),
     __param(0, (0, common_1.UploadedFile)()),
     __param(1, (0, common_1.Body)()),

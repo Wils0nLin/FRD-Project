@@ -56,6 +56,30 @@ const MerRegister = () => {
   const [branch, setBranch] = useState(0);
   const [accountNum, setAccountNum] = useState('');
 
+  const getAreaList = async () => {
+    const area = await fetch('http://10.0.2.2:3000/public/register/selectArea');
+    const arealist = await area.json();
+    setAreaList(arealist);
+  };
+  const getDistricList = async () => {
+    const district = await fetch(
+      'http://10.0.2.2:3000/public/register/selectDistrict',
+    );
+    const districtList = await district.json();
+    setDristList(districtList);
+  };
+  const getBankList = async () => {
+    const branch = await fetch('http://10.0.2.2:3000/public/register/bank');
+    const bankList = await branch.json();
+    setBankList(bankList);
+    console.log(bankList);
+  };
+  const getBranchList = async () => {
+    const Branch = await fetch('http://10.0.2.2:3000/public/register/branch');
+    const BranchLists = await Branch.json();
+    setbranchList(BranchLists);
+    console.log(branchList);
+  };
   const renderIcon = (): React.ReactElement => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Entypo name="eye-with-line" size={30} color={'rgb(240,240,240)'} />
@@ -63,6 +87,27 @@ const MerRegister = () => {
   );
   const toggleSecureEntry = (): void => {
     setSecureTextEntry(!setSecureTextEntry);
+  };
+  const areaSelect = (index: any) => {
+    const id = index.row + 1;
+    setArea(id);
+    console.log('a', id);
+    getCurrentDistrict(id);
+  };
+  const districtSelect = (index: any) => {
+    const id = districtLists[index].id;
+    setDistrict(id);
+    console.log('d_id', id);
+  };
+  const bankSelect = (index: any) => {
+    const id = bankList[index].id - 1;
+    setBank(id);
+    getCurrentBranch(id);
+    console.log('b', id);
+  };
+  const branchSelect = (index: any) => {
+    const id = branchList[index].id;
+    setBranch(id);
   };
 
   const handleImageSelectionICON = () => {

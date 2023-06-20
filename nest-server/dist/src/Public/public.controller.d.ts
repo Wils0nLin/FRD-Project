@@ -4,7 +4,7 @@ export declare class PublicController {
     private readonly publicService;
     constructor(publicService: PublicService);
     conRegister(form: any): Promise<void>;
-    merRegister(file: Express.Multer.File, form: any): Promise<Express.Multer.File>;
+    merRegister(file: Express.Multer.File, form: any): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;
     selectDistrict(): Promise<import(".prisma/client").District[]>;
     bank(): Promise<import(".prisma/client").Bank[]>;
@@ -19,7 +19,11 @@ export declare class PublicController {
         product_tags: import(".prisma/client").Product_tag[];
     })[]>;
     displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(platformName: any): Promise<void>;
+    platformFilter(platformName: any): Promise<(import(".prisma/client").Platform & {
+        products: (import(".prisma/client").Product & {
+            versions: import(".prisma/client").Version[];
+        })[];
+    })[]>;
     search(search: string): Promise<{
         merchant: unknown;
         version: unknown;
