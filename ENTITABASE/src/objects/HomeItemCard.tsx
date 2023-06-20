@@ -13,16 +13,17 @@ type cardInfo = {
   image: any;
   date: string;
   status: string;
+  id: number;
 };
 
 export default function HomeItemCard(props: cardInfo) {
-  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const [wish, setWish] = useState(false);
 
   return (
     <TouchableOpacity
       style={styles.screenCardBackground}
-      onPress={() => navigation.navigate('GameInfo')}>
+      onPress={() => navigation.navigate('GameInfo', {product_id: props.id})}>
       <View style={styles.screenCardLine} />
       <View style={styles.screenCardImage}>{props.image}</View>
       <View style={{flex: 1, marginLeft: 10}}>

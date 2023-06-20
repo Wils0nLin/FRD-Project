@@ -157,7 +157,7 @@ export default function ConAppScreen({navigation}: any) {
             style={styles.SwitchButton}
             onPress={() => {
               navigation.navigate('GameSearchScreen', {
-                platformArr: 'Switch',
+                platformArr: ['Switch'],
               });
             }}>
             <MaterialCom name={'nintendo-switch'} size={25} color={'#E4E4E4'} />
