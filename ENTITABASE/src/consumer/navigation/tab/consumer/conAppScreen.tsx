@@ -163,11 +163,25 @@ export default function ConAppScreen({navigation}: any) {
             <MaterialCom name={'nintendo-switch'} size={25} color={'#E4E4E4'} />
             <Text style={{color: '#E4E4E4', fontSize: 12}}>SWITCH</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PlayStatButton}>
+
+          <TouchableOpacity
+            style={styles.PlayStatButton}
+            onPress={() => {
+              navigation.navigate('GameSearchScreen', {
+                platformArr: 'PlayStation',
+              });
+            }}>
             <Fontisto name={'playstation'} size={25} color={'#E4E4E4'} />
             <Text style={{color: '#E4E4E4', fontSize: 12}}>PLAYSTATION</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.XboxButton}>
+
+          <TouchableOpacity
+            style={styles.XboxButton}
+            onPress={() => {
+              navigation.navigate('GameSearchScreen', {
+                platformArr: 'XBOX',
+              });
+            }}>
             <MaterialCom name={'microsoft-xbox'} size={25} color={'#E4E4E4'} />
             <Text style={{color: '#E4E4E4', fontSize: 12}}>XBOX</Text>
           </TouchableOpacity>
@@ -176,7 +190,7 @@ export default function ConAppScreen({navigation}: any) {
           <View style={{marginRight: 5}}>
             <FontAwesome5 name={'chevron-left'} size={25} color={'#E4E4E4'} />
           </View>
-          <GameTypeSlider />
+          <GameTypeSlider navigation={navigation} />
           <View style={{marginLeft: 5}}>
             <FontAwesome5 name={'chevron-right'} size={25} color={'#E4E4E4'} />
           </View>

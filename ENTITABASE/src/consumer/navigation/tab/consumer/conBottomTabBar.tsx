@@ -24,7 +24,7 @@ import ConAppScreen from './conAppScreen';
 import ConWishListScreen from './conWishListScreen';
 import ConQRCodeScreen from './conQRCodeScreen';
 import {Button} from '@ui-kitten/components';
-import LogIn from '../../../../features/auth/LogIn';
+import LogIn from '../../../../public/screens/LogIn';
 
 import ConAdminContact from './ConAdminContact';
 import ConGameInfoScreen from './conGameInfoScreen';

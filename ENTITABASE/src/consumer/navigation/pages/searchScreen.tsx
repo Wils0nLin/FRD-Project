@@ -24,7 +24,7 @@ interface products {
 
 export const GameSearchScreen = ({route, navigation}: any) => {
   const {tagArr, platformArr, text, highest, newest}: info = route.params;
-  const [Texting, onChangeText] = React.useState(text);
+  const [Texts, onChangeTexts] = React.useState(text);
   const [Tag, setTag] = useState<Array<any>>([]);
   const [Platform, setPlatform] = useState<Array<any>>([]);
   const [News, setNew] = useState();
@@ -53,7 +53,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
     } else if (tagArr) {
       if (Array.isArray(tagArr)) {
         for (let i = 0; i <= tagArr.length; i++) {
-          fetch(`http://10.0.2.2:3000/public/filter/tag/${tagArr[i]}`)
+          fetch(`http://192.168.160.77:3000/public/filter/tag/${tagArr[i]}`)
             .then(response => {
               return response.json();
             })
@@ -69,7 +69,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       } else if (Array.isArray(platformArr) == false) {
         console.log('notarray');
-        fetch(`http://10.0.2.2:3000/public/filter/tag/${platformArr}`)
+        fetch(`http://192.168.160.77:3000/public/filter/tag/${platformArr}`)
           .then(response => {
             return response.json();
           })
@@ -96,7 +96,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
     } else if (platformArr) {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i <= platformArr.length; i++) {
-          fetch(`http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`)
+          fetch(
+            `http://192.168.160.77:3000/public/filter/platform/${platformArr[i]}`,
+          )
             .then(response => {
               return response.json();
             })
@@ -114,7 +116,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       } else if (Array.isArray(platformArr) == false) {
         console.log('notarray');
-        fetch(`http://10.0.2.2:3000/public/filter/platform/${platformArr}`)
+        fetch(
+          `http://192.168.160.77:3000/public/filter/platform/${platformArr}`,
+        )
           .then(response => {
             return response.json();
           })

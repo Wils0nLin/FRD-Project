@@ -200,7 +200,7 @@ const MerRegister = () => {
 
     try {
       // const uploadResponse =
-      await fetch('http://10.0.2.2:3000/public/register/merRegister', {
+      await fetch('http://192.168.160.77:3000/public/register/merRegister', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
