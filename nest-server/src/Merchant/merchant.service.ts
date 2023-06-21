@@ -70,8 +70,7 @@ export class MerchantService {
                     ...itemData,
                     merchant: { connect: { id: merchantId } },
                     version: { connect: { id: version.id } },
-                    original_price: itemData.original_price,
-                    newest_price: itemData.newest_price,
+                    price: itemData.price,
                     //暫時硬打end_date
                     end_date: new Date("2023-07-01T00:00:00Z"),
                     stock_status: itemData.stock_status,

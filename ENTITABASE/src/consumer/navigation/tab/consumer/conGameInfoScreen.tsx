@@ -333,7 +333,11 @@ const ConGameInfoScreen = ({route, navigation}: any) => {
                     size={20}
                     style={{}}
                   />
-
+                  <Text
+                    style={{color: 'white', paddingLeft: 5}}
+                    numberOfLines={2}>
+                    {items.district}
+                  </Text>
                   <Text
                     style={{color: 'white', paddingLeft: 5}}
                     numberOfLines={2}>
@@ -366,7 +370,9 @@ const ConGameInfoScreen = ({route, navigation}: any) => {
                   />
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
-                  <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
+                  <Text style={{fontSize: 20, color: 'white'}}>
+                    HK${items.price}.00
+                  </Text>
                 </View>
               </View>
             </View>
