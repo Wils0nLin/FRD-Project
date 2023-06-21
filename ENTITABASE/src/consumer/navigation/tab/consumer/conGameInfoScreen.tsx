@@ -13,7 +13,6 @@ import GameInfoPhotoSVG from '../../../../assets/svg/consumerSVG/ConsumerGameInf
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GameBoxSVG from '../../../../assets/svg/consumerSVG/ConsumerGameBoxSVG';
 import SearchLogoSVG from '../../../../assets/svg/SearchLogoSVG';
-import OctIcon from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AddressModal from '../../../modals/AddressModal';
@@ -22,23 +21,35 @@ import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {IRootState} from '../../../../app/store';
 import {useNavigation} from '@react-navigation/native';
+import {format, compareAsc, endOfDay} from 'date-fns';
 
 const ConGameInfoScreen = ({route}: any) => {
   const navigation = useNavigation<any>();
   const {product_id}: any = route.params;
   console.log(product_id);
   const login = useSelector((state: IRootState) => state.auth.isAuth);
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [userState, setUserState] = useState<any>();
   const [version, setVersion] = useState<Array<any>>([]);
   const [selectedVersion, setSelectVersion] = useState(0);
   const [items, setItems] = useState<Array<any>>([]);
   const [text, onChangeText] = useState('');
 
-  const handleOrder = async (id: number) => {
+  const handleOrder = async (id: number, amount: number) => {
     if (!login) {
       navigation.navigate('LogIn');
     } else {
+      const form = {
+        itemId: id,
+        QRcode: userState[0].QRcode,
+        amount: amount,
+        order_status: false,
+        payment: false,
+        create_time: format(endOfDay(new Date()), 'yyyy-MM-dd'),
+      };
+
       try {
-        axios.post('http://10.0.2.2:3000/consumer/order/create', {itemId: id});
+        await axios.post('http://10.0.2.2:3000/consumer/order/create', form);
       } catch (error) {
         console.log(error);
       }
@@ -60,7 +71,6 @@ const ConGameInfoScreen = ({route}: any) => {
   useEffect(() => {
     const getVersion = async () => {
       let VersionState: Array<any> = [];
-
       await fetch(`http://10.0.2.2:3000/public/filter/versions/${product_id}`)
         .then(response => response.json())
         .then(data => {
@@ -70,6 +80,19 @@ const ConGameInfoScreen = ({route}: any) => {
         });
       setVersion(VersionState);
     };
+    const getuserData = async () => {
+      let userState: Array<any> = [];
+      await fetch(`http://10.0.2.2:3000/consumer/userInfo/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data[0]);
+          userState.push(data[0]);
+        });
+
+      setUserState(userState);
+    };
+    const getProductData = async (params: type) => {};
+    getuserData();
     getVersion();
   }, []);
   return (
@@ -383,17 +406,18 @@ const ConGameInfoScreen = ({route}: any) => {
                   alignItems: 'flex-end',
                   justifyContent: 'space-between',
                 }}>
-                <View style={{flexDirection: 'row', paddingTop: 5}}>
+                <TouchableOpacity
+                  style={{flexDirection: 'row', paddingTop: 5}}
+                  onPress={() => {
+                    handleOrder(items.item_id, items.price);
+                  }}>
                   <AntDesign
                     name={'shoppingcart'}
                     size={30}
                     color={'white'}
                     style={{paddingLeft: 20}}
-                    onPress={() => {
-                      handleOrder(items.item_id);
-                    }}
                   />
-                </View>
+                </TouchableOpacity>
                 <View style={{alignItems: 'flex-end'}}>
                   <Text style={{fontSize: 20, color: 'white'}}>
                     HK${items.price}.00
