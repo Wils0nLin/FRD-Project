@@ -25,6 +25,7 @@
     "jwt-decode": "^3.1.2",
     "react": "18.2.0",
     "react-native": "0.71.10",
+    "react-native-calendars": "^1.1298.0",
     "react-native-camera": "^4.2.1",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-gesture-handler": "^2.12.0",

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {Layout, Select, SelectItem, Text} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';

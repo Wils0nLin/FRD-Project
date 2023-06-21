@@ -63,23 +63,17 @@ let PublicController = exports.PublicController = class PublicController {
         console.log(platformName);
         return await this.publicService.platformFilter(platformName);
     }
-    search(search) {
-        return this.publicService.search(search);
+    async searchText(Texts) {
+        console.log(Texts);
+        return this.publicService.searchText(Texts);
     }
-    async getItem() {
-        const itemId = 1;
-        try {
-            const merchant = await this.publicService.getMerchantByItemId(itemId);
-            return merchant;
-        }
-        catch (error) {
-            return { error: error.message };
-        }
+    version(id) {
+        console.log('i am version con', id);
+        return this.publicService.searchVersion(id);
     }
-    version() {
-        let productId = 1;
-        let versionId = 1;
-        return this.publicService.version(productId, versionId);
+    item(id) {
+        console.log('i am item con', id);
+        return this.publicService.searchItem(id);
     }
     district(productId, versionId, district) {
         productId = 2;
@@ -99,9 +93,6 @@ let PublicController = exports.PublicController = class PublicController {
     }
     ratingAsce(productId, versionId) {
         return this.publicService.ratingAsce(productId, versionId);
-    }
-    searchItem(productId, versionId, string) {
-        return this.publicService.searchItem(productId, versionId, string);
     }
 };
 __decorate([
@@ -193,24 +184,26 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PublicController.prototype, "platformFilter", null);
 __decorate([
-    (0, common_1.Get)("filter/search"),
-    __param(0, (0, common_1.Body)("search")),
+    (0, common_1.Get)("filter/search/:Texts"),
+    __param(0, (0, common_1.Param)("Texts")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], PublicController.prototype, "search", null);
-__decorate([
-    (0, common_1.Get)("/filter/version/:itemId/merchant"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], PublicController.prototype, "getItem", null);
+], PublicController.prototype, "searchText", null);
 __decorate([
-    (0, common_1.Get)("/filter/version"),
+    (0, common_1.Get)("/filter/versions/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "version", null);
+__decorate([
+    (0, common_1.Get)("/filter/Items/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], PublicController.prototype, "item", null);
 __decorate([
     (0, common_1.Get)("filter/version/district"),
     __param(0, (0, common_1.Body)()),
@@ -253,12 +246,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "ratingAsce", null);
-__decorate([
-    (0, common_1.Get)("filter/version/search"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Array]),
-    __metadata("design:returntype", void 0)
-], PublicController.prototype, "searchItem", null);
 exports.PublicController = PublicController = __decorate([
     (0, common_1.Controller)("public"),
     __metadata("design:paramtypes", [public_service_1.PublicService])

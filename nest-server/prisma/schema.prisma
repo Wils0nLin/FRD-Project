@@ -152,9 +152,8 @@ model Item {
   merchant_id       Int      @map("merchant_id")
   version           Version  @relation(fields: [version_id], references: [id])
   version_id        Int      @map("version_id")
-  original_price    Int
-  newest_price      Int
-  end_date          DateTime @default(now()) @db.Date
+  price             Int
+  end_date          DateTime? @default(now()) @db.Date
   stock_status      String
   availability      Boolean @default(true)
 

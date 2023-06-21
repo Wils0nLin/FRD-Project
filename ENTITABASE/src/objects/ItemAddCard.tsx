@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import {IndexPath, Select, SelectItem} from '@ui-kitten/components';
 import * as React from 'react';
 import {
   Text,
@@ -6,12 +7,22 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Button,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function ItemAddCard() {
+export default function ItemAddCard({onValueSubmit}: any) {
   const [text, onChangeText] = React.useState('');
+
+  const [price, setPrice] = React.useState('');
+  const [stock_status, setStatus] = React.useState('接受預訂');
+  const [availability, setAvailability] = React.useState(true);
+
+  const handleInputChange = () => {
+    onValueSubmit(price, stock_status, availability);
+  };
+
   return (
     <View style={{marginBottom: 10}}>
       <Text style={styles.itemName}>寶可夢 朱</Text>
@@ -32,9 +43,8 @@ export default function ItemAddCard() {
             }}>
             <TextInput
               style={{fontSize: 20, padding: 0}}
-              onChangeText={onChangeText}
-              value={text}
-              placeholder="0.00"
+              value={price}
+              onChangeText={setPrice}
             />
           </View>
         </View>
@@ -46,10 +56,15 @@ export default function ItemAddCard() {
           </View>
           <Text style={{fontSize: 20}}>存貨情況：</Text>
         </View>
-        <TouchableOpacity style={styles.itemSelectBox}>
-          <Text style={{fontSize: 20}}>請選擇</Text>
-          <Icon name={'angle-down'} size={20} color={'#E4E4E4'} />
-        </TouchableOpacity>
+
+        <TextInput
+          style={{fontSize: 20}}
+          value={stock_status}
+          onChangeText={setStatus}
+          editable={false}
+        />
+        <Button title="Submit" onPress={handleInputChange} />
+        {/* <Icon name={'angle-down'} size={20} color={'#E4E4E4'} /> */}
       </View>
     </View>
   );
