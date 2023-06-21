@@ -45,17 +45,16 @@ model Consumer {
 model Order {
   id                Int      @id @default(autoincrement())
   consumer_QRcode   String
-  item              Item   @relation(fields: [item_id], references: [id])
+  item              Item     @relation(fields: [item_id], references: [id])
   item_id           Int      @map("item_id")
   amount            Int
-  pre_order_status  Boolean
   order_status      Boolean
-  pre_payment       Int
-  remain_payment    Int
+  payment           Int
   create_time       DateTime @default(now()) @db.Date
 
-  @@map("order")
+  @@map("orders")
 }
+
 
 
 
