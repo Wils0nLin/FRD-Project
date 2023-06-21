@@ -6,6 +6,7 @@ export declare class MerchantController {
     constructor(merchantService: MerchantService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
     editMerProfile(merchantId: any, form: any): Promise<import(".prisma/client").Merchant>;
+    getAllItem(userId: any): Promise<unknown>;
     uploadItems(itemData: any): Promise<{
         success: boolean;
         data: {

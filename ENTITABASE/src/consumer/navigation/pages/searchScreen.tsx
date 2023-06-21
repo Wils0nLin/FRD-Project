@@ -52,7 +52,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
 
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
-          await fetch(`http://10.0.2.2:3000/public/filter/tag/${tagArr[i]}`)
+          await fetch(
+            `http://192.168.160.142:3000/public/filter/tag/${tagArr[i]}`,
+          )
             .then(response => response.json())
             .then(data => {
               data.map((items: Product) => {
@@ -65,7 +67,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i < platformArr.length; i++) {
           await fetch(
-            `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
+            `http://192.168.160.142:3000/public/filter/platform/${platformArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
@@ -77,7 +79,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       }
       try {
-        await fetch(`http://10.0.2.2:3000/public/filter/search/${Texts}`)
+        await fetch(`http://192.168.160.142:3000/public/filter/search/${Texts}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);

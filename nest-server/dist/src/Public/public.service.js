@@ -216,7 +216,7 @@ let PublicService = exports.PublicService = class PublicService {
     async searchItem(version_id) {
         console.log(version_id);
         const value = `${version_id}`;
-        const items = await prisma.$queryRaw `select * from item join merchant on merchant_id = merchant.id where version_id=(${value}::integer);`;
+        const items = await prisma.$queryRaw `select item.price,item.stock_status,item.availability,item.end_date,merchant_name,merchant_phone,merchant.address,district.district from item join merchant on merchant_id = merchant.id join district on district.id = merchant.district_id where version_id=(${value}::integer);`;
         return items;
     }
     async getMerchantByItemId(itemId) {
@@ -280,7 +280,7 @@ let PublicService = exports.PublicService = class PublicService {
     async priceDesc(productid, versionId) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "desc",
+                price: "desc",
             },
             include: {
                 version: {
@@ -296,7 +296,7 @@ let PublicService = exports.PublicService = class PublicService {
     async priceAsec(productid, versionId) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "asc",
+                price: "asc",
             },
             include: {
                 version: {

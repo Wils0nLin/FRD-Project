@@ -27,6 +27,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
     async editMerProfile(merchantId, form) {
         return await this.merchantService.editMerProfile(merchantId, form);
     }
+    async getAllItem(userId) {
+        return await this.merchantService.getAllItem(userId);
+    }
     async uploadItems(itemData) {
         const merchantId = 1;
         const productId = 2;
@@ -77,6 +80,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "editMerProfile", null);
+__decorate([
+    (0, common_1.Get)("allItem/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getAllItem", null);
 __decorate([
     (0, common_1.Post)("uploadItems"),
     __param(0, (0, common_1.Body)()),

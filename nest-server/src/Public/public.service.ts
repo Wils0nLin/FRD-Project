@@ -385,7 +385,7 @@ export class PublicService {
     async priceDesc(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "desc",
+                price: "desc",
             },
             include: {
                 version: {
@@ -403,7 +403,7 @@ export class PublicService {
     async priceAsec(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "asc",
+                price: "asc",
             },
             include: {
                 version: {

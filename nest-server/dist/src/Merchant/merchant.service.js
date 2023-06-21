@@ -12,7 +12,7 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MerchantService = exports.MerchantService = class MerchantService {
     async getSelfInfo(userId) {
-        const foundUser = await prisma.$queryRawUnsafe(`select users.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`);
+        const foundUser = await prisma.$queryRawUnsafe(`select users_id, merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`);
         return foundUser;
     }
     async editMerProfile(merchantId, form) {
@@ -33,6 +33,10 @@ let MerchantService = exports.MerchantService = class MerchantService {
         });
         return editMerProfile;
     }
+    async getAllItem(userId) {
+        const foundItem = await prisma.$queryRawUnsafe(`select item.id, stock_status, availability, price, version, version_image, platform, product_name, merchant_name from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id JOIN users on users.id = users_id where users.id = ${userId};`);
+        return foundItem;
+    }
     async uploadItems(merchantId, productId, versionIds, itemData) {
         console.log("yo itemData: ", itemData);
         const product = await prisma.product.findUnique({
@@ -50,7 +54,7 @@ let MerchantService = exports.MerchantService = class MerchantService {
         const items = [];
         for (const version of versions) {
             const item = await prisma.item.create({
-                data: Object.assign(Object.assign({}, itemData), { merchant: { connect: { id: merchantId } }, version: { connect: { id: version.id } }, original_price: itemData.original_price, newest_price: itemData.newest_price, end_date: new Date("2023-07-01T00:00:00Z"), stock_status: itemData.stock_status, availability: itemData.availability }),
+                data: Object.assign(Object.assign({}, itemData), { merchant: { connect: { id: merchantId } }, version: { connect: { id: version.id } }, price: itemData.price, end_date: new Date("2023-07-01T00:00:00Z"), stock_status: itemData.stock_status, availability: itemData.availability }),
             });
             items.push(item);
         }

@@ -35,6 +35,7 @@ export default function MerchantHomeScreen({navigation}: {navigation: any}) {
       },
     );
     const data = await resp.json();
+    console.log(data[0]);
     setName(data[0].merchant_name);
     setPhone(data[0].merchant_phone);
     setArea(data[0].area);

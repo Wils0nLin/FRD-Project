@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
@@ -9,17 +10,38 @@ import {
   TextInput,
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
-
+import {useSelector} from 'react-redux';
 import SearchButtonModal from '../modals/MerchantSearchButtonModal';
 import ItemCardModal from '../modals/MerchantDeleteConfirmModal';
-
+import {IRootState} from '../../app/store';
 import ForeheadView from '../../objects/MerchantForeheadView';
-import PageView from '../../objects/PageView';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useState, useEffect} from 'react';
 
 export default function MerchantItemScreen({}) {
-  const [text, onChangeText] = React.useState('');
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+  const [list, setList] = useState<Array<any>>([]);
+  const [text, onChangeText] = useState('');
+
+  const getData = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/allItem/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data);
+    setName(data[0].merchant_name);
+    setList(data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <ScrollView
       style={{
@@ -57,14 +79,17 @@ export default function MerchantItemScreen({}) {
           <Text style={{fontSize: 17}}>共 200 件商品</Text>
           <SearchButtonModal />
         </View>
-        <View style={{width: 350}}>
-          <ItemCardModal />
-          <ItemCardModal />
-          <ItemCardModal />
-          <ItemCardModal />
-          <ItemCardModal />
+        <View style={{width: 350, marginBottom: 100}}>
+          {list.map(items => (
+            <ItemCardModal
+              id={items.id}
+              name={items.name}
+              platform={items.platform}
+              status={items.status}
+              price={items.price}
+            />
+          ))}
         </View>
-        {PageView()}
       </SafeAreaView>
     </ScrollView>
   );

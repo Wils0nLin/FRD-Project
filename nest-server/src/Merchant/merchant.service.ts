@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export class MerchantService {
     async getSelfInfo(userId: any) {
         const foundUser = await prisma.$queryRawUnsafe(
-            `select users.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`
+            `select users_id, merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`
         );
         return foundUser;
     }
@@ -36,6 +36,14 @@ export class MerchantService {
     //     console.log(`update ${form} to merchant profile`);
     // }
     // ---------------------------------------------------------------------------------------------------------
+
+    async getAllItem(userId: any) {
+        const foundItem = await prisma.$queryRawUnsafe(
+            `select item.id, stock_status, availability, price, version, version_image, platform, product_name, merchant_name from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id JOIN users on users.id = users_id where users.id = ${userId};`
+        );
+        return foundItem;
+    }
+
     //done
     async uploadItems(merchantId: number, productId: number, versionIds: number[], itemData: any) {
         console.log("yo itemData: ", itemData);

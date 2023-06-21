@@ -26,6 +26,10 @@ export class MerchantController {
     //     return this.merchantService.editProfile(form);
     // }
     // ---------------------------------------------------------------------------------------------------------
+    @Get("allItem/:userId")
+    async getAllItem(@Param("userId") userId: any) {
+        return await this.merchantService.getAllItem(userId);
+    }
 
     //商戶upload game
     //商戶要先透過search bar搵到admin預先set好嘅product and version, Get左個product and version id，return番出去比商戶set price, status, stock

@@ -6,7 +6,15 @@ import MerchantItemCard from '../../objects/MerchantItemCard';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function ItemCardModal() {
+type cardInfo = {
+  id: number;
+  name: string;
+  platform: string;
+  status: string;
+  price: string;
+};
+
+export default function ItemCardModal(props: cardInfo) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
@@ -47,7 +55,13 @@ export default function ItemCardModal() {
         </View>
       </Modal>
       <TouchableOpacity onLongPress={() => setModalVisible(true)}>
-        {MerchantItemCard()}
+        <MerchantItemCard
+          id={props.id}
+          name={props.name}
+          platform={props.platform}
+          status={props.status}
+          price={props.price}
+        />
       </TouchableOpacity>
     </View>
   );
