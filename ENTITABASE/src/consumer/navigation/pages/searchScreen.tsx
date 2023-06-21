@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useEffect} from 'react';
 import {
@@ -96,50 +95,50 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       setResult([]);
     };
 
-    // let platformArrPush: Array<any> = Platform.slice();
-    // if (platformArr == undefined) {
-    // console.log(platformArr);
-    // return;
-    // } else if (platformArr) {
-    // if (Array.isArray(platformArr)) {
-    // for (let i = 0; i <= platformArr.length; i++) {
-    // fetch(
-    // `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
-    // )
-    // .then(response => {
-    // return response.json();
-    // })
-    // .then(data => {
-    // data[0].products.map((items: products) => {
-    // platformArrPush.push(items);
-    // let result = platformArrPush.filter(unique);
-    // console.log(result);
-    // setPlatform(result);
-    // });
-    // })
-    // .then(async () => {
-    // await console.log(Platform);
-    // });
-    // }
-    // } else if (Array.isArray(platformArr) == false) {
-    // console.log('notarray');
-    // fetch(`http://10.0.2.2:3000/public/filter/platform/${platformArr}`)
-    // .then(response => {
-    // return response.json();
-    // })
-    // .then(data => {
-    // data[0].products.map((items: products) => {
-    // platformArrPush.push(items);
-    // let result = platformArrPush.filter(unique);
-    // console.log(result);
-    // setPlatform(result);
-    // });
-    // })
-    // .then(async () => {
-    // await console.log(Platform);
-    // });
-    // }
-    // }
+    //   let platformArrPush: Array<any> = Platform.slice();
+    //   if (platformArr == undefined) {
+    //     console.log(platformArr);
+    //     return;
+    //   } else if (platformArr) {
+    //     if (Array.isArray(platformArr)) {
+    //       for (let i = 0; i <= platformArr.length; i++) {
+    //         fetch(
+    //           `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
+    //         )
+    //           .then(response => {
+    //             return response.json();
+    //           })
+    //           .then(data => {
+    //             data[0].products.map((items: products) => {
+    //               platformArrPush.push(items);
+    //               let result = platformArrPush.filter(unique);
+    //               console.log(result);
+    //               setPlatform(result);
+    //             });
+    //           })
+    //           .then(async () => {
+    //             await console.log(Platform);
+    //           });
+    //       }
+    //     } else if (Array.isArray(platformArr) == false) {
+    //       console.log('notarray');
+    //       fetch(`http://10.0.2.2:3000/public/filter/platform/${platformArr}`)
+    //         .then(response => {
+    //           return response.json();
+    //         })
+    //         .then(data => {
+    //           data[0].products.map((items: products) => {
+    //             platformArrPush.push(items);
+    //             let result = platformArrPush.filter(unique);
+    //             console.log(result);
+    //             setPlatform(result);
+    //           });
+    //         })
+    //         .then(async () => {
+    //           await console.log(Platform);
+    //         });
+    //     }
+    //   }
     // };
 
     // platformSearch();
