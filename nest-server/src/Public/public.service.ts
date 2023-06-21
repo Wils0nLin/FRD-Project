@@ -308,11 +308,12 @@ export class PublicService {
         // );
     }
 
-    async searchText (Text:string){
-        console.log('i am service',Text)
-        let value= `%${Text}%`
-        console.log(value) 
-        const result = await prisma.$queryRaw`select * from product where product_name like ${value};`
+    async searchText(Text: string) {
+        console.log("i am service", Text);
+        let value = `%${Text}%`;
+        console.log(value);
+        const result =
+            await prisma.$queryRaw`select * from product where product_name like ${value};`;
         return result;
     }
 
@@ -387,7 +388,7 @@ export class PublicService {
     async priceDesc(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "desc",
+                price: "desc",
             },
             include: {
                 version: {
@@ -405,7 +406,7 @@ export class PublicService {
     async priceAsec(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "asc",
+                price: "asc",
             },
             include: {
                 version: {

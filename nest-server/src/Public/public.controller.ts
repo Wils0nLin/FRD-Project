@@ -140,7 +140,7 @@ export class PublicController {
     //done
     @Get("filter/search/:Texts")
     async searchText(@Param("Texts") Texts: string) {
-        console.log(Texts)
+        console.log(Texts);
         return this.publicService.searchText(Texts);
     }
 
