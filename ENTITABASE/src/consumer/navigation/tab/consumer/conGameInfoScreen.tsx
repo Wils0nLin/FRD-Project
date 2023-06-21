@@ -18,24 +18,44 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AddressModal from '../../../modals/AddressModal';
 import {TouchableOpacity} from 'react-native';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {IRootState} from '../../../../app/store';
+import {useNavigation} from '@react-navigation/native';
 
-const ConGameInfoScreen = ({route, navigation}: any) => {
+const ConGameInfoScreen = ({route}: any) => {
+  const navigation = useNavigation<any>();
   const {product_id}: any = route.params;
   console.log(product_id);
+  const login = useSelector((state: IRootState) => state.auth.isAuth);
   const [version, setVersion] = useState<Array<any>>([]);
   const [selectedVersion, setSelectVersion] = useState(0);
   const [items, setItems] = useState<Array<any>>([]);
   const [text, onChangeText] = useState('');
 
+  const handleOrder = async (id: number) => {
+    if (!login) {
+      navigation.navigate('LogIn');
+    } else {
+      try {
+        axios.post('http://10.0.2.2:3000/consumer/order/create', {itemId: id});
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   const selectVersion = async (version_id: number) => {
-    let ItemsState = [];
+    let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
     await fetch(`http://10.0.2.2:3000/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        setItems(data);
+        data.forEach((items: any) => {
+          ItemsState.push(items);
+        });
       });
+    setItems(ItemsState);
   };
   useEffect(() => {
     const getVersion = async () => {
@@ -52,7 +72,6 @@ const ConGameInfoScreen = ({route, navigation}: any) => {
     };
     getVersion();
   }, []);
-
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View style={{flexDirection: 'row'}}>
@@ -370,6 +389,9 @@ const ConGameInfoScreen = ({route, navigation}: any) => {
                     size={30}
                     color={'white'}
                     style={{paddingLeft: 20}}
+                    onPress={() => {
+                      handleOrder(items.item_id);
+                    }}
                   />
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
