@@ -9,14 +9,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsumerService = void 0;
 const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
+const hash_1 = require("../Public/hash");
 const prisma = new client_1.PrismaClient();
 let ConsumerService = exports.ConsumerService = class ConsumerService {
     async getSelfInfo(userId) {
         const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
-    }
-    getQrCodeId(userId) {
-        console.log("get qrCode id by user id ");
     }
     async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
@@ -48,18 +46,46 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
     paymentConfirm(paymentStatus) {
         console.log(`confirm payment success or not if  change status`);
     }
-    async editConProfile(consumerId, form) {
-        const consumer = {
-            QRcode: form.QRcode,
-            consumer_name: form.consumer_name,
-            consumer_phone: form.consumer_phone,
+    async editUserProfile(userId, form) {
+        let userInfo = {
+            email: form.email,
         };
-        const editConProfile = await prisma.consumer.update({
-            where: { id: Number(consumerId) },
-            data: consumer,
+        const userUpdate = await prisma.users.update({
+            where: { id: Number(userId) },
+            data: userInfo,
         });
-        return editConProfile;
-        console.log(`update profile by ${form}`);
+        return true;
+    }
+    async editConProfile(conId, form) {
+        let consumerInfo = {
+            consumer_name: form.name,
+            consumer_phone: form.phone,
+        };
+        const consumerUpdate = await prisma.consumer.update({
+            where: { id: Number(conId) },
+            data: consumerInfo,
+        });
+        return true;
+    }
+    async editPassword(userId, form) {
+        let hashedPassword = await (0, hash_1.hashPassword)(form.newPassword);
+        const foundUser = await prisma.users.findUnique({
+            where: { id: Number(userId) },
+            select: { password: true },
+        });
+        if (!foundUser || !(await (0, hash_1.checkPassword)(form.originPassword, foundUser.password))) {
+            return false;
+        }
+        else {
+            let userInfo = {
+                password: hashedPassword,
+            };
+            const userUpdate = await prisma.users.update({
+                where: { id: Number(userId) },
+                data: userInfo,
+            });
+            return true;
+        }
     }
     async feedback(comment, merchantId, consumerId, rating) {
         const savedFeedback = await prisma.feedback.create({

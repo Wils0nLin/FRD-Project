@@ -63,8 +63,9 @@ let PublicController = exports.PublicController = class PublicController {
         console.log(platformName);
         return await this.publicService.platformFilter(platformName);
     }
-    search(search) {
-        return this.publicService.search(search);
+    async searchText(Texts) {
+        console.log(Texts);
+        return this.publicService.searchText(Texts);
     }
     async getItem() {
         const itemId = 1;
@@ -193,12 +194,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PublicController.prototype, "platformFilter", null);
 __decorate([
-    (0, common_1.Get)("filter/search"),
-    __param(0, (0, common_1.Body)("search")),
+    (0, common_1.Get)("filter/search/:Texts"),
+    __param(0, (0, common_1.Param)("Texts")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], PublicController.prototype, "search", null);
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "searchText", null);
 __decorate([
     (0, common_1.Get)("/filter/version/:itemId/merchant"),
     __metadata("design:type", Function),

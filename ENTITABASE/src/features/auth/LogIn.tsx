@@ -7,10 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  SafeAreaView,
 } from 'react-native';
 import jwt_decode from 'jwt-decode';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {SafeAreaView} from 'react-native';
+import {login} from './authSlice';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../../app/store';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PublicForehead from '../../objects/PublicForeheadView';
@@ -19,6 +21,7 @@ export default function Login({navigation}: any) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [secure, setSecure] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
 
   const Submit = async () => {
     const form = {
@@ -30,21 +33,16 @@ export default function Login({navigation}: any) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(form),
     });
-    const data = await resp.json();
-    const result = data.access_token;
-    let decoded: any = jwt_decode(result);
-    if (decoded.signIdentity === 'consumer') {
-      navigation.navigate('Consumer');
-    } else if (decoded.signIdentity === 'merchant') {
-      navigation.navigate('Merchant');
-    }
-
-    try {
-      await AsyncStorage.setItem('id', JSON.stringify(decoded.signId));
-      const test = await AsyncStorage.getItem('id');
-      console.log(test);
-    } catch (error) {
-      console.log(error);
+    if (resp) {
+      const data = await resp.json();
+      const result = data.access_token;
+      let decoded: any = jwt_decode(result);
+      dispatch(login(decoded.signId));
+      if (decoded.signIdentity === 'consumer') {
+        navigation.navigate('Consumer');
+      } else if (decoded.signIdentity === 'merchant') {
+        navigation.navigate('Merchant');
+      }
     }
   };
 

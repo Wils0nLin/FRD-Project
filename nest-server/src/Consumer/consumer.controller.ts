@@ -15,11 +15,6 @@ export class ConsumerController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    @Get("qrcode")
-    getQrCodeId(@Body() JWTpayload: any) {
-        return this.consumerService.getQrCodeId(JWTpayload);
-    }
-    // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
     // @Get("wishlist")
     // displayWishList(@Query("consumer_id") consumer_id: number) {
@@ -109,14 +104,20 @@ export class ConsumerController {
     // }
     // ---------------------------------------------------------------------------------------------------------
     //done
-    @Put("profile/edit/:consumerId")
-    async editConProfile(@Param("consumerId") consumerId: any, @Body() form: any) {
-        return await this.consumerService.editConProfile(consumerId, form);
+    @Put("userProfile/edit/:userId")
+    async editUserProfile(@Param("userId") userId: any, @Body() form: any) {
+        return await this.consumerService.editUserProfile(userId, form);
     }
-    // @Post("profile/edit")
-    // editProfile(@Body() form: any) {
-    //     return this.consumerService.editProfile(form);
-    // }
+    
+    @Put("conProfile/edit/:conId")
+    async editConProfile(@Param("conId") conId: any, @Body() form: any) {
+        return await this.consumerService.editConProfile(conId, form);
+    }
+
+    @Put("password/edit/:userId")
+    async editPassword(@Param("userId") userId: any, @Body() form: any) {
+        return await this.consumerService.editPassword(userId, form);
+    }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
     @Post("reaction/feedback/")

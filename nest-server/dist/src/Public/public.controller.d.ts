@@ -27,10 +27,7 @@ export declare class PublicController {
             versions: import(".prisma/client").Version[];
         })[];
     })[]>;
-    search(search: string): Promise<{
-        merchant: unknown;
-        version: unknown;
-    }>;
+    searchText(Texts: string): Promise<unknown>;
     getItem(): Promise<{
         itemId: number;
         merchantId: number;

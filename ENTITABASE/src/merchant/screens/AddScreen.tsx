@@ -37,9 +37,9 @@ export default function AddScreen({}) {
     uploadItem(price, stock_status, availability);
   };
 
-  const handleInputChange = () => {
-    onValueSubmit(price, stock_status, availability);
-  };
+  // const handleInputChange = () => {
+  //   onValueSubmit(price, stock_status, availability);
+  // };
 
   const uploadItem = async (
     price: any,
@@ -122,7 +122,7 @@ export default function AddScreen({}) {
             }}
           />
         </View>
-        <Button title="Submit" onPress={handleInputChange} />
+        {/* <Button title="Submit" onPress={handleInputChange} /> */}
       </SafeAreaView>
     </ScrollView>
   );

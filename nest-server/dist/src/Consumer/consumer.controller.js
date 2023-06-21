@@ -24,9 +24,6 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async getSelfInfo(userId) {
         return await this.consumerService.getSelfInfo(userId);
     }
-    getQrCodeId(JWTpayload) {
-        return this.consumerService.getQrCodeId(JWTpayload);
-    }
     async uploadWishList(formData) {
         let consumerId = 2;
         let productId = 2;
@@ -67,8 +64,14 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     paymentConfirm(paymentstatus) {
         return this.consumerService.paymentConfirm(paymentstatus);
     }
-    async editConProfile(consumerId, form) {
-        return await this.consumerService.editConProfile(consumerId, form);
+    async editUserProfile(userId, form) {
+        return await this.consumerService.editUserProfile(userId, form);
+    }
+    async editConProfile(conId, form) {
+        return await this.consumerService.editConProfile(conId, form);
+    }
+    async editPassword(userId, form) {
+        return await this.consumerService.editPassword(userId, form);
     }
     feedback(reaction) {
         let merchantId = 1;
@@ -83,13 +86,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "getSelfInfo", null);
-__decorate([
-    (0, common_1.Get)("qrcode"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ConsumerController.prototype, "getQrCodeId", null);
 __decorate([
     (0, common_1.Post)("wishlist/upload"),
     __param(0, (0, common_1.Body)()),
@@ -133,13 +129,29 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "paymentConfirm", null);
 __decorate([
-    (0, common_1.Put)("profile/edit/:consumerId"),
-    __param(0, (0, common_1.Param)("consumerId")),
+    (0, common_1.Put)("userProfile/edit/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "editUserProfile", null);
+__decorate([
+    (0, common_1.Put)("conProfile/edit/:conId"),
+    __param(0, (0, common_1.Param)("conId")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "editConProfile", null);
+__decorate([
+    (0, common_1.Put)("password/edit/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "editPassword", null);
 __decorate([
     (0, common_1.Post)("reaction/feedback/"),
     __param(0, (0, common_1.Body)()),
