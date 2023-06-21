@@ -160,7 +160,10 @@ export const GameSearchScreen = ({route, navigation}: any) => {
           <View style={styles.modalInput}>
             <TextInput
               style={{fontSize: 20, padding: 0, color: '#E4E4E4'}}
-              onChangeText={value => onChangeTexts(value)}
+              onChangeText={value => {
+                onChangeTexts(value);
+                setResult([]);
+              }}
               value={Texts}
               placeholder="請輸入關鍵字"
             />

@@ -292,29 +292,20 @@ export class PublicService {
     // }
 
     //done
-    async search(search: string) {
-        const target = `%${search}%`;
-
+    async searchVersion(id: number) {
+        console.log(id)
+        const value = `${id}`
         const version =
-            await prisma.$queryRaw`select n.product_id,n.versionId,product_name,product_status,product_image,release_date,product_intro,view,platform_id,version,version_image from (select product.id as productId,version.id as versionId,* from product join version on version.product_id = product.id) as n where version like ${target} or product_name like ${target} ; `;
-
-        const merchant =
-            await prisma.$queryRaw`select n.merchant_name, n.district, n.area from (select merchant.merchant_name, district.district, area.area from merchant join district on merchant.district_id = district.id join area on district.area_id = area.id) as n where merchant_name like ${target} or district like ${target} or area like ${target};`;
-
-        return { merchant, version };
-
-        // console.log(
-        //     "using query to get all value which is NOT repeat and remember to split with bank"
-        // );
-    }
-
-    async searchText (Text:string){
-        console.log('i am service',Text)
-        let value= `%${Text}%`
-        console.log(value) 
-        const result = await prisma.$queryRaw`select * from product where product_name like ${value};`
-        return result;
-    }
+            await prisma.$queryRaw` select version.id as version_id,* from version join product on product.id = product_id where product_id = (${value}::integer) ;`;
+            return version
+        }
+    async searchItem(version_id: number) {
+        console.log(version_id)
+        const value = `${version_id}`
+        const items =
+            await prisma.$queryRaw`select item.price,item.stock_status,item.availability,item.end_date,merchant_name,merchant_phone,merchant.address,district.district from item join merchant on merchant_id = merchant.id join district on district.id = merchant.district_id where version_id=(${value}::integer);`;
+            return items
+        }
 
     //3個未完
     //select product then select version to find which merchant have this item
@@ -337,7 +328,14 @@ export class PublicService {
             merchantPhone: item.merchant.merchant_phone,
         };
     }
-
+    async searchText(Text: string) {
+        console.log("i am service", Text);
+        let value = `%${Text}%`;
+        console.log(value);
+        const result =
+            await prisma.$queryRaw`select * from product where product_name like ${value};`;
+        return result;
+    }
     //done
     async version(productId: any, versionId: any) {
         //try
@@ -424,14 +422,6 @@ export class PublicService {
     }
     ratingAsce(productid: any, versionId: any) {
         console.log(`set rating asce`, productid, versionId);
-    }
-    searchItem(productid: any, versionId: any, string: Array<string>) {
-        console.log(
-            "using query to get all value which is NOT repeat and remember to split with bank",
-            productid,
-            versionId,
-            string
-        );
     }
     //Homepage tag
 
