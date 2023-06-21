@@ -35,123 +35,13 @@ interface Product {
 export const GameSearchScreen = ({route, navigation}: any) => {
   const {tagArr, platformArr, text, highest, newest}: info = route.params;
   const [Texts, onChangeTexts] = React.useState(text);
-<<<<<<< HEAD
-  const [Tag, setTag] = useState<Array<any>>([]);
-  const [Platform, setPlatform] = useState<Array<any>>([]);
-  const [News, setNew] = useState();
-  const [High, setHighest] = useState<
-    {
-      original_price: number;
-      version_image: string;
-      end_date: string;
-      stock_status: string;
-      product_name: string;
-      version: string;
-    }[]
-  >([]);
-=======
   const [result, setResult] = useState<Product[]>([]);
->>>>>>> 21e63b8af47c1eadfcf955cf32010247bd1b14e8
   //未拆到個array object
 
   const unique = (arr: Array<any>, track = new Set()) =>
     arr.filter(({id}) => (track.has(id) ? false : track.add(id)));
 
   //game types search
-<<<<<<< HEAD
-  const tagSearch = async () => {
-    let tagArrPush: Array<any> = Tag.slice();
-    if (tagArr == undefined) {
-      console.log(tagArr);
-      return;
-    } else if (tagArr) {
-      if (Array.isArray(tagArr)) {
-        for (let i = 0; i <= tagArr.length; i++) {
-          fetch(`http://192.168.160.77:3000/public/filter/tag/${tagArr[i]}`)
-            .then(response => {
-              return response.json();
-            })
-            .then(data => {
-              console.log(data);
-              data.map((items: products) => {
-                tagArrPush.push(items);
-                let result = tagArrPush.filter(unique);
-                console.log(result);
-                setTag(result);
-              });
-            });
-        }
-      } else if (Array.isArray(platformArr) == false) {
-        console.log('notarray');
-        fetch(`http://192.168.160.77:3000/public/filter/tag/${platformArr}`)
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            console.log(data);
-
-            data.map((items: products) => {
-              tagArrPush.push(items);
-              let result = tagArrPush.filter(unique);
-              console.log(result);
-              setTag(result);
-            });
-          });
-      }
-    }
-  };
-
-  //platform search
-  const platformSearch = async () => {
-    let platformArrPush: Array<any> = Platform.slice();
-    if (platformArr == undefined) {
-      console.log(platformArr);
-      return;
-    } else if (platformArr) {
-      if (Array.isArray(platformArr)) {
-        for (let i = 0; i <= platformArr.length; i++) {
-          fetch(
-            `http://192.168.160.77:3000/public/filter/platform/${platformArr[i]}`,
-          )
-            .then(response => {
-              return response.json();
-            })
-            .then(data => {
-              data[0].products.map((items: products) => {
-                platformArrPush.push(items);
-                let result = platformArrPush.filter(unique);
-                console.log(result);
-                setPlatform(result);
-              });
-            })
-            .then(async () => {
-              await console.log(Platform);
-            });
-        }
-      } else if (Array.isArray(platformArr) == false) {
-        console.log('notarray');
-        fetch(
-          `http://192.168.160.77:3000/public/filter/platform/${platformArr}`,
-        )
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            data[0].products.map((items: products) => {
-              platformArrPush.push(items);
-              let result = platformArrPush.filter(unique);
-              console.log(result);
-              setPlatform(result);
-            });
-          })
-          .then(async () => {
-            await console.log(Platform);
-          });
-      }
-    }
-  };
-=======
->>>>>>> 21e63b8af47c1eadfcf955cf32010247bd1b14e8
 
   //search bar text
 

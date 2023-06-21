@@ -10,4 +10,5 @@ export declare class MerchantService {
     handleChangeStatus(formData: any): Promise<import(".prisma/client").Item> | undefined;
     pairUserId(consumerid: string): void;
     paymentConfirm(result: any): void;
+    getAllProducts(): Promise<import(".prisma/client").Product[]>;
 }

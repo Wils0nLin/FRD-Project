@@ -32,4 +32,5 @@ export declare class MerchantController {
     }>;
     pairUserId(parms: any): void;
     paymentConfirm(resultStatus: any): void;
+    getAllProducts(): Promise<import(".prisma/client").Product[]>;
 }

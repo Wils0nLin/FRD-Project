@@ -1,6 +1,7 @@
 import { Body, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
+import { sqltag } from "@prisma/client/runtime";
 
 const prisma = new PrismaClient();
 @Injectable()
@@ -71,8 +72,7 @@ export class MerchantService {
                     merchant: { connect: { id: merchantId } },
                     version: { connect: { id: version.id } },
                     price: itemData.price,
-                    //暫時硬打end_date
-                    end_date: new Date("2023-07-01T00:00:00Z"),
+                    end_date: new Date(itemData.end_date),
                     stock_status: itemData.stock_status,
                     availability: itemData.availability,
                 },
@@ -123,5 +123,12 @@ export class MerchantService {
     // ---------------------------------------------------------------------------------------------------------
     paymentConfirm(result: any) {
         console.log(`change order status by ${result}`);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+    //get all product
+    async getAllProducts() {
+        const getAllProducts = await prisma.product.findMany();
+        return getAllProducts;
     }
 }

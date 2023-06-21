@@ -58,6 +58,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
         console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
     }
+    getAllProducts() {
+        return this.merchantService.getAllProducts();
+    }
 };
 __decorate([
     (0, common_1.Put)("/profile/edit/:merchantId"),
@@ -103,6 +106,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "paymentConfirm", null);
+__decorate([
+    (0, common_1.Get)("product"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getAllProducts", null);
 exports.MerchantController = MerchantController = __decorate([
     (0, common_1.Controller)("merchant"),
     __metadata("design:paramtypes", [merchant_service_1.MerchantService,

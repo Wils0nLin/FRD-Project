@@ -102,4 +102,11 @@ export class MerchantController {
         console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
     }
+
+    // ---------------------------------------------------------------------------------------------------------
+    // get all products
+    @Get("product")
+    getAllProducts() {
+        return this.merchantService.getAllProducts();
+    }
 }
