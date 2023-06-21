@@ -49,7 +49,7 @@ model Order {
   item_id           Int      @map("item_id")
   amount            Int
   order_status      Boolean
-  payment           Int
+  payment           Boolean
   create_time       DateTime @default(now()) @db.Date
 
   @@map("orders")
