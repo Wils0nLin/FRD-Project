@@ -13,6 +13,12 @@ export class ConsumerService {
         );
         return foundUser;
     }
+    async test() {
+        const foundUser = await prisma.$queryRawUnsafe(
+            `select merchant_image from merchant;;`
+        );
+        return foundUser;
+    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
@@ -91,8 +97,11 @@ export class ConsumerService {
         console.log(`del product by id`);
     }
     // ---------------------------------------------------------------------------------------------------------
-    createOrder(itemId: string) {
-        console.log(`upload items to `);
+    async createOrder(form: any) {
+        console.log("iamser", form);
+        const result =
+            await prisma.$queryRaw`insert into orders ( consumer_QRcode,item_id,amount,order_status,payment,create_time) values (${form.QRcode},${form.itemId},${form.amount},${form.order_status},${form.payment},${form.create_time})`;
+        return result;
     }
     //full pay
     paymentConfirm(paymentStatus: any) {
@@ -149,19 +158,19 @@ export class ConsumerService {
     }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
-    async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
-        const savedFeedback = await prisma.feedback.create({
-            data: {
-                comment: comment,
-                merchant: { connect: { id: merchantId } },
-                consumer: { connect: { id: consumerId } },
-                rating: rating,
-            },
-        });
+    // async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
+    //     const savedFeedback = await prisma.feedback.create({
+    //         data: {
+    //             comment: comment,
+    //             merchant: { connect: { id: merchantId } },
+    //             consumer: { connect: { id: consumerId } },
+    //             rating: rating,
+    //         },
+    //     });
 
-        return savedFeedback;
-        console.log(`insert feedback`);
-    }
+    //     return savedFeedback;
+    //     console.log(`insert feedback`);
+    // }
 
     // rating(merchantId: string, rating: number, consumerId: any) {
 
