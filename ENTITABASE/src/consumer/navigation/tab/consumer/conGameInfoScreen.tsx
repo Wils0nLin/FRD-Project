@@ -338,6 +338,14 @@ const ConGameInfoScreen = ({route, navigation}: any) => {
                     numberOfLines={2}>
                     {items.district}
                   </Text>
+                </View>
+                <View style={{flexDirection: 'row', paddingTop: 5}}>
+                  <Entypo
+                    name={'location'}
+                    color={'white'}
+                    size={20}
+                    style={{}}
+                  />
                   <Text
                     style={{color: 'white', paddingLeft: 5}}
                     numberOfLines={2}>
@@ -357,11 +365,6 @@ const ConGameInfoScreen = ({route, navigation}: any) => {
                   justifyContent: 'space-between',
                 }}>
                 <View style={{flexDirection: 'row', paddingTop: 5}}>
-                  <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                  <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                  <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                  <OctIcon name={'star'} size={20} color={'#7A04EB'} />
-                  <OctIcon name={'star'} size={20} color={'#7A04EB'} />
                   <AntDesign
                     name={'shoppingcart'}
                     size={30}
