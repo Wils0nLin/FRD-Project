@@ -61,12 +61,12 @@ export default function ConRegister({navigation}: any) {
         .post('http://192.168.160.142:3000/public/register/conRegister', form)
         .then(function (response) {
           console.log(response);
-          Alert.alert('success', `${response}`);
+          Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的遊戲世界吧');
           navigation.navigate('LogIn');
         })
         .catch(function (error) {
           console.log(error);
-          Alert.alert('Failed', `${error}`);
+          Alert.alert('註冊失敗', '請核對申請資料');
         });
       console.log(form);
     }

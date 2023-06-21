@@ -1,4 +1,5 @@
 export declare class MerchantService {
+    getSelfInfo(userId: any): Promise<unknown>;
     editMerProfile(merchantId: any, form: any): Promise<import(".prisma/client").Merchant>;
     uploadItems(merchantId: number, productId: number, versionIds: number[], itemData: any): Promise<{
         product: import(".prisma/client").Product;

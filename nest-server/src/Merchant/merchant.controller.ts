@@ -9,6 +9,11 @@ export class MerchantController {
         private readonly publicService: PublicService
     ) {}
 
+    @Get("userInfo/:userId")
+    async getSelfInfo(@Param("userId") userId: any) {
+        return await this.merchantService.getSelfInfo(userId);
+    }
+
     //edit商戶係註冊ac時嘅資料
     //done but not firm 可用JWT攞merchant id
     @Put("/profile/edit/:merchantId")

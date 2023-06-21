@@ -11,6 +11,10 @@ const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MerchantService = exports.MerchantService = class MerchantService {
+    async getSelfInfo(userId) {
+        const foundUser = await prisma.$queryRawUnsafe(`select users.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`);
+        return foundUser;
+    }
     async editMerProfile(merchantId, form) {
         const merchant = {
             merchant_image: form.merchant_image,

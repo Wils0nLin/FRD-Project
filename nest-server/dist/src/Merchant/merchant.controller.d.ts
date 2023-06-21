@@ -4,6 +4,7 @@ export declare class MerchantController {
     private readonly merchantService;
     private readonly publicService;
     constructor(merchantService: MerchantService, publicService: PublicService);
+    getSelfInfo(userId: any): Promise<unknown>;
     editMerProfile(merchantId: any, form: any): Promise<import(".prisma/client").Merchant>;
     uploadItems(itemData: any): Promise<{
         success: boolean;

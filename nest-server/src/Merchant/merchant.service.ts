@@ -5,6 +5,13 @@ import { Prisma, PrismaClient, Users } from "@prisma/client";
 const prisma = new PrismaClient();
 @Injectable()
 export class MerchantService {
+    async getSelfInfo(userId: any) {
+        const foundUser = await prisma.$queryRawUnsafe(
+            `select users.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`
+        );
+        return foundUser;
+    }
+
     //done
     async editMerProfile(merchantId: any, form: any) {
         const merchant: Prisma.MerchantUpdateInput = {

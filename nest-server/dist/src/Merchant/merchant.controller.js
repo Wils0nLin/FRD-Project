@@ -21,6 +21,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
         this.merchantService = merchantService;
         this.publicService = publicService;
     }
+    async getSelfInfo(userId) {
+        return await this.merchantService.getSelfInfo(userId);
+    }
     async editMerProfile(merchantId, form) {
         return await this.merchantService.editMerProfile(merchantId, form);
     }
@@ -59,6 +62,13 @@ let MerchantController = exports.MerchantController = class MerchantController {
         return this.merchantService.paymentConfirm(resultStatus);
     }
 };
+__decorate([
+    (0, common_1.Get)("userInfo/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getSelfInfo", null);
 __decorate([
     (0, common_1.Put)("/profile/edit/:merchantId"),
     __param(0, (0, common_1.Param)("merchantId")),
