@@ -24,7 +24,7 @@ type cardInfo = {
   date: Date;
 };
 
-export default function ItemUpdateModal(props: cardInfo) {
+export default function MerItemRelease(props: cardInfo) {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
   const [price, onChangePrice] = useState(props.price);
@@ -44,7 +44,7 @@ export default function ItemUpdateModal(props: cardInfo) {
     };
     console.log(form);
     const resp = await fetch(
-      `http://192.168.132.70:3000/merchant/update/${props.id}`,
+      `http://192.168.160.142:3000/merchant/update/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -53,11 +53,11 @@ export default function ItemUpdateModal(props: cardInfo) {
     );
     const data = await resp.json();
     if (data === true) {
-      Alert.alert('更新成功', '已成功更新商品資料');
+      Alert.alert('上架成功', '已成功將商品上架');
       setModalVisible(!modalVisible);
-      navigation.replace('MerchantItem');
+      navigation.replace('MerchantArrive');
     } else {
-      Alert.alert('更新失敗', '請核對商品資料');
+      Alert.alert('上架失敗', '請核對商品資料');
     }
   };
 
@@ -80,7 +80,7 @@ export default function ItemUpdateModal(props: cardInfo) {
                 }}>
                 <View style={styles.pageTitle}>
                   <Text style={{fontSize: 20, color: '#E4E4E4'}}>
-                    商品資料修改
+                    預購商品上架
                   </Text>
                   <View style={styles.pageTitleLine} />
                 </View>
@@ -145,14 +145,14 @@ export default function ItemUpdateModal(props: cardInfo) {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => Submit()}>
-                <Text style={{fontSize: 17}}>提交修改</Text>
+                <Text style={{fontSize: 17}}>確認上架</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <FontAwesome5 name={'pencil-alt'} size={25} color={'#E4E4E4'} solid />
+        <FontAwesome5 name={'check-square'} size={25} color={'#E4E4E4'} solid />
       </TouchableOpacity>
     </View>
   );

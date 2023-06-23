@@ -10,7 +10,6 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import {SelectList} from 'react-native-dropdown-select-list';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
@@ -24,27 +23,20 @@ type cardInfo = {
   date: Date;
 };
 
-export default function ItemUpdateModal(props: cardInfo) {
+export default function ItemPriceUpdate(props: cardInfo) {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
   const [price, onChangePrice] = useState(props.price);
-  const [status, onChangeStatus] = useState(props.status);
-
-  const statusList = [
-    {key: '1', value: '大量現貨'},
-    {key: '2', value: '尚有現貨'},
-    {key: '3', value: '少量現貨'},
-  ];
 
   const Submit = async () => {
     const form = {
       price: parseInt(price),
-      stock_status: status,
+      stock_status: props.status,
       end_date: props.date,
     };
     console.log(form);
     const resp = await fetch(
-      `http://192.168.132.70:3000/merchant/update/${props.id}`,
+      `http://192.168.160.142:3000/merchant/update/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -120,28 +112,6 @@ export default function ItemUpdateModal(props: cardInfo) {
                   />
                 </View>
               </View>
-              <View style={styles.subTitle}>
-                <FontAwesome5 name={'boxes'} size={15} color={'#E4E4E4'} />
-                <Text style={styles.subTitleText}>存貨情況</Text>
-              </View>
-              <SelectList
-                setSelected={onChangeStatus}
-                data={statusList}
-                save="value"
-                search={false}
-                arrowicon={
-                  <FontAwesome5
-                    name={'angle-down'}
-                    size={20}
-                    color={'#E4E4E4'}
-                  />
-                }
-                boxStyles={styles.modalDropList}
-                placeholder={status}
-                dropdownStyles={styles.dropList}
-                dropdownTextStyles={styles.textInput}
-                inputStyles={styles.textInput}
-              />
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => Submit()}>
@@ -228,36 +198,6 @@ const styles = StyleSheet.create({
     height: 45,
     borderBottomWidth: 2,
     borderColor: '#7D7D7D',
-  },
-  modalDropList: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'space-between',
-    marginTop: 3,
-    marginBottom: 10,
-    marginHorizontal: 8,
-    paddingVertical: 5,
-    width: 320,
-    height: 45,
-    backgroundColor: '#202124',
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#B7C1DE',
-  },
-  dropList: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'space-between',
-    marginTop: 3,
-    marginBottom: 10,
-    marginHorizontal: 8,
-    width: 320,
-    backgroundColor: '#202124',
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#B7C1DE',
   },
   modalButtonFor1: {
     alignItems: 'center',

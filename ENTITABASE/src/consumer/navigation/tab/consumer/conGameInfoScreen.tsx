@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
-  ScrollViewBase,
   StyleSheet,
   Text,
   TextInput,
@@ -13,7 +14,6 @@ import GameInfoPhotoSVG from '../../../../assets/svg/consumerSVG/ConsumerGameInf
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import GameBoxSVG from '../../../../assets/svg/consumerSVG/ConsumerGameBoxSVG';
 import SearchLogoSVG from '../../../../assets/svg/SearchLogoSVG';
-import OctIcon from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AddressModal from '../../../modals/AddressModal';
@@ -38,7 +38,9 @@ const ConGameInfoScreen = ({route}: any) => {
       navigation.navigate('LogIn');
     } else {
       try {
-        axios.post('http://10.0.2.2:3000/consumer/order/create', {itemId: id});
+        axios.post('http://192.168.160.142:3000/consumer/order/create', {
+          itemId: id,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -47,7 +49,7 @@ const ConGameInfoScreen = ({route}: any) => {
   const selectVersion = async (version_id: number) => {
     let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
-    await fetch(`http://10.0.2.2:3000/public/filter/Items/${version_id}`)
+    await fetch(`http://192.168.160.142:3000/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -61,7 +63,9 @@ const ConGameInfoScreen = ({route}: any) => {
     const getVersion = async () => {
       let VersionState: Array<any> = [];
 
-      await fetch(`http://10.0.2.2:3000/public/filter/versions/${product_id}`)
+      await fetch(
+        `http://192.168.160.142:3000/public/filter/versions/${product_id}`,
+      )
         .then(response => response.json())
         .then(data => {
           data.forEach((items: any) => {

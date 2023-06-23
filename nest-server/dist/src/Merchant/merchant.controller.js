@@ -27,8 +27,11 @@ let MerchantController = exports.MerchantController = class MerchantController {
     async editMerProfile(merchantId, form) {
         return await this.merchantService.editMerProfile(merchantId, form);
     }
-    async getAllItem(userId) {
-        return await this.merchantService.getAllItem(userId);
+    async getAllItem(merId) {
+        return await this.merchantService.getAllItem(merId);
+    }
+    async getComment(merId) {
+        return await this.merchantService.getComment(merId);
     }
     async uploadItems(itemData) {
         const merchantId = 1;
@@ -43,18 +46,11 @@ let MerchantController = exports.MerchantController = class MerchantController {
             return { success: false, error: error.message };
         }
     }
-    updateItems(form) {
-        return this.merchantService.updateItems(form);
+    updateItems(itemId, form) {
+        return this.merchantService.updateItems(itemId, form);
     }
-    async changeItemStatus(itemId, formData) {
-        try {
-            const changeItemStatus = await this.merchantService.changeItemStatus(itemId, formData.stock_status);
-            console.log(changeItemStatus);
-            return { success: true, data: changeItemStatus };
-        }
-        catch (error) {
-            return { success: false, error: error.message };
-        }
+    deleteItems(itemId) {
+        return this.merchantService.deleteItems(itemId);
     }
     pairUserId(parms) {
         console.log(`scanning the consumer qr code will get the item by merchant id and consumer id `);
@@ -81,12 +77,19 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "editMerProfile", null);
 __decorate([
-    (0, common_1.Get)("allItem/:userId"),
-    __param(0, (0, common_1.Param)("userId")),
+    (0, common_1.Get)("allItem/:merId"),
+    __param(0, (0, common_1.Param)("merId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "getAllItem", null);
+__decorate([
+    (0, common_1.Get)("comment/:merId"),
+    __param(0, (0, common_1.Param)("merId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getComment", null);
 __decorate([
     (0, common_1.Post)("uploadItems"),
     __param(0, (0, common_1.Body)()),
@@ -95,20 +98,20 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "uploadItems", null);
 __decorate([
-    (0, common_1.Post)("update"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], MerchantController.prototype, "updateItems", null);
-__decorate([
-    (0, common_1.Put)("changeStatus/:itemId"),
+    (0, common_1.Put)("update/:itemId"),
     __param(0, (0, common_1.Param)("itemId")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
-    __metadata("design:returntype", Promise)
-], MerchantController.prototype, "changeItemStatus", null);
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "updateItems", null);
+__decorate([
+    (0, common_1.Put)("delete/:itemId"),
+    __param(0, (0, common_1.Param)("itemId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "deleteItems", null);
 __decorate([
     (0, common_1.Get)("scanner/:userId"),
     __param(0, (0, common_1.Param)()),

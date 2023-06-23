@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export class MerchantService {
     async getSelfInfo(userId: any) {
         const foundUser = await prisma.$queryRawUnsafe(
-            `select users_id, merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`
+            `select merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on district.id = district_id JOIN area on area.id = area_id where users.id = ${userId};`
         );
         return foundUser;
     }
@@ -37,11 +37,18 @@ export class MerchantService {
     // }
     // ---------------------------------------------------------------------------------------------------------
 
-    async getAllItem(userId: any) {
+    async getAllItem(merId: any) {
         const foundItem = await prisma.$queryRawUnsafe(
-            `select item.id, stock_status, availability, price, version, version_image, platform, product_name, merchant_name from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id JOIN users on users.id = users_id where users.id = ${userId};`
+            `select item.id, stock_status, price, version, version_image, platform, product_name, end_date from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id where merchant.id = ${merId} AND availability = true ORDER BY item.id;`
         );
         return foundItem;
+    }
+
+    async getComment(merId: any) {
+        const foundComment = await prisma.$queryRawUnsafe(
+            `select consumer_name, rating, comment, create_time from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`
+        );
+        return foundComment;
     }
 
     //done
@@ -99,32 +106,28 @@ export class MerchantService {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    updateItems(form: any) {
-        //更改item資料時要睇埋會唔會去到合乎客戶嘅wishlist set嘅價格位置
-        console.log(
-            `update item by body and also running query to get all values with all consumer in wish list sees is there have matches of consumer wishes`,
-            form
-        );
+    async updateItems(itemId: any, form: any) {
+        let itemInfo: Prisma.ItemUpdateInput = {
+            price: form.price,
+            stock_status: form.stock_status,
+            end_date: form.end_date,
+        };
+        const userUpdate = await prisma.item.update({
+            where: { id: Number(itemId) },
+            data: itemInfo,
+        });
+        return true;
     }
 
-    // ---------------------------------------------------------------------------------------------------------
-    //需要兩個function，分別一個係接收外部pass入黎嘅form，一個係對item status進行更改
-    //done
-    async changeItemStatus(itemId: number, stock_status: any) {
-        const changeItemStatus = await prisma.item.update({
+    async deleteItems(itemId: any) {
+        let itemInfo: Prisma.ItemUpdateInput = {
+            availability: false,
+        };
+        const userUpdate = await prisma.item.update({
             where: { id: Number(itemId) },
-            data: { stock_status: stock_status },
+            data: itemInfo,
         });
-        return changeItemStatus;
-        // console.log(`update item status `, form);
-    }
-    //handle stock status function
-    handleChangeStatus(formData: any) {
-        const { itemId, stockStatus } = formData;
-        if (stockStatus) {
-            const changeStatus = this.changeItemStatus(itemId, stockStatus);
-            return changeStatus;
-        }
+        return true;
     }
 
     // ---------------------------------------------------------------------------------------------------------
@@ -138,5 +141,13 @@ export class MerchantService {
     // ---------------------------------------------------------------------------------------------------------
     paymentConfirm(result: any) {
         console.log(`change order status by ${result}`);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+    async getOrderRecord(merId: any) {
+        const foundRecord = await prisma.$queryRawUnsafe(
+            `select consumer_name, amount remain_payment, create_time, version, product_name from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`
+        );
+        return foundRecord;
     }
 }

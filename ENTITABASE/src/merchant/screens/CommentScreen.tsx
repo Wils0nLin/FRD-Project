@@ -1,32 +1,71 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
-
-import ForeheadView from '../../objects/MerchantForeheadView';
-import PageView from '../../objects/PageView';
+import {IRootState} from '../../app/store';
+import {useSelector} from 'react-redux';
+import MerchantForehead from '../../objects/MerchantForeheadView';
 import CommentCard from '../../objects/CommentCard';
+import {useState, useEffect} from 'react';
 
 export default function CommentScreen({}) {
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+  const [list, setList] = useState<Array<any>>([]);
+
+  const getData = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data);
+    setName(data[0].merchant_name);
+    getCommentData(data[0].id);
+  };
+
+  const getCommentData = async (id: number) => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/comment/${id}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data);
+    setList(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <ScrollView
       style={{
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>顧客評價</Text>
           <View style={styles.pageTitleLine} />
         </View>
-        <View style={{width: 350}}>
-          {CommentCard()}
-          {CommentCard()}
-          {CommentCard()}
-          {CommentCard()}
-          {CommentCard()}
+        <View style={{width: 350, marginBottom: 100}}>
+          {list.map(items => (
+            <CommentCard
+              name={items.consumer_name}
+              star={items.rating}
+              comment={items.comment}
+              date={items.create_time}
+            />
+          ))}
         </View>
-        {PageView()}
       </SafeAreaView>
     </ScrollView>
   );

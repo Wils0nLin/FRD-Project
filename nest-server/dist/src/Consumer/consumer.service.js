@@ -40,6 +40,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         return deleteWishList;
         console.log(`del product by id`);
     }
+    async getShopInfo(shopId) {
+        const foundShop = await prisma.$queryRawUnsafe(`select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`);
+        return foundShop;
+    }
     createOrder(itemId) {
         console.log(`upload items to `);
     }

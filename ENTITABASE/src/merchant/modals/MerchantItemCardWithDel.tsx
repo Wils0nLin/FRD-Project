@@ -1,21 +1,52 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Modal, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Alert,
+  Modal,
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 
 import MerchantItemCard from '../../objects/MerchantItemCard';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {StackParamList} from '../../public/navigators/StackParamList';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 type cardInfo = {
   id: number;
   name: string;
   platform: string;
+  version: string;
   status: string;
   price: string;
+  date: Date;
 };
 
-export default function ItemCardModal(props: cardInfo) {
+export default function MerchantItemCardWithDel(props: cardInfo) {
+  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const Submit = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/delete/${props.id}`,
+      {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    if (data === true) {
+      Alert.alert('下架成功', '已成功將商品下架');
+      setModalVisible(!modalVisible);
+      navigation.replace('MerchantItem');
+    } else {
+      Alert.alert('下架失敗', '請核對商品資料');
+    }
+  };
+
   return (
     <View>
       <Modal
@@ -34,19 +65,25 @@ export default function ItemCardModal(props: cardInfo) {
               </View>
               <View style={styles.modalSimple}>
                 <View style={styles.modalWarningIcon}>
-                  <Icon name={'exclamation'} size={50} color={'#E4E4E4'} />
+                  <FontAwesome5
+                    name={'exclamation'}
+                    size={50}
+                    color={'#E4E4E4'}
+                  />
                 </View>
                 <Text style={styles.modalMainText}>是否確認將此商品下架？</Text>
               </View>
               <View style={styles.modalButtonBox}>
-                <TouchableOpacity style={styles.modalButtonConfirm}>
-                  <Icon name={'check'} size={20} color={'#E4E4E4'} />
+                <TouchableOpacity
+                  style={styles.modalButtonConfirm}
+                  onPress={() => Submit()}>
+                  <FontAwesome5 name={'check'} size={20} color={'#E4E4E4'} />
                   <Text style={styles.buttonTextWithIcon}>確認</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.modalButtonCancel}
                   onPress={() => setModalVisible(!modalVisible)}>
-                  <Icon name={'times'} size={20} color={'#E4E4E4'} />
+                  <FontAwesome5 name={'times'} size={20} color={'#E4E4E4'} />
                   <Text style={styles.buttonTextWithIcon}>取消</Text>
                 </TouchableOpacity>
               </View>
@@ -59,8 +96,10 @@ export default function ItemCardModal(props: cardInfo) {
           id={props.id}
           name={props.name}
           platform={props.platform}
+          version={props.version}
           status={props.status}
           price={props.price}
+          date={props.date}
         />
       </TouchableOpacity>
     </View>

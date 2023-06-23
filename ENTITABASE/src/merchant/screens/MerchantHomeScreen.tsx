@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     height: 100,
     borderRadius: 10,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: '#B7C1DE',
   },
   tagSearchBar: {

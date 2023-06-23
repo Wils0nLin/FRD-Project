@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -8,7 +9,10 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 import {StackParamList} from '../../public/navigators/StackParamList';
 
-import ForeheadView from '../../objects/MerchantForeheadView';
+import {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
+import MerchantForehead from '../../objects/MerchantForeheadView';
+import {IRootState} from '../../app/store';
 
 interface scanner {
   scanner: any;
@@ -16,6 +20,24 @@ interface scanner {
 
 function QRScanScreen(this: scanner) {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+
+  const getData = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data);
+    setName(data[0].merchant_name);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <ScrollView
@@ -23,7 +45,7 @@ function QRScanScreen(this: scanner) {
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>讀取訂單</Text>
           <View style={styles.pageTitleLine} />

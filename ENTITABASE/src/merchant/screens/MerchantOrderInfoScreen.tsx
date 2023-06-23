@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
@@ -8,21 +9,42 @@ import {
   StyleSheet,
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
-
+import {useState, useEffect} from 'react';
 import PaymentConfirmModal from '../modals/PaymentConfirmModal';
 
-import ForeheadView from '../../objects/MerchantForeheadView';
+import {useSelector} from 'react-redux';
+import MerchantForehead from '../../objects/MerchantForeheadView';
+import {IRootState} from '../../app/store';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function OrderInfoScreen() {
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+
+  const getData = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data);
+    setName(data[0].merchant_name);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <ScrollView
       style={{
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>訂單詳情</Text>
           <View style={styles.pageTitleLine} />

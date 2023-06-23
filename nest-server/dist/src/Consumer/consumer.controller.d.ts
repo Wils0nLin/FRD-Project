@@ -23,6 +23,7 @@ export declare class ConsumerController {
         error: any;
         data?: undefined;
     }>;
+    getShopInfo(shopId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): void;
     displayOrderHistory(JWTpayload: any): void;
     createOrder(itemId: any): void;

@@ -3,9 +3,13 @@ import * as React from 'react';
 
 import {View, Text, Image, StyleSheet} from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-export default function ForeheadView() {
+type userName = {
+  name: string;
+};
+
+export default function MerchantForehead(props: userName) {
   return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <Image
@@ -13,8 +17,8 @@ export default function ForeheadView() {
         source={require('../assets/images/merchant_background.jpg')}
       />
       <View style={styles.nameBox}>
-        <Icon name={'store-alt'} size={20} color={'#000000'} />
-        <Text style={styles.nameText}>iMobile百盈電訊</Text>
+        <FontAwesome5 name={'store-alt'} size={20} color={'#000000'} />
+        <Text style={styles.nameText}>{props.name}</Text>
       </View>
     </View>
   );

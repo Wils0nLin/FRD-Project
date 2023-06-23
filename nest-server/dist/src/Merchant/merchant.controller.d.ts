@@ -6,7 +6,8 @@ export declare class MerchantController {
     constructor(merchantService: MerchantService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
     editMerProfile(merchantId: any, form: any): Promise<import(".prisma/client").Merchant>;
-    getAllItem(userId: any): Promise<unknown>;
+    getAllItem(merId: any): Promise<unknown>;
+    getComment(merId: any): Promise<unknown>;
     uploadItems(itemData: any): Promise<{
         success: boolean;
         data: {
@@ -20,18 +21,8 @@ export declare class MerchantController {
         error: any;
         data?: undefined;
     }>;
-    updateItems(form: any): void;
-    changeItemStatus(itemId: number, formData: {
-        stock_status: any;
-    }): Promise<{
-        success: boolean;
-        data: import(".prisma/client").Item;
-        error?: undefined;
-    } | {
-        success: boolean;
-        error: any;
-        data?: undefined;
-    }>;
+    updateItems(itemId: any, form: any): Promise<boolean>;
+    deleteItems(itemId: any): Promise<boolean>;
     pairUserId(parms: any): void;
     paymentConfirm(resultStatus: any): void;
 }
