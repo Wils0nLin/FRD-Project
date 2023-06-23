@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Calendar} from 'react-native-calendars';
 import {useEffect} from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {Modal} from '@ui-kitten/components';
+import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 
 export default function AddScreen({}) {
   const [Texts, onChangeTexts] = React.useState('');
@@ -40,7 +40,10 @@ export default function AddScreen({}) {
   console.log(end_date);
 
   const [price, onChangePrice] = React.useState('');
-  const [stock_status, setStatus] = React.useState('接受預訂');
+  const [stock_status, setStatus] = React.useState<IndexPath | IndexPath[]>(
+    new IndexPath(0),
+  );
+  // const [stock_status, setStatus] = React.useState('');
   const [availability, setAvailability] = React.useState(true);
   // ---------------------------------------------------------------------------------------------------------
   // search bar function
@@ -49,7 +52,7 @@ export default function AddScreen({}) {
   const [searchResults, setSearchResults] = React.useState<
     Array<{id: number; product_name: string}>
   >([]);
-  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  // const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const performSearch = (query: any) => {
     const results: any = ProductList.filter(item =>
@@ -106,7 +109,7 @@ export default function AddScreen({}) {
       stock_status: stock_status,
       availability: availability,
     };
-    await fetch('http://192.168.0.72:3000/merchant/uploadItems', {
+    await fetch('http://192.168.160.77:3000/merchant/uploadItems', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +127,7 @@ export default function AddScreen({}) {
   useEffect(() => {
     const getProduct = async () => {
       const getProduct = await fetch(
-        'http://192.168.0.72:3000/merchant/product',
+        'http://192.168.160.77:3000/merchant/product',
       );
       const productList = await getProduct.json();
 
@@ -132,7 +135,7 @@ export default function AddScreen({}) {
     };
     const getVersion = async () => {
       const getVersion = await fetch(
-        'http://192.168.0.72:3000/merchant/product/version',
+        'http://192.168.160.77:3000/merchant/product/version',
       );
       const versionList = await getVersion.json();
 
@@ -264,13 +267,22 @@ export default function AddScreen({}) {
                       </View>
                       <Text style={{fontSize: 20}}>存貨情況：</Text>
                     </View>
-
-                    <TextInput
+                    <Layout level="1">
+                      <Select
+                        selectedIndex={stock_status}
+                        onSelect={index => setStatus(index)}>
+                        <SelectItem title="預購中" />
+                        <SelectItem title="大量現貨" />
+                        <SelectItem title="尚有現貨" />
+                        <SelectItem title="少量現貨" />
+                      </Select>
+                    </Layout>
+                    {/* <TextInput
                       style={{fontSize: 20}}
                       value={stock_status}
                       onChangeText={setStatus}
                       editable={false}
-                    />
+                    /> */}
                   </View>
                 </View>
               </View>

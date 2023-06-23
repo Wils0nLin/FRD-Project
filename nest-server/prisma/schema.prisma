@@ -37,6 +37,7 @@ model Consumer {
 
   wishlist_products Wishlist_product[]
   feedbacks         Feedback[]
+  orderss           Order[]
 
   @@map("consumer")
 }
@@ -44,7 +45,9 @@ model Consumer {
 
 model Order {
   id                Int      @id @default(autoincrement())
-  consumer_QRcode   String
+  consumer          Consumer @relation(fields: [consumer_id], references: [id])
+  consumer_id       Int      @map("consumer_id")
+  QRcode            String
   item              Item     @relation(fields: [item_id], references: [id])
   item_id           Int      @map("item_id")
   amount            Int

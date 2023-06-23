@@ -167,20 +167,6 @@ export class MerchantService {
         return getAllProducts;
     }
 
-    // async getVersion(product_id: number) {
-    //     const product = await prisma.product.findUnique({
-    //         where: { id: Number(product_id) },
-    //         include: { versions: true },
-    //     });
-
-    //     if (product) {
-    //         const versionIds = product.versions.map((version) => version.id);
-    //         return versionIds;
-    //         console.log("Version IDs:", versionIds);
-    //     } else {
-    //         console.log("Product not found");
-    //     }
-    // }
     async getAllVersion() {
         const getAllVersion = await prisma.version.findMany();
         return getAllVersion;

@@ -91,7 +91,7 @@ const ConGameInfoScreen = ({route}: any) => {
 
       setUserState(userState);
     };
-    const getProductData = async (params: type) => {};
+    const getProductData = async (params: any) => {};
     getuserData();
     getVersion();
   }, []);
