@@ -13,6 +13,10 @@ export class ConsumerController {
     async getSelfInfo(@Param("userId") userId: any) {
         return await this.consumerService.getSelfInfo(userId);
     }
+     @Get("test")
+    async test(@Param("userId") userId: any) {
+        return await this.consumerService.test();
+    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
@@ -80,16 +84,15 @@ export class ConsumerController {
     displayOrderHistory(@Body() JWTpayload: any) {
         return this.publicService.displayOrderHistory(JWTpayload);
     }
-    @Post("order/create/:itemId")
-    createOrder(@Param() itemId: any) {
-        try {
-        } catch (error) {}
-        return this.consumerService.createOrder(itemId);
+    @Post("order/create")
+    createOrder(@Body() form: any) {
+       console.log(form)
+       return this.consumerService.createOrder(form)
     }
     // @Post("order/create/")
     // createOrder(@Body() param: any) {
 
-    //     return this.consumerService.createOrder(param.itemId);
+    //     ;
     // }
 
     //full pay
@@ -120,18 +123,18 @@ export class ConsumerController {
     }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
-    @Post("reaction/feedback/")
-    feedback(@Body() reaction: any) {
-        let merchantId = 1;
-        let consumerId = 1;
+    // @Post("reaction/feedback/")
+    // feedback(@Body() reaction: any) {
+    //     let merchantId = 1;
+    //     let consumerId = 1;
 
-        return this.consumerService.feedback(
-            reaction.comment,
-            reaction.rating,
-            merchantId,
-            consumerId
-        );
-    }
+    //     return this.consumerService.feedback(
+    //         reaction.comment,
+    //         reaction.rating,
+    //         merchantId,
+    //         consumerId
+    //     );
+    // }
 
     // @Post("reaction/rating/")
     // rating(@Body() reaction: any) {
