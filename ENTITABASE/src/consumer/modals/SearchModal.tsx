@@ -60,7 +60,7 @@ export default function SearchModal() {
 
   //search bar connect to backend
   const handleSearch = () => {
-    const url = `http://192.168.160.77:3000/public/filter/search`;
+    const url = `http://13.213.207.204/public/filter/search`;
     axios
       .get(url, {
         params: {

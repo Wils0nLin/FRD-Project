@@ -872,6 +872,337 @@ async function main() {
         ],
     });
     const existPlatform = await prisma.platform.findMany();
+    const product = await prisma.product.createMany({
+        data: [
+            {
+                product_status: true,
+                product_name: "寶可夢朱紫",
+                product_image: "../imageUpload/imageProduct/PKM朱紫.jpeg",
+                release_date: "2022-11-18",
+                product_intro: "pokemon",
+                view: 0,
+                platform_id: 2,
+            },
+            {
+                product_status: true,
+                product_name: "薩爾達傳說王國之淚",
+                product_image: "../imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg",
+                release_date: "2023-05-12",
+                product_intro: "zelda",
+                view: 0,
+                platform_id: 2,
+            },
+            {
+                product_status: true,
+                product_name: "NBA 2K23",
+                product_image: "../imageUpload/imageProduct/2K23.jpeg",
+                release_date: "2023-06-06",
+                product_intro: "NBA",
+                view: 0,
+                platform_id: 1,
+            },
+            {
+                product_status: true,
+                product_name: "星之卡比 探索發現",
+                product_image: "../imageUpload/imageProduct/星之卡比.jpeg",
+                release_date: "2022-10-23",
+                product_intro: "Hi",
+                view: 0,
+                platform_id: 2,
+            },
+            {
+                product_status: true,
+                product_name: "Grand Theft Auto V",
+                product_image: "../imageUpload/imageProduct/GTA 5.jpeg",
+                release_date: "2016-05-18",
+                product_intro: "GTA 5",
+                view: 0,
+                platform_id: 3,
+            },
+            {
+                product_status: true,
+                product_name: "Call of Duty: Black Ops II",
+                product_image: "../imageUpload/imageProduct/Call Duty.jpeg",
+                release_date: "2012-11-12",
+                product_intro: "Call of Duty",
+                view: 0,
+                platform_id: 3,
+            },
+            {
+                product_status: true,
+                product_name: "Spider-Man 2 Miles",
+                product_image: "../imageUpload/imageProduct/SpiderMan Miles ps5.jpeg",
+                release_date: "2020-11-12",
+                product_intro: "Spider-Man",
+                view: 0,
+                platform_id: 1,
+            },
+            {
+                product_status: true,
+                product_name: "Nintendo Switch 運動",
+                product_image: "../imageUpload/imageProduct/Switch Sport.jpeg",
+                release_date: "2022-04-29",
+                product_intro: "Sport",
+                view: 0,
+                platform_id: 2,
+            },
+            {
+                product_status: true,
+                product_name: "霍格華茲的傳承",
+                product_image: "../imageUpload/imageProduct/哈利波特 ps.jpeg",
+                release_date: "2023-02-07",
+                product_intro: "哈利波特",
+                view: 0,
+                platform_id: 1,
+            },
+            {
+                product_status: true,
+                product_name: "THE KING OF FIGHTERS XV",
+                product_image: "../imageUpload/imageProduct/哈利波特 ps.jpeg",
+                release_date: "2022-02-14",
+                product_intro: "格鬥天王",
+                view: 0,
+                platform_id: 3,
+            },
+        ],
+    });
+    const existProduct = await prisma.product.findMany();
+    const version = await prisma.version.createMany({
+        data: [
+            {
+                product_id: existProduct[0].id,
+                version: "朱版",
+                version_image: "../imageUpload/imageVersion/PKM朱.jpeg",
+            },
+            {
+                product_id: existProduct[0].id,
+                version: "紫版",
+                version_image: "../imageUpload/imageVersion/PKM紫.jpeg",
+            },
+            {
+                product_id: existProduct[0].id,
+                version: "朱紫雙版本",
+                version_image: "../imageUpload/imageVersion/朱紫雙版.jpeg",
+            },
+            {
+                product_id: existProduct[1].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/薩爾達傳說王國之淚 普通.jpeg",
+            },
+            {
+                product_id: existProduct[1].id,
+                version: "特典",
+                version_image: "../imageUpload/imageVersion/薩爾達傳說王國之淚 特典.jpeg",
+            },
+            {
+                product_id: existProduct[2].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/2K23.jpeg",
+            },
+            {
+                product_id: existProduct[2].id,
+                version: "豪華版",
+                version_image: "../imageUpload/imageVersion/2K23 豪華版.jpeg",
+            },
+            {
+                product_id: existProduct[3].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/星之卡比 標準版.jpeg",
+            },
+            {
+                product_id: existProduct[4].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/GTA 5.jpeg.jpeg",
+            },
+            {
+                product_id: existProduct[4].id,
+                version: "豪華版",
+                version_image: "../imageUpload/imageVersion/GTA 5.jpeg.jpeg",
+            },
+            {
+                product_id: existProduct[5].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/Call Duty.jpeg",
+            },
+            {
+                product_id: existProduct[5].id,
+                version: "豪華版",
+                version_image: "../imageUpload/imageVersion/Call Duty.jpeg",
+            },
+            {
+                product_id: existProduct[6].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/SPIDER MAN 2普通.jpeg",
+            },
+            {
+                product_id: existProduct[6].id,
+                version: "豪華版",
+                version_image: "../imageUpload/imageVersion/Spider-Man Miles 豪華.webp",
+            },
+            {
+                product_id: existProduct[7].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/Switch Sport 普通.jpeg",
+            },
+            {
+                product_id: existProduct[8].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/哈利波特 標準.jpeg",
+            },
+            {
+                product_id: existProduct[8].id,
+                version: "豪華版",
+                version_image: "../imageUpload/imageVersion/哈利波特 豪華.jpeg",
+            },
+            {
+                product_id: existProduct[9].id,
+                version: "標準版",
+                version_image: "../imageUpload/imageVersion/THE KING OF FIGHTERS XV 標準.jpeg",
+            },
+            {
+                product_id: existProduct[9].id,
+                version: "豪華版",
+                version_image: "../imageUpload/imageVersion/THE KING OF FIGHTERS XV 標準.jpeg",
+            },
+        ],
+    });
+    const existVersion = await prisma.version.findMany();
+    const product_tag = await prisma.product_tag.createMany({
+        data: [
+            {
+                product_id: existProduct[0].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[0].id,
+                tag_id: 2,
+            },
+            {
+                product_id: existProduct[0].id,
+                tag_id: 4,
+            },
+            {
+                product_id: existProduct[0].id,
+                tag_id: 6,
+            },
+            {
+                product_id: existProduct[0].id,
+                tag_id: 14,
+            },
+            {
+                product_id: existProduct[1].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[1].id,
+                tag_id: 2,
+            },
+            {
+                product_id: existProduct[1].id,
+                tag_id: 5,
+            },
+            {
+                product_id: existProduct[1].id,
+                tag_id: 11,
+            },
+            {
+                product_id: existProduct[2].id,
+                tag_id: 4,
+            },
+            {
+                product_id: existProduct[2].id,
+                tag_id: 6,
+            },
+            {
+                product_id: existProduct[2].id,
+                tag_id: 7,
+            },
+            {
+                product_id: existProduct[3].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[3].id,
+                tag_id: 2,
+            },
+            {
+                product_id: existProduct[3].id,
+                tag_id: 13,
+            },
+            {
+                product_id: existProduct[4].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[4].id,
+                tag_id: 2,
+            },
+            {
+                product_id: existProduct[4].id,
+                tag_id: 3,
+            },
+            {
+                product_id: existProduct[5].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[5].id,
+                tag_id: 3,
+            },
+            {
+                product_id: existProduct[5].id,
+                tag_id: 4,
+            },
+            {
+                product_id: existProduct[5].id,
+                tag_id: 5,
+            },
+            {
+                product_id: existProduct[6].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[6].id,
+                tag_id: 2,
+            },
+            {
+                product_id: existProduct[6].id,
+                tag_id: 5,
+            },
+            {
+                product_id: existProduct[7].id,
+                tag_id: 7,
+            },
+            {
+                product_id: existProduct[7].id,
+                tag_id: 4,
+            },
+            {
+                product_id: existProduct[7].id,
+                tag_id: 13,
+            },
+            {
+                product_id: existProduct[8].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[8].id,
+                tag_id: 2,
+            },
+            {
+                product_id: existProduct[8].id,
+                tag_id: 5,
+            },
+            {
+                product_id: existProduct[9].id,
+                tag_id: 4,
+            },
+            {
+                product_id: existProduct[9].id,
+                tag_id: 9,
+            },
+        ],
+    });
     console.log({
         district,
         area,
@@ -879,6 +1210,9 @@ async function main() {
         platform,
         branch,
         bank,
+        product,
+        product_tag,
+        version,
     });
 }
 main()

@@ -44,7 +44,7 @@ export default function MerItemRelease(props: cardInfo) {
     };
     console.log(form);
     const resp = await fetch(
-      `http://192.168.160.142:3000/merchant/update/${props.id}`,
+      `http://13.213.207.204/merchant/update/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

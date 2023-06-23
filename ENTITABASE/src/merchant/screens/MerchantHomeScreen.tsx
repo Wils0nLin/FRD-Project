@@ -28,7 +28,7 @@ export default function MerchantHomeScreen({navigation}: {navigation: any}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+      `http://13.213.207.204/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

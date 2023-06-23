@@ -56,18 +56,6 @@ export default function AddScreen({}) {
   >([]);
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
 
-  const getUserData = async () => {
-    const resp = await fetch(
-      `http://192.168.160.77:3000/merchant/userInfo/${userId}`,
-      {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-      },
-    );
-    const data = await resp.json();
-    setName(data[0].merchant_name);
-  };
-
   const performSearch = (query: any) => {
     const results: any = ProductList.filter(item =>
       item.product_name.includes(query),
@@ -123,7 +111,7 @@ export default function AddScreen({}) {
       stock_status: stock_status,
       availability: availability,
     };
-    await fetch('http://192.168.160.77:3000/merchant/uploadItems', {
+    await fetch('http://13.213.207.204/merchant/uploadItems', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -137,19 +125,42 @@ export default function AddScreen({}) {
       });
   };
   //
+  console.log(ProductList);
+  console.log('Name: ', name);
+
+  const getMerchantId = async (merchantId: any) => {
+    const resp = await fetch(`http://13.213.207.204/merchant/${merchantId}`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
+    const data = await resp.json();
+  };
 
   useEffect(() => {
-    const getProduct = async () => {
-      const getProduct = await fetch(
-        'http://192.168.160.77:3000/merchant/product',
+    const getUserData = async () => {
+      const resp = await fetch(
+        `http://13.213.207.204/merchant/userInfo/${userId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
       );
+      const data = await resp.json();
+      setName(data[0].merchant_name);
+      getMerchantId(data[0].id);
+      console.log(data);
+    };
+
+    const getProduct = async () => {
+      const getProduct = await fetch('http://13.213.207.204/merchant/product');
       const productList = await getProduct.json();
 
       setProductList(productList);
     };
+
     const getVersion = async () => {
       const getVersion = await fetch(
-        'http://192.168.160.77:3000/merchant/product/version',
+        'http://13.213.207.204/merchant/product/version',
       );
       const versionList = await getVersion.json();
 
@@ -158,6 +169,7 @@ export default function AddScreen({}) {
 
     getProduct();
     getVersion();
+    getUserData();
   }, []);
 
   useEffect(() => {

@@ -42,8 +42,7 @@ export class MerchantController {
     @Post("uploadItems")
     async uploadItems(@Body() form: any) {
         const merchantId = 1;
-        // const productId = 2;
-        // const versionIds = [3, 4];
+
         try {
             const result = await this.merchantService.uploadItems(form, merchantId);
             return { success: true, data: result };
@@ -93,7 +92,8 @@ export class MerchantController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    // get all products
+    // get all products for upload item
+
     @Get("product")
     getAllProducts() {
         return this.merchantService.getAllProducts();
@@ -103,4 +103,6 @@ export class MerchantController {
     getAllVersion() {
         return this.merchantService.getAllVersion();
     }
+
+    // @Get("")
 }

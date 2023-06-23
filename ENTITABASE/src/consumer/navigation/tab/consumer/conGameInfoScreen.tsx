@@ -50,7 +50,7 @@ const ConGameInfoScreen = ({route}: any) => {
       };
 
       try {
-        axios.post('http://192.168.160.142:3000/consumer/order/create', {
+        axios.post('http://13.213.207.204/consumer/order/create', {
           itemId: id,
         });
       } catch (error) {
@@ -61,7 +61,7 @@ const ConGameInfoScreen = ({route}: any) => {
   const selectVersion = async (version_id: number) => {
     let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
-    await fetch(`http://192.168.160.142:3000/public/filter/Items/${version_id}`)
+    await fetch(`http://13.213.207.204/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -75,9 +75,7 @@ const ConGameInfoScreen = ({route}: any) => {
     const getVersion = async () => {
       let VersionState: Array<any> = [];
 
-      await fetch(
-        `http://192.168.160.142:3000/public/filter/versions/${product_id}`,
-      )
+      await fetch(`http://13.213.207.204/public/filter/versions/${product_id}`)
         .then(response => response.json())
         .then(data => {
           data.forEach((items: any) => {
@@ -88,7 +86,7 @@ const ConGameInfoScreen = ({route}: any) => {
     };
     const getuserData = async () => {
       let userState: Array<any> = [];
-      await fetch(`http://192.168.160.142:3000/consumer/userInfo/${userId}`)
+      await fetch(`http://13.213.207.204/consumer/userInfo/${userId}`)
         .then(response => response.json())
         .then(data => {
           console.log(data[0]);

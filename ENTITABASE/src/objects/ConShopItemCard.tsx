@@ -32,7 +32,7 @@ export default function ConShopItemCard(props: cardInfo) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://192.168.132.70:3000/consumer/userInfo/${userId}`,
+      `http://13.213.207.204/consumer/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -55,7 +55,7 @@ export default function ConShopItemCard(props: cardInfo) {
     console.log(form);
     setModalVisible(true);
     // const resp = await fetch(
-    //   `http://192.168.132.70:3000/merchant/update/${props.id}`,
+    //   `http://13.213.207.204/merchant/update/${props.id}`,
     //   {
     //     method: 'PUT',
     //     headers: {'Content-Type': 'application/json'},

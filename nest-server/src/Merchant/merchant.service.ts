@@ -60,7 +60,7 @@ export class MerchantService {
                 data: {
                     merchant_id: merchantId,
                     version_id: form.version_id,
-                    end_date: new Date(form.end_date),
+                    end_date: form.end_date,
                     price: parseInt(form.price),
                     availability: form.availability,
                     stock_status: form.stock_status,
