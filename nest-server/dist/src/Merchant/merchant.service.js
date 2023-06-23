@@ -41,28 +41,24 @@ let MerchantService = exports.MerchantService = class MerchantService {
         const foundComment = await prisma.$queryRawUnsafe(`select consumer_name, rating, comment, create_time from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`);
         return foundComment;
     }
-    async uploadItems(merchantId, productId, versionIds, itemData) {
-        console.log("yo itemData: ", itemData);
-        const product = await prisma.product.findUnique({
-            where: { id: productId },
-        });
-        if (!product) {
-            throw new Error("Invalid product ID");
-        }
-        const versions = await prisma.version.findMany({
-            where: { id: { in: versionIds } },
-        });
-        if (versionIds.length !== versions.length) {
-            throw new Error("Invalid version ID");
-        }
-        const items = [];
-        for (const version of versions) {
-            const item = await prisma.item.create({
-                data: Object.assign(Object.assign({}, itemData), { merchant: { connect: { id: merchantId } }, version: { connect: { id: version.id } }, price: itemData.price, end_date: new Date("2023-07-01T00:00:00Z"), stock_status: itemData.stock_status, availability: itemData.availability }),
+    async uploadItems(form, merchantId) {
+        try {
+            const uploadItem = await prisma.item.create({
+                data: {
+                    merchant_id: merchantId,
+                    version_id: form.version_id,
+                    end_date: new Date(form.end_date),
+                    price: parseInt(form.price),
+                    availability: form.availability,
+                    stock_status: form.stock_status,
+                },
             });
-            items.push(item);
+            return uploadItem;
         }
-        return { product, versions, items };
+        catch (error) {
+            console.error("Error creating item:", error);
+            throw new Error("Failed to create item");
+        }
     }
     async updateItems(itemId, form) {
         let itemInfo = {
@@ -95,6 +91,14 @@ let MerchantService = exports.MerchantService = class MerchantService {
     async getOrderRecord(merId) {
         const foundRecord = await prisma.$queryRawUnsafe(`select consumer_name, amount remain_payment, create_time, version, product_name from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`);
         return foundRecord;
+    }
+    async getAllProducts() {
+        const getAllProducts = await prisma.product.findMany();
+        return getAllProducts;
+    }
+    async getAllVersion() {
+        const getAllVersion = await prisma.version.findMany();
+        return getAllVersion;
     }
 };
 exports.MerchantService = MerchantService = __decorate([

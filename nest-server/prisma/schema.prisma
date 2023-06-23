@@ -45,16 +45,14 @@ model Consumer {
 model Order {
   id                Int      @id @default(autoincrement())
   consumer_QRcode   String
-  item              Item   @relation(fields: [item_id], references: [id])
+  item              Item     @relation(fields: [item_id], references: [id])
   item_id           Int      @map("item_id")
   amount            Int
-  pre_order_status  Boolean
   order_status      Boolean
-  pre_payment       Int
-  remain_payment    Int
-  create_time       DateTime @default(now()) @db.Date
+  payment           Boolean
+  create_time       String
 
-  @@map("order")
+  @@map("orders")
 }
 
 
@@ -67,7 +65,7 @@ model Feedback {
   merchant_id       Int      @map("merchant_id")
   rating            Int?     
   comment           String?
-  create_time       DateTime @default(now()) @db.Date
+  create_time       String
 
   @@map("feedback")
 }
@@ -89,7 +87,7 @@ model Product {
   product_name      String
   product_status    Boolean
   product_image     String
-  release_date      DateTime @default(now()) @db.Date
+  release_date      String
   product_intro     String
   view              Int
   platform          Platform @relation(fields: [platform_id], references: [id])
@@ -153,7 +151,7 @@ model Item {
   version           Version  @relation(fields: [version_id], references: [id])
   version_id        Int      @map("version_id")
   price             Int
-  end_date          DateTime? @default(now()) @db.Date
+  end_date          String
   stock_status      String
   availability      Boolean @default(true)
 

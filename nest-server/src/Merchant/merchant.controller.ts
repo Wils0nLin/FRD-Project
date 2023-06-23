@@ -40,27 +40,15 @@ export class MerchantController {
     //商戶要先透過search bar搵到admin預先set好嘅product and version, Get左個product and version id，return番出去比商戶set price, status, stock
     //done
     @Post("uploadItems")
-    async uploadItems(
-        @Body()
-        itemData: // merchantId: number,
-        // productId: number,
-        // versionIds: number[],
-        any
-    ) {
+    async uploadItems(@Body() form: any) {
         const merchantId = 1;
-        const productId = 2;
-        const versionIds = [3, 4];
-
+        // const productId = 2;
+        // const versionIds = [3, 4];
         try {
-            const result = await this.merchantService.uploadItems(
-                merchantId,
-                productId,
-                versionIds,
-                itemData
-            );
+            const result = await this.merchantService.uploadItems(form, merchantId);
             return { success: true, data: result };
         } catch (error) {
-            console.log("itemData: ", itemData);
+            console.log("itemData: ", error);
 
             return { success: false, error: error.message };
         }
@@ -97,5 +85,17 @@ export class MerchantController {
     paymentConfirm(@Body() resultStatus: any) {
         console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+    // get all products
+    @Get("product")
+    getAllProducts() {
+        return this.merchantService.getAllProducts();
+    }
+
+    @Get("product/version")
+    getAllVersion() {
+        return this.merchantService.getAllVersion();
     }
 }

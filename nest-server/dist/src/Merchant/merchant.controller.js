@@ -33,16 +33,14 @@ let MerchantController = exports.MerchantController = class MerchantController {
     async getComment(merId) {
         return await this.merchantService.getComment(merId);
     }
-    async uploadItems(itemData) {
+    async uploadItems(form) {
         const merchantId = 1;
-        const productId = 2;
-        const versionIds = [3, 4];
         try {
-            const result = await this.merchantService.uploadItems(merchantId, productId, versionIds, itemData);
+            const result = await this.merchantService.uploadItems(form, merchantId);
             return { success: true, data: result };
         }
         catch (error) {
-            console.log("itemData: ", itemData);
+            console.log("itemData: ", error);
             return { success: false, error: error.message };
         }
     }
@@ -59,6 +57,12 @@ let MerchantController = exports.MerchantController = class MerchantController {
     paymentConfirm(resultStatus) {
         console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
+    }
+    getAllProducts() {
+        return this.merchantService.getAllProducts();
+    }
+    getAllVersion() {
+        return this.merchantService.getAllVersion();
     }
 };
 __decorate([
@@ -126,6 +130,18 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "paymentConfirm", null);
+__decorate([
+    (0, common_1.Get)("product"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getAllProducts", null);
+__decorate([
+    (0, common_1.Get)("product/version"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getAllVersion", null);
 exports.MerchantController = MerchantController = __decorate([
     (0, common_1.Controller)("merchant"),
     __metadata("design:paramtypes", [merchant_service_1.MerchantService,
