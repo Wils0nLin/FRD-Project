@@ -9,6 +9,11 @@ export class MerchantController {
         private readonly publicService: PublicService
     ) {}
 
+    @Get("userInfo/:userId")
+    async getSelfInfo(@Param("userId") userId: any) {
+        return await this.merchantService.getSelfInfo(userId);
+    }
+
     //edit商戶係註冊ac時嘅資料
     //done but not firm 可用JWT攞merchant id
     @Put("/profile/edit/:merchantId")
@@ -21,32 +26,24 @@ export class MerchantController {
     //     return this.merchantService.editProfile(form);
     // }
     // ---------------------------------------------------------------------------------------------------------
+    @Get("allItem/:userId")
+    async getAllItem(@Param("userId") userId: any) {
+        return await this.merchantService.getAllItem(userId);
+    }
 
     //商戶upload game
     //商戶要先透過search bar搵到admin預先set好嘅product and version, Get左個product and version id，return番出去比商戶set price, status, stock
     //done
     @Post("uploadItems")
-    async uploadItems(
-        @Body()
-        itemData: // merchantId: number,
-        // productId: number,
-        // versionIds: number[],
-        any
-    ) {
+    async uploadItems(@Body() form: any) {
         const merchantId = 1;
-        const productId = 2;
-        const versionIds = [3, 4];
-
+        // const productId = 2;
+        // const versionIds = [3, 4];
         try {
-            const result = await this.merchantService.uploadItems(
-                merchantId,
-                productId,
-                versionIds,
-                itemData
-            );
+            const result = await this.merchantService.uploadItems(form, merchantId);
             return { success: true, data: result };
         } catch (error) {
-            console.log("itemData: ", itemData);
+            console.log("itemData: ", error);
 
             return { success: false, error: error.message };
         }
@@ -108,5 +105,10 @@ export class MerchantController {
     @Get("product")
     getAllProducts() {
         return this.merchantService.getAllProducts();
+    }
+
+    @Get("product/version")
+    getAllVersion() {
+        return this.merchantService.getAllVersion();
     }
 }

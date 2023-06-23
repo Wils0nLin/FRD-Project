@@ -51,7 +51,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
 
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
-          await fetch(`http://10.0.2.2:3000/public/filter/tag/${tagArr[i]}`)
+          await fetch(`http://192.168.0.72:3000/public/filter/tag/${tagArr[i]}`)
             .then(response => response.json())
             .then(data => {
               data.map((items: Product) => {
@@ -64,7 +64,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i < platformArr.length; i++) {
           await fetch(
-            `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
+            `http://192.168.0.72:3000/public/filter/platform/${platformArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
@@ -76,7 +76,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       }
       try {
-        await fetch(`http://10.0.2.2:3000/public/filter/search/${Texts}`)
+        await fetch(`http://192.168.0.72:3000/public/filter/search/${Texts}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);
@@ -160,7 +160,10 @@ export const GameSearchScreen = ({route, navigation}: any) => {
           <View style={styles.modalInput}>
             <TextInput
               style={{fontSize: 20, padding: 0, color: '#E4E4E4'}}
-              onChangeText={value => onChangeTexts(value)}
+              onChangeText={value => {
+                onChangeTexts(value);
+                setResult([]);
+              }}
               value={Texts}
               placeholder="請輸入關鍵字"
             />

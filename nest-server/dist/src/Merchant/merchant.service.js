@@ -11,6 +11,10 @@ const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 let MerchantService = exports.MerchantService = class MerchantService {
+    async getSelfInfo(userId) {
+        const foundUser = await prisma.$queryRawUnsafe(`select users_id, merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`);
+        return foundUser;
+    }
     async editMerProfile(merchantId, form) {
         const merchant = {
             merchant_image: form.merchant_image,
@@ -29,28 +33,28 @@ let MerchantService = exports.MerchantService = class MerchantService {
         });
         return editMerProfile;
     }
-    async uploadItems(merchantId, productId, versionIds, itemData) {
-        console.log("yo itemData: ", itemData);
-        const product = await prisma.product.findUnique({
-            where: { id: productId },
-        });
-        if (!product) {
-            throw new Error("Invalid product ID");
-        }
-        const versions = await prisma.version.findMany({
-            where: { id: { in: versionIds } },
-        });
-        if (versionIds.length !== versions.length) {
-            throw new Error("Invalid version ID");
-        }
-        const items = [];
-        for (const version of versions) {
-            const item = await prisma.item.create({
-                data: Object.assign(Object.assign({}, itemData), { merchant: { connect: { id: merchantId } }, version: { connect: { id: version.id } }, price: itemData.price, end_date: new Date(itemData.end_date), stock_status: itemData.stock_status, availability: itemData.availability }),
+    async getAllItem(userId) {
+        const foundItem = await prisma.$queryRawUnsafe(`select item.id, stock_status, availability, price, version, version_image, platform, product_name, merchant_name from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id JOIN users on users.id = users_id where users.id = ${userId};`);
+        return foundItem;
+    }
+    async uploadItems(form, merchantId) {
+        try {
+            const uploadItem = await prisma.item.create({
+                data: {
+                    merchant_id: merchantId,
+                    version_id: form.version_id,
+                    end_date: new Date(form.end_date),
+                    price: parseInt(form.price),
+                    availability: form.availability,
+                    stock_status: form.stock_status,
+                },
             });
-            items.push(item);
+            return uploadItem;
         }
-        return { product, versions, items };
+        catch (error) {
+            console.error("Error creating item:", error);
+            throw new Error("Failed to create item");
+        }
     }
     updateItems(form) {
         console.log(`update item by body and also running query to get all values with all consumer in wish list sees is there have matches of consumer wishes`, form);
@@ -78,6 +82,10 @@ let MerchantService = exports.MerchantService = class MerchantService {
     async getAllProducts() {
         const getAllProducts = await prisma.product.findMany();
         return getAllProducts;
+    }
+    async getAllVersion() {
+        const getAllVersion = await prisma.version.findMany();
+        return getAllVersion;
     }
 };
 exports.MerchantService = MerchantService = __decorate([

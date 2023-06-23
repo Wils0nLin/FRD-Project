@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
+import {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import {
   View,
   Text,
@@ -10,9 +13,40 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
 
+import {IRootState} from '../../app/store';
+
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function MerchantHomeScreen({navigation}: {navigation: any}) {
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [area, setArea] = useState('');
+  const [district, setDistrict] = useState('');
+  const [address, setAddress] = useState('');
+  const [hour, setHour] = useState('');
+
+  const getData = async () => {
+    const resp = await fetch(
+      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data[0]);
+    setName(data[0].merchant_name);
+    setPhone(data[0].merchant_phone);
+    setArea(data[0].area);
+    setDistrict(data[0].district);
+    setAddress(data[0].address);
+    setHour(data[0].opening_hour);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <ScrollView
       style={{
@@ -36,9 +70,9 @@ export default function MerchantHomeScreen({navigation}: {navigation: any}) {
         </View>
         <View style={{height: 40}} />
         <View style={styles.merchantInfo}>
-          <Text style={{fontSize: 20}}>iMobile百盈電訊</Text>
-          <Text>88888888</Text>
-          <Text>九龍旺角山東街47-51號星際城市305號舖</Text>
+          <Text style={{fontSize: 20}}>{name}</Text>
+          <Text>{phone}</Text>
+          <Text>{area + district + address}</Text>
         </View>
         <View style={styles.tabButtonBox}>
           <TouchableOpacity style={styles.tabButtonTrue}>
@@ -52,9 +86,7 @@ export default function MerchantHomeScreen({navigation}: {navigation: any}) {
           </View>
         </View>
         <View style={{width: 350}}>
-          <Text style={styles.merchantAnnoText}>
-            星期一：11:00 a.m. - 9:00 p.m.
-          </Text>
+          <Text style={styles.merchantAnnoText}>{hour}</Text>
         </View>
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>商店管理</Text>

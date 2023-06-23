@@ -6,6 +6,13 @@ import { sqltag } from "@prisma/client/runtime";
 const prisma = new PrismaClient();
 @Injectable()
 export class MerchantService {
+    async getSelfInfo(userId: any) {
+        const foundUser = await prisma.$queryRawUnsafe(
+            `select users_id, merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on users.id = users_id JOIN area on area.id = area_id where users.id = ${userId};`
+        );
+        return foundUser;
+    }
+
     //done
     async editMerProfile(merchantId: any, form: any) {
         const merchant: Prisma.MerchantUpdateInput = {
@@ -30,58 +37,86 @@ export class MerchantService {
     //     console.log(`update ${form} to merchant profile`);
     // }
     // ---------------------------------------------------------------------------------------------------------
+
+    async getAllItem(userId: any) {
+        const foundItem = await prisma.$queryRawUnsafe(
+            `select item.id, stock_status, availability, price, version, version_image, platform, product_name, merchant_name from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id JOIN users on users.id = users_id where users.id = ${userId};`
+        );
+        return foundItem;
+    }
+    // ---------------------------------------------------------------------------------------------------------
     //done
-    async uploadItems(merchantId: number, productId: number, versionIds: number[], itemData: any) {
-        console.log("yo itemData: ", itemData);
 
-        const product = await prisma.product.findUnique({
-            where: { id: productId },
-        });
-
-        if (!product) {
-            throw new Error("Invalid product ID");
-        }
-
-        const versions = await prisma.version.findMany({
-            where: { id: { in: versionIds } },
-        });
-
-        //有機會唔洗寫呢句
-        if (versionIds.length !== versions.length) {
-            throw new Error("Invalid version ID");
-        }
-
-        //重覆upload相同product and version
-        // const existingItems = await prisma.item.findMany({
-        //     where: {
-        //         merchant_id: merchantId,
-        //         product_id: productId,
-        //         version_id: { in: versionIds },
-        //     },
-        // });
-
-        // if (existingItems.length > 0) {
-        //     throw new Error("該商家已經上傳相同的版本或產品");
-        // }
-
-        const items = [];
-        for (const version of versions) {
-            const item = await prisma.item.create({
+    async uploadItems(form: any, merchantId: number) {
+        try {
+            const uploadItem = await prisma.item.create({
                 data: {
-                    ...itemData,
-                    merchant: { connect: { id: merchantId } },
-                    version: { connect: { id: version.id } },
-                    price: itemData.price,
-                    end_date: new Date(itemData.end_date),
-                    stock_status: itemData.stock_status,
-                    availability: itemData.availability,
+                    merchant_id: merchantId,
+                    version_id: form.version_id,
+                    end_date: new Date(form.end_date),
+                    price: parseInt(form.price),
+                    availability: form.availability,
+                    stock_status: form.stock_status,
                 },
             });
-            items.push(item);
+            return uploadItem;
+        } catch (error) {
+            console.error("Error creating item:", error);
+            throw new Error("Failed to create item");
         }
-
-        return { product, versions, items };
     }
+
+    // async uploadItems(merchantId: number, form:any) {
+    //     console.log("yo itemData: ", itemData);
+
+    //     const product = await prisma.product.findUnique({
+    //         where: { id: productId },
+    //     });
+
+    //     if (!product) {
+    //         throw new Error("Invalid product ID");
+    //     }
+
+    //     const versions = await prisma.version.findMany({
+    //         where: { id: { in: versionIds } },
+    //     });
+
+    //     //有機會唔洗寫呢句
+    //     if (versionIds.length !== versions.length) {
+    //         throw new Error("Invalid version ID");
+    //     }
+
+    //     //重覆upload相同product and version
+    //     // const existingItems = await prisma.item.findMany({
+    //     //     where: {
+    //     //         merchant_id: merchantId,
+    //     //         product_id: productId,
+    //     //         version_id: { in: versionIds },
+    //     //     },
+    //     // });
+
+    //     // if (existingItems.length > 0) {
+    //     //     throw new Error("該商家已經上傳相同的版本或產品");
+    //     // }
+
+    //     const items = [];
+    //     for (const version of versions) {
+    //         const item = await prisma.item.create({
+    //             data: {
+    //                 ...itemData,
+    //                 merchant: { connect: { id: merchantId } },
+    //                 version: { connect: { id: version.id } },
+    //                 price: itemData.price,
+    //                 end_date: new Date(itemData.end_date),
+    //                 stock_status: itemData.stock_status,
+    //                 availability: itemData.availability,
+    //             },
+    //         });
+    //         items.push(item);
+    //     }
+
+    //     return { product, versions, items };
+    // }
 
     // ---------------------------------------------------------------------------------------------------------
     updateItems(form: any) {
@@ -130,5 +165,24 @@ export class MerchantService {
     async getAllProducts() {
         const getAllProducts = await prisma.product.findMany();
         return getAllProducts;
+    }
+
+    // async getVersion(product_id: number) {
+    //     const product = await prisma.product.findUnique({
+    //         where: { id: Number(product_id) },
+    //         include: { versions: true },
+    //     });
+
+    //     if (product) {
+    //         const versionIds = product.versions.map((version) => version.id);
+    //         return versionIds;
+    //         console.log("Version IDs:", versionIds);
+    //     } else {
+    //         console.log("Product not found");
+    //     }
+    // }
+    async getAllVersion() {
+        const getAllVersion = await prisma.version.findMany();
+        return getAllVersion;
     }
 }

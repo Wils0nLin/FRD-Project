@@ -28,27 +28,8 @@ export declare class PublicController {
         })[];
     })[]>;
     searchText(Texts: string): Promise<unknown>;
-    getItem(): Promise<{
-        itemId: number;
-        merchantId: number;
-        merchantName: string;
-        merchantPhone: string;
-    } | {
-        error: any;
-    }>;
-    version(): Promise<{
-        versionId: number;
-        versionName: string;
-        items: {
-            itemId: number;
-            merchant: {
-                itemId: number;
-                merchantId: number;
-                merchantName: string;
-                merchantPhone: string;
-            };
-        }[];
-    }>;
+    version(id: number): Promise<unknown>;
+    item(id: number): Promise<unknown>;
     district(productId: any, versionId: any, district: any): void;
     area(productId: any, versionId: any, area: any): void;
     priceDesc(productId: any, versionId: any): Promise<(import(".prisma/client").Item & {
@@ -63,5 +44,4 @@ export declare class PublicController {
     })[]>;
     ratingDesc(productId: any, versionId: any): void;
     ratingAsce(productId: any, versionId: any): void;
-    searchItem(productId: any, versionId: any, string: Array<string>): void;
 }

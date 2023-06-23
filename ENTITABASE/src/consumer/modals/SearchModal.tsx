@@ -459,6 +459,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#rgba(0,0,0,0.8)',
+    height: 780,
   },
   modalStyle: {
     backgroundColor: '#2A2E32',
@@ -539,7 +540,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 155,
     height: 35,
-    backgroundColor: '#b57acf',
+    backgroundColor: '#7A04EB',
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#B7C1DE',

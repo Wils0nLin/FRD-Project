@@ -21,19 +21,23 @@ let MerchantController = exports.MerchantController = class MerchantController {
         this.merchantService = merchantService;
         this.publicService = publicService;
     }
+    async getSelfInfo(userId) {
+        return await this.merchantService.getSelfInfo(userId);
+    }
     async editMerProfile(merchantId, form) {
         return await this.merchantService.editMerProfile(merchantId, form);
     }
-    async uploadItems(itemData) {
+    async getAllItem(userId) {
+        return await this.merchantService.getAllItem(userId);
+    }
+    async uploadItems(form) {
         const merchantId = 1;
-        const productId = 2;
-        const versionIds = [3, 4];
         try {
-            const result = await this.merchantService.uploadItems(merchantId, productId, versionIds, itemData);
+            const result = await this.merchantService.uploadItems(form, merchantId);
             return { success: true, data: result };
         }
         catch (error) {
-            console.log("itemData: ", itemData);
+            console.log("itemData: ", error);
             return { success: false, error: error.message };
         }
     }
@@ -61,7 +65,17 @@ let MerchantController = exports.MerchantController = class MerchantController {
     getAllProducts() {
         return this.merchantService.getAllProducts();
     }
+    getAllVersion() {
+        return this.merchantService.getAllVersion();
+    }
 };
+__decorate([
+    (0, common_1.Get)("userInfo/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getSelfInfo", null);
 __decorate([
     (0, common_1.Put)("/profile/edit/:merchantId"),
     __param(0, (0, common_1.Param)("merchantId")),
@@ -70,6 +84,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "editMerProfile", null);
+__decorate([
+    (0, common_1.Get)("allItem/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getAllItem", null);
 __decorate([
     (0, common_1.Post)("uploadItems"),
     __param(0, (0, common_1.Body)()),
@@ -112,6 +133,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "getAllProducts", null);
+__decorate([
+    (0, common_1.Get)("product/version"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getAllVersion", null);
 exports.MerchantController = MerchantController = __decorate([
     (0, common_1.Controller)("merchant"),
     __metadata("design:paramtypes", [merchant_service_1.MerchantService,

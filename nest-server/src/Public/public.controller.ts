@@ -145,26 +145,18 @@ export class PublicController {
     }
 
     // only game version
-    //未完
-    @Get("/filter/version/:itemId/merchant")
-    async getItem() {
-        const itemId = 1;
-        try {
-            const merchant = await this.publicService.getMerchantByItemId(itemId);
-            return merchant;
-        } catch (error) {
-            return { error: error.message };
-        }
-    }
     //done
-    @Get("/filter/version")
-    version() {
-        let productId = 1;
-        let versionId = 1;
-        // const { productId, itemId } = body;
-        return this.publicService.version(productId, versionId);
+    @Get("/filter/versions/:id")
+    version(@Param("id") id: number) {
+        console.log('i am version con',id)
+        return this.publicService.searchVersion(id);
     }
+    @Get("/filter/Items/:id")
+    item(@Param("id") id: number) {
+        console.log('i am item con',id)
 
+        return this.publicService.searchItem(id);
+    }
     // @Get("filter/version")
     // version(@Body() productId: any, itemId: any) {
     //     productId = 1;
@@ -223,9 +215,5 @@ export class PublicController {
 
     // search for search bar typing for version
     //未完
-    @Get("filter/version/search")
-    searchItem(productId: any, versionId: any, string: Array<string>) {
-        return this.publicService.searchItem(productId, versionId, string);
-    }
-    //
+   
 }

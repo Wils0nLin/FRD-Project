@@ -1,0 +1,1 @@
+select item.price,item.stock_status,item.availability,item.end_date,merchant_name,merchant_phone,merchant.address,district.district from item join merchant on merchant_id = merchant.id join district on district.id = merchant.district_id where version_id=1;
