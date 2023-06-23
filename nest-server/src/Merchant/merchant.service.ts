@@ -166,7 +166,7 @@ export class MerchantService {
     // ---------------------------------------------------------------------------------------------------------
     async getOrderRecord(merId: any) {
         const foundRecord = await prisma.$queryRawUnsafe(
-            `select consumer_name, amount remain_payment, create_time, version, product_name from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`
+            `select consumer_name, amount remain_payment, create_time, version, product_name from "order" JOIN consumer on consumer.QRcode = consumer_QRcode JOIN item on item.id = item_id JOIN version on version.id = version_id JOIN product on product.id = product_id where merchant_id = ${merId} ORDER BY create_time DESC;`
         );
         return foundRecord;
     }

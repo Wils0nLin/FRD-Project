@@ -58,6 +58,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
         console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
     }
+    async getOrderRecord(merId) {
+        return await this.merchantService.getOrderRecord(merId);
+    }
     getAllProducts() {
         return this.merchantService.getAllProducts();
     }
@@ -130,6 +133,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "paymentConfirm", null);
+__decorate([
+    (0, common_1.Get)("orderRecord/:merId"),
+    __param(0, (0, common_1.Param)("merId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getOrderRecord", null);
 __decorate([
     (0, common_1.Get)("product"),
     __metadata("design:type", Function),

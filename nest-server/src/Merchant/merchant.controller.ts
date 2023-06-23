@@ -87,6 +87,11 @@ export class MerchantController {
         return this.merchantService.paymentConfirm(resultStatus);
     }
 
+    @Get("orderRecord/:merId")
+    async getOrderRecord(@Param("merId") merId: any) {
+        return await this.merchantService.getOrderRecord(merId);
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     // get all products
     @Get("product")

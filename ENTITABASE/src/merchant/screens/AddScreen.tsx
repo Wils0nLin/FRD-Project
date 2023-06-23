@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
+  Modal,
   View,
   Text,
   ScrollView,
@@ -11,21 +12,22 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {SafeAreaView, FlatList} from 'react-native';
-
+import {useSelector} from 'react-redux';
 import AddItemModal from '../modals/AddItemModal';
-
-import ForeheadView from '../../objects/MerchantForeheadView';
-2;
-
+import {useState, useEffect} from 'react';
+import MerchantForehead from '../../objects/MerchantForeheadView';
+import {IRootState} from '../../app/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Calendar} from 'react-native-calendars';
-import {useEffect} from 'react';
+
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
 
 export default function AddScreen({}) {
+  const userId = useSelector((state: IRootState) => state.auth.userId);
   const [Texts, onChangeTexts] = React.useState('');
   const [result, setResult] = React.useState<any>([]);
+  const [name, setName] = useState('');
 
   // get all data form DB
   const [ProductList, setProductList] = React.useState<Array<any>>([]);
@@ -53,6 +55,18 @@ export default function AddScreen({}) {
     Array<{id: number; product_name: string}>
   >([]);
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
+
+  const getUserData = async () => {
+    const resp = await fetch(
+      `http://192.168.160.77:3000/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    setName(data[0].merchant_name);
+  };
 
   const performSearch = (query: any) => {
     const results: any = ProductList.filter(item =>
@@ -84,7 +98,7 @@ export default function AddScreen({}) {
     setSelectProduct(null);
     setSelectVersion(null);
     onChangePrice('');
-    setStatus('');
+    // setStatus('');
     setAvailability(true);
   };
   // ---------------------------------------------------------------------------------------------------------
@@ -162,7 +176,7 @@ export default function AddScreen({}) {
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>增加商品</Text>
           <View style={styles.pageTitleLine} />
