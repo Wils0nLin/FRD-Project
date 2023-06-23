@@ -44,6 +44,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         return deleteWishList;
         console.log(`del product by id`);
     }
+    async getShopInfo(shopId) {
+        const foundShop = await prisma.$queryRawUnsafe(`select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`);
+        return foundShop;
+    }
     async createOrder(form) {
         console.log("iamser", form);
         const result = await prisma.$queryRaw `insert into orders ( consumer_QRcode,item_id,amount,order_status,payment,create_time) values (${form.QRcode},${form.itemId},${form.amount},${form.order_status},${form.payment},${form.create_time})`;

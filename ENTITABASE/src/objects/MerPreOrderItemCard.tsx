@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {Image, Text, View, StyleSheet} from 'react-native';
 
-import ItemUpdateModal from '../merchant/modals/ItemUpdateModal';
+import PreOrderItemUpdate from '../merchant/modals/PreOrderItemUpdate';
+import ItemPriceUpdate from '../merchant/modals/ItemPriceUpdate';
+import {useState} from 'react';
 
 type cardInfo = {
   id: number;
@@ -14,7 +17,9 @@ type cardInfo = {
   date: Date;
 };
 
-export default function MerchantItemCard(props: cardInfo) {
+export default function MerPerOrderItemCard(props: cardInfo) {
+  const [status, setStatus] = useState(props.status);
+
   return (
     <View style={styles.screenCardBackground}>
       <View style={styles.screenCardLine} />
@@ -41,14 +46,25 @@ export default function MerchantItemCard(props: cardInfo) {
           alignItems: 'flex-end',
           justifyContent: 'space-between',
         }}>
-        <ItemUpdateModal
-          id={props.id}
-          name={props.name}
-          version={props.version}
-          status={props.status}
-          price={props.price}
-          date={props.date}
-        />
+        {status === '預購中' ? (
+          <PreOrderItemUpdate
+            id={props.id}
+            name={props.name}
+            version={props.version}
+            status={props.status}
+            price={props.price}
+            date={props.date}
+          />
+        ) : (
+          <ItemPriceUpdate
+            id={props.id}
+            name={props.name}
+            version={props.version}
+            status={props.status}
+            price={props.price}
+            date={props.date}
+          />
+        )}
         <Text style={{fontSize: 20}}>HK$ {props.price}.00</Text>
       </View>
     </View>

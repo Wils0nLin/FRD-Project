@@ -58,7 +58,7 @@ export default function ConRegister({navigation}: any) {
         consumer_phone: Phone,
       };
       axios
-        .post('http://192.168.160.142:3000/public/register/conRegister', form)
+        .post('http://192.168.132.70:3000/public/register/conRegister', form)
         .then(function (response) {
           console.log(response);
           Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的遊戲世界吧');
@@ -188,6 +188,7 @@ export default function ConRegister({navigation}: any) {
                   onChangeText={nextValue => setPhone(nextValue)}
                   value={Phone}
                   placeholder="請輸入電話號碼"
+                  keyboardType={'numeric'}
                 />
               </View>
             </View>

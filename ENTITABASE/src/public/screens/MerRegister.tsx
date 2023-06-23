@@ -373,6 +373,7 @@ const MerRegister = ({navigation}: any) => {
                   onChangeText={nextValue => setPhone(nextValue)}
                   value={Phone}
                   placeholder="請輸入電話號碼"
+                  keyboardType={'numeric'}
                 />
               </View>
             </View>
@@ -467,6 +468,7 @@ const MerRegister = ({navigation}: any) => {
                 onChangeText={nextValue => setAccountNum(nextValue)}
                 value={accountNum}
                 placeholder="請輸入銀行帳號"
+                keyboardType={'numeric'}
               />
             </View>
           </Layout>

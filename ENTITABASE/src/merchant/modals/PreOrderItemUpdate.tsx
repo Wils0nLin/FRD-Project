@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable radix */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
@@ -10,11 +11,12 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import {SelectList} from 'react-native-dropdown-select-list';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from '../../public/navigators/StackParamList';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+
 type cardInfo = {
   id: number;
   name: string;
@@ -24,27 +26,23 @@ type cardInfo = {
   date: Date;
 };
 
-export default function ItemUpdateModal(props: cardInfo) {
+export default function PreOrderItemUpdate(props: cardInfo) {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
   const [price, onChangePrice] = useState(props.price);
-  const [status, onChangeStatus] = useState(props.status);
-
-  const statusList = [
-    {key: '1', value: '大量現貨'},
-    {key: '2', value: '尚有現貨'},
-    {key: '3', value: '少量現貨'},
-  ];
+  const [date, setDate] = useState(props.date);
+  const dateStr = '' + date;
+  const [selected, setSelected] = useState(dateStr.slice(0, 10));
 
   const Submit = async () => {
     const form = {
       price: parseInt(price),
-      stock_status: status,
-      end_date: props.date,
+      stock_status: props.status,
+      end_date: new Date(selected),
     };
     console.log(form);
     const resp = await fetch(
-      `http://192.168.132.70:3000/merchant/update/${props.id}`,
+      `http://192.168.160.142:3000/merchant/update/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -79,9 +77,7 @@ export default function ItemUpdateModal(props: cardInfo) {
                   justifyContent: 'space-between',
                 }}>
                 <View style={styles.pageTitle}>
-                  <Text style={{fontSize: 20, color: '#E4E4E4'}}>
-                    商品資料修改
-                  </Text>
+                  <Text style={{fontSize: 20}}>商品資料修改</Text>
                   <View style={styles.pageTitleLine} />
                 </View>
                 <TouchableOpacity
@@ -121,27 +117,41 @@ export default function ItemUpdateModal(props: cardInfo) {
                 </View>
               </View>
               <View style={styles.subTitle}>
-                <FontAwesome5 name={'boxes'} size={15} color={'#E4E4E4'} />
-                <Text style={styles.subTitleText}>存貨情況</Text>
+                <FontAwesome5
+                  name={'calendar-times'}
+                  size={15}
+                  color={'#E4E4E4'}
+                />
+                <Text style={styles.subTitleText}>停止預購日期</Text>
               </View>
-              <SelectList
-                setSelected={onChangeStatus}
-                data={statusList}
-                save="value"
-                search={false}
-                arrowicon={
-                  <FontAwesome5
-                    name={'angle-down'}
-                    size={20}
-                    color={'#E4E4E4'}
-                  />
-                }
-                boxStyles={styles.modalDropList}
-                placeholder={status}
-                dropdownStyles={styles.dropList}
-                dropdownTextStyles={styles.textInput}
-                inputStyles={styles.textInput}
-              />
+              <View style={{width: 320, alignItems: 'center'}}>
+                <Calendar
+                  current={selected}
+                  onDayPress={day => {
+                    setSelected(day.dateString);
+                  }}
+                  style={{
+                    width: 300,
+                    marginLeft: 15,
+                  }}
+                  markedDates={{
+                    [selected]: {
+                      selected: true,
+                      disableTouchEvent: true,
+                    },
+                  }}
+                  theme={{
+                    selectedDayBackgroundColor: '#ffffff',
+                    selectedDayTextColor: '#7A04EB',
+                    calendarBackground: '#2A2E32',
+                    dayTextColor: '#E4E4E4',
+                    todayTextColor: '#defe47',
+                    monthTextColor: '#E4E4E4',
+                    textDisabledColor: '#2A2E32',
+                  }}
+                />
+              </View>
+
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => Submit()}>
@@ -205,7 +215,16 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
   },
-  subTitleText: {width: 80, marginLeft: 10, fontSize: 17, color: '#E4E4E4'},
+  subTitleText: {width: 100, marginLeft: 10, fontSize: 17},
+  modalInputBox: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    marginTop: 3,
+    marginBottom: 10,
+    marginHorizontal: 8,
+    width: 320,
+  },
   modelTargetPrice: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -272,7 +291,8 @@ const styles = StyleSheet.create({
     borderColor: '#7A04EB',
   },
   textInput: {fontSize: 17, padding: 0, color: '#E4E4E4', width: 200},
-  updateNameText: {marginLeft: 8, fontSize: 20, color: '#E4E4E4'},
+  buttonTextWithIcon: {fontSize: 15, marginLeft: 8},
+  updateNameText: {marginLeft: 8, fontSize: 20},
   modalInput: {
     flexDirection: 'row',
     alignItems: 'center',

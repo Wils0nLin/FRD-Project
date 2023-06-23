@@ -26,9 +26,14 @@ export class MerchantController {
     //     return this.merchantService.editProfile(form);
     // }
     // ---------------------------------------------------------------------------------------------------------
-    @Get("allItem/:userId")
-    async getAllItem(@Param("userId") userId: any) {
-        return await this.merchantService.getAllItem(userId);
+    @Get("allItem/:merId")
+    async getAllItem(@Param("merId") merId: any) {
+        return await this.merchantService.getAllItem(merId);
+    }
+
+    @Get("comment/:merId")
+    async getComment(@Param("merId") merId: any) {
+        return await this.merchantService.getComment(merId);
     }
 
     //商戶upload game
@@ -54,36 +59,18 @@ export class MerchantController {
     //     return this.merchantService.upLoadItems(form);
     // }
     // ---------------------------------------------------------------------------------------------------------
-
-    @Post("update")
-    updateItems(@Body() form: any) {
-        return this.merchantService.updateItems(form);
-    }
-
-    // ---------------------------------------------------------------------------------------------------------
     //更改item嘅狀態，係可預訂，完結預訂，有存貨
-    @Put("changeStatus/:itemId")
-    //done but not firm
-    async changeItemStatus(
-        @Param("itemId") itemId: number,
-        @Body() formData: { stock_status: any }
-    ) {
-        try {
-            const changeItemStatus = await this.merchantService.changeItemStatus(
-                itemId,
-                formData.stock_status
-            );
-            console.log(changeItemStatus);
 
-            return { success: true, data: changeItemStatus };
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
-        // console.log(
-        //     `change item status to 3 possible status "receiving pre-order","end of pre-order","in-stock",if start pre-order update period of time `
-        // );
-        // return this.merchantService.changeItemStatus(itemId, newState);
+    @Put("update/:itemId")
+    updateItems(@Param("itemId") itemId: any, @Body() form: any) {
+        return this.merchantService.updateItems(itemId, form);
     }
+
+    @Put("delete/:itemId")
+    deleteItems(@Param("itemId") itemId: any) {
+        return this.merchantService.deleteItems(itemId);
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     //
     @Get("scanner/:userId")

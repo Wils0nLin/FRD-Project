@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useEffect} from 'react';
 import {

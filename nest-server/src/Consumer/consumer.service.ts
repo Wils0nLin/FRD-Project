@@ -97,6 +97,14 @@ export class ConsumerService {
         console.log(`del product by id`);
     }
     // ---------------------------------------------------------------------------------------------------------
+    async getShopInfo(shopId: any) {
+        const foundShop = await prisma.$queryRawUnsafe(
+            `select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`
+        );
+        return foundShop;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
     async createOrder(form: any) {
         console.log("iamser", form);
         const result =

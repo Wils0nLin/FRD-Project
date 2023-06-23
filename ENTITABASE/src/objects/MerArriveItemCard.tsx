@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {Image, Text, View, StyleSheet} from 'react-native';
+import {useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 
-import ItemUpdateModal from '../merchant/modals/ItemUpdateModal';
+import MerItemRelease from '../merchant/modals/MerItemRelease';
 
 type cardInfo = {
   id: number;
@@ -14,7 +16,9 @@ type cardInfo = {
   date: Date;
 };
 
-export default function MerchantItemCard(props: cardInfo) {
+export default function MerArriveItemCard(props: cardInfo) {
+  const [status, setStatus] = useState(props.status);
+
   return (
     <View style={styles.screenCardBackground}>
       <View style={styles.screenCardLine} />
@@ -31,7 +35,7 @@ export default function MerchantItemCard(props: cardInfo) {
         <Text
           style={{width: 165, fontSize: 18, color: '#E4E4E4'}}
           numberOfLines={1}>
-          {props.name + ' ' + props.version}
+          {props.name}
         </Text>
         <Text style={styles.screenCardText1}>遊玩平台：{props.platform}</Text>
         <Text style={styles.screenCardText2}>{props.status}</Text>
@@ -41,7 +45,7 @@ export default function MerchantItemCard(props: cardInfo) {
           alignItems: 'flex-end',
           justifyContent: 'space-between',
         }}>
-        <ItemUpdateModal
+        <MerItemRelease
           id={props.id}
           name={props.name}
           version={props.version}
