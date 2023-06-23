@@ -24,6 +24,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async getSelfInfo(userId) {
         return await this.consumerService.getSelfInfo(userId);
     }
+    async test(userId) {
+        return await this.consumerService.test();
+    }
     async uploadWishList(formData) {
         let consumerId = 2;
         let productId = 2;
@@ -58,11 +61,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     displayOrderHistory(JWTpayload) {
         return this.publicService.displayOrderHistory(JWTpayload);
     }
-    createOrder(itemId) {
-        try {
-        }
-        catch (error) { }
-        return this.consumerService.createOrder(itemId);
+    createOrder(form) {
+        console.log(form);
+        return this.consumerService.createOrder(form);
     }
     paymentConfirm(paymentstatus) {
         return this.consumerService.paymentConfirm(paymentstatus);
@@ -76,11 +77,6 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async editPassword(userId, form) {
         return await this.consumerService.editPassword(userId, form);
     }
-    feedback(reaction) {
-        let merchantId = 1;
-        let consumerId = 1;
-        return this.consumerService.feedback(reaction.comment, reaction.rating, merchantId, consumerId);
-    }
 };
 __decorate([
     (0, common_1.Get)("userInfo/:userId"),
@@ -89,6 +85,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "getSelfInfo", null);
+__decorate([
+    (0, common_1.Get)("test"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "test", null);
 __decorate([
     (0, common_1.Post)("wishlist/upload"),
     __param(0, (0, common_1.Body)()),
@@ -125,8 +128,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "displayOrderHistory", null);
 __decorate([
-    (0, common_1.Post)("order/create/:itemId"),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Post)("order/create"),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
@@ -162,13 +165,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "editPassword", null);
-__decorate([
-    (0, common_1.Post)("reaction/feedback/"),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], ConsumerController.prototype, "feedback", null);
 exports.ConsumerController = ConsumerController = __decorate([
     (0, common_1.Controller)("consumer"),
     __metadata("design:paramtypes", [consumer_service_1.ConsumerService,

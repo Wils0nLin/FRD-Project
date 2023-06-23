@@ -5,6 +5,7 @@ export declare class ConsumerController {
     private readonly publicService;
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
+    test(userId: any): Promise<unknown>;
     uploadWishList(formData: any): Promise<{
         success: boolean;
         data: void;
@@ -26,10 +27,9 @@ export declare class ConsumerController {
     getShopInfo(shopId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): void;
     displayOrderHistory(JWTpayload: any): void;
-    createOrder(itemId: any): void;
+    createOrder(form: any): Promise<unknown>;
     paymentConfirm(paymentstatus: any): void;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;
-    feedback(reaction: any): Promise<import(".prisma/client").Feedback>;
 }

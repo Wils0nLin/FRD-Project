@@ -16,6 +16,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
     }
+    async test() {
+        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
+        return foundUser;
+    }
     async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
             where: {
@@ -44,8 +48,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const foundShop = await prisma.$queryRawUnsafe(`select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`);
         return foundShop;
     }
-    createOrder(itemId) {
-        console.log(`upload items to `);
+    async createOrder(form) {
+        console.log("iamser", form);
+        const result = await prisma.$queryRaw `insert into orders ( consumer_QRcode,item_id,amount,order_status,payment,create_time) values (${form.QRcode},${form.itemId},${form.amount},${form.order_status},${form.payment},${form.create_time})`;
+        return result;
     }
     paymentConfirm(paymentStatus) {
         console.log(`confirm payment success or not if  change status`);
@@ -90,18 +96,6 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
             });
             return true;
         }
-    }
-    async feedback(comment, merchantId, consumerId, rating) {
-        const savedFeedback = await prisma.feedback.create({
-            data: {
-                comment: comment,
-                merchant: { connect: { id: merchantId } },
-                consumer: { connect: { id: consumerId } },
-                rating: rating,
-            },
-        });
-        return savedFeedback;
-        console.log(`insert feedback`);
     }
 };
 exports.ConsumerService = ConsumerService = __decorate([

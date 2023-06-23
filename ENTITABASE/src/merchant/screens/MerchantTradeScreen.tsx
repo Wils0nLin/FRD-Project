@@ -10,7 +10,6 @@ import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
-import PageView from '../../objects/PageView';
 
 export default function TradeScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -43,14 +42,13 @@ export default function TradeScreen({}) {
           <Text style={{fontSize: 20}}>過往交易</Text>
           <View style={styles.pageTitleLine} />
         </View>
-        <View style={{width: 350}}>
+        <View style={{width: 350, marginBottom: 100}}>
           <TradeRecordModal />
           <TradeRecordModal />
           <TradeRecordModal />
           <TradeRecordModal />
           <TradeRecordModal />
         </View>
-        {PageView()}
       </SafeAreaView>
     </ScrollView>
   );
