@@ -23,19 +23,19 @@ function QRScanScreen(this: scanner) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
   const [name, setName] = useState('');
 
-  const getData = async () => {
-    const resp = await fetch(
-      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
-      {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-      },
-    );
-    const data = await resp.json();
-    console.log(data);
-    setName(data[0].merchant_name);
-  };
   useEffect(() => {
+    const getData = async () => {
+      const resp = await fetch(
+        `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
+      );
+      const data = await resp.json();
+      console.log(data);
+      setName(data[0].merchant_name);
+    };
     getData();
   }, []);
 
@@ -57,8 +57,9 @@ function QRScanScreen(this: scanner) {
             ref={node => {
               this.scanner = node;
             }}
-            onRead={() => {
-              navigation.navigate('MerchantOrderInfo');
+            onRead={e => {
+              console.log(e.data);
+              navigation.navigate('MerchantOrderInfo', {QRcode: e.data});
               this.scanner.reactivate();
             }}
           />

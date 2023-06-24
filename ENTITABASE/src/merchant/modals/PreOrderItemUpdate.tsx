@@ -38,7 +38,7 @@ export default function PreOrderItemUpdate(props: cardInfo) {
     const form = {
       price: parseInt(price),
       stock_status: props.status,
-      end_date: new Date(selected),
+      end_date: selected,
     };
     console.log(form);
     const resp = await fetch(

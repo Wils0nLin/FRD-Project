@@ -4,30 +4,73 @@ import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
 
-import TradeRecordModal from '../modals/MerchantTradeRecordModal';
+import MerTradeRecordModal from '../modals/MerTradeRecordModal';
 
 import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
 
+interface record {
+  amount: number;
+  product_name: string;
+  version: string;
+}
+
 export default function TradeScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
   const [name, setName] = useState('');
+  const [list, setList] = useState<Array<any>>([]);
+  const [infoList, setInfoList] = useState<Array<record>>([]);
 
-  const getData = async () => {
-    const resp = await fetch(
-      `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
-      {
+  let tradeItem: Array<any> = [];
+
+  useEffect(() => {
+    const getData = async () => {
+      let dataArr: any;
+      let id: any;
+      console.log(userId);
+      await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
-      },
-    );
-    const data = await resp.json();
-    console.log(data);
-    setName(data[0].merchant_name);
-  };
-  useEffect(() => {
+      })
+        .then(response => response.json())
+        .then(data => {
+          setName(data[0].merchant_name);
+          id = data[0].id;
+          console.log(id);
+        });
+
+      await fetch(`http://192.168.160.142:3000/merchant/orderRecord/${id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+        .then(response => response.json())
+        .then(data => {
+          setList(data);
+          dataArr = data;
+        });
+
+      for (let item of dataArr) {
+        let form = {
+          conId: item.id,
+          merId: id,
+          create_time: item.create_time,
+        };
+
+        await fetch('http://192.168.160.142:3000/merchant/tradeInfo/', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(form),
+        })
+          .then(r => r.json())
+          .then(d => tradeItem.push(d));
+      }
+
+      setInfoList(tradeItem);
+
+      console.log(infoList);
+    };
     getData();
   }, []);
 
@@ -43,17 +86,20 @@ export default function TradeScreen({}) {
           <View style={styles.pageTitleLine} />
         </View>
         <View style={{width: 350, marginBottom: 100}}>
-          <TradeRecordModal />
-          <TradeRecordModal />
-          <TradeRecordModal />
-          <TradeRecordModal />
-          <TradeRecordModal />
+          {list.map(items => (
+            <MerTradeRecordModal
+              recordArr={infoList[list.indexOf(items)]}
+              name={items.consumer_name}
+              order={items.numberoforders}
+              amount={items.amountoforders}
+              date={items.create_time}
+            />
+          ))}
         </View>
       </SafeAreaView>
     </ScrollView>
   );
 }
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

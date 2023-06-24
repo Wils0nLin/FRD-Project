@@ -50,16 +50,23 @@ let MerchantController = exports.MerchantController = class MerchantController {
     deleteItems(itemId) {
         return this.merchantService.deleteItems(itemId);
     }
-    pairUserId(parms) {
-        console.log(`scanning the consumer qr code will get the item by merchant id and consumer id `);
-        return this.merchantService.pairUserId(parms.userId);
+    async getPreOrderItem(merId) {
+        return await this.merchantService.getPreOrderItem(merId);
     }
-    paymentConfirm(resultStatus) {
-        console.log("get payment result by stripe any display success or not");
-        return this.merchantService.paymentConfirm(resultStatus);
+    async getPreOrderRecord(itemId) {
+        return await this.merchantService.getPreOrderRecord(itemId);
     }
     async getOrderRecord(merId) {
         return await this.merchantService.getOrderRecord(merId);
+    }
+    async getTradeInfo(form) {
+        return await this.merchantService.getTradeInfo(form);
+    }
+    async getOrderInfo(form) {
+        return await this.merchantService.getOrderInfo(form);
+    }
+    async updateOrder(orderId) {
+        return await this.merchantService.updateOrder(orderId);
     }
     getAllProducts() {
         return this.merchantService.getAllProducts();
@@ -120,19 +127,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "deleteItems", null);
 __decorate([
-    (0, common_1.Get)("scanner/:userId"),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.Get)("preOrderItem/:merId"),
+    __param(0, (0, common_1.Param)("merId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], MerchantController.prototype, "pairUserId", null);
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getPreOrderItem", null);
 __decorate([
-    (0, common_1.Post)("Result"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)("preOrderRecord/:itemId"),
+    __param(0, (0, common_1.Param)("itemId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], MerchantController.prototype, "paymentConfirm", null);
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getPreOrderRecord", null);
 __decorate([
     (0, common_1.Get)("orderRecord/:merId"),
     __param(0, (0, common_1.Param)("merId")),
@@ -140,6 +147,27 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MerchantController.prototype, "getOrderRecord", null);
+__decorate([
+    (0, common_1.Post)("tradeInfo/"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getTradeInfo", null);
+__decorate([
+    (0, common_1.Post)("orderInfo/"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getOrderInfo", null);
+__decorate([
+    (0, common_1.Put)("updateOrder/:orderId"),
+    __param(0, (0, common_1.Param)("orderId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "updateOrder", null);
 __decorate([
     (0, common_1.Get)("product"),
     __metadata("design:type", Function),

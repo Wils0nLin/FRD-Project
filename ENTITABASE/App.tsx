@@ -17,7 +17,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <ApplicationProvider {...eva} theme={eva.dark}>
-        {/* <NavigationContainer>
+        <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
               headerShown: false,
@@ -26,9 +26,7 @@ export default function App() {
             <Stack.Screen name="Consumer" component={ConsumerTabNavigator} />
             <Stack.Screen name="Merchant" component={MerchantTabNavigator} />
           </Stack.Navigator>
-        </NavigationContainer> */}
-
-        <AddScreen />
+        </NavigationContainer>
       </ApplicationProvider>
     </Provider>
   );

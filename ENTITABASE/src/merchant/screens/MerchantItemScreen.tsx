@@ -94,7 +94,7 @@ export default function MerchantItemScreen({}) {
       <SafeAreaView style={styles.safeArea}>
         <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
-          <Text style={{fontSize: 20}}>商品一覽</Text>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>商品一覽</Text>
           <View style={styles.pageTitleLine} />
         </View>
         <View style={styles.tabButtonBox}>
@@ -210,7 +210,6 @@ const styles = StyleSheet.create({
     borderColor: '#2A2E32',
   },
   tagSearchBar: {
-    marginLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
