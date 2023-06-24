@@ -16,12 +16,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
 import MerchantCenterScreen from '../screens/MerchantCenterScreen';
 import ConGameInfoScreen from '../../consumer/navigation/tab/consumer/conGameInfoScreen';
-<<<<<<< HEAD
 // import MerRegister from '../screens/MerRegister';
 import ReverseHeader from '../../consumer/navigation/ReverseHeader';
 import ConMerInfoScreen from '../../consumer/navigation/tab/consumer/ConMerInfoScreen';
-=======
->>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
 // import GameInfoScreen from '../../consumer/navigation/tab/consumer/GameInfoScreen';
 const Stack = createNativeStackNavigator();
 
