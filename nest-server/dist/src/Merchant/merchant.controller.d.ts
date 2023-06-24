@@ -19,9 +19,12 @@ export declare class MerchantController {
     }>;
     updateItems(itemId: any, form: any): Promise<boolean>;
     deleteItems(itemId: any): Promise<boolean>;
-    pairUserId(parms: any): void;
-    paymentConfirm(resultStatus: any): void;
+    getPreOrderItem(merId: any): Promise<unknown>;
+    getPreOrderRecord(itemId: any): Promise<unknown>;
     getOrderRecord(merId: any): Promise<unknown>;
+    getTradeInfo(form: any): Promise<unknown>;
+    getOrderInfo(form: any): Promise<unknown>;
+    updateOrder(orderId: any): Promise<boolean>;
     getAllProducts(): Promise<import(".prisma/client").Product[]>;
     getAllVersion(): Promise<import(".prisma/client").Version[]>;
     getMerchantInfo(): Promise<import(".prisma/client").Merchant[]>;

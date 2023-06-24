@@ -1,11 +1,22 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal, Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import TradeRecordCard from '../../objects/TradeRecordCard';
 
-export default function OrderRecordModal() {
+type cardInfo = {
+  name: string;
+  order: number;
+  amount: number;
+  date: string;
+  recordArr: any;
+};
+
+export default function MerTradeRecordModal(props: any) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [list, setList] = useState<Array<any>>(props.recordArr);
 
   return (
     <View>
@@ -25,60 +36,69 @@ export default function OrderRecordModal() {
                   justifyContent: 'space-between',
                 }}>
                 <View style={styles.pageTitle}>
-                  <Text style={{fontSize: 20}}>訂單詳情</Text>
+                  <Text style={{fontSize: 20, color: '#E4E4E4'}}>交易詳情</Text>
                   <View style={styles.pageTitleLine} />
                 </View>
                 <TouchableOpacity
                   style={{margin: 5, marginHorizontal: 10}}
                   onPress={() => setModalVisible(!modalVisible)}>
-                  <Icon name={'times'} size={40} color={'#E4E4E4'} />
+                  <FontAwesome5 name={'times'} size={40} color={'#E4E4E4'} />
                 </TouchableOpacity>
               </View>
               <View style={styles.subTitle}>
-                <Icon name={'user-clock'} size={15} color={'#E4E4E4'} />
+                <FontAwesome5
+                  name={'shopping-bag'}
+                  size={15}
+                  color={'#E4E4E4'}
+                />
                 <Text style={styles.subTitleText}>買家</Text>
               </View>
               <TouchableOpacity style={styles.modalUpdateName}>
-                <Text style={styles.updateNameText}>KA HEUNG LIN</Text>
+                <Text style={styles.updateNameText}>{props.name}</Text>
               </TouchableOpacity>
               <View style={styles.doubleSupTitle}>
                 <View style={styles.miniTitle}>
-                  <Icon name={'cube'} size={15} color={'#E4E4E4'} />
+                  <FontAwesome5 name={'cube'} size={15} color={'#E4E4E4'} />
                   <Text style={styles.subTitleText}>商品項目</Text>
                 </View>
                 <View style={styles.miniTitle}>
-                  <Icon name={'dollar-sign'} size={15} color={'#E4E4E4'} />
+                  <FontAwesome5
+                    name={'dollar-sign'}
+                    size={15}
+                    color={'#E4E4E4'}
+                  />
                   <Text style={styles.subTitleText}>金額</Text>
                 </View>
               </View>
               <View style={{marginBottom: 5}}>
-                <View style={styles.modalItemBox}>
-                  <Text style={styles.orderItemText}>寶可夢 朱</Text>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Icon name={'times'} size={10} color={'#E4E4E4'} />
-                    <Text style={styles.orderInfoText}>1</Text>
-                  </View>
-                  <Text style={styles.orderInfoText}>200.00</Text>
-                </View>
-                <View style={styles.modalItemBox}>
-                  <Text style={styles.orderItemText}>寶可夢 紫</Text>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Icon name={'times'} size={10} color={'#E4E4E4'} />
-                    <Text style={styles.orderInfoText}>1</Text>
-                  </View>
-                  <Text style={styles.orderInfoText}>200.00</Text>
-                </View>
-                <View style={styles.modalItemBox}>
-                  <Text style={styles.orderItemText}>寶可夢 朱／紫 雙包裝</Text>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Icon name={'times'} size={10} color={'#E4E4E4'} />
-                    <Text style={styles.orderInfoText}>1</Text>
-                  </View>
-                  <Text style={styles.orderInfoText}>200.00</Text>
-                </View>
+                {props.recordArr ? (
+                  props.recordArr.map((items: any) => (
+                    <View style={styles.modalItemBox}>
+                      <Text style={styles.orderItemText}>
+                        {items.product_name + ' ' + items.version}
+                      </Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <FontAwesome5
+                          name={'times'}
+                          size={10}
+                          color={'#E4E4E4'}
+                        />
+                        <Text style={styles.orderInfoText}>1</Text>
+                      </View>
+                      <Text style={styles.orderInfoText}>
+                        {items.amount}.00
+                      </Text>
+                    </View>
+                  ))
+                ) : (
+                  <></>
+                )}
                 <View style={styles.modalOrderBox}>
-                  <Text style={styles.orderMainText}>總訂金：</Text>
-                  <Text style={styles.orderMainText}>HK$ 600.00</Text>
+                  <Text style={styles.orderMainText}>總金額：</Text>
+                  <Text style={styles.orderMainText}>
+                    HK$ {props.amount}.00
+                  </Text>
                 </View>
               </View>
             </View>
@@ -86,37 +106,12 @@ export default function OrderRecordModal() {
         </View>
       </Modal>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <View style={styles.screenCardBackground}>
-          <View style={styles.screenCardLine} />
-          <View style={styles.screenCardIcon}>
-            <Icon name={'hourglass-half'} size={25} color={'#E4E4E4'} solid />
-          </View>
-          <View>
-            <Text style={{width: 165, fontSize: 20}} numberOfLines={1}>
-              KA HEUNG LIN
-            </Text>
-            <View style={styles.screenCardInfo}>
-              <View style={styles.screenCardList}>
-                <View style={styles.screenCardListIcon}>
-                  <Icon name={'cube'} size={15} color={'#E4E4E4'} solid />
-                </View>
-                <Text style={{fontSize: 17}}>共 3 件商品</Text>
-              </View>
-              <View style={styles.screenCardList}>
-                <View style={styles.screenCardListIcon}>
-                  <Icon
-                    name={'dollar-sign'}
-                    size={15}
-                    color={'#E4E4E4'}
-                    solid
-                  />
-                </View>
-                <Text style={{fontSize: 17}}>已收訂金 HK$ 600.00</Text>
-              </View>
-            </View>
-          </View>
-          <Text style={{paddingTop: 5}}>2023年6月3日</Text>
-        </View>
+        <TradeRecordCard
+          name={props.name}
+          order={props.order}
+          amount={props.amount}
+          date={props.date}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -196,7 +191,7 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingLeft: 10,
   },
-  subTitleText: {width: 80, marginLeft: 10, fontSize: 17},
+  subTitleText: {width: 80, marginLeft: 10, fontSize: 17, color: '#E4E4E4'},
   doubleSupTitle: {
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -216,6 +211,7 @@ const styles = StyleSheet.create({
   },
   modalItemBox: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 3,
     marginHorizontal: 30,
@@ -264,8 +260,8 @@ const styles = StyleSheet.create({
     borderTopColor: '#7D7D7D',
   },
   buttonTextWithIcon: {fontSize: 15, marginLeft: 8},
-  updateNameText: {marginLeft: 8, fontSize: 20},
-  orderItemText: {marginLeft: 3, width: 170, fontSize: 15},
-  orderInfoText: {marginLeft: 3, fontSize: 15},
-  orderMainText: {marginLeft: 3, fontSize: 25},
+  updateNameText: {marginLeft: 8, fontSize: 20, color: '#E4E4E4'},
+  orderItemText: {marginLeft: 3, width: 170, fontSize: 13, color: '#E4E4E4'},
+  orderInfoText: {marginLeft: 3, fontSize: 15, color: '#E4E4E4'},
+  orderMainText: {marginLeft: 3, fontSize: 25, color: '#E4E4E4'},
 });

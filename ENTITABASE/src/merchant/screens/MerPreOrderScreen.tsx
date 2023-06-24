@@ -4,31 +4,42 @@ import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
 
-import OrderRecordModal from '../modals/MerchantOrderRecordModal';
+import MerOrderRecordModal from '../modals/MerOrderRecordModal';
 
 import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
-import PageView from '../../objects/PageView';
 
-export default function PreOrderScreen({}) {
+export default function MerPreOrderScreen({route}: any) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
+  const {itemId} = route.params;
   const [name, setName] = useState('');
+  const [list, setList] = useState<Array<any>>([]);
 
-  const getData = async () => {
-    const resp = await fetch(
-      `http://13.213.207.204/merchant/userInfo/${userId}`,
-      {
+  useEffect(() => {
+    const getData = async () => {
+      await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
-      },
-    );
-    const data = await resp.json();
-    console.log(data);
-    setName(data[0].merchant_name);
-  };
-  useEffect(() => {
+      })
+        .then(response => response.json())
+        .then(data => {
+          setName(data[0].merchant_name);
+        });
+
+      await fetch(
+        `http://192.168.160.142:3000/merchant/preOrderRecord/${itemId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
+      )
+        .then(response => response.json())
+        .then(data => {
+          setList(data);
+        });
+    };
     getData();
   }, []);
 
@@ -43,19 +54,20 @@ export default function PreOrderScreen({}) {
           <Text style={{fontSize: 20}}>預購訂單</Text>
           <View style={styles.pageTitleLine} />
         </View>
-        <View style={{width: 350}}>
-          <OrderRecordModal />
-          <OrderRecordModal />
-          <OrderRecordModal />
-          <OrderRecordModal />
-          <OrderRecordModal />
+        <View style={{width: 350, marginBottom: 100}}>
+          {list.map(items => (
+            <MerOrderRecordModal
+              consumer={items.consumer_name}
+              name={items.full_name}
+              amount={items.amount}
+              date={items.create_time}
+            />
+          ))}
         </View>
-        {PageView()}
       </SafeAreaView>
     </ScrollView>
   );
 }
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

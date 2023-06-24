@@ -13,7 +13,7 @@ import CommentScreen from '../screens/CommentScreen';
 import MerchantHomeScreen from '../screens/MerchantHomeScreen';
 import ItemScreen from '../screens/MerchantItemScreen';
 import PreOrderItemScreen from '../screens/MerchantPreOrderItemScreen';
-import PreOrderScreen from '../screens/MerchantPreOrderScreen';
+import MerPreOrderScreen from '../screens/MerPreOrderScreen';
 import TradeScreen from '../screens/MerchantTradeScreen';
 import InfoEditScreen from '../screens/MerchantInfoEditScreen';
 import AnnoEditScreen from '../screens/AnnoEditScreen';
@@ -107,7 +107,7 @@ const MerchantScreenNavigator = () => {
       />
       <Stack.Screen
         name="MerchantPreOrder"
-        component={PreOrderScreen}
+        component={MerPreOrderScreen}
         options={{
           headerBackVisible: false,
           headerTitle: 'PRE-ORDER',
