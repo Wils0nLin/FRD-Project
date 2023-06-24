@@ -53,7 +53,7 @@ async function main() {
             {
                 product_status: true,
                 product_name: "寶可夢朱紫",
-                product_image: "../imageUpload/imageProduct/PKM朱紫.jpeg",
+                product_image: Buffer.from('../../ENTITABASE/src/assets/images/pikmin4.jpg'),
                 release_date: "2022-11-18",
                 product_intro: "Hi",
                 view: 0,
@@ -62,7 +62,7 @@ async function main() {
             {
                 product_status: true,
                 product_name: "薩爾達傳說王國之淚",
-                product_image: "../imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg",
+                product_image: Buffer.from('../../ENTITABASE/src/assets/images/zelda.jpg'),
                 release_date: "2023-06-06",
                 product_intro: "Hi",
                 view: 0,
@@ -71,7 +71,7 @@ async function main() {
             {
                 product_status: true,
                 product_name: "2K23",
-                product_image: "../imageUpload/imageProduct/2K23.jpeg",
+                product_image: Buffer.from('../../ENTITABASE/src/assets/images/Kirby.jpg'),
                 release_date: "2023-06-06",
                 product_intro: "Hi",
                 view: 0,

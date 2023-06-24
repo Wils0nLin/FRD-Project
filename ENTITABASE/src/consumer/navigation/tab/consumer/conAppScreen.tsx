@@ -168,7 +168,7 @@ export default function ConAppScreen({navigation}: any) {
             style={styles.PlayStatButton}
             onPress={() => {
               navigation.navigate('GameSearchScreen', {
-                platformArr: 'PlayStation',
+                platformArr: ['PlayStation'],
               });
             }}>
             <Fontisto name={'playstation'} size={25} color={'#E4E4E4'} />
@@ -179,7 +179,7 @@ export default function ConAppScreen({navigation}: any) {
             style={styles.XboxButton}
             onPress={() => {
               navigation.navigate('GameSearchScreen', {
-                platformArr: 'XBOX',
+                platformArr: ['XBOX'],
               });
             }}>
             <MaterialCom name={'microsoft-xbox'} size={25} color={'#E4E4E4'} />

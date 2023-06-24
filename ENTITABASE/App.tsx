@@ -8,6 +8,7 @@ import {store} from './src/app/store';
 import ConsumerTabNavigator from './src/consumer/navigation/ConsumerTabNavigator';
 import MerchantTabNavigator from './src/merchant/navigators/MerchantTabNavigator';
 import PublicTabNavigator from './src/public/navigators/PublicTabNavigator';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 const Stack = createNativeStackNavigator();
 

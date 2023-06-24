@@ -65,6 +65,5 @@ export declare class PublicService {
     })[]>;
     ratingDesc(productid: any, versionId: any): void;
     ratingAsce(productid: any, versionId: any): void;
-    displayOrder(JWTpayload: any): void;
     displayOrderHistory(JWTpayload: any): void;
 }

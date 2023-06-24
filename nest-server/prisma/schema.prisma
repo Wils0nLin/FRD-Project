@@ -28,35 +28,40 @@ model Users {
 // relationship with consumer
 
 model Consumer {
-  id                Int      @id @default(autoincrement())
-  users             Users    @relation(fields: [users_id], references: [id])
-  users_id          Int      @map("users_id")
-  QRcode            String
-  consumer_name     String  
-  consumer_phone    String
+ id                Int      @id @default(autoincrement())
+ users             Users    @relation(fields: [users_id], references: [id])
+ users_id          Int      @map("users_id")
+ QRcode            String
+ consumer_name     String 
+ consumer_phone    String
 
-  wishlist_products Wishlist_product[]
-  feedbacks         Feedback[]
-  orderss           Order[]
 
-  @@map("consumer")
+ wishlist_products Wishlist_product[]
+ feedbacks         Feedback[]
+ orderss           Order[]
+
+
+ @@map("consumer")
 }
+
+
 
 
 model Order {
-  id                Int      @id @default(autoincrement())
-  consumer          Consumer @relation(fields: [consumer_id], references: [id])
-  consumer_id       Int      @map("consumer_id")
-  QRcode            String
-  item              Item     @relation(fields: [item_id], references: [id])
-  item_id           Int      @map("item_id")
-  amount            Int
-  order_status      Boolean
-  payment           Boolean
-  create_time       String
+ id                Int      @id @default(autoincrement())
+ consumer          Consumer @relation(fields: [consumer_id], references: [id])
+ consumer_id       Int      @map("consumer_id")
+ consumer_qrcode            String
+ item              Item     @relation(fields: [item_id], references: [id])
+ item_id           Int      @map("item_id")
+ amount            Int
+ order_status      Boolean
+ payment           Boolean
+ create_time       String
 
-  @@map("orders")
-}
+
+ @@map("orders")
+ }
 
 
 
@@ -88,8 +93,8 @@ model Platform {
 model Product {
   id                Int      @id @default(autoincrement())
   product_name      String
-  product_status    Boolean
-  product_image     String
+  product_status    Boolean  
+  product_image     string   @default("")
   release_date      String
   product_intro     String
   view              Int
@@ -192,10 +197,10 @@ model Merchant {
   id                Int      @id @default(autoincrement())
   users             Users    @relation(fields: [users_id], references: [id])
   users_id          Int      @map("users_id")
-  merchant_image    Bytes    @default("")
+  merchant_image    string    @default("")
   merchant_name     String
   merchant_phone    String
-  biz_registration  Bytes    @default("")
+  biz_registration  string    @default("")
   district          District @relation(fields: [district_id], references: [id])
   district_id       Int      @map("district_id")
   address           String
@@ -266,4 +271,3 @@ model Bank {
 
   @@map("bank")
 }
-

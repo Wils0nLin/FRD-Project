@@ -5,7 +5,6 @@ export declare class ConsumerController {
     private readonly publicService;
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
-    test(userId: any): Promise<unknown>;
     uploadWishList(formData: any): Promise<{
         success: boolean;
         data: void;
@@ -24,11 +23,11 @@ export declare class ConsumerController {
         error: any;
         data?: undefined;
     }>;
-    getShopInfo(shopId: any): Promise<unknown>;
-    displayOrder(JWTpayload: any): void;
+    displayOrder(JWTpayload: any): Promise<unknown>;
+    deleteOrder(id: number): Promise<unknown>;
     displayOrderHistory(JWTpayload: any): void;
     createOrder(form: any): Promise<unknown>;
-    paymentConfirm(paymentstatus: any): void;
+    paymentConfirm(paymentIntent: any): void;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;

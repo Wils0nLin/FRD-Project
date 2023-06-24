@@ -13,10 +13,6 @@ export class ConsumerController {
     async getSelfInfo(@Param("userId") userId: any) {
         return await this.consumerService.getSelfInfo(userId);
     }
-     @Get("test")
-    async test(@Param("userId") userId: any) {
-        return await this.consumerService.test();
-    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
@@ -76,15 +72,15 @@ export class ConsumerController {
     //     return this.consumerService.updateWishList(parm.id);
     // }
     // ---------------------------------------------------------------------------------------------------------
-    @Get("shopInfo/:shopId")
-    async getShopInfo(@Param("shopId") shopId: any) {
-        return await this.consumerService.getShopInfo(shopId);
+    @Get("order/:JWT")
+    displayOrder(@Param("JWT") JWTpayload: any) {
+        console.log();
+        return this.consumerService.displayOrder(JWTpayload);
     }
-
-    // ---------------------------------------------------------------------------------------------------------
-    @Get("order")
-    displayOrder(@Body() JWTpayload: any) {
-        return this.publicService.displayOrder(JWTpayload);
+    @Get("order/delete/:id")
+    deleteOrder(@Param("id") id: number) {
+        console.log(id)
+        return this.consumerService.deleteOrder(Number(id));
     }
     @Get("order/history")
     displayOrderHistory(@Body() JWTpayload: any) {
@@ -92,8 +88,8 @@ export class ConsumerController {
     }
     @Post("order/create")
     createOrder(@Body() form: any) {
-       console.log(form)
-       return this.consumerService.createOrder(form)
+        console.log(form);
+        return this.consumerService.createOrder(form);
     }
     // @Post("order/create/")
     // createOrder(@Body() param: any) {
@@ -102,9 +98,9 @@ export class ConsumerController {
     // }
 
     //full pay
-    @Post("order/payment")
-    paymentConfirm(@Body() paymentstatus: any) {
-        return this.consumerService.paymentConfirm(paymentstatus);
+    @Post("order/payment?:intent")
+    paymentConfirm(@Body() paymentIntent: any) { 
+        return this.consumerService.paymentIntent( );
     }
 
     // @Post("order/remain/payment")
@@ -117,7 +113,7 @@ export class ConsumerController {
     async editUserProfile(@Param("userId") userId: any, @Body() form: any) {
         return await this.consumerService.editUserProfile(userId, form);
     }
-    
+
     @Put("conProfile/edit/:conId")
     async editConProfile(@Param("conId") conId: any, @Body() form: any) {
         return await this.consumerService.editConProfile(conId, form);
@@ -127,6 +123,7 @@ export class ConsumerController {
     async editPassword(@Param("userId") userId: any, @Body() form: any) {
         return await this.consumerService.editPassword(userId, form);
     }
+
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
     // @Post("reaction/feedback/")
