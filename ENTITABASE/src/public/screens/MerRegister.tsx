@@ -60,28 +60,28 @@ const MerRegister = ({navigation}: any) => {
 
   const getAreaList = async () => {
     const area = await fetch(
-      'http://192.168.160.142:3000/public/register/selectArea',
+      'http://192.168.160.77:3000/public/register/selectArea',
     );
     const arealist = await area.json();
     setAreaList(arealist);
   };
   const getDistricList = async () => {
     const district = await fetch(
-      'http://192.168.160.142:3000/public/register/selectDistrict',
+      'http://192.168.160.77:3000/public/register/selectDistrict',
     );
     const districtList = await district.json();
     setDristList(districtList);
   };
   const getBankList = async () => {
     const branch = await fetch(
-      'http://192.168.160.142:3000/public/register/bank',
+      'http://192.168.160.77:3000/public/register/bank',
     );
     const bankList = await branch.json();
     setBankList(bankList);
   };
   const getBranchList = async () => {
     const Branch = await fetch(
-      'http://192.168.160.142:3000/public/register/branch',
+      'http://192.168.160.77:3000/public/register/branch',
     );
     const BranchLists = await Branch.json();
     setbranchList(BranchLists);

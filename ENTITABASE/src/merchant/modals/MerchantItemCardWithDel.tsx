@@ -31,7 +31,7 @@ export default function MerchantItemCardWithDel(props: cardInfo) {
 
   const Submit = async () => {
     const resp = await fetch(
-      `http://192.168.160.142:3000/merchant/delete/${props.id}`,
+      `http://13.213.207.204/merchant/delete/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

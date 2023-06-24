@@ -5,6 +5,10 @@
     "author": "",
     "private": true,
     "license": "UNLICENSED",
+    "prisma": {
+        "seed": "node dist/prisma/insertSeed.js",
+        "seed-old": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/insertSeed.ts"
+    },
     "scripts": {
         "db": "ts-node CLI.ts",
         "build": "nest build",

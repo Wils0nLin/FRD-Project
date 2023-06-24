@@ -41,7 +41,7 @@ let MerchantService = exports.MerchantService = class MerchantService {
         const foundComment = await prisma.$queryRawUnsafe(`select consumer_name, rating, comment, create_time from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`);
         return foundComment;
     }
-    async uploadItems(form, merchantId) {
+    async uploadItems(form) {
         try {
             const uploadItem = await prisma.item.create({
                 data: {
@@ -53,6 +53,7 @@ let MerchantService = exports.MerchantService = class MerchantService {
                     stock_status: form.stock_status,
                 },
             });
+            console.log(uploadItem);
             return uploadItem;
         }
         catch (error) {
@@ -119,6 +120,10 @@ let MerchantService = exports.MerchantService = class MerchantService {
     async getAllVersion() {
         const getAllVersion = await prisma.version.findMany();
         return getAllVersion;
+    }
+    async getMerchantInfo() {
+        const getMerchantId = await prisma.merchant.findMany();
+        return getMerchantId;
     }
 };
 exports.MerchantService = MerchantService = __decorate([

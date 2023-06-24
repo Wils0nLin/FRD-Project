@@ -34,9 +34,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
         return await this.merchantService.getComment(merId);
     }
     async uploadItems(form) {
-        const merchantId = 1;
+        console.log(form);
         try {
-            const result = await this.merchantService.uploadItems(form, merchantId);
+            const result = await this.merchantService.uploadItems(form);
             return { success: true, data: result };
         }
         catch (error) {
@@ -73,6 +73,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
     }
     getAllVersion() {
         return this.merchantService.getAllVersion();
+    }
+    getMerchantInfo() {
+        return this.merchantService.getMerchantInfo();
     }
 };
 __decorate([
@@ -180,6 +183,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "getAllVersion", null);
+__decorate([
+    (0, common_1.Get)(":merchantId"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getMerchantInfo", null);
 exports.MerchantController = MerchantController = __decorate([
     (0, common_1.Controller)("merchant"),
     __metadata("design:paramtypes", [merchant_service_1.MerchantService,

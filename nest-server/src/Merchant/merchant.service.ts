@@ -33,9 +33,6 @@ export class MerchantService {
         return editMerProfile;
     }
 
-    // editProfile(form: any) {
-    //     console.log(`update ${form} to merchant profile`);
-    // }
     // ---------------------------------------------------------------------------------------------------------
 
     async getAllItem(merId: any) {
@@ -54,76 +51,26 @@ export class MerchantService {
 
     //done
 
-    async uploadItems(form: any, merchantId: number) {
+    async uploadItems(form: any) {
         try {
             const uploadItem = await prisma.item.create({
                 data: {
-                    merchant_id: merchantId,
-                    version_id: form.version_id,
+                    merchant: { connect: { id: form.merchant_id } },
+                    version: { connect: { id: form.version_id } },
                     end_date: form.end_date,
                     price: parseInt(form.price),
                     availability: form.availability,
                     stock_status: form.stock_status,
                 },
             });
+            console.log(uploadItem);
+
             return uploadItem;
         } catch (error) {
             console.error("Error creating item:", error);
             throw new Error("Failed to create item");
         }
     }
-
-    // async uploadItems(merchantId: number, form:any) {
-    //     console.log("yo itemData: ", itemData);
-
-    //     const product = await prisma.product.findUnique({
-    //         where: { id: productId },
-    //     });
-
-    //     if (!product) {
-    //         throw new Error("Invalid product ID");
-    //     }
-
-    //     const versions = await prisma.version.findMany({
-    //         where: { id: { in: versionIds } },
-    //     });
-
-    //     //有機會唔洗寫呢句
-    //     if (versionIds.length !== versions.length) {
-    //         throw new Error("Invalid version ID");
-    //     }
-
-    //     //重覆upload相同product and version
-    //     // const existingItems = await prisma.item.findMany({
-    //     //     where: {
-    //     //         merchant_id: merchantId,
-    //     //         product_id: productId,
-    //     //         version_id: { in: versionIds },
-    //     //     },
-    //     // });
-
-    //     // if (existingItems.length > 0) {
-    //     //     throw new Error("該商家已經上傳相同的版本或產品");
-    //     // }
-
-    //     const items = [];
-    //     for (const version of versions) {
-    //         const item = await prisma.item.create({
-    //             data: {
-    //                 ...itemData,
-    //                 merchant: { connect: { id: merchantId } },
-    //                 version: { connect: { id: version.id } },
-    //                 price: itemData.price,
-    //                 end_date: new Date(itemData.end_date),
-    //                 stock_status: itemData.stock_status,
-    //                 availability: itemData.availability,
-    //             },
-    //         });
-    //         items.push(item);
-    //     }
-
-    //     return { product, versions, items };
-    // }
 
     // ---------------------------------------------------------------------------------------------------------
     async updateItems(itemId: any, form: any) {
@@ -206,5 +153,11 @@ export class MerchantService {
     async getAllVersion() {
         const getAllVersion = await prisma.version.findMany();
         return getAllVersion;
+    }
+
+    //get merchant info
+    async getMerchantInfo() {
+        const getMerchantId = await prisma.merchant.findMany();
+        return getMerchantId;
     }
 }

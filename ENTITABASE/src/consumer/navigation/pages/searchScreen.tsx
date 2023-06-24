@@ -52,7 +52,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
 
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
-          await fetch(`http://192.168.160.142:3000/public/filter/tag/${tagArr[i]}`)
+          await fetch(`http://13.213.207.204/public/filter/tag/${tagArr[i]}`)
             .then(response => response.json())
             .then(data => {
               data.map((items: Product) => {
@@ -65,7 +65,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i < platformArr.length; i++) {
           await fetch(
-            `http://192.168.160.142:3000/public/filter/platform/${platformArr[i]}`,
+            `http://13.213.207.204/public/filter/platform/${platformArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
@@ -77,7 +77,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       }
       try {
-        await fetch(`http://192.168.160.142:3000/public/filter/search/${Texts}`)
+        await fetch(`http://13.213.207.204/public/filter/search/${Texts}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);
@@ -104,7 +104,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
     //     if (Array.isArray(platformArr)) {
     //       for (let i = 0; i <= platformArr.length; i++) {
     //         fetch(
-    //           `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
+    //           `http://10.0.2.2/public/filter/platform/${platformArr[i]}`,
     //         )
     //           .then(response => {
     //             return response.json();
@@ -123,7 +123,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
     //       }
     //     } else if (Array.isArray(platformArr) == false) {
     //       console.log('notarray');
-    //       fetch(`http://10.0.2.2:3000/public/filter/platform/${platformArr}`)
+    //       fetch(`http://10.0.2.2/public/filter/platform/${platformArr}`)
     //         .then(response => {
     //           return response.json();
     //         })

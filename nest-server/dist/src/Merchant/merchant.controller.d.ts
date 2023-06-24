@@ -27,4 +27,5 @@ export declare class MerchantController {
     updateOrder(orderId: any): Promise<boolean>;
     getAllProducts(): Promise<import(".prisma/client").Product[]>;
     getAllVersion(): Promise<import(".prisma/client").Version[]>;
+    getMerchantInfo(): Promise<import(".prisma/client").Merchant[]>;
 }

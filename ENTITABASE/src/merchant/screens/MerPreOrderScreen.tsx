@@ -19,7 +19,6 @@ export default function MerPreOrderScreen({route}: any) {
 
   useEffect(() => {
     const getData = async () => {
-      console.log(userId);
       await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
