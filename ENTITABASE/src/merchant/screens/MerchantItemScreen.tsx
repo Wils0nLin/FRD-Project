@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
@@ -9,34 +10,116 @@ import {
   TextInput,
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
-
+import {useSelector} from 'react-redux';
 import SearchButtonModal from '../modals/MerchantSearchButtonModal';
-import ItemCardModal from '../modals/MerchantDeleteConfirmModal';
-
-import ForeheadView from '../../objects/MerchantForeheadView';
-import PageView from '../../objects/PageView';
-
+import MerchantItemCardWithDel from '../modals/MerchantItemCardWithDel';
+import {IRootState} from '../../app/store';
+import MerchantForehead from '../../objects/MerchantForeheadView';
+import MerPerOrderItemCard from '../../objects/MerPreOrderItemCard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useState, useEffect} from 'react';
 
 export default function MerchantItemScreen({}) {
-  const [text, onChangeText] = React.useState('');
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+  const [list, setList] = useState<Array<any>>([]);
+  const [spotList, setSpotList] = useState<Array<any>>([]);
+  const [preOrderList, setPreOrderList] = useState<Array<any>>([]);
+  const [text, onChangeText] = useState('');
+  const [select, setSelect] = useState('現貨商品');
+  const [warn, setWarn] = useState('如需下架商品，請長按該商品');
+
+  let spotItem: Array<any> = [];
+  let preOrder: Array<any> = [];
+
+  const getUserData = async () => {
+    const resp = await fetch(
+      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data[0]);
+    setName(data[0].merchant_name);
+    getItemData(data[0].id);
+  };
+
+  const getItemData = async (id: any) => {
+    const resp = await fetch(`http://13.213.207.204/merchant/allItem/${id}`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
+    const data = await resp.json();
+    console.log(data);
+
+    for (let item of data) {
+      if (item.stock_status === '預購中' || item.stock_status === '等待到貨') {
+        preOrder.push(item);
+      } else {
+        spotItem.push(item);
+      }
+    }
+    setList(spotItem);
+    setSpotList(spotItem);
+    setPreOrderList(preOrder);
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const isSelect = (button: string) => {
+    if (button === '現貨商品') {
+      setList(spotList);
+      setSelect('現貨商品');
+      setWarn('如需下架商品，請長按該商品');
+    } else if (button === '預購商品') {
+      setList(preOrderList);
+      setSelect('預購商品');
+      setWarn('預購狀態下的商品無法下架，敬請留意');
+    }
+    return [list, select];
+  };
+
   return (
     <ScrollView
       style={{
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>商品一覽</Text>
           <View style={styles.pageTitleLine} />
         </View>
         <View style={styles.tabButtonBox}>
-          <TouchableOpacity style={styles.tabButtonTrue}>
-            <Text style={{width: 80, fontSize: 20}}>現貨商品</Text>
+          <TouchableOpacity
+            style={
+              select === '現貨商品'
+                ? styles.tabButtonTrue
+                : styles.tabButtonFalse
+            }
+            onPress={() => {
+              isSelect('現貨商品');
+            }}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              現貨商品
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tabButtonFalse}>
-            <Text style={{width: 80, fontSize: 20}}>預購商品</Text>
+          <TouchableOpacity
+            style={
+              select === '預購商品'
+                ? styles.tabButtonTrue
+                : styles.tabButtonFalse
+            }
+            onPress={() => {
+              isSelect('預購商品');
+            }}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              預購商品
+            </Text>
           </TouchableOpacity>
           <View style={{alignItems: 'center', width: 40}}>
             <Text style={{width: 80, fontSize: 20}} />
@@ -45,7 +128,7 @@ export default function MerchantItemScreen({}) {
         <View style={{width: 350}}>
           <View style={styles.inputBox}>
             <TextInput
-              style={{fontSize: 15, padding: 0}}
+              style={styles.textInput}
               onChangeText={onChangeText}
               value={text}
               placeholder="請輸入商品名稱"
@@ -54,17 +137,42 @@ export default function MerchantItemScreen({}) {
           </View>
         </View>
         <View style={styles.tagSearchBar}>
-          <Text style={{fontSize: 17}}>共 200 件商品</Text>
+          <Text style={{fontSize: 17, color: '#E4E4E4'}}>
+            共 {list.length} 件商品
+          </Text>
           <SearchButtonModal />
         </View>
-        <View style={{width: 350}}>
-          <ItemCardModal />
-          <ItemCardModal />
-          <ItemCardModal />
-          <ItemCardModal />
-          <ItemCardModal />
+        <View style={{width: 350, marginBottom: 100}}>
+          <View style={styles.warningText}>
+            <Icon name={'lightbulb'} size={20} color={'#E4E4E4'} solid />
+            <Text style={{fontSize: 15, marginLeft: 10, color: '#E4E4E4'}}>
+              {warn}
+            </Text>
+          </View>
+          {list.map(items =>
+            select === '現貨商品' ? (
+              <MerchantItemCardWithDel
+                id={items.id}
+                name={items.product_name}
+                version={items.version}
+                platform={items.platform}
+                status={items.stock_status}
+                price={items.price}
+                date={items.end_date}
+              />
+            ) : (
+              <MerPerOrderItemCard
+                id={items.id}
+                name={items.product_name}
+                version={items.version}
+                platform={items.platform}
+                status={items.stock_status}
+                price={items.price}
+                date={items.end_date}
+              />
+            ),
+          )}
         </View>
-        {PageView()}
       </SafeAreaView>
     </ScrollView>
   );
@@ -99,6 +207,7 @@ const styles = StyleSheet.create({
     borderColor: '#2A2E32',
   },
   tagSearchBar: {
+    marginLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -135,4 +244,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#B7C1DE',
   },
+  warningText: {
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 5,
+    marginLeft: 15,
+    color: '#E4E4E4',
+  },
+  textInput: {fontSize: 17, padding: 0, color: '#E4E4E4', width: 250},
 });

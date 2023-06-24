@@ -60,7 +60,7 @@ export default function SearchModal() {
 
   //search bar connect to backend
   const handleSearch = () => {
-    const url = `http://192.168.160.77:3000/public/filter/search`;
+    const url = `http://13.213.207.204/public/filter/search`;
     axios
       .get(url, {
         params: {
@@ -459,6 +459,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#rgba(0,0,0,0.8)',
+    height: 780,
   },
   modalStyle: {
     backgroundColor: '#2A2E32',
@@ -539,7 +540,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 155,
     height: 35,
-    backgroundColor: '#b57acf',
+    backgroundColor: '#7A04EB',
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#B7C1DE',

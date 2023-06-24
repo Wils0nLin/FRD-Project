@@ -24,9 +24,6 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async getSelfInfo(userId) {
         return await this.consumerService.getSelfInfo(userId);
     }
-    async test(userId) {
-        return await this.consumerService.test();
-    }
     async uploadWishList(formData) {
         let consumerId = 2;
         let productId = 2;
@@ -87,13 +84,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "getSelfInfo", null);
-__decorate([
-    (0, common_1.Get)("test"),
-    __param(0, (0, common_1.Param)("userId")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], ConsumerController.prototype, "test", null);
 __decorate([
     (0, common_1.Post)("wishlist/upload"),
     __param(0, (0, common_1.Body)()),

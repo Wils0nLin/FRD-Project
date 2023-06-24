@@ -8,7 +8,8 @@ import { ConfigModule } from "@nestjs/config";
 
 @Module({
     imports: [ConfigModule.forRoot({
-        isGlobal:true
+        isGlobal:true,
+        envFilePath: [".env"]
     }),AdminModule, ConsumerModule, MerchantModule, PublicModule, StripeModule],
 })
 export class AppModule {}

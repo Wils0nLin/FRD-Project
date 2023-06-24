@@ -1,302 +1,113 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
+  Alert,
   View,
   Text,
   ScrollView,
   Image,
+  Linking,
   TouchableOpacity,
   StyleSheet,
   TextInput,
 } from 'react-native';
 import {SafeAreaView} from 'react-native';
-
-import SearchLogoSVG from '../../../../assets/svg/SearchLogoSVG';
-import {gameImgStyle, gameListAreaStyle} from './conWishListScreen';
-import Entypo from 'react-native-vector-icons/Entypo';
-import OctIcon from 'react-native-vector-icons/Octicons';
-import {Button, Layout, ApplicationProvider} from '@ui-kitten/components';
-import * as eva from '@eva-design/eva';
-import {useState} from 'react';
+import {StarRatingDisplay} from 'react-native-star-rating-widget';
+import SearchButtonModal from '../../../../merchant/modals/MerchantSearchButtonModal';
 import CommentModal from '../../../modals/Comment';
+import ConShopItemCard from '../../../../objects/ConShopItemCard';
+import CommentCard from '../../../../objects/CommentCard';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function ConMerInfoScreen() {
-  const [search, onChangeText] = React.useState('');
+  const [name, setName] = useState('');
+  const [rating, setRating] = useState(0);
+  const [phone, setPhone] = useState('');
+  const [area, setArea] = useState('');
+  const [district, setDistrict] = useState('');
+  const [address, setAddress] = useState('');
+  const [hour, setHour] = useState('');
+  const [text, onChangeText] = useState('');
   const [select, setSelect] = useState('現貨商品');
-  const [list, setList] = useState(() => InStock);
-  function InStock() {
-    return (
-      <Layout>
-        <View
-          id="search"
-          style={{
-            flexDirection: 'row',
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginLeft: 30,
-            width: 340,
-            borderRadius: 5,
-            marginTop: 10,
-            height: 40,
-          }}>
-          <TextInput
-            onChangeText={(text: React.SetStateAction<string>) =>
-              onChangeText(text)
-            }
-            value={search}
-            style={{width: 300}}
-          />
-          <SearchLogoSVG
-            width="10%"
-            height="80%"
-            fill="#E4E4E4"
-            style={{
-              marginTop: 3,
-            }}
-          />
-        </View>
+  const [list, setList] = useState<Array<any>>([]);
+  const [spotList, setSpotList] = useState<Array<any>>([]);
+  const [preOrderList, setPreOrderList] = useState<Array<any>>([]);
+  const [comment, setComment] = useState<Array<any>>([]);
 
-        <View id="items" style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 150,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>大量現貨</Text>
-            </View>
-          </TouchableOpacity>
+  let star = 0;
+  let spotItem: Array<any> = [];
+  let preOrder: Array<any> = [];
 
-          <View
-            style={{
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-            }}>
-            <TouchableOpacity />
-            <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
-            </View>
-          </View>
-        </View>
-      </Layout>
-    );
-  }
+  const getData = async () => {
+    const resp = await fetch(`http://13.213.207.204/consumer/shopInfo/2`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
+    const data = await resp.json();
+    console.log(data[0]);
+    setName(data[0].merchant_name);
+    setPhone(data[0].merchant_phone);
+    setArea(data[0].area);
+    setDistrict(data[0].district);
+    setAddress(data[0].address);
+    setHour(data[0].opening_hour);
+    getItemData();
+    getCommentData();
+  };
+  const whatsappURL = `https://wa.me/852${phone}`;
 
-  function PreOrder() {
-    return (
-      <Layout>
-        <View
-          style={{
-            flexDirection: 'row',
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginLeft: 30,
-            width: 340,
-            borderRadius: 5,
-            marginTop: 10,
-            height: 40,
-          }}>
-          <TextInput
-            onChangeText={(text: React.SetStateAction<string>) =>
-              onChangeText(text)
-            }
-            value={search}
-            style={{width: 300}}
-          />
-          <SearchLogoSVG
-            width="10%"
-            height="80%"
-            fill="#E4E4E4"
-            style={{
-              marginTop: 3,
-            }}
-          />
-        </View>
+  const getItemData = async () => {
+    const resp = await fetch(`http://13.213.207.204/merchant/allItem/2`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
+    const data = await resp.json();
+    console.log(data);
 
-        <View
-          id="total-amount"
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingTop: 10,
-          }}>
-          <View style={{flexDirection: 'row', marginLeft: 30}}>
-            <Text style={{color: 'white', fontSize: 20}}>共</Text>
-            <Text style={{color: 'white', fontSize: 20}}>200</Text>
-            <Text style={{color: 'white', fontSize: 20}}>件商品</Text>
-          </View>
+    for (let item of data) {
+      if (item.stock_status === '預購中' || item.stock_status === '等待到貨') {
+        preOrder.push(item);
+      } else {
+        spotItem.push(item);
+      }
+    }
+    setList(spotItem);
+    setSpotList(spotItem);
+    setPreOrderList(preOrder);
+  };
 
-          <View
-            style={{
-              borderColor: '#B7C1DE',
-              borderWidth: 2,
-              borderRadius: 5,
-              marginRight: 30,
-            }}>
-            <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text>
-          </View>
-        </View>
+  const getCommentData = async () => {
+    const resp = await fetch(`http://13.213.207.204/merchant/comment/2`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    });
+    const data = await resp.json();
+    console.log(data);
 
-        <View style={gameListAreaStyle.container}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 6,
-              left: 50,
-              width: 150,
-              borderBottomWidth: 3,
-              borderColor: '#7A04EB',
-            }}
-          />
-          <TouchableOpacity>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                width: 80,
-              }}>
-              <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/zelda.jpg')}
-              />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={{flex: 1}}>
-              <Text style={{fontSize: 25, color: 'white'}} numberOfLines={1}>
-                薩爾達 王國之淚
-              </Text>
-              <Text style={{fontSize: 17, color: 'white'}}>
-                2023年6月3日截訂
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              alignItems: 'flex-end',
-              justifyContent: 'space-between',
-            }}>
-            <TouchableOpacity />
-            <View style={{alignItems: 'flex-end'}}>
-              <Text style={{fontSize: 20, color: 'white'}}>HK$ 200.00</Text>
-            </View>
-          </View>
-        </View>
-      </Layout>
-    );
-  }
-  function FeedBack() {
-    return (
-      <Layout>
-        <View
-          style={{
-            width: 400,
-            height: 50,
-            alignItems: 'center',
-          }}>
-          <CommentModal />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '80%',
-            paddingTop: 10,
-          }}>
-          <View style={{flexDirection: 'row', marginLeft: 20}}>
-            <Text style={{color: 'white', fontSize: 20}}>共</Text>
-            <Text style={{color: 'white', fontSize: 20}}>200</Text>
-            <Text style={{color: 'white', fontSize: 20}}>則評論</Text>
-          </View>
-        </View>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              margin: 8,
-              padding: 5,
-              paddingHorizontal: 10,
-              height: 90,
-              borderRadius: 10,
-              backgroundColor: '#rgba(255,255,255,0.25)',
-            }}>
-            <View>
-              <View style={{flexDirection: 'row'}}>
-                <Entypo name={'chat'} size={25} color={'white'} />
-                <Text
-                  style={{
-                    width: 235,
-                    fontSize: 20,
-                    color: 'white',
-                    paddingLeft: 5,
-                  }}
-                  numberOfLines={1}>
-                  CONSUMER NAME
-                </Text>
-              </View>
+    for (let item of data) {
+      star += item.rating;
+    }
+    setRating(Math.round(star / data.length));
+    setComment(data);
+  };
 
-              <View style={{flexDirection: 'row', paddingTop: 5}}>
-                <Text
-                  style={{color: 'white', paddingLeft: 5}}
-                  numberOfLines={2}>
-                  好好吃飯粒輭硬適中
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-              <View style={{flexDirection: 'row', paddingTop: 5}}>
-                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star-fill'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star'} size={20} color={'#7A04EB'} />
-                <OctIcon name={'star'} size={20} color={'#7A04EB'} />
-              </View>
-              <View style={{alignItems: 'flex-end'}}>
-                <Text style={{fontSize: 15, color: 'white'}}>2023年6月3日</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </Layout>
-    );
-  }
+  useEffect(() => {
+    getData();
+  }, []);
 
   const isSelect = (button: string) => {
     if (button === '現貨商品') {
-      setList(() => InStock);
+      setList(spotList);
       setSelect('現貨商品');
     } else if (button === '預購商品') {
-      setList(() => PreOrder);
+      setList(preOrderList);
       setSelect('預購商品');
     } else if (button === '顧客反饋') {
-      setList(() => FeedBack);
+      setList(comment);
       setSelect('顧客反饋');
     }
     return [list, select];
@@ -307,174 +118,234 @@ export default function ConMerInfoScreen() {
       style={{
         backgroundColor: '#2A2E32',
       }}>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View>
-            <Image
-              style={{
-                width: 340,
-                height: 170,
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-              source={require('../../../../assets/images/merchant_background.jpg')}
-            />
-          </View>
-
-          <View
-            style={{
-              position: 'absolute',
-              top: 85,
-              backgroundColor: '#2A2E32',
-              borderRadius: 10,
-              borderWidth: 3,
-              borderColor: '#B7C1DE',
-            }}>
-            <Image
-              style={{
-                margin: 8,
-                width: 100,
-                height: 100,
-                borderRadius: 5,
-              }}
-              source={require('../../../../assets/images/merchant_logo.jpg')}
-            />
-          </View>
-          <View
-            style={{
-              height: 40,
-            }}
+      <SafeAreaView style={styles.safeArea}>
+        <View>
+          <Image
+            style={styles.foreheadBackground}
+            source={require('../../../../assets/images/merchant_background.jpg')}
           />
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 20, color: 'white'}}>iMobile百盈電訊</Text>
-            <Text style={{color: 'white'}}>88888888</Text>
-            <Text style={{color: 'white'}}>
-              九龍旺角山東街47-51號星際城市305號舖
+        </View>
+        <View style={styles.foreheadCheck}>
+          <FontAwesome5 name={'check'} size={20} color={'#000000'} />
+        </View>
+        <View style={styles.merchantLogoBorder}>
+          <Image
+            style={styles.merchantLogo}
+            source={require('../../../../assets/images/merchant_logo.jpg')}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.whatsappLogo}
+          onPress={() => {
+            Linking.openURL(`https://wa.me/852${phone}`);
+          }}>
+          <MaterialCom name={'whatsapp'} size={35} color={'#E4E4E4'} />
+          <Text style={{color: '#E4E4E4', fontSize: 10}}>聯絡商戶</Text>
+        </TouchableOpacity>
+        <View style={{height: 40}} />
+        <View style={styles.merchantInfo}>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>{name}</Text>
+          <StarRatingDisplay rating={rating} starSize={20} color={'#defe47'} />
+          <Text style={{color: '#E4E4E4'}}>{area + district + address}</Text>
+        </View>
+
+        <View style={styles.tabButtonBox}>
+          <TouchableOpacity style={styles.tabButtonTrue}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              營業時間
             </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabButtonFalse}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              商戶公告
+            </Text>
+          </TouchableOpacity>
+          <View style={{alignItems: 'center', width: 40}}>
+            <Text style={{width: 80, fontSize: 20}} />
           </View>
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'space-around',
-              flexDirection: 'row',
-              margin: 5,
-              marginTop: 10,
-              paddingLeft: 10,
-              paddingRight: 10,
-              width: 350,
+        </View>
+        <View style={{width: 350}}>
+          <Text style={styles.merchantAnnoText}>{hour}</Text>
+        </View>
+        <View style={styles.tabButtonBox}>
+          <TouchableOpacity
+            style={
+              select === '現貨商品'
+                ? styles.tabButtonTrue
+                : styles.tabButtonFalse
+            }
+            onPress={() => {
+              isSelect('現貨商品');
             }}>
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                width: 40,
-                borderBottomWidth: 3,
-                borderColor: '#7A04EB',
-              }}>
-              <Text style={{width: 80, fontSize: 20, color: 'white'}}>
-                營業時間
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              現貨商品
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={
+              select === '預購商品'
+                ? styles.tabButtonTrue
+                : styles.tabButtonFalse
+            }
+            onPress={() => {
+              isSelect('預購商品');
+            }}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              預購商品
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={
+              select === '顧客反饋'
+                ? styles.tabButtonTrue
+                : styles.tabButtonFalse
+            }
+            onPress={() => {
+              isSelect('顧客反饋');
+            }}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              顧客反饋
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {select === '顧客反饋' ? (
+          <CommentModal />
+        ) : (
+          <View>
+            <View style={{width: 350}}>
+              <View style={styles.inputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={onChangeText}
+                  value={text}
+                  placeholder="請輸入商品名稱"
+                />
+                <FontAwesome5 name={'search'} size={25} color={'#E4E4E4'} />
+              </View>
+            </View>
+            <View style={styles.tagSearchBar}>
+              <Text style={{fontSize: 17, color: '#E4E4E4'}}>
+                共 {list.length} 件商品
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                alignItems: 'center',
-                width: 40,
-                borderBottomWidth: 3,
-                borderColor: '#2A2E32',
-              }}>
-              <Text style={{width: 80, fontSize: 20, color: 'white'}}>
-                商戶公告
-              </Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                alignItems: 'center',
-                width: 40,
-              }}>
-              <Text style={{width: 80, fontSize: 20}} />
+              <SearchButtonModal />
             </View>
           </View>
-          <View style={{width: 350}}>
-            <Text
-              style={{
-                margin: 8,
-                padding: 20,
-                paddingTop: 10,
-                height: 100,
-                borderRadius: 10,
-                borderWidth: 3,
-                borderColor: '#B7C1DE',
-                color: 'white',
-              }}>
-              星期一：11:00 a.m. - 9:00 p.m.
-            </Text>
-          </View>
-
-          <Layout id="selectButton" style={styles.row}>
-            <Button
-              style={
-                select === '現貨商品' ? styles.buttonSelect : styles.button
-              }
-              appearance="ghost"
-              status="control"
-              onPress={() => isSelect('現貨商品')}>
-              現貨商品
-            </Button>
-            <Button
-              style={
-                select === '預購商品' ? styles.buttonSelect : styles.button
-              }
-              appearance="ghost"
-              status="control"
-              onPress={() => isSelect('預購商品')}>
-              預購商品
-            </Button>
-            <Button
-              style={
-                select === '顧客反饋' ? styles.buttonSelect : styles.button
-              }
-              appearance="ghost"
-              status="control"
-              onPress={() => isSelect('顧客反饋')}>
-              顧客反饋
-            </Button>
-          </Layout>
-          <Layout style={styles.layout}>{list()}</Layout>
-        </SafeAreaView>
-      </ApplicationProvider>
+        )}
+        <View style={{width: 350, marginBottom: 100}}>
+          {list.map(items =>
+            select === '顧客反饋' ? (
+              <CommentCard
+                name={items.consumer_name}
+                star={items.rating}
+                comment={items.comment}
+                date={items.create_time}
+              />
+            ) : (
+              <ConShopItemCard
+                id={items.id}
+                name={items.product_name}
+                version={items.version}
+                platform={items.platform}
+                status={items.stock_status}
+                price={items.price}
+              />
+            ),
+          )}
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  layout: {
-    alignSelf: 'center',
+  safeArea: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: '90%',
+    justifyContent: 'center',
   },
-  row: {
-    flexDirection: 'row',
+  foreheadBackground: {
+    width: 340,
+    height: 170,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  foreheadCheck: {
+    position: 'absolute',
+    top: 10,
+    left: 40,
+    padding: 5,
+    paddingLeft: 6,
+    paddingRight: 6,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+  },
+  merchantLogoBorder: {
+    position: 'absolute',
+    top: 85,
     backgroundColor: '#2A2E32',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: '#B7C1DE',
   },
-  button: {
-    marginHorizontal: 1,
+  merchantLogo: {margin: 8, width: 100, height: 100, borderRadius: 5},
+  merchantInfo: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  tabButtonBox: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    margin: 5,
+    marginTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    width: 350,
   },
-  buttonSelect: {
-    marginHorizontal: 1,
-    borderWidth: 0,
-    borderColor: 'rgb(121,35,231)',
-    borderBottomColor: 'rgb(121,35,231)',
-    borderBottomWidth: 5,
+  tabButtonTrue: {
+    alignItems: 'center',
+    width: 40,
+    borderBottomWidth: 3,
+    borderColor: '#7A04EB',
+  },
+  tabButtonFalse: {
+    alignItems: 'center',
+    width: 40,
+    borderBottomWidth: 3,
+    borderColor: '#2A2E32',
+  },
+  merchantAnnoText: {
+    margin: 8,
+    padding: 20,
+    paddingTop: 10,
+    height: 100,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  tagSearchBar: {
+    marginLeft: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 10,
+    width: 335,
+  },
+  inputBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  textInput: {fontSize: 17, padding: 0, color: '#E4E4E4', width: 250},
+  whatsappLogo: {
+    position: 'absolute',
+    alignItems: 'center',
+    top: 175,
+    right: 35,
   },
 });

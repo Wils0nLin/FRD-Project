@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
@@ -5,29 +6,49 @@ import {SafeAreaView} from 'react-native';
 
 import TradeRecordModal from '../modals/MerchantTradeRecordModal';
 
-import ForeheadView from '../../objects/MerchantForeheadView';
-import PageView from '../../objects/PageView';
+import {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
+import MerchantForehead from '../../objects/MerchantForeheadView';
+import {IRootState} from '../../app/store';
 
 export default function TradeScreen({}) {
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [name, setName] = useState('');
+
+  const getData = async () => {
+    const resp = await fetch(
+      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      },
+    );
+    const data = await resp.json();
+    console.log(data);
+    setName(data[0].merchant_name);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <ScrollView
       style={{
         backgroundColor: '#2A2E32',
       }}>
       <SafeAreaView style={styles.safeArea}>
-        {ForeheadView()}
+        <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
           <Text style={{fontSize: 20}}>過往交易</Text>
           <View style={styles.pageTitleLine} />
         </View>
-        <View style={{width: 350}}>
+        <View style={{width: 350, marginBottom: 100}}>
           <TradeRecordModal />
           <TradeRecordModal />
           <TradeRecordModal />
           <TradeRecordModal />
           <TradeRecordModal />
         </View>
-        {PageView()}
       </SafeAreaView>
     </ScrollView>
   );

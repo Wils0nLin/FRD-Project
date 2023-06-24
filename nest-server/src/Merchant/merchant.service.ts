@@ -1,10 +1,18 @@
 import { Body, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
+import { sqltag } from "@prisma/client/runtime";
 
 const prisma = new PrismaClient();
 @Injectable()
 export class MerchantService {
+    async getSelfInfo(userId: any) {
+        const foundUser = await prisma.$queryRawUnsafe(
+            `select merchant.id, merchant_name, merchant_phone, address, bank_account, opening_hour, district, area from users JOIN merchant on users.id = users_id JOIN district on district.id = district_id JOIN area on area.id = area_id where users.id = ${userId};`
+        );
+        return foundUser;
+    }
+
     //done
     async editMerProfile(merchantId: any, form: any) {
         const merchant: Prisma.MerchantUpdateInput = {
@@ -25,91 +33,68 @@ export class MerchantService {
         return editMerProfile;
     }
 
-    // editProfile(form: any) {
-    //     console.log(`update ${form} to merchant profile`);
-    // }
     // ---------------------------------------------------------------------------------------------------------
+
+    async getAllItem(merId: any) {
+        const foundItem = await prisma.$queryRawUnsafe(
+            `select item.id, stock_status, price, version, version_image, platform, product_name, end_date from item JOIN version on version.id = version_id JOIN product on product.id = product_id JOIN platform on platform.id = platform_id JOIN merchant on merchant.id = merchant_id where merchant.id = ${merId} AND availability = true ORDER BY item.id;`
+        );
+        return foundItem;
+    }
+
+    async getComment(merId: any) {
+        const foundComment = await prisma.$queryRawUnsafe(
+            `select consumer_name, rating, comment, create_time from feedback JOIN consumer on consumer.id = conumber_id where merchant_id = ${merId} ORDER BY create_time DESC;`
+        );
+        return foundComment;
+    }
+
     //done
-    async uploadItems(merchantId: number, productId: number, versionIds: number[], itemData: any) {
-        console.log("yo itemData: ", itemData);
 
-        const product = await prisma.product.findUnique({
-            where: { id: productId },
-        });
-
-        if (!product) {
-            throw new Error("Invalid product ID");
-        }
-
-        const versions = await prisma.version.findMany({
-            where: { id: { in: versionIds } },
-        });
-
-        //有機會唔洗寫呢句
-        if (versionIds.length !== versions.length) {
-            throw new Error("Invalid version ID");
-        }
-
-        //重覆upload相同product and version
-        // const existingItems = await prisma.item.findMany({
-        //     where: {
-        //         merchant_id: merchantId,
-        //         product_id: productId,
-        //         version_id: { in: versionIds },
-        //     },
-        // });
-
-        // if (existingItems.length > 0) {
-        //     throw new Error("該商家已經上傳相同的版本或產品");
-        // }
-
-        const items = [];
-        for (const version of versions) {
-            const item = await prisma.item.create({
+    async uploadItems(form: any) {
+        try {
+            const uploadItem = await prisma.item.create({
                 data: {
-                    ...itemData,
-                    merchant: { connect: { id: merchantId } },
-                    version: { connect: { id: version.id } },
-                    price: itemData.price,
-                    //暫時硬打end_date
-                    end_date: new Date("2023-07-01T00:00:00Z"),
-                    stock_status: itemData.stock_status,
-                    availability: itemData.availability,
+                    merchant: { connect: { id: form.merchant_id } },
+                    version: { connect: { id: form.version_id } },
+                    end_date: form.end_date,
+                    price: parseInt(form.price),
+                    availability: form.availability,
+                    stock_status: form.stock_status,
                 },
             });
-            items.push(item);
+            console.log(uploadItem);
+
+            return uploadItem;
+        } catch (error) {
+            console.error("Error creating item:", error);
+            throw new Error("Failed to create item");
         }
-
-        return { product, versions, items };
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    updateItems(form: any) {
-        //更改item資料時要睇埋會唔會去到合乎客戶嘅wishlist set嘅價格位置
-        console.log(
-            `update item by body and also running query to get all values with all consumer in wish list sees is there have matches of consumer wishes`,
-            form
-        );
-    }
-
-    // ---------------------------------------------------------------------------------------------------------
-    //需要兩個function，分別一個係接收外部pass入黎嘅form，一個係對item status進行更改
-    //done
-    async changeItemStatus(itemId: number, stock_status: any) {
-        const changeItemStatus = await prisma.item.update({
+    async updateItems(itemId: any, form: any) {
+        let itemInfo: Prisma.ItemUpdateInput = {
+            price: form.price,
+            stock_status: form.stock_status,
+            end_date: form.end_date,
+        };
+        const userUpdate = await prisma.item.update({
             where: { id: Number(itemId) },
-            data: { stock_status: stock_status },
+            data: itemInfo,
         });
-        return changeItemStatus;
-        // console.log(`update item status `, form);
+        return true;
     }
-    //handle stock status function
-    handleChangeStatus(formData: any) {
-        const { itemId, stockStatus } = formData;
-        if (stockStatus) {
-            const changeStatus = this.changeItemStatus(itemId, stockStatus);
-            return changeStatus;
-        }
+
+    async deleteItems(itemId: any) {
+        let itemInfo: Prisma.ItemUpdateInput = {
+            availability: false,
+        };
+        const userUpdate = await prisma.item.update({
+            where: { id: Number(itemId) },
+            data: itemInfo,
+        });
+        return true;
     }
 
     // ---------------------------------------------------------------------------------------------------------
@@ -123,5 +108,29 @@ export class MerchantService {
     // ---------------------------------------------------------------------------------------------------------
     paymentConfirm(result: any) {
         console.log(`change order status by ${result}`);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+    async getOrderRecord(merId: any) {
+        const foundRecord = await prisma.$queryRawUnsafe(
+            `select consumer_name, amount remain_payment, create_time, version, product_name from "order" JOIN consumer on consumer.QRcode = consumer_QRcode JOIN item on item.id = item_id JOIN version on version.id = version_id JOIN product on product.id = product_id where merchant_id = ${merId} ORDER BY create_time DESC;`
+        );
+        return foundRecord;
+    }
+    //get all product
+    async getAllProducts() {
+        const getAllProducts = await prisma.product.findMany();
+        return getAllProducts;
+    }
+
+    async getAllVersion() {
+        const getAllVersion = await prisma.version.findMany();
+        return getAllVersion;
+    }
+
+    //get merchant info
+    async getMerchantInfo() {
+        const getMerchantId = await prisma.merchant.findMany();
+        return getMerchantId;
     }
 }

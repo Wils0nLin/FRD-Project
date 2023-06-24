@@ -13,10 +13,6 @@ export class ConsumerService {
         );
         return foundUser;
     }
-    async test() {
-        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
-        return foundUser;
-    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id

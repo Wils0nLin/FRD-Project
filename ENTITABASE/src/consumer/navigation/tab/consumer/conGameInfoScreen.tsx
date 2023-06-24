@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
-  ScrollViewBase,
   StyleSheet,
   Text,
   TextInput,
@@ -40,7 +41,10 @@ const ConGameInfoScreen = ({route}: any) => {
       navigation.navigate('LogIn');
     } else {
       const form = {
+<<<<<<< HEAD
         consumer_id: userState[0].id,
+=======
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
         itemId: id,
         QRcode: userState[0].QRcode,
         amount: amount,
@@ -50,8 +54,14 @@ const ConGameInfoScreen = ({route}: any) => {
       };
 
       try {
+<<<<<<< HEAD
         console.log(form);
         await axios.post('http://10.0.2.2:3000/consumer/order/create', form);
+=======
+        axios.post('http://13.213.207.204/consumer/order/create', {
+          itemId: id,
+        });
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
       } catch (error) {
         console.log(error);
       }
@@ -60,7 +70,7 @@ const ConGameInfoScreen = ({route}: any) => {
   const selectVersion = async (version_id: number) => {
     let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
-    await fetch(`http://10.0.2.2:3000/public/filter/Items/${version_id}`)
+    await fetch(`http://13.213.207.204/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -73,7 +83,12 @@ const ConGameInfoScreen = ({route}: any) => {
   useEffect(() => {
     const getVersion = async () => {
       let VersionState: Array<any> = [];
+<<<<<<< HEAD
       await fetch(`http://10.0.2.2:3000/public/filter/versions/${product_id}`)
+=======
+
+      await fetch(`http://13.213.207.204/public/filter/versions/${product_id}`)
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
         .then(response => response.json())
         .then(data => {
           data.forEach((items: any) => {
@@ -84,7 +99,11 @@ const ConGameInfoScreen = ({route}: any) => {
     };
     const getuserData = async () => {
       let userState: Array<any> = [];
+<<<<<<< HEAD
       await fetch(`http://10.0.2.2:3000/consumer/userInfo/${userId}`)
+=======
+      await fetch(`http://13.213.207.204/consumer/userInfo/${userId}`)
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
         .then(response => response.json())
         .then(data => {
           console.log(data[0]);
@@ -93,7 +112,11 @@ const ConGameInfoScreen = ({route}: any) => {
 
       setUserState(userState);
     };
+<<<<<<< HEAD
     const getProductData = async (params: type) => {};
+=======
+    const getProductData = async (params: any) => {};
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
     getuserData();
     getVersion();
   }, []);

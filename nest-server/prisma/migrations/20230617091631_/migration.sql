@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "item" ADD COLUMN     "end_date" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP;

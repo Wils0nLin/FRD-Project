@@ -41,145 +41,6 @@ async function main() {
 
     //
 
-    // area
-    // const area = await prisma.area.createMany({
-    //     data: [
-    //         {
-    //             area: "新界",
-    //         },
-    //         {
-    //             area: "九龍",
-    //         },
-    //         {
-    //             area: "港島",
-    //         },
-    //     ],
-    // });
-
-    // const existArea = await prisma.area.findMany();
-    //
-
-    // district
-    // const district = await prisma.district.createMany({
-    //     data: [
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "荃灣區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "葵青區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "屯門區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "元朗區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "北區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "大埔區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "沙田區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "西貢區",
-    //         },
-    //         {
-    //             area_id: existArea[0].id,
-    //             district: "離島區",
-    //         },
-    //         {
-    //             area_id: existArea[1].id,
-    //             district: "深水埗區",
-    //         },
-    //         {
-    //             area_id: existArea[1].id,
-    //             district: "九龍城區",
-    //         },
-    //         {
-    //             area_id: existArea[1].id,
-    //             district: "黃大仙區",
-    //         },
-    //         {
-    //             area_id: existArea[1].id,
-    //             district: "觀塘區",
-    //         },
-    //         {
-    //             area_id: existArea[1].id,
-    //             district: "油尖旺區",
-    //         },
-    //         {
-    //             area_id: existArea[2].id,
-    //             district: "中西區",
-    //         },
-    //         {
-    //             area_id: existArea[2].id,
-    //             district: "灣仔區",
-    //         },
-    //         {
-    //             area_id: existArea[2].id,
-    //             district: "東區",
-    //         },
-    //         {
-    //             area_id: existArea[2].id,
-    //             district: "西區",
-    //         },
-    //     ],
-    // });
-
-    // const existDistrict = await prisma.district.findMany();
-    //
-
-    // bank
-    // const bank = await prisma.bank.createMany({
-    //     data: [
-    //         {
-    //             bank_code: "004",
-    //             bank_name: "香港滙豐銀行",
-    //         },
-    //     ],
-    // });
-
-    // const existBank = await prisma.bank.findMany();
-    //
-
-    // branch
-    // const branch = await prisma.branch.createMany({
-    //     data: [
-    //         {
-    //             bank_id: existBank[0].id,
-    //             branch_code: "123",
-    //             branch_name: "荃灣分行",
-    //         },
-    //     ],
-    // });
-
-    // const existBranch = await prisma.branch.findMany();
-    //
-
-    // bank_acc
-    // const bank_acc = await prisma.bank_acc.createMany({
-    //     data: [
-    //         {
-    //             branch_id: 1,
-    //             account_number: "456-789-001",
-    //         },
-    //     ],
-    // });
-
-    // const existBank_acc = await prisma.bank_acc.findMany();
-    //
-
     // merchant
     const merchant = await prisma.merchant.createMany({
         data: [
@@ -202,91 +63,17 @@ async function main() {
     const existMerchant = await prisma.merchant.findMany();
     //
 
-    // tag
-    // const tag = await prisma.tag.createMany({
-    //     data: [
-    //         {
-    //             tag: "角色扮演",
-    //         },
-    //         {
-    //             tag: "動作冒險",
-    //         },
-    //         {
-    //             tag: "射擊",
-    //         },
-    //         {
-    //             tag: "競技",
-    //         },
-    //         {
-    //             tag: "劇情",
-    //         },
-    //         {
-    //             tag: "合作",
-    //         },
-    //         {
-    //             tag: "體育",
-    //         },
-    //         {
-    //             tag: "策略",
-    //         },
-    //         {
-    //             tag: "格鬥",
-    //         },
-    //         {
-    //             tag: "音樂",
-    //         },
-    //         {
-    //             tag: "解謎",
-    //         },
-    //         {
-    //             tag: "卡牌",
-    //         },
-    //         {
-    //             tag: "家庭",
-    //         },
-    //         {
-    //             tag: "育成",
-    //         },
-    //         {
-    //             tag: "生存",
-    //         },
-    //         {
-    //             tag: "工藝",
-    //         },
-    //         {
-    //             tag: "恐怖",
-    //         },
-    //     ],
-    // });
-
-    // const existTag = await prisma.tag.findMany();
-    //
-
-    // platform
-    // const platform = await prisma.platform.createMany({
-    //     data: [
-    //         {
-    //             platform: "PlayStation",
-    //         },
-    //         {
-    //             platform: "Switch",
-    //         },
-    //         {
-    //             platform: "XBOX",
-    //         },
-    //     ],
-    // });
-
-    // const existPlatform = await prisma.platform.findMany();
-    //
-
     // product
     const product = await prisma.product.createMany({
         data: [
             {
                 product_status: true,
                 product_name: "寶可夢朱紫",
+<<<<<<< HEAD
                 product_image: Buffer.from('../../ENTITABASE/src/assets/images/pikmin4.jpg'),
+=======
+                product_image: "../imageUpload/imageProduct/PKM朱紫.jpeg",
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
                 release_date: "2022-11-18",
                 product_intro: "Hi",
                 view: 0,
@@ -295,7 +82,11 @@ async function main() {
             {
                 product_status: true,
                 product_name: "薩爾達傳說王國之淚",
+<<<<<<< HEAD
                 product_image: Buffer.from('../../ENTITABASE/src/assets/images/zelda.jpg'),
+=======
+                product_image: "../imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg",
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
                 release_date: "2023-06-06",
                 product_intro: "Hi",
                 view: 0,
@@ -304,7 +95,11 @@ async function main() {
             {
                 product_status: true,
                 product_name: "2K23",
+<<<<<<< HEAD
                 product_image: Buffer.from('../../ENTITABASE/src/assets/images/Kirby.jpg'),
+=======
+                product_image: "../imageUpload/imageProduct/2K23.jpeg",
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
                 release_date: "2023-06-06",
                 product_intro: "Hi",
                 view: 0,

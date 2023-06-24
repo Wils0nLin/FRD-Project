@@ -232,6 +232,7 @@ const MerchantScreenNavigator = () => {
         name="MerchantQRScan"
         component={QRScanScreen}
         options={{
+          headerBackVisible: false,
           headerTitle: 'ENTI-CODE SCAN',
           headerRight: () => (
             <TouchableOpacity onPress={navigation.goBack}>

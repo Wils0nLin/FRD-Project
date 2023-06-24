@@ -129,7 +129,7 @@ export default function ConAppScreen({navigation}: any) {
   const findSwitchGames = async () => {
     try {
       const process = await fetch(
-        `http://192.168.160.142:3000/public/filter/platform/?platformId=${1}`,
+        `http://13.213.207.204/public/filter/platform/?platformId=${1}`,
         {
           method: 'GET',
           headers: {
@@ -233,6 +233,7 @@ export default function ConAppScreen({navigation}: any) {
               image={items.image}
               date={items.date}
               status={items.status}
+              id={0}
             />
           ))}
         </View>

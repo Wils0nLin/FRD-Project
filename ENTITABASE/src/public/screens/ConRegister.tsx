@@ -58,15 +58,19 @@ export default function ConRegister({navigation}: any) {
         consumer_phone: Phone,
       };
       axios
+<<<<<<< HEAD
         .post('http://10.0.2.2:3000/public/register/conRegister', form)
+=======
+        .post('http://13.213.207.204/public/register/conRegister', form)
+>>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
         .then(function (response) {
           console.log(response);
-          Alert.alert('success', `${response}`);
+          Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的遊戲世界吧');
           navigation.navigate('LogIn');
         })
         .catch(function (error) {
           console.log(error);
-          Alert.alert('Failed', `${error}`);
+          Alert.alert('註冊失敗', '請核對申請資料');
         });
       console.log(form);
     }
@@ -188,6 +192,7 @@ export default function ConRegister({navigation}: any) {
                   onChangeText={nextValue => setPhone(nextValue)}
                   value={Phone}
                   placeholder="請輸入電話號碼"
+                  keyboardType={'numeric'}
                 />
               </View>
             </View>

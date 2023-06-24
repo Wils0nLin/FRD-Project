@@ -1,23 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  Button,
-  IndexPath,
-  Input,
-  Layout,
-  Select,
-  SelectItem,
-  Text,
-} from '@ui-kitten/components';
+import {Layout, Select, SelectItem, Text} from '@ui-kitten/components';
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
+  SafeAreaView,
   StyleSheet,
-  TouchableWithoutFeedback,
-  useAnimatedValue,
+  TouchableOpacity,
+  View,
+  TextInput,
+  ScrollView,
 } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
+import PublicForehead from '../../objects/PublicForeheadView';
 
-import Entypo from 'react-native-vector-icons/Entypo';
-import {ScrollView} from 'react-native';
 import {
   ImagePickerResponse,
   launchImageLibrary,
@@ -33,20 +29,20 @@ interface Area {
   area: any;
 }
 
-const MerRegister = () => {
+const MerRegister = ({navigation}: any) => {
   const [Name, setName] = React.useState('');
   const [Username, setUsername] = React.useState('');
   const [Password, setPassword] = React.useState('');
-  const [ConfrimePass, setConfrimPass] = React.useState('');
+  const [ConfirmPass, setConfirmPass] = React.useState('');
   const [Email, setEmail] = React.useState('');
   const [Phone, setPhone] = React.useState('');
-  const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const [selectedImageICON, setSelectedImageICON] =
     useState<ImagePickerResponse | null>(null);
   const [selectedImageREGIS, setSelectedImageREGIS] =
     useState<ImagePickerResponse | null>(null);
   const [openingHour, setHour] = useState<string>();
-
+  const [secure, setSecure] = useState(true);
+  const [secureAgain, setSecureAgain] = useState(true);
   const [bankList, setBankList] = useState<Array<any>>([]);
   const [branchList, setbranchList] = useState<Array<any>>([]);
   const [branchLists, setbranchLists] = useState<Array<any>>([]);
@@ -78,38 +74,26 @@ const MerRegister = () => {
     const branch = await fetch('http://10.0.2.2:3000/public/register/bank');
     const bankList = await branch.json();
     setBankList(bankList);
-    console.log(bankList);
   };
   const getBranchList = async () => {
     const Branch = await fetch('http://10.0.2.2:3000/public/register/branch');
     const BranchLists = await Branch.json();
     setbranchList(BranchLists);
-    console.log(branchList);
-  };
-  const renderIcon = (): React.ReactElement => (
-    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Entypo name="eye-with-line" size={30} color={'rgb(240,240,240)'} />
-    </TouchableWithoutFeedback>
-  );
-  const toggleSecureEntry = (): void => {
-    setSecureTextEntry(!setSecureTextEntry);
   };
   const areaSelect = (index: any) => {
     const id = index.row + 1;
     setArea(id);
-    console.log('a', id);
+
     getCurrentDistrict(id);
   };
   const districtSelect = (index: any) => {
     const id = districtLists[index].id;
     setDistrict(id);
-    console.log('d_id', id);
   };
   const bankSelect = (index: any) => {
     const id = bankList[index].id - 1;
     setBank(id);
     getCurrentBranch(id);
-    console.log('b', id);
   };
   const branchSelect = (index: any) => {
     const id = branchList[index].id;
@@ -160,7 +144,6 @@ const MerRegister = () => {
     // const folderName = '../../utils/merUpload/';
     const newFileNameIcon = `Icon${Date.now()}.jpg`; // 替换为新的文件名
     const newFileNameRegis = `Regis${Date.now()}.jpg`;
-    console.log('Regis', selectedImageICON);
     const formData = new FormData();
     if (selectedImageICON == null || selectedImageREGIS == null) {
       return;
@@ -190,7 +173,6 @@ const MerRegister = () => {
     formData.append('branch', branch);
     formData.append('Hour', openingHour);
     formData.append('accNum', accountNum);
-    console.log('formData', formData);
 
     try {
       // const uploadResponse =
@@ -201,14 +183,14 @@ const MerRegister = () => {
         },
         body: formData,
       });
-      Alert.alert('Upload successful', 'Image uploaded successfully');
+      Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的營銷世界吧');
+      navigation.navigate('LogIn');
     } catch (error) {
       console.log('Upload failed:', error);
       Alert.alert('Upload failed', 'Image upload failed');
     }
   };
   let getCurrentDistrict = (id: string) => {
-    console.log(id);
     let clonedDistriclist = districtList.slice();
     let districlistpush: Array<district> = [];
 
@@ -224,7 +206,6 @@ const MerRegister = () => {
     setDristLists(districlistpush);
   };
   let getCurrentBranch = (id: number) => {
-    console.log(id);
     let clonedBranch = branchList.slice();
     let branchpush: Array<district> = [];
 
@@ -247,67 +228,177 @@ const MerRegister = () => {
     getBranchList();
   }, [Area, bank]);
   return (
-    <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
-      <Layout style={styles.layout}>
-        <Layout style={styles.items}>
-          <Text style={styles.text}>姓名：</Text>
-          <Input
-            value={Name}
-            placeholder="Place your password"
-            onChangeText={nextValue => setName(nextValue)}
-            style={{backgroundColor: 'rgb(40,40,40)'}}
-          />
-        </Layout>
-        <Layout style={styles.items}>
-          <Text style={styles.text}>帳號名稱：</Text>
-          <Input
-            value={Username}
-            placeholder="Place your username"
-            onChangeText={nextValue => setUsername(nextValue)}
-            style={{backgroundColor: 'rgb(40,40,40)'}}
-          />
-        </Layout>
-        <Layout style={styles.items}>
-          <Text style={styles.text}>密碼：</Text>
-          <Input
-            value={Password}
-            placeholder="Place your password"
-            accessoryRight={renderIcon}
-            secureTextEntry={secureTextEntry}
-            onChangeText={nextValue => setPassword(nextValue)}
-            style={{backgroundColor: 'rgb(40,40,40)'}}
-          />
-        </Layout>
-        <Layout style={styles.items}>
-          <Text style={styles.text}>重新輸入密碼：</Text>
-          <Input
-            value={ConfrimePass}
-            placeholder="Place your password"
-            accessoryRight={renderIcon}
-            secureTextEntry={secureTextEntry}
-            onChangeText={nextValue => setConfrimPass(nextValue)}
-            style={{backgroundColor: 'rgb(40,40,40)'}}
-          />
-        </Layout>
-        <Layout style={styles.items}>
-          <Text style={styles.text}>電郵：</Text>
-          <Input
-            value={Email}
-            placeholder="Place your password"
-            onChangeText={nextValue => setEmail(nextValue)}
-            style={{backgroundColor: 'rgb(40,40,40)'}}
-          />
-        </Layout>
-        <Layout style={styles.items}>
-          <Text style={styles.text}>電話：</Text>
-          <Input
-            value={Phone}
-            placeholder="Place your password"
-            onChangeText={nextValue => setPhone(nextValue)}
-            style={{backgroundColor: 'rgb(40,40,40)'}}
-          />
-          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
-            <Text style={styles.text}>地區：</Text>
+    <ScrollView style={{backgroundColor: '#2A2E32'}}>
+      <SafeAreaView style={styles.safeArea}>
+        <PublicForehead />
+        <View style={styles.pageTitle}>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>商戶註冊</Text>
+          <View style={styles.pageTitleLine} />
+        </View>
+        <View style={{justifyContent: 'center', width: 350}}>
+          <View>
+            <View style={styles.subTitle}>
+              <MaterialCom
+                name={'flag-variant-outline'}
+                size={20}
+                color={'#E4E4E4'}
+              />
+              <Text style={styles.subTitleText}>商戶標誌</Text>
+            </View>
+            <View>
+              <View style={styles.inputImageBox}>
+                <TouchableOpacity
+                  style={styles.imageUploadBox}
+                  onPress={handleImageSelectionICON}>
+                  <MaterialCom
+                    name={'file-image-plus'}
+                    size={50}
+                    color={'#E4E4E4'}
+                  />
+                  <Text style={{marginTop: 5, fontSize: 15}}>
+                    請點擊上載圖片
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.subTitle}>
+              <FontAwesome5 name={'signature'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>商戶名稱</Text>
+            </View>
+            <View>
+              <View style={styles.inputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={nextValue => setName(nextValue)}
+                  value={Name}
+                  placeholder="商戶名稱"
+                />
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.subTitle}>
+              <FontAwesome5 name={'user-lock'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>帳戶號碼</Text>
+            </View>
+            <View>
+              <View style={styles.inputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={nextValue => setUsername(nextValue)}
+                  value={Username}
+                  placeholder="請輸入帳戶號碼"
+                />
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.subTitle}>
+              <FontAwesome5 name={'key'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>密碼</Text>
+            </View>
+            <View>
+              <View style={styles.inputBox}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TextInput
+                    style={styles.textInput}
+                    onChangeText={nextValue => setPassword(nextValue)}
+                    value={Password}
+                    placeholder="請輸入密碼"
+                    secureTextEntry={secure}
+                  />
+                </View>
+                <TouchableOpacity
+                  onPress={() => setSecure(!secure)}
+                  style={{width: 35, alignItems: 'center'}}>
+                  <FontAwesome5
+                    name={secure ? 'eye' : 'eye-slash'}
+                    size={25}
+                    color={'#E4E4E4'}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.subTitle}>
+              <FontAwesome5 name={'key'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>再次輸入密碼</Text>
+            </View>
+            <View>
+              <View style={styles.inputBox}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TextInput
+                    style={styles.textInput}
+                    onChangeText={nextValue => setConfirmPass(nextValue)}
+                    value={ConfirmPass}
+                    placeholder="請再次輸入密碼"
+                    secureTextEntry={secureAgain}
+                  />
+                </View>
+                <TouchableOpacity
+                  onPress={() => setSecureAgain(!secureAgain)}
+                  style={{width: 35, alignItems: 'center'}}>
+                  <FontAwesome5
+                    name={secureAgain ? 'eye' : 'eye-slash'}
+                    size={25}
+                    color={'#E4E4E4'}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.subTitle}>
+              <FontAwesome5 name={'phone-alt'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>電話號碼</Text>
+            </View>
+            <View>
+              <View style={styles.inputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={nextValue => setPhone(nextValue)}
+                  value={Phone}
+                  placeholder="請輸入電話號碼"
+                  keyboardType={'numeric'}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View>
+            <View style={styles.subTitle}>
+              <MaterialCom name={'email-outline'} size={20} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>電郵地址</Text>
+            </View>
+            <View>
+              <View style={styles.inputBox}>
+                <TextInput
+                  style={styles.textInput}
+                  onChangeText={nextValue => setEmail(nextValue)}
+                  value={Email}
+                  placeholder="請輸入電郵地址"
+                />
+              </View>
+            </View>
+          </View>
+
+          <Layout style={{backgroundColor: '#2A2E32'}}>
+            <View style={styles.subTitle}>
+              <FontAwesome5
+                name={'map-marker-alt'}
+                size={15}
+                color={'#E4E4E4'}
+              />
+              <Text style={styles.subTitleText}>商店地址</Text>
+            </View>
             <Select
               style={{width: '100%'}}
               placeholder={'地區'}
@@ -318,9 +409,6 @@ const MerRegister = () => {
                 <SelectItem title={items.area} />
               ))}
             </Select>
-          </Layout>
-          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
-            <Text style={styles.text}>分區：</Text>
             <Select
               style={{width: '100%'}}
               placeholder={'分區'}
@@ -331,21 +419,21 @@ const MerRegister = () => {
                 <SelectItem title={items.district} />
               ))}
             </Select>
+            <View style={styles.inputBox}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={nextValue => setAddress(nextValue)}
+                value={address}
+                placeholder="請輸入商店地址"
+              />
+            </View>
           </Layout>
-          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}>
-            <Text style={styles.text}>地址：</Text>
-            <Input
-              editable
-              multiline
-              numberOfLines={7}
-              value={address}
-              placeholder="Place your Text"
-              onChangeText={nextValue => setAddress(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}
-            />
-          </Layout>
-          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
-            <Text style={styles.text}>銀行編號：</Text>
+
+          <Layout style={{backgroundColor: '#2A2E32'}}>
+            <View style={styles.subTitle}>
+              <MaterialCom name={'bank'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>銀行帳號</Text>
+            </View>
             <Select
               style={{width: '100%'}}
               placeholder={'銀行編號'}
@@ -356,9 +444,6 @@ const MerRegister = () => {
                 <SelectItem title={items.bank_code + '\n' + items.bank_name} />
               ))}
             </Select>
-          </Layout>
-          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
-            <Text style={styles.text}>分行編號：</Text>
             <Select
               style={{width: '100%'}}
               placeholder={'分行編號'}
@@ -371,89 +456,170 @@ const MerRegister = () => {
                 />
               ))}
             </Select>
+            <View style={styles.inputBox}>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={nextValue => setAccountNum(nextValue)}
+                value={accountNum}
+                placeholder="請輸入銀行帳號"
+                keyboardType={'numeric'}
+              />
+            </View>
           </Layout>
 
-          <Layout style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}>
-            <Text style={styles.text}>銀行卡號碼：</Text>
-            <Input
-              value={accountNum}
-              placeholder="Place your card code"
-              accessoryRight={renderIcon}
-              secureTextEntry={secureTextEntry}
-              onChangeText={nextValue => setAccountNum(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)'}}
-            />
-          </Layout>
+          <View>
+            <View style={styles.subTitle}>
+              <MaterialCom name={'email-outline'} size={20} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>營業時間</Text>
+            </View>
+            <View>
+              <View style={styles.inputBigBox}>
+                <TextInput
+                  style={styles.textBigInput}
+                  onChangeText={nextValue => setHour(nextValue)}
+                  value={openingHour}
+                  placeholder="請輸入營業時間"
+                />
+              </View>
+            </View>
+          </View>
 
-          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}>
-            <Text style={styles.text}>營業時間：</Text>
-            <Input
-              editable
-              multiline
-              numberOfLines={7}
-              value={openingHour}
-              placeholder="Place your Text"
-              onChangeText={nextValue => setHour(nextValue)}
-              style={{backgroundColor: 'rgb(40,40,40)', width: '100%'}}
-            />
-          </Layout>
-          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}></Layout>
-          <Layout style={{backgroundColor: 'rgb(40,40,40)'}}></Layout>
-          <Layout
-            style={{backgroundColor: 'rgb(40,40,40)', alignSelf: 'center'}}>
-            <Button style={styles.button} onPress={handleImageSelectionICON}>
-              選擇商標
-            </Button>
-            <Button style={styles.button} onPress={handleImageSelectionREGIS}>
-              選擇商業登記證
-            </Button>
-          </Layout>
-        </Layout>
-        <Layout style={styles.row}>
-          <Button style={styles.button} onPress={() => upload()}>
-            提交
-          </Button>
-        </Layout>
-      </Layout>
+          <View>
+            <View style={styles.subTitle}>
+              <FontAwesome5 name={'photo-video'} size={15} color={'#E4E4E4'} />
+              <Text style={styles.subTitleText}>商業登記證</Text>
+            </View>
+            <View>
+              <View style={styles.inputImageBox}>
+                <TouchableOpacity
+                  style={styles.imageUploadBox}
+                  onPress={handleImageSelectionREGIS}>
+                  <MaterialCom
+                    name={'file-image-plus'}
+                    size={50}
+                    color={'#E4E4E4'}
+                  />
+                  <Text style={{marginTop: 5, fontSize: 15}}>
+                    請點擊上載圖片
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <View style={{alignItems: 'center', width: 350}}>
+            <TouchableOpacity
+              style={styles.screenButtonFor1}
+              onPress={() => upload()}>
+              <Text style={{fontSize: 17, color: '#E4E4E4'}}>註冊</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
 };
 export default MerRegister;
 const styles = StyleSheet.create({
-  layout: {
-    alignSelf: 'center',
-    marginVertical: '25%',
+  safeArea: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgb(40,40,40)',
-    borderColor: 'rgb(121,35,231)',
-    borderWidth: 5,
-    width: '90%',
-    padding: 10,
-    paddingBottom: 30,
-    borderRadius: 15,
   },
-  items: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    backgroundColor: 'rgb(40,40,40)',
-    width: '80%',
-    marginVertical: 10,
-  },
-  text: {
-    color: '#e4e4e4',
-    fontSize: 25,
-    marginVertical: 10,
-  },
-  row: {
+  pageTitle: {
     flexDirection: 'row',
-    backgroundColor: 'rgb(40,40,40)',
+    marginTop: 10,
+    marginBottom: 15,
+    marginLeft: 10,
+    paddingLeft: 10,
+    width: 350,
+    borderLeftWidth: 3,
+    borderColor: '#7D7D7D',
   },
-  button: {
-    marginTop: 30,
-    marginHorizontal: 10,
+  pageTitleLine: {
+    position: 'absolute',
+    bottom: -3,
+    left: 60,
+    width: 100,
+    borderBottomWidth: 3,
+    borderColor: '#7A04EB',
+  },
+  // dataBox: {justifyContent: 'center', width: 350, backgroundColor: '#2A2E32'},
+  subTitle: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    margin: 5,
+    marginBottom: 0,
+    marginTop: 10,
+    paddingLeft: 10,
+    width: 350,
+  },
+  subTitleText: {marginLeft: 10, fontSize: 17, color: '#E4E4E4'},
+  inputBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  screenButtonFor1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 8,
+    marginTop: 20,
+    marginBottom: 100,
+    width: 335,
+    height: 35,
+    backgroundColor: '#202124',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#7A04EB',
+  },
+  textInput: {fontSize: 17, padding: 0, color: '#E4E4E4', width: 250},
+  textBigInput: {
+    fontSize: 17,
+    padding: 0,
+    color: '#E4E4E4',
+    width: 250,
+    height: 130,
+  },
+  imageUploadBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 300,
+    height: 120,
+    borderStyle: 'dashed',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: '#7A04EB',
+  },
+  inputImageBox: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 8,
     paddingHorizontal: 10,
-    backgroundColor: 'rgb(30,30,30)',
-    borderColor: 'rgb(121,35,231)',
+    paddingVertical: 5,
+    height: 150,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  inputBigBox: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    margin: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    height: 150,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
   },
 });

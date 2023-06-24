@@ -293,15 +293,15 @@ export class PublicService {
 
     //done
     async searchVersion(id: number) {
-        console.log(id)
-        const value = `${id}`
+        console.log(id);
+        const value = `${id}`;
         const version =
             await prisma.$queryRaw` select version.id as version_id,* from version join product on product.id = product_id where product_id = (${value}::integer) ;`;
-            return version
-        }
+        return version;
+    }
     async searchItem(version_id: number) {
-        console.log(version_id)
-        const value = `${version_id}`
+        console.log(version_id);
+        const value = `${version_id}`;
         const items =
             await prisma.$queryRaw`select item.id as item_id,item.price,item.stock_status,item.availability,item.end_date,merchant_name,merchant_phone,merchant.address,district.district from item join merchant on merchant_id = merchant.id join district on district.id = merchant.district_id where version_id=(${value}::integer);`;
             return items

@@ -18,6 +18,7 @@ import ConGameInfoScreen from './tab/consumer/conGameInfoScreen';
 import ConMerInfoScreen from './tab/consumer/ConMerInfoScreen';
 import ConOrderRecord from './tab/consumer/ConOrderRecord';
 import AdminContactScreen from './tab/consumer/ConAdminContact';
+import SearchModal from '../modals/SearchModal';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import PaymentScreen from './pages/conPaymentPage';
@@ -33,9 +34,9 @@ const ConsumerScreenNavigator = () => {
         component={ConAppScreen}
         options={{
           headerTitle: 'ENTITÀBASE',
-          headerRight: () => (
-            <Icon name={'search'} size={30} color={'#E4E4E4'} />
-          ),
+          headerRight: () => {
+            return <SearchModal />;
+          },
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
         }}

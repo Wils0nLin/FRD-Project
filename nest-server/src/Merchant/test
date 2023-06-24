@@ -1,0 +1,34 @@
+let valueARR = [
+    { a: 1, b: 2 },
+    { a: 3, b: 4 },
+    { a: 3, b: 4 },
+    { a: 3, b: 4 },
+    { a: 3, b: 4 },
+    { a: 3, b: 4 },
+]
+let SqlString = []
+for (let value of valueARR) {
+    SqlString.push(`(${value.a},${value.b})`)
+}
+console.log(SqlString.join(','))
+
+console.log(`inser into table (a,b) values ${SqlString.join(',')} ;`)
+
+useEffect(() => {
+    // 設置初始過濾數據為全部的產品數據
+    setFilteredData(productList)
+}, [productList])
+
+const handleSearch = (text) => {
+    setSearchText(text)
+
+    // 過濾產品數據
+    const newData = productList.filter((item) => {
+        const itemName = item.name.toLowerCase()
+        const searchKeyword = text.toLowerCase()
+        return itemName.indexOf(searchKeyword) > -1
+    })
+
+    // 更新過濾後的數據
+    setFilteredData(newData)
+}

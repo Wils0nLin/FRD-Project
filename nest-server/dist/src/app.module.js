@@ -19,7 +19,8 @@ let AppModule = exports.AppModule = class AppModule {
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [config_1.ConfigModule.forRoot({
-                isGlobal: true
+                isGlobal: true,
+                envFilePath: [".env"]
             }), admin_module_1.AdminModule, consumer_module_1.ConsumerModule, merchant_module_1.MerchantModule, public_module_1.PublicModule, stripe_module_1.StripeModule],
     })
 ], AppModule);

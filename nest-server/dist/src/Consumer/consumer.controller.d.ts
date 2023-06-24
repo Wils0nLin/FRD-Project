@@ -5,7 +5,6 @@ export declare class ConsumerController {
     private readonly publicService;
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
-    test(userId: any): Promise<unknown>;
     uploadWishList(formData: any): Promise<{
         success: boolean;
         data: void;

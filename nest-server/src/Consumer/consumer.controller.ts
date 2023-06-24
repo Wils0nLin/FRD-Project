@@ -13,10 +13,6 @@ export class ConsumerController {
     async getSelfInfo(@Param("userId") userId: any) {
         return await this.consumerService.getSelfInfo(userId);
     }
-    @Get("test")
-    async test(@Param("userId") userId: any) {
-        return await this.consumerService.test();
-    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
