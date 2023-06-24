@@ -8,8 +8,6 @@ import {store} from './src/app/store';
 import ConsumerTabNavigator from './src/consumer/navigation/ConsumerTabNavigator';
 import MerchantTabNavigator from './src/merchant/navigators/MerchantTabNavigator';
 import PublicTabNavigator from './src/public/navigators/PublicTabNavigator';
-import AddItemModal from './src/merchant/modals/AddItemModal';
-import AddScreen from './src/merchant/screens/AddScreen';
 
 const Stack = createNativeStackNavigator();
 

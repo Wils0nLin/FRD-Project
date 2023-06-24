@@ -45,8 +45,8 @@ let MerchantService = exports.MerchantService = class MerchantService {
         try {
             const uploadItem = await prisma.item.create({
                 data: {
-                    merchant_id: merchantId,
-                    version_id: form.version_id,
+                    merchant: { connect: { id: form.merchant_id } },
+                    version: { connect: { id: form.version_id } },
                     end_date: form.end_date,
                     price: parseInt(form.price),
                     availability: form.availability,
