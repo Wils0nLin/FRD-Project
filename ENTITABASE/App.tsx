@@ -27,8 +27,8 @@ export default function App() {
             <Stack.Screen name="Merchant" component={MerchantTabNavigator} />
           </Stack.Navigator>
         </NavigationContainer>
-
-        {/* <AddScreen /> */}
+        {/* 
+        <AddScreen /> */}
       </ApplicationProvider>
     </Provider>
   );

@@ -3,7 +3,7 @@ export declare class MerchantService {
     editMerProfile(merchantId: any, form: any): Promise<import(".prisma/client").Merchant>;
     getAllItem(merId: any): Promise<unknown>;
     getComment(merId: any): Promise<unknown>;
-    uploadItems(form: any, merchantId: number): Promise<import(".prisma/client").Item>;
+    uploadItems(form: any): Promise<import(".prisma/client").Item>;
     updateItems(itemId: any, form: any): Promise<boolean>;
     deleteItems(itemId: any): Promise<boolean>;
     pairUserId(consumerid: string): void;
@@ -11,4 +11,5 @@ export declare class MerchantService {
     getOrderRecord(merId: any): Promise<unknown>;
     getAllProducts(): Promise<import(".prisma/client").Product[]>;
     getAllVersion(): Promise<import(".prisma/client").Version[]>;
+    getMerchantInfo(): Promise<import(".prisma/client").Merchant[]>;
 }

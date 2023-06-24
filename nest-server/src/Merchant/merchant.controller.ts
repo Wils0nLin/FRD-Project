@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post, Put, Query } from "@nestjs/common";
 import { MerchantService } from "./merchant.service";
 import { PublicService } from "src/Public/public.service";
+import { log } from "console";
 
 @Controller("merchant")
 export class MerchantController {
@@ -41,10 +42,10 @@ export class MerchantController {
     //done
     @Post("uploadItems")
     async uploadItems(@Body() form: any) {
-        const merchantId = 1;
+        console.log(form);
 
         try {
-            const result = await this.merchantService.uploadItems(form, merchantId);
+            const result = await this.merchantService.uploadItems(form);
             return { success: true, data: result };
         } catch (error) {
             console.log("itemData: ", error);
@@ -104,5 +105,8 @@ export class MerchantController {
         return this.merchantService.getAllVersion();
     }
 
-    // @Get("")
+    @Get(":merchantId")
+    getMerchantInfo() {
+        return this.merchantService.getMerchantInfo();
+    }
 }

@@ -24,4 +24,5 @@ export declare class MerchantController {
     getOrderRecord(merId: any): Promise<unknown>;
     getAllProducts(): Promise<import(".prisma/client").Product[]>;
     getAllVersion(): Promise<import(".prisma/client").Version[]>;
+    getMerchantInfo(): Promise<import(".prisma/client").Merchant[]>;
 }

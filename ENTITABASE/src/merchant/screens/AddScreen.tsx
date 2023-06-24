@@ -21,7 +21,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Calendar} from 'react-native-calendars';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {IndexPath, Layout, Select, SelectItem} from '@ui-kitten/components';
+import SelectDropdown from 'react-native-select-dropdown';
+import {SelectItem} from '@ui-kitten/components';
 
 export default function AddScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -42,9 +43,8 @@ export default function AddScreen({}) {
   console.log(end_date);
 
   const [price, onChangePrice] = React.useState('');
-  const [stock_status, setStatus] = React.useState<IndexPath | IndexPath[]>(
-    new IndexPath(0),
-  );
+  const [stock_status, setStatus] = React.useState('');
+  const status = ['預購中', '大量現貨', '尚有現貨', '少量現貨'];
   // const [stock_status, setStatus] = React.useState('');
   const [availability, setAvailability] = React.useState(true);
   // ---------------------------------------------------------------------------------------------------------
@@ -75,7 +75,9 @@ export default function AddScreen({}) {
     ));
   };
 
-  console.log('Hi: ', searchResults);
+  const handleDropdownSelect = (status: any) => {
+    setStatus(status);
+  };
 
   // ---------------------------------------------------------------------------------------------------------
   // refresh function
@@ -86,7 +88,7 @@ export default function AddScreen({}) {
     setSelectProduct(null);
     setSelectVersion(null);
     onChangePrice('');
-    // setStatus('');
+    setStatus('');
     setAvailability(true);
   };
   // ---------------------------------------------------------------------------------------------------------
@@ -102,44 +104,10 @@ export default function AddScreen({}) {
     console.log('selected version id: ', versionId);
   };
 
-  const itemPost = async () => {
-    const itemPost = {
-      product_id: SelectedProduct,
-      version_id: SelectedVersion,
-      end_date: end_date,
-      price: price,
-      stock_status: stock_status,
-      availability: availability,
-    };
-    await fetch('http://13.213.207.204/merchant/uploadItems', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(itemPost),
-    })
-      .then((response: any) => response.json)
-      .then(data => {
-        console.log('Item successfully posted:', data);
-        setItemPosted(true);
-      });
-  };
-  //
-  console.log(ProductList);
-  console.log('Name: ', name);
-
-  const getMerchantId = async (merchantId: any) => {
-    const resp = await fetch(`http://13.213.207.204/merchant/${merchantId}`, {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    });
-    const data = await resp.json();
-  };
-
-  useEffect(() => {
+  const itemUpload = async (merchantId: any) => {
     const getUserData = async () => {
       const resp = await fetch(
-        `http://13.213.207.204/merchant/userInfo/${userId}`,
+        `http://192.168.160.77:3000/merchant/userInfo/${userId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},
@@ -148,11 +116,56 @@ export default function AddScreen({}) {
       const data = await resp.json();
       setName(data[0].merchant_name);
       getMerchantId(data[0].id);
-      console.log(data);
+      console.log('get user data: ', data);
+    };
+    getUserData();
+
+    const getMerchantId = async (merchantId: any) => {
+      const resp = await fetch(
+        `http://192.168.160.77:3000/merchant/${merchantId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
+      );
+      const merData = await resp.json();
+      console.log('攞到merchant data:', merData);
+      itemPost(merData[0].id);
     };
 
+    const itemPost = async (merchantId: any) => {
+      const itemPost = {
+        // product_id: SelectedProduct,
+        version_id: SelectedVersion,
+        end_date: end_date,
+        price: price,
+        stock_status: stock_status,
+        availability: availability,
+        merchant_id: merchantId,
+      };
+      console.log('我post野啦: ', itemPost);
+
+      await fetch(`http://192.168.160.77:3000/merchant/uploadItems`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(itemPost),
+      })
+        .then((response: any) => response.json())
+        .then(data => {
+          console.log('Item successfully posted:', data);
+          setItemPosted(true);
+        });
+      console.log('got you merchant: ');
+    };
+  };
+
+  useEffect(() => {
     const getProduct = async () => {
-      const getProduct = await fetch('http://13.213.207.204/merchant/product');
+      const getProduct = await fetch(
+        'http://192.168.160.77:3000/merchant/product',
+      );
       const productList = await getProduct.json();
 
       setProductList(productList);
@@ -160,7 +173,7 @@ export default function AddScreen({}) {
 
     const getVersion = async () => {
       const getVersion = await fetch(
-        'http://13.213.207.204/merchant/product/version',
+        'http://192.168.160.77:3000/merchant/product/version',
       );
       const versionList = await getVersion.json();
 
@@ -169,7 +182,6 @@ export default function AddScreen({}) {
 
     getProduct();
     getVersion();
-    getUserData();
   }, []);
 
   useEffect(() => {
@@ -293,22 +305,24 @@ export default function AddScreen({}) {
                       </View>
                       <Text style={{fontSize: 20}}>存貨情況：</Text>
                     </View>
-                    <Layout level="1">
-                      <Select
-                        selectedIndex={stock_status}
-                        onSelect={index => setStatus(index)}>
-                        <SelectItem title="預購中" />
-                        <SelectItem title="大量現貨" />
-                        <SelectItem title="尚有現貨" />
-                        <SelectItem title="少量現貨" />
-                      </Select>
-                    </Layout>
-                    {/* <TextInput
+
+                    <SelectDropdown
+                      data={status}
+                      onSelect={handleDropdownSelect}
+                      buttonTextAfterSelection={selectedItem => {
+                        return selectedItem;
+                      }}
+                      rowTextForSelection={item => {
+                        return item;
+                      }}
+                    />
+
+                    <TextInput
                       style={{fontSize: 20}}
                       value={stock_status}
                       onChangeText={setStatus}
                       editable={false}
-                    /> */}
+                    />
                   </View>
                 </View>
               </View>
@@ -330,7 +344,7 @@ export default function AddScreen({}) {
 
               <TouchableOpacity
                 style={{backgroundColor: 'red', marginBottom: 100}}>
-                <Button onPress={itemPost} title="Submit Form" />
+                <Button onPress={itemUpload} title="Submit Form" />
               </TouchableOpacity>
             </>
           )}
