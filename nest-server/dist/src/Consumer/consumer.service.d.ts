@@ -6,7 +6,7 @@ export declare class ConsumerService {
     uploadWishList(consumerId: number, productId: number, versionId: number, targetPrice: number, notification: boolean): Promise<void>;
     deleteWishList(consumerId: number, productId: number, versionId: number): Promise<Prisma.BatchPayload>;
     createOrder(form: any): Promise<unknown>;
-    paymentIntent(): void;
+    paymentConfirm(paymentArr: Array<number>): Promise<Promise<unknown>[]>;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;

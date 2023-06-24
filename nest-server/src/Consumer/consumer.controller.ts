@@ -98,9 +98,10 @@ export class ConsumerController {
     // }
 
     //full pay
-    @Post("order/payment?:intent")
-    paymentConfirm(@Body() paymentIntent: any) { 
-        return this.consumerService.paymentIntent( );
+    @Post("order/payment")
+    paymentConfirm(@Body() paymentArr: any) { 
+        console.log()
+        return this.consumerService.paymentConfirm(paymentArr.idArr);
     }
 
     // @Post("order/remain/payment")

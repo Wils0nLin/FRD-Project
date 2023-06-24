@@ -35,7 +35,7 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         join version on version.id = item.version_id
         join product on product.id = version.product_id
         join merchant on merchant.id = item.merchant_id
-        WHERE orders.consumer_id = ${Number(JWTpayload)}; `;
+        WHERE orders.consumer_id = ${Number(JWTpayload)} and orders.payment = false; `;
         return result;
     }
     async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
@@ -87,7 +87,9 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
             )`;
         return result;
     }
-    paymentIntent() {
+    async paymentConfirm(paymentArr) {
+        console.log(Array);
+        return paymentArr.map(async (id) => await prisma.$queryRaw `update orders set payment = true where id = ${Number(id)};`);
     }
     async editUserProfile(userId, form) {
         let userInfo = {

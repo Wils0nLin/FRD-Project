@@ -19,7 +19,7 @@ let StripeService = exports.StripeService = class StripeService {
     checkout(cart) {
         const totalPrice = cart.price;
         return this.stripe.paymentIntents.create({
-            amount: 100 * 100,
+            amount: totalPrice * 100,
             currency: "hkd",
             automatic_payment_methods: {
                 enabled: true,

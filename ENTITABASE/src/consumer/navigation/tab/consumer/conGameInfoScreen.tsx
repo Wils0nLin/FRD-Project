@@ -59,9 +59,10 @@ const ConGameInfoScreen = ({route}: any) => {
     }
   };
   const selectVersion = async (version_id: number) => {
+    console.log(version_id);
     let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
-    await fetch(`http://13.213.207.204/public/filter/Items/${version_id}`)
+    await fetch(`http://10.0.2.2:3000/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -82,6 +83,7 @@ const ConGameInfoScreen = ({route}: any) => {
           });
         });
       setVersion(VersionState);
+      console.log(version);
     };
     const getuserData = async () => {
       let userState: Array<any> = [];
@@ -94,7 +96,6 @@ const ConGameInfoScreen = ({route}: any) => {
 
       setUserState(userState);
     };
-    const getProductData = async (params: type) => {};
     getuserData();
     getVersion();
   }, []);

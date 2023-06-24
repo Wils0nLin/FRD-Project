@@ -64,8 +64,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
         console.log(form);
         return this.consumerService.createOrder(form);
     }
-    paymentConfirm(paymentIntent) {
-        return this.consumerService.paymentIntent();
+    paymentConfirm(paymentArr) {
+        console.log();
+        return this.consumerService.paymentConfirm(paymentArr.idArr);
     }
     async editUserProfile(userId, form) {
         return await this.consumerService.editUserProfile(userId, form);
@@ -127,7 +128,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "createOrder", null);
 __decorate([
-    (0, common_1.Post)("order/payment?:intent"),
+    (0, common_1.Post)("order/payment"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

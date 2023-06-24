@@ -27,7 +27,7 @@ export declare class ConsumerController {
     deleteOrder(id: number): Promise<unknown>;
     displayOrderHistory(JWTpayload: any): void;
     createOrder(form: any): Promise<unknown>;
-    paymentConfirm(paymentIntent: any): void;
+    paymentConfirm(paymentArr: any): Promise<Promise<unknown>[]>;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;
