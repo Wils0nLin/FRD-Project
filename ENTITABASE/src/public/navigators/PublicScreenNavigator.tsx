@@ -16,6 +16,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
 import MerchantCenterScreen from '../screens/MerchantCenterScreen';
 import ConGameInfoScreen from '../../consumer/navigation/tab/consumer/conGameInfoScreen';
+// import MerRegister from '../screens/MerRegister';
+import ReverseHeader from '../../consumer/navigation/ReverseHeader';
+import ConMerInfoScreen from '../../consumer/navigation/tab/consumer/ConMerInfoScreen';
 // import GameInfoScreen from '../../consumer/navigation/tab/consumer/GameInfoScreen';
 const Stack = createNativeStackNavigator();
 
@@ -24,12 +27,26 @@ const PublicScreenNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="ShopInfo"
+        component={ConMerInfoScreen}
+        options={{
+          headerBackVisible: false,
+          headerTitle: 'SHOP INFO',
+          headerRight: () => (
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
+            </TouchableOpacity>
+          ),
+          headerStyle: styles.topBarBackground,
+          headerTitleStyle: styles.topBarText,
+        }}
+      />
+      <Stack.Screen
         name="PublicHome"
         component={ConAppScreen}
         options={{
           headerTitle: 'ENTITÀBASE',
           headerRight: () => {
-            console.log('hi');
             return <SearchModal />;
           },
           headerStyle: styles.topBarBackground,

@@ -72,24 +72,34 @@ export class MerchantController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    //
-    @Get("scanner/:userId")
-    pairUserId(@Param() parms: any) {
-        console.log(
-            `scanning the consumer qr code will get the item by merchant id and consumer id `
-        );
-        return this.merchantService.pairUserId(parms.userId);
+    @Get("preOrderItem/:merId")
+    async getPreOrderItem(@Param("merId") merId: any) {
+        return await this.merchantService.getPreOrderItem(merId);
     }
-    // ---------------------------------------------------------------------------------------------------------
-    @Post("Result")
-    paymentConfirm(@Body() resultStatus: any) {
-        console.log("get payment result by stripe any display success or not");
-        return this.merchantService.paymentConfirm(resultStatus);
+
+    @Get("preOrderRecord/:itemId")
+    async getPreOrderRecord(@Param("itemId") itemId: any) {
+        return await this.merchantService.getPreOrderRecord(itemId);
     }
 
     @Get("orderRecord/:merId")
     async getOrderRecord(@Param("merId") merId: any) {
         return await this.merchantService.getOrderRecord(merId);
+    }
+
+    @Post("tradeInfo/")
+    async getTradeInfo(@Body() form: any) {
+        return await this.merchantService.getTradeInfo(form);
+    }
+
+    @Post("orderInfo/")
+    async getOrderInfo(@Body() form: any) {
+        return await this.merchantService.getOrderInfo(form);
+    }
+
+    @Put("updateOrder/:orderId")
+    async updateOrder(@Param("orderId") orderId: any) {
+        return await this.merchantService.updateOrder(orderId);
     }
 
     // ---------------------------------------------------------------------------------------------------------

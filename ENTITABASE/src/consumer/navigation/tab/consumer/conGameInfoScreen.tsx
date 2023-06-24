@@ -41,6 +41,7 @@ const ConGameInfoScreen = ({route}: any) => {
       navigation.navigate('LogIn');
     } else {
       const form = {
+        consumer_id: userState[0].id,
         itemId: id,
         QRcode: userState[0].QRcode,
         amount: amount,
@@ -50,18 +51,18 @@ const ConGameInfoScreen = ({route}: any) => {
       };
 
       try {
-        axios.post('http://13.213.207.204/consumer/order/create', {
-          itemId: id,
-        });
+        console.log(form);
+        await axios.post('http://10.0.2.2:3000/consumer/order/create', form);
       } catch (error) {
         console.log(error);
       }
     }
   };
   const selectVersion = async (version_id: number) => {
+    console.log(version_id);
     let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
-    await fetch(`http://13.213.207.204/public/filter/Items/${version_id}`)
+    await fetch(`http://10.0.2.2:3000/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -74,8 +75,7 @@ const ConGameInfoScreen = ({route}: any) => {
   useEffect(() => {
     const getVersion = async () => {
       let VersionState: Array<any> = [];
-
-      await fetch(`http://13.213.207.204/public/filter/versions/${product_id}`)
+      await fetch(`http://10.0.2.2:3000/public/filter/versions/${product_id}`)
         .then(response => response.json())
         .then(data => {
           data.forEach((items: any) => {
@@ -83,10 +83,11 @@ const ConGameInfoScreen = ({route}: any) => {
           });
         });
       setVersion(VersionState);
+      console.log(version);
     };
     const getuserData = async () => {
       let userState: Array<any> = [];
-      await fetch(`http://13.213.207.204/consumer/userInfo/${userId}`)
+      await fetch(`http://10.0.2.2:3000/consumer/userInfo/${userId}`)
         .then(response => response.json())
         .then(data => {
           console.log(data[0]);
@@ -95,7 +96,6 @@ const ConGameInfoScreen = ({route}: any) => {
 
       setUserState(userState);
     };
-    const getProductData = async (params: any) => {};
     getuserData();
     getVersion();
   }, []);

@@ -13,10 +13,6 @@ export class ConsumerService {
         );
         return foundUser;
     }
-    async test() {
-        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
-        return foundUser;
-    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
@@ -40,7 +36,28 @@ export class ConsumerService {
 
     // ---------------------------------------------------
     //done
-
+    async deleteOrder(id: number) {
+        console.log("i am del ser", id);
+        const result = await prisma.$queryRaw`delete from orders where id =${id};`;
+        return result;
+    }
+    async displayOrder(JWTpayload: any) {
+        console.log("i am ser ", JWTpayload);
+        const result = await prisma.$queryRaw`SELECT product.product_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        merchant.merchant_name,
+        version.version,
+        orders.id as order_id
+        FROM orders
+        JOIN item on item.id = orders.item_id
+        join version on version.id = item.version_id
+        join product on product.id = version.product_id
+        join merchant on merchant.id = item.merchant_id
+        WHERE orders.consumer_id = ${Number(JWTpayload)} and orders.payment = false; `;
+        return result;
+    }
     async uploadWishList(consumerId: number, productId: number) {
         //不能重覆upload相同product or version去wishlist
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
@@ -71,23 +88,38 @@ export class ConsumerService {
         console.log(`del product by id`);
     }
     // ---------------------------------------------------------------------------------------------------------
-    async getShopInfo(shopId: any) {
-        const foundShop = await prisma.$queryRawUnsafe(
-            `select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`
-        );
-        return foundShop;
-    }
-
-    // ---------------------------------------------------------------------------------------------------------
     async createOrder(form: any) {
         console.log("iamser", form);
-        const result =
-            await prisma.$queryRaw`insert into orders ( consumer_QRcode,item_id,amount,order_status,payment,create_time) values (${form.QRcode},${form.itemId},${form.amount},${form.order_status},${form.payment},${form.create_time})`;
+        const result = await prisma.$queryRaw`insert into orders (
+                item_id,
+                amount,
+                order_status,
+                payment,
+                create_time,
+                consumer_id,
+                consumer_qrcode
+        
+            )
+        values (
+               
+               ${form.itemId},
+               ${form.amount},
+               ${form.order_status},
+               ${form.payment},
+               ${form.create_time},
+               ${form.consumer_id},
+               ${form.QRcode}
+              
+            )`;
         return result;
     }
     //full pay
-    paymentConfirm(paymentStatus: any) {
-        console.log(`confirm payment success or not if  change status`);
+    async paymentConfirm(paymentArr: Array<number>) {
+        console.log(Array);
+        return paymentArr.map(
+            async (id) =>
+                await prisma.$queryRaw`update orders set payment = true where id = ${Number(id)};`
+        );
     }
 
     // remainPaymentConfirm(paymentStatus: any) {

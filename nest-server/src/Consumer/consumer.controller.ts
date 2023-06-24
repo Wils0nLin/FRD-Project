@@ -13,10 +13,6 @@ export class ConsumerController {
     async getSelfInfo(@Param("userId") userId: any) {
         return await this.consumerService.getSelfInfo(userId);
     }
-    @Get("test")
-    async test(@Param("userId") userId: any) {
-        return await this.consumerService.test();
-    }
 
     // ---------------------------------------------------------------------------------------------------------
     // 未攞到consumer id
@@ -52,15 +48,15 @@ export class ConsumerController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    @Get("shopInfo/:shopId")
-    async getShopInfo(@Param("shopId") shopId: any) {
-        return await this.consumerService.getShopInfo(shopId);
+    @Get("order/:JWT")
+    displayOrder(@Param("JWT") JWTpayload: any) {
+        console.log();
+        return this.consumerService.displayOrder(JWTpayload);
     }
-
-    // ---------------------------------------------------------------------------------------------------------
-    @Get("order")
-    displayOrder(@Body() JWTpayload: any) {
-        return this.publicService.displayOrder(JWTpayload);
+    @Get("order/delete/:id")
+    deleteOrder(@Param("id") id: number) {
+        console.log(id);
+        return this.consumerService.deleteOrder(Number(id));
     }
     @Get("order/history")
     displayOrderHistory(@Body() JWTpayload: any) {
@@ -74,8 +70,9 @@ export class ConsumerController {
 
     //full pay
     @Post("order/payment")
-    paymentConfirm(@Body() paymentstatus: any) {
-        return this.consumerService.paymentConfirm(paymentstatus);
+    paymentConfirm(@Body() paymentArr: any) {
+        console.log();
+        return this.consumerService.paymentConfirm(paymentArr.idArr);
     }
 
     // ---------------------------------------------------------------------------------------------------------
@@ -94,6 +91,7 @@ export class ConsumerController {
     async editPassword(@Param("userId") userId: any, @Body() form: any) {
         return await this.consumerService.editPassword(userId, form);
     }
+
     // ---------------------------------------------------------------------------------------------------------
     // get hot game
     @Get("hot")

@@ -11,7 +11,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '角色扮演',
+            tagArr: ['角色扮演'],
           });
         }}>
         <FontAwesome5 name={'theater-masks'} size={20} color={'#E4E4E4'} />
@@ -21,7 +21,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '動作冒險',
+            tagArr: ['動作冒險'],
           });
         }}>
         <FontAwesome5 name={'running'} size={20} color={'#E4E4E4'} />
@@ -32,7 +32,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '射擊',
+            tagArr: ['射擊'],
           });
         }}>
         <FontAwesome5 name={'crosshairs'} size={20} color={'#E4E4E4'} />
@@ -43,7 +43,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '競技',
+            tagArr: ['競技'],
           });
         }}>
         <FontAwesome5 name={'trophy'} size={20} color={'#E4E4E4'} />
@@ -54,7 +54,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '劇情',
+            tagArr: ['劇情'],
           });
         }}>
         <FontAwesome5 name={'video'} size={20} color={'#E4E4E4'} />
@@ -65,7 +65,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '合作',
+            tagArr: ['合作'],
           });
         }}>
         <FontAwesome5 name={'users'} size={20} color={'#E4E4E4'} />
@@ -76,7 +76,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '體育',
+            tagArr: ['體育'],
           });
         }}>
         <FontAwesome5 name={'basketball-ball'} size={20} color={'#E4E4E4'} />
@@ -87,7 +87,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '策略',
+            tagArr: ['策略'],
           });
         }}>
         <FontAwesome5 name={'chess'} size={20} color={'#E4E4E4'} />
@@ -98,7 +98,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '格鬥',
+            tagArr: ['格鬥'],
           });
         }}>
         <MaterialCom name={'boxing-glove'} size={20} color={'#E4E4E4'} />
@@ -109,7 +109,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '音樂',
+            tagArr: ['音樂'],
           });
         }}>
         <FontAwesome5 name={'music'} size={20} color={'#E4E4E4'} />
@@ -120,7 +120,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '解謎',
+            tagArr: ['解謎'],
           });
         }}>
         <FontAwesome5 name={'question'} size={20} color={'#E4E4E4'} />
@@ -131,7 +131,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '卡牌',
+            tagArr: ['卡牌'],
           });
         }}>
         <MaterialCom
@@ -146,7 +146,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '家庭',
+            tagArr: ['家庭'],
           });
         }}>
         <MaterialCom name={'party-popper'} size={20} color={'#E4E4E4'} />
@@ -157,7 +157,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '育成',
+            tagArr: ['育成'],
           });
         }}>
         <FontAwesome5 name={'hand-holding-heart'} size={20} color={'#E4E4E4'} />
@@ -168,7 +168,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '生存',
+            tagArr: ['生存'],
           });
         }}>
         <MaterialCom name={'axe-battle'} size={20} color={'#E4E4E4'} />
@@ -179,7 +179,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '工藝',
+            tagArr: ['工藝'],
           });
         }}>
         <FontAwesome5 name={'paint-roller'} size={20} color={'#E4E4E4'} />
@@ -190,7 +190,7 @@ export default function GameTypeSlider({navigation}: any) {
         style={styles.gameTypeButton}
         onPress={() => {
           navigation.navigate('GameSearchScreen', {
-            tagArr: '恐怖',
+            tagArr: ['恐怖'],
           });
         }}>
         <FontAwesome5 name={'skull-crossbones'} size={20} color={'#E4E4E4'} />
