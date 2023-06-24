@@ -8,8 +8,7 @@ import {store} from './src/app/store';
 import ConsumerTabNavigator from './src/consumer/navigation/ConsumerTabNavigator';
 import MerchantTabNavigator from './src/merchant/navigators/MerchantTabNavigator';
 import PublicTabNavigator from './src/public/navigators/PublicTabNavigator';
-import AddItemModal from './src/merchant/modals/AddItemModal';
-import AddScreen from './src/merchant/screens/AddScreen';
+import {GameSearchScreen} from './src/consumer/navigation/pages/searchScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,8 +26,6 @@ export default function App() {
             <Stack.Screen name="Merchant" component={MerchantTabNavigator} />
           </Stack.Navigator>
         </NavigationContainer>
-        {/* 
-        <AddScreen /> */}
       </ApplicationProvider>
     </Provider>
   );

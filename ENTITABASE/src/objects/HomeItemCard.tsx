@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
-
+// import {} from "../assets"
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type cardInfo = {

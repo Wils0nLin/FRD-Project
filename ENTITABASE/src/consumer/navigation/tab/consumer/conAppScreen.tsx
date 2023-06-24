@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -17,7 +17,13 @@ import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import HomeItemCard from '../../../../objects/HomeItemCard';
 import {Switch} from 'react-native-gesture-handler';
 
+// ---------------------------------------------------------------------------------------------------------
+//const variable
+
+// ---------------------------------------------------------------------------------------------------------
+
 export default function ConAppScreen({navigation}: any) {
+  const [HotList, setHotList] = React.useState<any>('');
   const HotArr = [
     {
       image: (
@@ -129,7 +135,7 @@ export default function ConAppScreen({navigation}: any) {
   const findSwitchGames = async () => {
     try {
       const process = await fetch(
-        `http://13.213.207.204/public/filter/platform/?platformId=${1}`,
+        `http://192.168.160.77:3000/public/filter/platform/?platformId=${1}`,
         {
           method: 'GET',
           headers: {
@@ -143,6 +149,26 @@ export default function ConAppScreen({navigation}: any) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const getHot = async () => {
+      const getProduct = await fetch('http://192.168.160.77:3000/consumer/hot');
+      const hotList = await getProduct.json();
+
+      setHotList(hotList);
+    };
+
+    getHot();
+  }, []);
+  console.log('攞到: ', HotList);
+
+  // function showHotGame() {
+  //   return <View>
+  //     {HotList.map((items:any) => (
+  //       <View></View>
+  //     ))}
+  //   </View>;
+  // }
 
   return (
     <ScrollView
@@ -168,7 +194,7 @@ export default function ConAppScreen({navigation}: any) {
             style={styles.PlayStatButton}
             onPress={() => {
               navigation.navigate('GameSearchScreen', {
-                platformArr: 'PlayStation',
+                platformArr: ['PlayStation'],
               });
             }}>
             <Fontisto name={'playstation'} size={25} color={'#E4E4E4'} />
@@ -179,7 +205,7 @@ export default function ConAppScreen({navigation}: any) {
             style={styles.XboxButton}
             onPress={() => {
               navigation.navigate('GameSearchScreen', {
-                platformArr: 'XBOX',
+                platformArr: ['XBOX'],
               });
             }}>
             <MaterialCom name={'microsoft-xbox'} size={25} color={'#E4E4E4'} />

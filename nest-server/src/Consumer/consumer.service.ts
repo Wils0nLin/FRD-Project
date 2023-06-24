@@ -14,51 +14,39 @@ export class ConsumerService {
         return foundUser;
     }
     async test() {
-        const foundUser = await prisma.$queryRawUnsafe(
-            `select merchant_image from merchant;;`
-        );
+        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
         return foundUser;
     }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
-    // async displayWishList(consumer_id: number) {
-    //     try {
-    //         const displayWishlist = await prisma.wishlist_product.findMany({
-    //             where: {
-    //                 consumer: { id: consumer_id },
-    //             },
-    //             include: {
-    //                 product: true,
-    //                 version: true,
-    //             },
-    //         });
-    //         return displayWishlist;
-    //     } catch (error) {
-    //         throw new Error("無法獲取願望清單");
-    //     }
+    async displayWishList(consumer_id: number) {
+        try {
+            const displayWishlist = await prisma.wishlist_product.findMany({
+                where: {
+                    consumer: { id: consumer_id },
+                },
+                include: {
+                    product: true,
+                },
+            });
+            return displayWishlist;
+        } catch (error) {
+            throw new Error("無法獲取願望清單");
+        }
 
-    //     // console.log(`display wish list`);
-    // }
-    // displayWishList() {
-    //     console.log(`display wish list`);
-    // }
+        // console.log(`display wish list`);
+    }
+
     // ---------------------------------------------------
     //done
 
-    async uploadWishList(
-        consumerId: number,
-        productId: number,
-        versionId: number,
-        targetPrice: number,
-        notification: boolean
-    ) {
+    async uploadWishList(consumerId: number, productId: number) {
         //不能重覆upload相同product or version去wishlist
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
 
@@ -66,31 +54,17 @@ export class ConsumerService {
             throw new Error("該產品和版本已經在願望清單中");
         }
 
-        // const wishlistProduct = await prisma.wishlist_product.create({
-        //     data: {
-        //         consumer: { connect: { id: consumerId } },
-        //         product: { connect: { id: productId } },
-        //         version: { connect: { id: versionId } },
-        //         target_price: targetPrice,
-        //         notification: notification,
-        //     },
-        // });
-        // return wishlistProduct;
         console.log(`upload product by id`);
     }
 
-    // uploadWishList(id: any) {
-
-    //     console.log(`upload product by id`);
     // }
     // ---------------------------------------------------
     //done
-    async deleteWishList(consumerId: number, productId: number, versionId: number) {
+    async deleteWishList(consumerId: number, productId: number) {
         const deleteWishList = await prisma.wishlist_product.deleteMany({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
         return deleteWishList;
@@ -165,23 +139,9 @@ export class ConsumerService {
         }
     }
     // ---------------------------------------------------------------------------------------------------------
-    //唔知點解加左rating就唔work
-    // async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
-    //     const savedFeedback = await prisma.feedback.create({
-    //         data: {
-    //             comment: comment,
-    //             merchant: { connect: { id: merchantId } },
-    //             consumer: { connect: { id: consumerId } },
-    //             rating: rating,
-    //         },
-    //     });
-
-    //     return savedFeedback;
-    //     console.log(`insert feedback`);
-    // }
-
-    // rating(merchantId: string, rating: number, consumerId: any) {
-
-    //     console.log(`inserting rating by merchantID`);
-    // }
+    async getHot() {
+        const hot =
+            await prisma.$queryRaw`select * from product join hot on product_id = product.id;`;
+        return hot;
+    }
 }

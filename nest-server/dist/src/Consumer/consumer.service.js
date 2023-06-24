@@ -20,12 +20,27 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
         return foundUser;
     }
-    async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
+    async displayWishList(consumer_id) {
+        try {
+            const displayWishlist = await prisma.wishlist_product.findMany({
+                where: {
+                    consumer: { id: consumer_id },
+                },
+                include: {
+                    product: true,
+                },
+            });
+            return displayWishlist;
+        }
+        catch (error) {
+            throw new Error("無法獲取願望清單");
+        }
+    }
+    async uploadWishList(consumerId, productId) {
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
         if (existingWishlistProduct) {
@@ -33,12 +48,11 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         }
         console.log(`upload product by id`);
     }
-    async deleteWishList(consumerId, productId, versionId) {
+    async deleteWishList(consumerId, productId) {
         const deleteWishList = await prisma.wishlist_product.deleteMany({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
         return deleteWishList;
@@ -96,6 +110,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
             });
             return true;
         }
+    }
+    async getHot() {
+        const hot = await prisma.$queryRaw `select * from product join hot on product_id = product.id;`;
+        return hot;
     }
 };
 exports.ConsumerService = ConsumerService = __decorate([

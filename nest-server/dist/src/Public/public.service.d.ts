@@ -5,6 +5,7 @@ export declare class PublicService {
     private readonly prisma;
     private readonly jwt;
     private readonly config;
+    getHot(): void;
     constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
     Register(form: any, identity: string, files: any | null): Promise<void>;
     selectArea(): Promise<import(".prisma/client").Area[]>;

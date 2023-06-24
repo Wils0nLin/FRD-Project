@@ -878,7 +878,6 @@ async function main() {
     // });
 
     // const existMerchant = await prisma.merchant.findMany();
-    //
 
     // tag
     const tag = await prisma.tag.createMany({
@@ -1055,6 +1054,21 @@ async function main() {
     });
 
     const existProduct = await prisma.product.findMany();
+
+    // hot
+    const hot = await prisma.hot.createMany({
+        data: [
+            {
+                product_id: existProduct[0].id,
+            },
+            {
+                product_id: existProduct[1].id,
+            },
+            {
+                product_id: existProduct[8].id,
+            },
+        ],
+    });
 
     // version
     const version = await prisma.version.createMany({

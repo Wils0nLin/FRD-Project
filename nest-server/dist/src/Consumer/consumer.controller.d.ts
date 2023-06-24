@@ -6,7 +6,10 @@ export declare class ConsumerController {
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
     test(userId: any): Promise<unknown>;
-    uploadWishList(formData: any): Promise<{
+    displayWishList(consumer_id: number): Promise<(import(".prisma/client").Wishlist_product & {
+        product: import(".prisma/client").Product;
+    })[]>;
+    uploadWishList(consumerId: number, productId: number): Promise<{
         success: boolean;
         data: void;
         error?: undefined;
@@ -15,7 +18,7 @@ export declare class ConsumerController {
         error: any;
         data?: undefined;
     }>;
-    deleteWishList(requestData: any): Promise<{
+    deleteWishList(consumerId: number, productId: number): Promise<{
         success: boolean;
         data: import(".prisma/client").Prisma.BatchPayload;
         error?: undefined;
@@ -32,4 +35,5 @@ export declare class ConsumerController {
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;
+    getHot(): Promise<unknown>;
 }

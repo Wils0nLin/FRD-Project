@@ -967,6 +967,19 @@ async function main() {
         ],
     });
     const existProduct = await prisma.product.findMany();
+    const hot = await prisma.hot.createMany({
+        data: [
+            {
+                product_id: existProduct[0].id,
+            },
+            {
+                product_id: existProduct[1].id,
+            },
+            {
+                product_id: existProduct[8].id,
+            },
+        ],
+    });
     const version = await prisma.version.createMany({
         data: [
             {

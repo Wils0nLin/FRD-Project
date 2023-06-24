@@ -14,6 +14,9 @@ import { ConfigService } from "@nestjs/config";
 const prisma = new PrismaClient();
 @Injectable()
 export class PublicService {
+    getHot() {
+        throw new Error("Method not implemented.");
+    }
     // getMerchantByItemId(itemId: number) {
     //     throw new Error("Method not implemented.");
     // }

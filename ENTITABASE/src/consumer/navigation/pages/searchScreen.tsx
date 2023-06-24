@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+// import {} from "../../../assets/imageUpload/imageProduct/"
 import {useState} from 'react';
 import HomeItemCard from '../../../objects/HomeItemCard';
 
@@ -33,10 +33,26 @@ interface Product {
   view: number;
 }
 
+const imageObject = {
+  'Switch_Sport.jpeg': require('../../../assets/imageUpload/imageProduct/Switch_Sport.jpeg'),
+  'PKM朱紫.jpeg': require('../../../assets/imageUpload/imageProduct/PKM朱紫.jpeg'),
+  '2K23.jpeg': require('../../../assets/imageUpload/imageProduct/2K23.jpeg'),
+  'Call_Duty.jpeg': require('../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+  'GTA5.jpeg': require('../../../assets/imageUpload/imageProduct/GTA5.jpeg'),
+  'Spider_Man_Miles_ps5.jpeg': require('../../../assets/imageUpload/imageProduct/Spider_Man_Miles_ps5.jpeg'),
+  'THE_KING_OF_FIGHTERS_XV_XBOX.jpeg': require('../../../assets/imageUpload/imageProduct/THE_KING_OF_FIGHTERS_XV_XBOX.jpeg'),
+  '哈利波特_ps.jpeg': require('../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
+  '星之卡比.jpeg': require('../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
+  '薩爾達傳說王國之淚.jpeg': require('../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
+  // default: require('../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+} as Record<string, any>;
+
 export const GameSearchScreen = ({route, navigation}: any) => {
   const {tagArr, platformArr, text, highest, newest}: info = route.params;
   const [Texts, onChangeTexts] = React.useState(text);
   const [result, setResult] = useState<Product[]>([]);
+  console.log(result);
+
   //未拆到個array object
 
   const unique = (arr: Array<any>, track = new Set()) =>
@@ -52,7 +68,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
 
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
-          await fetch(`http://13.213.207.204/public/filter/tag/${tagArr[i]}`)
+          await fetch(
+            `http://192.168.160.77:3000/public/filter/tag/${tagArr[i]}`,
+          )
             .then(response => response.json())
             .then(data => {
               data.map((items: Product) => {
@@ -65,7 +83,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i < platformArr.length; i++) {
           await fetch(
-            `http://13.213.207.204/public/filter/platform/${platformArr[i]}`,
+            `http://192.168.160.77:3000/public/filter/platform/${platformArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
@@ -77,7 +95,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       }
       try {
-        await fetch(`http://13.213.207.204/public/filter/search/${Texts}`)
+        await fetch(`http:/192.168.160.77:3000/public/filter/search/${Texts}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);
@@ -184,7 +202,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
                     height: 80,
                     borderRadius: 5,
                   }}
-                  source={require('../../../assets/images/Pokemon_purple_and_red.jpeg')}
+                  source={imageObject[items.product_image]}
                 />
               }
               date={items.release_date}
