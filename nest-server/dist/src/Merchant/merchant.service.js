@@ -46,7 +46,7 @@ let MerchantService = exports.MerchantService = class MerchantService {
         const items = [];
         for (const version of versions) {
             const item = await prisma.item.create({
-                data: Object.assign(Object.assign({}, itemData), { merchant: { connect: { id: merchantId } }, version: { connect: { id: version.id } }, original_price: itemData.original_price, newest_price: itemData.newest_price, end_date: new Date("2023-07-01T00:00:00Z"), stock_status: itemData.stock_status, availability: itemData.availability }),
+                data: Object.assign(Object.assign({}, itemData), { merchant: { connect: { id: merchantId } }, version: { connect: { id: version.id } }, price: itemData.price, end_date: new Date("2023-07-01T00:00:00Z"), stock_status: itemData.stock_status, availability: itemData.availability }),
             });
             items.push(item);
         }

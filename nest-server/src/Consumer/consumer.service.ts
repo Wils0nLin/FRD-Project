@@ -13,6 +13,10 @@ export class ConsumerService {
         );
         return foundUser;
     }
+    async test() {
+        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
+        return foundUser;
+    }
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
@@ -39,7 +43,28 @@ export class ConsumerService {
     // }
     // ---------------------------------------------------
     //done
-
+    async deleteOrder(id: number) {
+        console.log("i am del ser", id);
+        const result = await prisma.$queryRaw`delete from orders where id =${id};`;
+        return result;
+    }
+    async displayOrder(JWTpayload: any) {
+        console.log("i am ser ", JWTpayload);
+        const result = await prisma.$queryRaw`SELECT product.product_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        merchant.merchant_name,
+        version.version,
+        orders.id as order_id
+        FROM orders
+        JOIN item on item.id = orders.item_id
+        join version on version.id = item.version_id
+        join product on product.id = version.product_id
+        join merchant on merchant.id = item.merchant_id
+        WHERE orders.consumer_id = ${Number(JWTpayload)}; `;
+        return result;
+    }
     async uploadWishList(
         consumerId: number,
         productId: number,
@@ -91,12 +116,34 @@ export class ConsumerService {
         console.log(`del product by id`);
     }
     // ---------------------------------------------------------------------------------------------------------
-    createOrder(itemId: string) {
-        console.log(`upload items to `);
+    async createOrder(form: any) {
+        console.log("iamser", form);
+        const result = await prisma.$queryRaw`insert into orders (
+                item_id,
+                amount,
+                order_status,
+                payment,
+                create_time,
+                consumer_id,
+                consumer_qrcode
+        
+            )
+        values (
+               
+               ${form.itemId},
+               ${form.amount},
+               ${form.order_status},
+               ${form.payment},
+               ${form.create_time},
+               ${form.consumer_id},
+               ${form.QRcode}
+              
+            )`;
+        return result;
     }
     //full pay
-    paymentConfirm(paymentStatus: any) {
-        console.log(`confirm payment success or not if  change status`);
+    paymentIntent(){
+        
     }
 
     // remainPaymentConfirm(paymentStatus: any) {
@@ -149,19 +196,19 @@ export class ConsumerService {
     }
     // ---------------------------------------------------------------------------------------------------------
     //唔知點解加左rating就唔work
-    async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
-        const savedFeedback = await prisma.feedback.create({
-            data: {
-                comment: comment,
-                merchant: { connect: { id: merchantId } },
-                consumer: { connect: { id: consumerId } },
-                rating: rating,
-            },
-        });
+    // async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
+    //     const savedFeedback = await prisma.feedback.create({
+    //         data: {
+    //             comment: comment,
+    //             merchant: { connect: { id: merchantId } },
+    //             consumer: { connect: { id: consumerId } },
+    //             rating: rating,
+    //         },
+    //     });
 
-        return savedFeedback;
-        console.log(`insert feedback`);
-    }
+    //     return savedFeedback;
+    //     console.log(`insert feedback`);
+    // }
 
     // rating(merchantId: string, rating: number, consumerId: any) {
 

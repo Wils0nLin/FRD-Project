@@ -16,6 +16,32 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
     }
+    async test() {
+        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
+        return foundUser;
+    }
+    async deleteOrder(id) {
+        console.log("i am del ser", id);
+        const result = await prisma.$queryRaw `delete from orders where id =${id};`;
+        return result;
+    }
+    async displayOrder(JWTpayload) {
+        console.log("i am ser ", JWTpayload);
+        const result = await prisma.$queryRaw `SELECT product.product_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        merchant.merchant_name,
+        version.version,
+        orders.id as order_id
+        FROM orders
+        JOIN item on item.id = orders.item_id
+        join version on version.id = item.version_id
+        join product on product.id = version.product_id
+        join merchant on merchant.id = item.merchant_id
+        WHERE orders.consumer_id = ${Number(JWTpayload)}; `;
+        return result;
+    }
     async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
             where: {
@@ -40,11 +66,32 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         return deleteWishList;
         console.log(`del product by id`);
     }
-    createOrder(itemId) {
-        console.log(`upload items to `);
+    async createOrder(form) {
+        console.log("iamser", form);
+        const result = await prisma.$queryRaw `insert into orders (
+                item_id,
+                amount,
+                order_status,
+                payment,
+                create_time,
+                consumer_id,
+                consumer_qrcode
+        
+            )
+        values (
+               
+               ${form.itemId},
+               ${form.amount},
+               ${form.order_status},
+               ${form.payment},
+               ${form.create_time},
+               ${form.consumer_id},
+               ${form.QRcode}
+              
+            )`;
+        return result;
     }
-    paymentConfirm(paymentStatus) {
-        console.log(`confirm payment success or not if  change status`);
+    paymentIntent() {
     }
     async editUserProfile(userId, form) {
         let userInfo = {
@@ -86,18 +133,6 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
             });
             return true;
         }
-    }
-    async feedback(comment, merchantId, consumerId, rating) {
-        const savedFeedback = await prisma.feedback.create({
-            data: {
-                comment: comment,
-                merchant: { connect: { id: merchantId } },
-                consumer: { connect: { id: consumerId } },
-                rating: rating,
-            },
-        });
-        return savedFeedback;
-        console.log(`insert feedback`);
     }
 };
 exports.ConsumerService = ConsumerService = __decorate([

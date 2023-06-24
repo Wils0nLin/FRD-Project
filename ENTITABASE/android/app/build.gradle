@@ -2,7 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
 project.ext.vectoricons = [
-    iconFontNames: [ 'FontAwesome5_Solid.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Brands.ttf', 'Ionicons.ttf', 'EvilIcons.ttf', 'AntDesign.ttf', 'Octicons.ttf', 'MaterialIcons.ttf', 'Feather.ttf', 'FontAwesome.ttf', 'Foundation.ttf', 'Fontisto.ttf','MaterialCommunityIcons.ttf' ] // Name of the font files you want to copy
+    iconFontNames: [ 'FontAwesome5_Solid.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Brands.ttf', 'Ionicons.ttf', 'EvilIcons.ttf', 
+    'AntDesign.ttf', 'Octicons.ttf', 'MaterialIcons.ttf', 'Feather.ttf', 'FontAwesome.ttf', 'Foundation.ttf', 'Fontisto.ttf',
+    'MaterialCommunityIcons.ttf','Entypo.ttf','FontAwesome5.ttf' ] // Name of the font files you want to copy
 ]
 
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -160,6 +162,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-camera')
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+    implementation 'com.google.android.material:material:<version>'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

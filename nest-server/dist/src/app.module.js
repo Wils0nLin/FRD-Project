@@ -12,11 +12,15 @@ const admin_module_1 = require("./Admin/admin.module");
 const consumer_module_1 = require("./Consumer/consumer.module");
 const merchant_module_1 = require("./Merchant/merchant.module");
 const public_module_1 = require("./Public/public.module");
+const stripe_module_1 = require("./stripe/stripe.module");
+const config_1 = require("@nestjs/config");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [admin_module_1.AdminModule, consumer_module_1.ConsumerModule, merchant_module_1.MerchantModule, public_module_1.PublicModule],
+        imports: [config_1.ConfigModule.forRoot({
+                isGlobal: true
+            }), admin_module_1.AdminModule, consumer_module_1.ConsumerModule, merchant_module_1.MerchantModule, public_module_1.PublicModule, stripe_module_1.StripeModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

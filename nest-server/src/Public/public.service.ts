@@ -303,7 +303,7 @@ export class PublicService {
         console.log(version_id)
         const value = `${version_id}`
         const items =
-            await prisma.$queryRaw`select item.price,item.stock_status,item.availability,item.end_date,merchant_name,merchant_phone,merchant.address,district.district from item join merchant on merchant_id = merchant.id join district on district.id = merchant.district_id where version_id=(${value}::integer);`;
+            await prisma.$queryRaw`select item.id as item_id,item.price,item.stock_status,item.availability,item.end_date,merchant_name,merchant_phone,merchant.address,district.district from item join merchant on merchant_id = merchant.id join district on district.id = merchant.district_id where version_id=(${value}::integer);`;
             return items
         }
 
@@ -373,10 +373,10 @@ export class PublicService {
     }
 
     district(productid: any, versionId: any, district: any) {
-        console.log(`select all iems with props`, productid, versionId, district);
+        console.log(`select all items with props`, productid, versionId, district);
     }
     area(productid: any, versionId: any, area: any) {
-        console.log(`select all iems with props`, productid, versionId, area);
+        console.log(`select all items with props`, productid, versionId, area);
     }
 
     // for search 商戶報價 and 評論
@@ -385,7 +385,7 @@ export class PublicService {
     async priceDesc(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "desc",
+                price: "desc",
             },
             include: {
                 version: {
@@ -403,7 +403,7 @@ export class PublicService {
     async priceAsec(productid: any, versionId: any) {
         const item = await prisma.item.findMany({
             orderBy: {
-                original_price: "asc",
+                price: "asc",
             },
             include: {
                 version: {
@@ -426,9 +426,7 @@ export class PublicService {
     //Homepage tag
 
     //order display
-    displayOrder(JWTpayload: any): void {
-        console.log(`display order by userId`, JWTpayload);
-    }
+ 
     displayOrderHistory(JWTpayload: any): void {
         console.log(`display order history by userId`, JWTpayload);
     }

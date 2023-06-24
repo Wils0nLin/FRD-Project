@@ -28,34 +28,40 @@ model Users {
 // relationship with consumer
 
 model Consumer {
-  id                Int      @id @default(autoincrement())
-  users             Users    @relation(fields: [users_id], references: [id])
-  users_id          Int      @map("users_id")
-  QRcode            String
-  consumer_name     String  
-  consumer_phone    String
+ id                Int      @id @default(autoincrement())
+ users             Users    @relation(fields: [users_id], references: [id])
+ users_id          Int      @map("users_id")
+ QRcode            String
+ consumer_name     String 
+ consumer_phone    String
 
-  wishlist_products Wishlist_product[]
-  feedbacks         Feedback[]
 
-  @@map("consumer")
+ wishlist_products Wishlist_product[]
+ feedbacks         Feedback[]
+ orderss           Order[]
+
+
+ @@map("consumer")
 }
+
+
 
 
 model Order {
-  id                Int      @id @default(autoincrement())
-  consumer_QRcode   String
-  item              Item   @relation(fields: [item_id], references: [id])
-  item_id           Int      @map("item_id")
-  amount            Int
-  pre_order_status  Boolean
-  order_status      Boolean
-  pre_payment       Int
-  remain_payment    Int
-  create_time       DateTime @default(now()) @db.Date
+ id                Int      @id @default(autoincrement())
+ consumer          Consumer @relation(fields: [consumer_id], references: [id])
+ consumer_id       Int      @map("consumer_id")
+ consumer_qrcode            String
+ item              Item     @relation(fields: [item_id], references: [id])
+ item_id           Int      @map("item_id")
+ amount            Int
+ order_status      Boolean
+ payment           Boolean
+ create_time       String
 
-  @@map("order")
-}
+
+ @@map("orders")
+ }
 
 
 
@@ -67,7 +73,7 @@ model Feedback {
   merchant_id       Int      @map("merchant_id")
   rating            Int?     
   comment           String?
-  create_time       DateTime @default(now()) @db.Date
+  create_time       String
 
   @@map("feedback")
 }
@@ -87,9 +93,9 @@ model Platform {
 model Product {
   id                Int      @id @default(autoincrement())
   product_name      String
-  product_status    Boolean
-  product_image     String
-  release_date      DateTime @default(now()) @db.Date
+  product_status    Boolean  
+  product_image     string   @default("")
+  release_date      String
   product_intro     String
   view              Int
   platform          Platform @relation(fields: [platform_id], references: [id])
@@ -153,7 +159,7 @@ model Item {
   version           Version  @relation(fields: [version_id], references: [id])
   version_id        Int      @map("version_id")
   price             Int
-  end_date          DateTime? @default(now()) @db.Date
+  end_date          String
   stock_status      String
   availability      Boolean @default(true)
 
@@ -191,10 +197,10 @@ model Merchant {
   id                Int      @id @default(autoincrement())
   users             Users    @relation(fields: [users_id], references: [id])
   users_id          Int      @map("users_id")
-  merchant_image    Bytes    @default("")
+  merchant_image    string    @default("")
   merchant_name     String
   merchant_phone    String
-  biz_registration  Bytes    @default("")
+  biz_registration  string    @default("")
   district          District @relation(fields: [district_id], references: [id])
   district_id       Int      @map("district_id")
   address           String
@@ -265,4 +271,3 @@ model Bank {
 
   @@map("bank")
 }
-
