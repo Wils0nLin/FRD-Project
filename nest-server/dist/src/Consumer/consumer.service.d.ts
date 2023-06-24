@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
 export declare class ConsumerService {
     getSelfInfo(userId: any): Promise<unknown>;
-    test(): Promise<unknown>;
     deleteOrder(id: number): Promise<unknown>;
     displayOrder(JWTpayload: any): Promise<unknown>;
     uploadWishList(consumerId: number, productId: number, versionId: number, targetPrice: number, notification: boolean): Promise<void>;
