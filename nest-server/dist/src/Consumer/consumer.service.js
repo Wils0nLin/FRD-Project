@@ -16,10 +16,6 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
     }
-    async test() {
-        const foundUser = await prisma.$queryRawUnsafe(`select merchant_image from merchant;;`);
-        return foundUser;
-    }
     async deleteOrder(id) {
         console.log("i am del ser", id);
         const result = await prisma.$queryRaw `delete from orders where id =${id};`;

@@ -58,6 +58,18 @@ let MerchantController = exports.MerchantController = class MerchantController {
         console.log("get payment result by stripe any display success or not");
         return this.merchantService.paymentConfirm(resultStatus);
     }
+    async getOrderRecord(merId) {
+        return await this.merchantService.getOrderRecord(merId);
+    }
+    getAllProducts() {
+        return this.merchantService.getAllProducts();
+    }
+    getAllVersion() {
+        return this.merchantService.getAllVersion();
+    }
+    getMerchantInfo() {
+        return this.merchantService.getMerchantInfo();
+    }
 };
 __decorate([
     (0, common_1.Get)("userInfo/:userId"),
@@ -124,6 +136,31 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "paymentConfirm", null);
+__decorate([
+    (0, common_1.Get)("orderRecord/:merId"),
+    __param(0, (0, common_1.Param)("merId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MerchantController.prototype, "getOrderRecord", null);
+__decorate([
+    (0, common_1.Get)("product"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getAllProducts", null);
+__decorate([
+    (0, common_1.Get)("product/version"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getAllVersion", null);
+__decorate([
+    (0, common_1.Get)(":merchantId"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MerchantController.prototype, "getMerchantInfo", null);
 exports.MerchantController = MerchantController = __decorate([
     (0, common_1.Controller)("merchant"),
     __metadata("design:paramtypes", [merchant_service_1.MerchantService,

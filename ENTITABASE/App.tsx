@@ -14,7 +14,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-<<<<<<< HEAD
     <StripeProvider
       publishableKey={
         'pk_test_51NDJbNBdCj5k61bSiCg6OEniOlmx3KVuzFDaNeGmaN2bi3DMIaVNrcsfiz5a79OfAnj15uZnWixKGiKmfGTb1xvd00UGuYYvlx'
@@ -34,23 +33,5 @@ export default function App() {
         </ApplicationProvider>
       </Provider>
     </StripeProvider>
-=======
-    <Provider store={store}>
-      <ApplicationProvider {...eva} theme={eva.dark}>
-        <NavigationContainer>
-          <Stack.Navigator
-            screenOptions={{
-              headerShown: false,
-            }}>
-            <Stack.Screen name="Public" component={PublicTabNavigator} />
-            <Stack.Screen name="Consumer" component={ConsumerTabNavigator} />
-            <Stack.Screen name="Merchant" component={MerchantTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        {/* 
-        <AddScreen /> */}
-      </ApplicationProvider>
-    </Provider>
->>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
   );
 }

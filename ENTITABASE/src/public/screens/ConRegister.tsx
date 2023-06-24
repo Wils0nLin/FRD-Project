@@ -58,11 +58,7 @@ export default function ConRegister({navigation}: any) {
         consumer_phone: Phone,
       };
       axios
-<<<<<<< HEAD
         .post('http://10.0.2.2:3000/public/register/conRegister', form)
-=======
-        .post('http://13.213.207.204/public/register/conRegister', form)
->>>>>>> 226f35722613a4440faef1756bfcc52cb611284e
         .then(function (response) {
           console.log(response);
           Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的遊戲世界吧');

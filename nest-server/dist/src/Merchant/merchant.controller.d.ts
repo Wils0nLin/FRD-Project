@@ -21,4 +21,8 @@ export declare class MerchantController {
     deleteItems(itemId: any): Promise<boolean>;
     pairUserId(parms: any): void;
     paymentConfirm(resultStatus: any): void;
+    getOrderRecord(merId: any): Promise<unknown>;
+    getAllProducts(): Promise<import(".prisma/client").Product[]>;
+    getAllVersion(): Promise<import(".prisma/client").Version[]>;
+    getMerchantInfo(): Promise<import(".prisma/client").Merchant[]>;
 }
