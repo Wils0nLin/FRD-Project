@@ -56,7 +56,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
   //未拆到個array object
 
   const unique = (arr: Array<any>, track = new Set()) =>
-    arr.filter(({id}) => (track.has(id) ? false : track.add(id)));
+    arr.filter(({product_name}) => (track.has(product_name) ? false : track.add(product_name)));
 
   //game types search
 
@@ -69,7 +69,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
           await fetch(
-            `http://192.168.160.77:3000/public/filter/tag/${tagArr[i]}`,
+            `http://10.0.2.2:3000/public/filter/tag/${tagArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
@@ -83,7 +83,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i < platformArr.length; i++) {
           await fetch(
-            `http://192.168.160.77:3000/public/filter/platform/${platformArr[i]}`,
+            `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
@@ -95,7 +95,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       }
       try {
-        await fetch(`http:/192.168.160.77:3000/public/filter/search/${Texts}`)
+        await fetch(`http:/10.0.2.2:3000/public/filter/search/${Texts}`)
           .then(response => response.json())
           .then(data => {
             console.log(data);

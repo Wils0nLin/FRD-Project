@@ -34,7 +34,7 @@ export default function MerchantItemScreen({}) {
 
   const getUserData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -47,7 +47,7 @@ export default function MerchantItemScreen({}) {
   };
 
   const getItemData = async (id: any) => {
-    const resp = await fetch(`http://13.213.207.204/merchant/allItem/${id}`, {
+    const resp = await fetch(`http://10.0.2.2:3000/merchant/allItem/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });

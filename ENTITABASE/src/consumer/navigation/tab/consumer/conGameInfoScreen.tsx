@@ -35,7 +35,8 @@ const ConGameInfoScreen = ({route}: any) => {
   const [selectedVersion, setSelectVersion] = useState(0);
   const [items, setItems] = useState<Array<any>>([]);
   const [text, onChangeText] = useState('');
-
+  const unique = (arr: Array<any>, track = new Set()) =>
+    arr.filter(({version}) => (track.has(version) ? false : track.add(version)));
   const handleOrder = async (id: number, amount: number) => {
     if (!login) {
       navigation.navigate('LogIn');
@@ -82,8 +83,7 @@ const ConGameInfoScreen = ({route}: any) => {
             VersionState.push(items);
           });
         });
-      setVersion(VersionState);
-      console.log(version);
+      setVersion(unique(VersionState));
     };
     const getuserData = async () => {
       let userState: Array<any> = [];

@@ -21,7 +21,7 @@ export default function PreOrderItemScreen({}) {
     const getData = async () => {
       let id: any;
       console.log(userId);
-      await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http:/10.0.2.2:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -32,7 +32,7 @@ export default function PreOrderItemScreen({}) {
           console.log(id);
         });
 
-      await fetch(`http://192.168.160.142:3000/merchant/preOrderItem/${id}`, {
+      await fetch(`http:/10.0.2.2:3000/merchant/preOrderItem/${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

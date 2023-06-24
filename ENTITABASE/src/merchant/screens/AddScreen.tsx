@@ -11,20 +11,20 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView, FlatList} from 'react-native';
-import {useSelector} from 'react-redux';
+import { SafeAreaView, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 import AddItemModal from '../modals/AddItemModal';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import MerchantForehead from '../../objects/MerchantForeheadView';
-import {IRootState} from '../../app/store';
+import { IRootState } from '../../app/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Calendar} from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SelectDropdown from 'react-native-select-dropdown';
-import {SelectItem} from '@ui-kitten/components';
+import { SelectItem } from '@ui-kitten/components';
 
-export default function AddScreen({}) {
+export default function AddScreen({ }) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
   const [Texts, onChangeTexts] = React.useState('');
   const [result, setResult] = React.useState<any>([]);
@@ -52,15 +52,20 @@ export default function AddScreen({}) {
 
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<
-    Array<{id: number; product_name: string}>
+    Array<{ id: number; product_name: string }>
   >([]);
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
-
+  const unique = (arr: Array<any>, track = new Set()) =>
+    arr.filter(({ product_name }) => (track.has(product_name) ? false : track.add(product_name)));
+    const unique2 = (arr: Array<any>, track = new Set()) =>
+    arr.filter(({ version }) => (track.has(version) ? false : track.add(version)));
   const performSearch = (query: any) => {
+    console.log('hi',query)
     const results: any = ProductList.filter(item =>
       item.product_name.includes(query),
     );
-    setSearchResults(results);
+    console.log()
+    setSearchResults(unique(results));
   };
   const renderSearchResults = () => {
     if (searchQuery === '') {
@@ -107,10 +112,10 @@ export default function AddScreen({}) {
   const itemUpload = async (merchantId: any) => {
     const getUserData = async () => {
       const resp = await fetch(
-        `http://192.168.160.77:3000/merchant/userInfo/${userId}`,
+        `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
         {
           method: 'GET',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
         },
       );
       const data = await resp.json();
@@ -122,10 +127,10 @@ export default function AddScreen({}) {
 
     const getMerchantId = async (merchantId: any) => {
       const resp = await fetch(
-        `http://192.168.160.77:3000/merchant/${merchantId}`,
+        `http://10.0.2.2:3000/merchant/${merchantId}`,
         {
           method: 'GET',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
         },
       );
       const merData = await resp.json();
@@ -145,7 +150,7 @@ export default function AddScreen({}) {
       };
       console.log('我post野啦: ', itemPost);
 
-      await fetch(`http://192.168.160.77:3000/merchant/uploadItems`, {
+      await fetch(`http://10.0.2.2:3000/merchant/uploadItems`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -164,7 +169,7 @@ export default function AddScreen({}) {
   useEffect(() => {
     const getProduct = async () => {
       const getProduct = await fetch(
-        'http://192.168.160.77:3000/merchant/product',
+        'http://10.0.2.2:3000/merchant/product',
       );
       const productList = await getProduct.json();
 
@@ -173,10 +178,10 @@ export default function AddScreen({}) {
 
     const getVersion = async () => {
       const getVersion = await fetch(
-        'http://192.168.160.77:3000/merchant/product/version',
+        'http://10.0.2.2:3000/merchant/product/version',
       );
       const versionList = await getVersion.json();
-
+        console.log(versionList)
       setVersionList(versionList);
     };
 
@@ -202,7 +207,7 @@ export default function AddScreen({}) {
       <SafeAreaView style={styles.safeArea}>
         <MerchantForehead name={name} />
         <View style={styles.pageTitle}>
-          <Text style={{fontSize: 20}}>增加商品</Text>
+          <Text style={{ fontSize: 20 }}>增加商品</Text>
           <View style={styles.pageTitleLine} />
         </View>
         <View style={styles.subTitle}>
@@ -210,7 +215,7 @@ export default function AddScreen({}) {
           <Text style={styles.subTitleText}>遊戲</Text>
         </View>
 
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           {/* <Text>Product:</Text> */}
 
           {/* try */}
@@ -237,7 +242,7 @@ export default function AddScreen({}) {
               <FontAwesome5
                 name="search"
                 size={30}
-                style={{alignSelf: 'center'}}
+                style={{ alignSelf: 'center' }}
               />
             </View>
 
@@ -248,15 +253,16 @@ export default function AddScreen({}) {
           {SelectedProduct && searchQuery !== '' && (
             <>
               <Text>Version:</Text>
-              {VersionList.filter(
+              {unique2(VersionList.filter(
                 version => version.product_id === SelectedProduct,
-              ).map(item => (
+              )) .map(item => (
                 <TouchableOpacity
                   key={item.id}
                   onPress={() => passVersionSelect(item.id)}>
                   <Text>{item.version}</Text>
                 </TouchableOpacity>
               ))}
+             
             </>
           )}
 
@@ -264,12 +270,12 @@ export default function AddScreen({}) {
             <>
               <View style={styles.subTitle}>
                 <Icon name={'list'} size={20} color={'#E4E4E4'} />
-                <Text style={{width: 80, marginLeft: 10, fontSize: 20}}>
+                <Text style={{ width: 80, marginLeft: 10, fontSize: 20 }}>
                   項目
                 </Text>
               </View>
               <View>
-                <View style={{marginBottom: 10}}>
+                <View style={{ marginBottom: 10 }}>
                   <Text style={gameListStyles.itemName}>{String(result)}</Text>
                   <View style={gameListStyles.itemInfoBox}>
                     <View style={gameListStyles.itemInfoList}>
@@ -280,10 +286,10 @@ export default function AddScreen({}) {
                           color={'#E4E4E4'}
                         />
                       </View>
-                      <Text style={{fontSize: 20}}>目標售價：</Text>
+                      <Text style={{ fontSize: 20 }}>目標售價：</Text>
                     </View>
-                    <View style={{alignItems: 'center', flexDirection: 'row'}}>
-                      <Text style={{marginRight: 10, fontSize: 20}}>HK$</Text>
+                    <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                      <Text style={{ marginRight: 10, fontSize: 20 }}>HK$</Text>
                       <View
                         style={{
                           width: 80,
@@ -291,7 +297,7 @@ export default function AddScreen({}) {
                           borderBottomColor: '#B7C1DE',
                         }}>
                         <TextInput
-                          style={{fontSize: 20, padding: 0}}
+                          style={{ fontSize: 20, padding: 0 }}
                           value={price}
                           onChangeText={onChangePrice}
                         />
@@ -303,7 +309,7 @@ export default function AddScreen({}) {
                       <View style={gameListStyles.itemInfoIcon}>
                         <Icon name={'box-open'} size={20} color={'#E4E4E4'} />
                       </View>
-                      <Text style={{fontSize: 20}}>存貨情況：</Text>
+                      <Text style={{ fontSize: 20 }}>存貨情況：</Text>
                     </View>
 
                     <SelectDropdown
@@ -318,7 +324,7 @@ export default function AddScreen({}) {
                     />
 
                     <TextInput
-                      style={{fontSize: 20}}
+                      style={{ fontSize: 20 }}
                       value={stock_status}
                       onChangeText={setStatus}
                       editable={false}
@@ -343,7 +349,7 @@ export default function AddScreen({}) {
               </View>
 
               <TouchableOpacity
-                style={{backgroundColor: 'red', marginBottom: 100}}>
+                style={{ backgroundColor: 'red', marginBottom: 100 }}>
                 <Button onPress={itemUpload} title="Submit Form" />
               </TouchableOpacity>
             </>
@@ -388,7 +394,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     width: 350,
   },
-  subTitleText: {width: 80, marginLeft: 10, fontSize: 20},
+  subTitleText: { width: 80, marginLeft: 10, fontSize: 20 },
   inputBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -404,7 +410,7 @@ const styles = StyleSheet.create({
 });
 
 const gameListStyles = StyleSheet.create({
-  itemName: {fontSize: 20, borderBottomWidth: 3, borderBottomColor: '#7D7D7D'},
+  itemName: { fontSize: 20, borderBottomWidth: 3, borderBottomColor: '#7D7D7D' },
   itemInfoBox: {
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -418,7 +424,7 @@ const gameListStyles = StyleSheet.create({
     flexDirection: 'row',
     width: 130,
   },
-  itemInfoIcon: {width: 25, alignItems: 'center', justifyContent: 'center'},
+  itemInfoIcon: { width: 25, alignItems: 'center', justifyContent: 'center' },
   itemInfoPrice: {
     alignItems: 'flex-end',
     width: 80,

@@ -43,7 +43,7 @@ export default function ConMerInfoScreen() {
   let preOrder: Array<any> = [];
 
   const getData = async () => {
-    const resp = await fetch(`http://13.213.207.204/consumer/shopInfo/2`, {
+    const resp = await fetch(`http://10.0.2.2:3000/consumer/shopInfo/2`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });
@@ -61,7 +61,7 @@ export default function ConMerInfoScreen() {
   const whatsappURL = `https://wa.me/852${phone}`;
 
   const getItemData = async () => {
-    const resp = await fetch(`http://13.213.207.204/merchant/allItem/2`, {
+    const resp = await fetch(`http://10.0.2.2:3000/merchant/allItem/2`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });
@@ -81,7 +81,7 @@ export default function ConMerInfoScreen() {
   };
 
   const getCommentData = async () => {
-    const resp = await fetch(`http://13.213.207.204/merchant/comment/2`, {
+    const resp = await fetch(`http://10.0.2.2:3000/merchant/comment/2`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });

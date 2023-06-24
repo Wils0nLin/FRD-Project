@@ -41,6 +41,26 @@ export class ConsumerService {
         const result = await prisma.$queryRaw`delete from orders where id =${id};`;
         return result;
     }
+    async getOrderRecord(userId: any) {
+        console.log(userId)
+        const result = await prisma.$queryRaw`SELECT merchant.merchant_name,
+        consumer.consumer_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        item.stock_status,
+        version.version,
+        product.product_name,
+        product.product_image
+    FROM orders
+        JOIN item on item.id = orders.item_id
+        JOIN version on version.id = item.version_id
+        JOIN product on product.id = version.product_id
+        JOIN merchant on merchant.id = item.merchant_id
+        JOIN consumer ON consumer.id = orders.consumer_id
+        JOIN users on users.id = consumer.users_id where users.id = ${Number(userId)};`
+        return result
+    }
     async displayOrder(JWTpayload: any) {
         console.log("i am ser ", JWTpayload);
         const result = await prisma.$queryRaw`SELECT product.product_name,

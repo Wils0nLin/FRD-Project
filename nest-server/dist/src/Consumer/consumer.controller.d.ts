@@ -5,9 +5,22 @@ export declare class ConsumerController {
     private readonly publicService;
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
-    displayWishList(consumer_id: number): Promise<(import(".prisma/client").Wishlist_product & {
-        product: import(".prisma/client").Product;
-    })[]>;
+    displayWishList(consumer_id: number): Promise<({
+        product: import("@prisma/client/runtime").GetResult<{
+            id: number;
+            product_name: string;
+            product_status: boolean;
+            product_image: string;
+            release_date: string;
+            product_intro: string;
+            view: number;
+            platform_id: number;
+        }, unknown> & {};
+    } & import("@prisma/client/runtime").GetResult<{
+        id: number;
+        consumer_id: number;
+        product_id: number;
+    }, unknown> & {})[]>;
     uploadWishList(consumerId: number, productId: number): Promise<{
         success: boolean;
         data: void;
@@ -28,7 +41,7 @@ export declare class ConsumerController {
     }>;
     displayOrder(JWTpayload: any): Promise<unknown>;
     deleteOrder(id: number): Promise<unknown>;
-    displayOrderHistory(JWTpayload: any): void;
+    displayOrderHistory(userId: any): Promise<unknown>;
     createOrder(form: any): Promise<unknown>;
     paymentConfirm(paymentArr: any): Promise<Promise<unknown>[]>;
     editUserProfile(userId: any, form: any): Promise<boolean>;

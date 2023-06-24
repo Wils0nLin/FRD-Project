@@ -5,8 +5,8 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {gameListAreaStyle} from '../tab/consumer/conWishListScreen';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 
-const GameInfo = ({image, name, amount, status, logo}: any) => {
-  const navigation = useNavigation<NavigationProp<{GameInfo: undefined}>>();
+const GameInfo = ({image, name, amount, status}: any) => {
+  console.log(image)
   return (
     <View style={gameListAreaStyle.container}>
       <View
@@ -40,7 +40,6 @@ const GameInfo = ({image, name, amount, status, logo}: any) => {
       </TouchableOpacity>
       <View style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
         <TouchableOpacity>
-          <View>{logo}</View>
         </TouchableOpacity>
         <View style={{alignItems: 'flex-end'}}>
           <Text style={{fontSize: 20, color: 'white'}}>{status}</Text>

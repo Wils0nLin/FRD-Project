@@ -135,7 +135,7 @@ export default function ConAppScreen({navigation}: any) {
   const findSwitchGames = async () => {
     try {
       const process = await fetch(
-        `http://192.168.160.77:3000/public/filter/platform/?platformId=${1}`,
+        `http://10.0.2.2:3000/public/filter/platform/?platformId=${1}`,
         {
           method: 'GET',
           headers: {
@@ -152,7 +152,7 @@ export default function ConAppScreen({navigation}: any) {
 
   useEffect(() => {
     const getHot = async () => {
-      const getProduct = await fetch('http://192.168.160.77:3000/consumer/hot');
+      const getProduct = await fetch('http://10.0.2.2:3000/consumer/hot');
       const hotList = await getProduct.json();
 
       setHotList(hotList);
