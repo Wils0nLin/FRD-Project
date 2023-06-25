@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useEffect} from 'react';
@@ -10,9 +12,9 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-// import {} from "../../../assets/imageUpload/imageProduct/"
 import {useState} from 'react';
 import HomeItemCard from '../../../objects/HomeItemCard';
+import {IP_Of_LOCAL} from '../../../../IP';
 
 interface info {
   tagArr: Array<string> | string;
@@ -28,6 +30,7 @@ interface Product {
   product_image: string;
   product_name: string;
   product_status: boolean;
+  product_intro: string;
   release_date: string;
   versions: Array<any>;
   view: number;
@@ -44,7 +47,6 @@ const imageObject = {
   '哈利波特_ps.jpeg': require('../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
   '星之卡比.jpeg': require('../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
   '薩爾達傳說王國之淚.jpeg': require('../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
-  // default: require('../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
 } as Record<string, any>;
 
 export const GameSearchScreen = ({route, navigation}: any) => {
@@ -56,11 +58,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
   //未拆到個array object
 
   const unique = (arr: Array<any>, track = new Set()) =>
-    arr.filter(({product_name}) => (track.has(product_name) ? false : track.add(product_name)));
-
-  //game types search
-
-  //search bar text
+    arr.filter(({product_name}) =>
+      track.has(product_name) ? false : track.add(product_name),
+    );
 
   useEffect(() => {
     const tagSearch = async () => {
@@ -68,9 +68,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
 
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
-          await fetch(
-            `http://10.0.2.2:3000/public/filter/tag/${tagArr[i]}`,
-          )
+          await fetch(`http://${IP_Of_LOCAL}/public/filter/tag/${tagArr[i]}`)
             .then(response => response.json())
             .then(data => {
               data.map((items: Product) => {
@@ -83,11 +81,10 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       if (Array.isArray(platformArr)) {
         for (let i = 0; i < platformArr.length; i++) {
           await fetch(
-            `http://10.0.2.2:3000/public/filter/platform/${platformArr[i]}`,
+            `http://${IP_Of_LOCAL}/public/filter/platform/${platformArr[i]}`,
           )
             .then(response => response.json())
             .then(data => {
-              console.log(data);
               data[0].products.forEach((items: Product) => {
                 tagArrPush.push(items);
               });
@@ -95,10 +92,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         }
       }
       try {
-        await fetch(`http:/10.0.2.2:3000/public/filter/search/${Texts}`)
+        await fetch(`http:/${IP_Of_LOCAL}/public/filter/search/${Texts}`)
           .then(response => response.json())
           .then(data => {
-            console.log(data);
             data.map((items: Product) => {
               tagArrPush.push(items);
             });
@@ -113,54 +109,6 @@ export const GameSearchScreen = ({route, navigation}: any) => {
       console.log('clean');
       setResult([]);
     };
-
-    //   let platformArrPush: Array<any> = Platform.slice();
-    //   if (platformArr == undefined) {
-    //     console.log(platformArr);
-    //     return;
-    //   } else if (platformArr) {
-    //     if (Array.isArray(platformArr)) {
-    //       for (let i = 0; i <= platformArr.length; i++) {
-    //         fetch(
-    //           `http://10.0.2.2/public/filter/platform/${platformArr[i]}`,
-    //         )
-    //           .then(response => {
-    //             return response.json();
-    //           })
-    //           .then(data => {
-    //             data[0].products.map((items: products) => {
-    //               platformArrPush.push(items);
-    //               let result = platformArrPush.filter(unique);
-    //               console.log(result);
-    //               setPlatform(result);
-    //             });
-    //           })
-    //           .then(async () => {
-    //             await console.log(Platform);
-    //           });
-    //       }
-    //     } else if (Array.isArray(platformArr) == false) {
-    //       console.log('notarray');
-    //       fetch(`http://10.0.2.2/public/filter/platform/${platformArr}`)
-    //         .then(response => {
-    //           return response.json();
-    //         })
-    //         .then(data => {
-    //           data[0].products.map((items: products) => {
-    //             platformArrPush.push(items);
-    //             let result = platformArrPush.filter(unique);
-    //             console.log(result);
-    //             setPlatform(result);
-    //           });
-    //         })
-    //         .then(async () => {
-    //           await console.log(Platform);
-    //         });
-    //     }
-    //   }
-    // };
-
-    // platformSearch();
 
     clear().finally(() => tagSearch());
     return () => {
@@ -194,8 +142,8 @@ export const GameSearchScreen = ({route, navigation}: any) => {
         {result.map((items: Product) => (
           <View style={{width: 350}}>
             <HomeItemCard
-              name={items.product_name}
-              image={
+              product_name={items.product_name}
+              product_image={
                 <Image
                   style={{
                     width: 80,
@@ -205,8 +153,9 @@ export const GameSearchScreen = ({route, navigation}: any) => {
                   source={imageObject[items.product_image]}
                 />
               }
-              date={items.release_date}
-              status={'pre-order'}
+              release_date={items.release_date}
+              product_status={'pre-order'}
+              product_intro={items.product_intro}
               id={items.id}
             />
           </View>

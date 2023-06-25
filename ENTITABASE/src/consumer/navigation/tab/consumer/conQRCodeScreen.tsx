@@ -15,6 +15,7 @@ import QRCodeStyled from 'react-native-qrcode-styled';
 
 import {IRootState} from '../../../../app/store';
 import ConsumerForehead from '../../../../objects/ConsumerForeheadView';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 export default function ConQRCodeScreen() {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -23,7 +24,7 @@ export default function ConQRCodeScreen() {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://10.0.2.2:3000/consumer/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/consumer/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

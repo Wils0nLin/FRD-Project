@@ -172,4 +172,8 @@ export declare class PublicService {
     ratingDesc(productid: any, versionId: any): void;
     ratingAsce(productid: any, versionId: any): void;
     displayOrderHistory(JWTpayload: any): void;
+    getProductInfo(productId: any): Promise<unknown>;
+    getProductItem(productId: any): Promise<unknown>;
+    getProductVersion(productId: any): Promise<unknown>;
+    getVersionItem(versionId: any): Promise<unknown>;
 }

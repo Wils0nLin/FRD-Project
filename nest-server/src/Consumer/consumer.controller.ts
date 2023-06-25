@@ -49,6 +49,12 @@ export class ConsumerController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
+    @Get("shopInfo/:shopId")
+    async getShopInfo(@Param("shopId") shopId: any) {
+        return await this.consumerService.getShopInfo(shopId);
+    }
+    
+    // ---------------------------------------------------------------------------------------------------------
     @Get("order/:JWT")
     displayOrder(@Param("JWT") JWTpayload: any) {
         console.log();
@@ -99,5 +105,10 @@ export class ConsumerController {
     @Get("hot")
     getHot() {
         return this.consumerService.getHot();
+    }
+
+    @Get("allProduct")
+    getAllProduct() {
+        return this.consumerService.getAllProduct();
     }
 }

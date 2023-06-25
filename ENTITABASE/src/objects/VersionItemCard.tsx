@@ -6,13 +6,13 @@ import {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   Alert,
-  Image,
   Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {StarRatingDisplay} from 'react-native-star-rating-widget';
 
 import {IRootState} from '../app/store';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -21,14 +21,16 @@ import {IP_Of_LOCAL} from '../../IP';
 
 type cardInfo = {
   id: number;
-  name: string;
-  platform: string;
-  version: string;
+  merId: number;
+  merName: string;
+  district: string;
+  area: string;
+  address: string;
   status: string;
-  price: string;
+  price: number;
 };
 
-export default function ConShopItemCard(props: cardInfo) {
+export default function VersionItemCard(props: cardInfo) {
   const navigation = useNavigation<any>();
   const login = useSelector((state: IRootState) => state.auth.isAuth);
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -84,124 +86,123 @@ export default function ConShopItemCard(props: cardInfo) {
   return (
     <View style={styles.screenCardBackground}>
       <View style={styles.screenCardLine} />
-      <View style={styles.screenCardImage}>
-        <Image
-          style={{
-            width: 49.41,
-            height: 80,
-          }}
-          source={require('../assets/images/pokemon_purple.png')}
-        />
-      </View>
-      <View style={{flex: 1, marginLeft: 10}}>
-        <Text
-          style={{width: 165, fontSize: 18, color: '#E4E4E4'}}
-          numberOfLines={1}>
-          {props.name + ' ' + props.version}
-        </Text>
-        <Text style={styles.screenCardText1}>遊玩平台：{props.platform}</Text>
+      <View style={{flex: 1}}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={{fontSize: 18, color: '#E4E4E4', width: 150}}
+            numberOfLines={1}>
+            {props.merName}
+          </Text>
+          <StarRatingDisplay rating={5} starSize={20} color={'#defe47'} />
+        </View>
+        <View style={styles.screenCardInfo}>
+          <FontAwesome5 name={'map-marker-alt'} size={15} color={'#E4E4E4'} />
+          <Text style={styles.screenCardText1} numberOfLines={1}>
+            {props.area + props.district + props.address}
+          </Text>
+        </View>
+
         <Text style={styles.screenCardText2}>{props.status}</Text>
       </View>
       <View style={{alignItems: 'flex-end', justifyContent: 'space-between'}}>
-        {props.status === '預購中' ? (
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={loginVisible}
-              onRequestClose={() => {
-                setLoginVisible(!loginVisible);
-              }}>
-              <View style={styles.modalBackground}>
-                <View style={styles.modalStyle}>
-                  <View>
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={loginVisible}
+            onRequestClose={() => {
+              setLoginVisible(!loginVisible);
+            }}>
+            <View style={styles.modalBackground}>
+              <View style={styles.modalStyle}>
+                <View>
+                  <View style={styles.pageTitle}>
+                    <Text style={{fontSize: 20, color: '#E4E4E4'}}>登入</Text>
+                    <View style={styles.pageTitleLine} />
+                  </View>
+                  <View style={styles.modalSimple}>
+                    <View style={styles.modalWarningIcon}>
+                      <FontAwesome5
+                        name={'exclamation'}
+                        size={50}
+                        color={'#E4E4E4'}
+                      />
+                    </View>
+                    <Text style={styles.modalMainText}>請先登入</Text>
+                  </View>
+                  <View style={styles.modalButtonBox}>
+                    <TouchableOpacity
+                      style={styles.modalButtonConfirm}
+                      onPress={() => {
+                        setLoginVisible(!modalVisible);
+                        navigation.navigate('LogIn');
+                      }}>
+                      <FontAwesome5
+                        name={'check'}
+                        size={20}
+                        color={'#E4E4E4'}
+                      />
+                      <Text style={styles.buttonTextWithIcon}>確認</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.modalButtonCancel}
+                      onPress={() => setLoginVisible(!loginVisible)}>
+                      <FontAwesome5
+                        name={'times'}
+                        size={20}
+                        color={'#E4E4E4'}
+                      />
+                      <Text style={styles.buttonTextWithIcon}>取消</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <View style={styles.modalBackground}>
+              <View style={styles.modalStyle}>
+                <View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
                     <View style={styles.pageTitle}>
-                      <Text style={{fontSize: 20, color: '#E4E4E4'}}>登入</Text>
+                      <Text style={{fontSize: 20}}>成功加入</Text>
                       <View style={styles.pageTitleLine} />
                     </View>
-                    <View style={styles.modalSimple}>
-                      <View style={styles.modalWarningIcon}>
-                        <FontAwesome5
-                          name={'exclamation'}
-                          size={50}
-                          color={'#E4E4E4'}
-                        />
-                      </View>
-                      <Text style={styles.modalMainText}>請先登入</Text>
+                    <TouchableOpacity
+                      style={{margin: 5, marginHorizontal: 10}}
+                      onPress={() => setModalVisible(!modalVisible)}>
+                      <FontAwesome5
+                        name={'times'}
+                        size={40}
+                        color={'#E4E4E4'}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.modalSimple}>
+                    <View style={styles.modalWarningIcon}>
+                      <FontAwesome5
+                        name={'check'}
+                        size={50}
+                        color={'#E4E4E4'}
+                      />
                     </View>
-                    <View style={styles.modalButtonBox}>
-                      <TouchableOpacity
-                        style={styles.modalButtonConfirm}
-                        onPress={() => {
-                          setLoginVisible(!modalVisible);
-                          navigation.navigate('LogIn');
-                        }}>
-                        <FontAwesome5
-                          name={'check'}
-                          size={20}
-                          color={'#E4E4E4'}
-                        />
-                        <Text style={styles.buttonTextWithIcon}>確認</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.modalButtonCancel}
-                        onPress={() => setLoginVisible(!loginVisible)}>
-                        <FontAwesome5
-                          name={'times'}
-                          size={20}
-                          color={'#E4E4E4'}
-                        />
-                        <Text style={styles.buttonTextWithIcon}>取消</Text>
-                      </TouchableOpacity>
-                    </View>
+                    <Text style={styles.modalMainText}>已成功加入購物車</Text>
                   </View>
                 </View>
               </View>
-            </Modal>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                setModalVisible(!modalVisible);
-              }}>
-              <View style={styles.modalBackground}>
-                <View style={styles.modalStyle}>
-                  <View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <View style={styles.pageTitle}>
-                        <Text style={{fontSize: 20}}>成功加入</Text>
-                        <View style={styles.pageTitleLine} />
-                      </View>
-                      <TouchableOpacity
-                        style={{margin: 5, marginHorizontal: 10}}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <FontAwesome5
-                          name={'times'}
-                          size={40}
-                          color={'#E4E4E4'}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.modalSimple}>
-                      <View style={styles.modalWarningIcon}>
-                        <FontAwesome5
-                          name={'check'}
-                          size={50}
-                          color={'#E4E4E4'}
-                        />
-                      </View>
-                      <Text style={styles.modalMainText}>已成功加入購物車</Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-
+            </View>
+          </Modal>
+          {props.status === '預購中' ? (
             <TouchableOpacity onPress={() => Submit()}>
               <MaterialCom
                 name={'cart-arrow-down'}
@@ -209,11 +210,10 @@ export default function ConShopItemCard(props: cardInfo) {
                 color={'#E4E4E4'}
               />
             </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={{height: 10}} />
-        )}
-
+          ) : (
+            <View style={{height: 1}} />
+          )}
+        </View>
         <Text style={{fontSize: 20}}>HK$ {props.price}.00</Text>
       </View>
     </View>
@@ -239,36 +239,25 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderColor: '#7A04EB',
   },
-  screenCardImage: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    width: 80,
-  },
-  screenCardText1: {
+  screenCardInfo: {
     position: 'absolute',
-    top: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    top: 26,
+    left: 10,
     width: 260,
-    fontSize: 13,
-    color: '#E4E4E4',
   },
+  screenCardText1: {marginLeft: 5, fontSize: 13, color: '#E4E4E4'},
   screenCardText2: {
     position: 'absolute',
-    top: 45,
+    top: 48,
+    left: 15,
     fontSize: 13,
     color: '#E4E4E4',
     backgroundColor: '#202124',
     padding: 2,
     paddingHorizontal: 5,
     borderRadius: 5,
-  },
-  screenCardState: {
-    fontSize: 15,
-    backgroundColor: '#202124',
-    padding: 2,
-    paddingHorizontal: 5,
-    borderRadius: 5,
-    color: '#E4E4E4',
   },
   modalBackground: {
     flex: 1,

@@ -22,10 +22,12 @@ export declare class ConsumerService {
     displayOrder(JWTpayload: any): Promise<unknown>;
     uploadWishList(consumerId: number, productId: number): Promise<void>;
     deleteWishList(consumerId: number, productId: number): Promise<Prisma.BatchPayload>;
-    createOrder(form: any): Promise<unknown>;
+    getShopInfo(shopId: any): Promise<unknown>;
+    createOrder(form: any): Promise<boolean>;
     paymentConfirm(paymentArr: Array<number>): Promise<Promise<unknown>[]>;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;
     getHot(): Promise<unknown>;
+    getAllProduct(): Promise<unknown>;
 }

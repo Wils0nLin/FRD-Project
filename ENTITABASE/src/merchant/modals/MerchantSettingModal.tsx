@@ -10,13 +10,16 @@ import {
   StyleSheet,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
-
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../../app/store';
 import {StackParamList} from '../../public/navigators/StackParamList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {logout} from '../../features/auth/authSlice';
 
 export default function MerchantSettingModal() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <View>
@@ -110,6 +113,7 @@ export default function MerchantSettingModal() {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => {
+                  dispatch(logout);
                   setModalVisible(!modalVisible);
                   navigation.navigate('Public');
                 }}>

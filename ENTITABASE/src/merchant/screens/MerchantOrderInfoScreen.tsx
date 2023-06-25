@@ -19,6 +19,7 @@ import {IRootState} from '../../app/store';
 import {StackParamList} from '../../public/navigators/StackParamList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MerchantForehead from '../../objects/MerchantForeheadView';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function OrderInfoScreen({route}: any) {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
@@ -35,7 +36,7 @@ export default function OrderInfoScreen({route}: any) {
   const Submit = async () => {
     for (let item of list) {
       const resp = await fetch(
-        `http://10.0.2.2:3000/merchant/updateOrder/${item.id}`,
+        `http://${IP_Of_LOCAL}/merchant/updateOrder/${item.id}`,
         {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},
@@ -50,7 +51,7 @@ export default function OrderInfoScreen({route}: any) {
   useEffect(() => {
     const getData = async () => {
       let id: any;
-      await fetch(`http://10.0.2.2:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -64,7 +65,7 @@ export default function OrderInfoScreen({route}: any) {
         QRcode: QRcode,
         merId: id,
       };
-      await fetch('http://10.0.2.2:3000/merchant/orderInfo/', {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/orderInfo/`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(form),

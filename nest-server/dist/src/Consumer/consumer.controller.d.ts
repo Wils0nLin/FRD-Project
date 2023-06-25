@@ -39,13 +39,15 @@ export declare class ConsumerController {
         error: any;
         data?: undefined;
     }>;
+    getShopInfo(shopId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): Promise<unknown>;
     deleteOrder(id: number): Promise<unknown>;
     displayOrderHistory(userId: any): Promise<unknown>;
-    createOrder(form: any): Promise<unknown>;
+    createOrder(form: any): Promise<boolean>;
     paymentConfirm(paymentArr: any): Promise<Promise<unknown>[]>;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;
     getHot(): Promise<unknown>;
+    getAllProduct(): Promise<unknown>;
 }

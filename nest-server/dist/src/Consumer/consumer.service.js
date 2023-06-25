@@ -97,30 +97,15 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         return deleteWishList;
         console.log(`del product by id`);
     }
+    async getShopInfo(shopId) {
+        const foundShop = await prisma.$queryRawUnsafe(`select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`);
+        return foundShop;
+    }
     async createOrder(form) {
         console.log("iamser", form);
-        const result = await prisma.$queryRaw `insert into orders (
-                item_id,
-                amount,
-                order_status,
-                payment,
-                create_time,
-                consumer_id,
-                consumer_qrcode
-        
-            )
-        values (
-               
-               ${form.itemId},
-               ${form.amount},
-               ${form.order_status},
-               ${form.payment},
-               ${form.create_time},
-               ${form.consumer_id},
-               ${form.QRcode}
-              
-            )`;
-        return result;
+        const result = await prisma.$queryRaw `insert into orders ( item_id, amount, order_status, payment, create_time, consumer_id, "QRcode" )
+        values (${form.itemId}, ${form.amount}, ${form.order_status}, ${form.payment}, ${form.create_time}, ${form.consumer_id}, ${form.QRcode})`;
+        return true;
     }
     async paymentConfirm(paymentArr) {
         console.log(Array);
@@ -170,6 +155,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
     async getHot() {
         const hot = await prisma.$queryRaw `select * from product join hot on product_id = product.id;`;
         return hot;
+    }
+    async getAllProduct() {
+        const coming = await prisma.$queryRaw `select * from product`;
+        return coming;
     }
 };
 exports.ConsumerService = ConsumerService = __decorate([

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { MerchantService } from "./merchant.service";
 import { PublicService } from "src/Public/public.service";
 export declare class MerchantController {

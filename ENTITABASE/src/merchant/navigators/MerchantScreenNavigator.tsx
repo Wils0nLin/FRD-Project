@@ -1,12 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-
-import {StackParamList} from '../../public/navigators/StackParamList';
-
+import {StyleSheet} from 'react-native';
 import AddScreen from '../screens/AddScreen';
 import ArriveScreen from '../screens/ArriveScreen';
 import CommentScreen from '../screens/CommentScreen';
@@ -25,12 +20,9 @@ import OrderInfoScreen from '../screens/MerchantOrderInfoScreen';
 
 import SearchModal from '../modals/MerchantSearchModal';
 
-import Icon from 'react-native-vector-icons/FontAwesome5';
-
 const Stack = createNativeStackNavigator();
 
 const MerchantScreenNavigator = () => {
-  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -47,216 +39,140 @@ const MerchantScreenNavigator = () => {
         name="MerchantItem"
         component={ItemScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'PRODUCT LIST',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantAdd"
         component={AddScreen}
         options={{
-          headerBackVisible: false,
-          headerTitle: 'PRODUCT RELEASE',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
+          headerTitle: 'RELEASE',
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantTrade"
         component={TradeScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'TRADE RECORD',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantHome')}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantPreOrderItem"
         component={PreOrderItemScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'PRE-ORDER ITEM',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantHome')}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantPreOrder"
         component={MerPreOrderScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'PRE-ORDER',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantPreOrderItem')}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantComment"
         component={CommentScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'COMMENT',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantHome')}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantArrive"
         component={ArriveScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'NEW ARRIVE',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantHome')}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantInfo"
         component={InfoEditScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'INFO EDIT',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="Announcement"
         component={AnnoEditScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'ANNOUNCEMENT',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantBR"
         component={BREditScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'BUSINESS EDIT',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantPW"
         component={PasswordScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'PASSWORD RESET',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantAdmin"
         component={AdminContactScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'CONTACT ADMIN',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantQRScan"
         component={QRScanScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'ENTI-CODE SCAN',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
       <Stack.Screen
         name="MerchantOrderInfo"
         component={OrderInfoScreen}
         options={{
-          headerBackVisible: false,
           headerTitle: 'ORDER INFO',
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('MerchantQRScan')}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
           headerStyle: styles.topBarBackground,
           headerTitleStyle: styles.topBarText,
+          headerTintColor: '#E4E4E4',
         }}
       />
     </Stack.Navigator>

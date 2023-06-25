@@ -10,6 +10,7 @@ import MerchantForehead from '../../objects/MerchantForeheadView';
 import MerArriveItemCard from '../../objects/MerArriveItemCard';
 import {IRootState} from '../../app/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function ArriveScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -21,7 +22,7 @@ export default function ArriveScreen({}) {
 
   const getUserData = async () => {
     const resp = await fetch(
-      `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -33,7 +34,7 @@ export default function ArriveScreen({}) {
   };
 
   const getItemData = async (id: any) => {
-    const resp = await fetch(`http://10.0.2.2:3000/merchant/allItem/${id}`, {
+    const resp = await fetch(`http://${IP_Of_LOCAL}/merchant/allItem/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });

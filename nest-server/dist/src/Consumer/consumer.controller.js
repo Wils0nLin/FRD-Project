@@ -45,6 +45,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
             return { success: false, error: error.message };
         }
     }
+    async getShopInfo(shopId) {
+        return await this.consumerService.getShopInfo(shopId);
+    }
     displayOrder(JWTpayload) {
         console.log();
         return this.consumerService.displayOrder(JWTpayload);
@@ -77,6 +80,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     getHot() {
         return this.consumerService.getHot();
     }
+    getAllProduct() {
+        return this.consumerService.getAllProduct();
+    }
 };
 __decorate([
     (0, common_1.Get)("userInfo/:userId"),
@@ -107,6 +113,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "deleteWishList", null);
+__decorate([
+    (0, common_1.Get)("shopInfo/:shopId"),
+    __param(0, (0, common_1.Param)("shopId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "getShopInfo", null);
 __decorate([
     (0, common_1.Get)("order/:JWT"),
     __param(0, (0, common_1.Param)("JWT")),
@@ -172,6 +185,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "getHot", null);
+__decorate([
+    (0, common_1.Get)("allProduct"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ConsumerController.prototype, "getAllProduct", null);
 exports.ConsumerController = ConsumerController = __decorate([
     (0, common_1.Controller)("consumer"),
     __metadata("design:paramtypes", [consumer_service_1.ConsumerService,

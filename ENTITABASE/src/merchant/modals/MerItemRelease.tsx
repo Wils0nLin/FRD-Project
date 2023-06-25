@@ -15,6 +15,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from '../../public/navigators/StackParamList';
+import {IP_Of_LOCAL} from '../../../IP';
+
 type cardInfo = {
   id: number;
   name: string;
@@ -44,7 +46,7 @@ export default function MerItemRelease(props: cardInfo) {
     };
     console.log(form);
     const resp = await fetch(
-      `http://13.213.207.204/merchant/update/${props.id}`,
+      `http://${IP_Of_LOCAL}/merchant/update/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
