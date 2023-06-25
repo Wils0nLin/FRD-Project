@@ -296,7 +296,7 @@ export const gameListAreaStyle = StyleSheet.create({
 
 export const gameImgStyle = StyleSheet.create({
   container: {
-    width: 49.41,
+    width: 80,
     height: 80,
   },
 });

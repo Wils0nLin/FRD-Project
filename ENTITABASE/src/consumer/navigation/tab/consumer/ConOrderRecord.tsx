@@ -22,7 +22,7 @@ const ConOrderRecord = () => {
   const [inStockArr, setInStockArr] = useState<Array<any>>([]);
   const [passTradeArr, setPassTradeArr] = useState<Array<any>>([]);
   const [username, setUsername] = useState('');
-  const [select, setSelect] = useState('');
+  const [select, setSelect] = useState('預購商品');
   const [list, setList] = useState(preOrderArr);
 
   useEffect(() => {
@@ -51,6 +51,7 @@ const ConOrderRecord = () => {
       setPreOrderArr(preArr);
       setInStockArr(inArr);
       setPassTradeArr(passArr);
+      setList(preArr)
     };
     const getData = async () => {
       await fetch(`http://10.0.2.2:3000/consumer/order/history/${userId}`)
@@ -60,8 +61,10 @@ const ConOrderRecord = () => {
           dataProcess(data);
         });
     };
-
+    
+    
     getData();
+  
   }, []);
   const isSelect = (button: string) => {
     if (button === '預購商品') {
