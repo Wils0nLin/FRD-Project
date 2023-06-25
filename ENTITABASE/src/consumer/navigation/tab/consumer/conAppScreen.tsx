@@ -16,14 +16,30 @@ import HomePageSlider from '../../../../objects/HomePageSlider';
 import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import HomeItemCard from '../../../../objects/HomeItemCard';
 import {Switch} from 'react-native-gesture-handler';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 // ---------------------------------------------------------------------------------------------------------
 //const variable
-
+const imageObject = {
+  'Switch_Sport.jpeg': require('../../../../assets/imageUpload/imageProduct/Switch_Sport.jpeg'),
+  'PKM朱紫.jpeg': require('../../../../assets/imageUpload/imageProduct/PKM朱紫.jpeg'),
+  '2K23.jpeg': require('../../../../assets/imageUpload/imageProduct/2K23.jpeg'),
+  'Call_Duty.jpeg': require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+  'GTA5.jpeg': require('../../../../assets/imageUpload/imageProduct/GTA5.jpeg'),
+  'Spider_Man_Miles_ps5.jpeg': require('../../../../assets/imageUpload/imageProduct/Spider_Man_Miles_ps5.jpeg'),
+  'THE_KING_OF_FIGHTERS_XV_XBOX.jpeg': require('../../../../assets/imageUpload/imageProduct/THE_KING_OF_FIGHTERS_XV_XBOX.jpeg'),
+  '哈利波特_ps.jpeg': require('../../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
+  '星之卡比.jpeg': require('../../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
+  '薩爾達傳說王國之淚.jpeg': require('../../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
+  // default: require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+} as Record<string, any>;
 // ---------------------------------------------------------------------------------------------------------
 
 export default function ConAppScreen({navigation}: any) {
-  const [HotList, setHotList] = React.useState<any>('');
+  const [HotList, setHotList] = React.useState<Array<any>>([]);
+  const [GetAllProduct, setGetAllProduct] = React.useState<Array<any>>([]);
+  const [ComingProduct, setComingProduct] = React.useState<Array<any>>([]);
+
   const HotArr = [
     {
       image: (
@@ -119,11 +135,11 @@ export default function ConAppScreen({navigation}: any) {
     },
   ];
   const [select, setSelect] = useState('熱門遊戲');
-  const [list, setList] = useState(HotArr);
+  const [list, setList] = useState(HotList);
 
   const isSelect = (button: string) => {
     if (button === '熱門遊戲') {
-      setList(HotArr);
+      setList(HotList);
       setSelect('熱門遊戲');
     } else if (button === '即將發行') {
       setList(ComingArr);
@@ -135,7 +151,7 @@ export default function ConAppScreen({navigation}: any) {
   const findSwitchGames = async () => {
     try {
       const process = await fetch(
-        `http://192.168.160.77:3000/public/filter/platform/?platformId=${1}`,
+        `http://${IP_Of_LOCAL}:3000/public/filter/platform/?platformId=${1}`,
         {
           method: 'GET',
           headers: {
@@ -150,25 +166,39 @@ export default function ConAppScreen({navigation}: any) {
     }
   };
 
+  function comingProduct() {
+    const currentDate = new Date();
+    const comingProduct = GetAllProduct.filter(product => {
+      const releaseDate = new Date(product.release_date);
+
+      return releaseDate >= currentDate;
+    });
+    setComingProduct(comingProduct);
+  }
+
+  console.log('欣妮哈哈: ', ComingProduct);
+
   useEffect(() => {
+    const getAllProduct = async () => {
+      const getAllProduct = await fetch(
+        `http://${IP_Of_LOCAL}:3000/consumer/allProduct`,
+      );
+      const productList = await getAllProduct.json();
+
+      setGetAllProduct(productList);
+    };
+
     const getHot = async () => {
-      const getProduct = await fetch('http://192.168.160.77:3000/consumer/hot');
+      const getProduct = await fetch(`http://${IP_Of_LOCAL}:3000/consumer/hot`);
       const hotList = await getProduct.json();
 
       setHotList(hotList);
     };
 
+    getAllProduct();
     getHot();
+    comingProduct();
   }, []);
-  console.log('攞到: ', HotList);
-
-  // function showHotGame() {
-  //   return <View>
-  //     {HotList.map((items:any) => (
-  //       <View></View>
-  //     ))}
-  //   </View>;
-  // }
 
   return (
     <ScrollView
@@ -252,17 +282,61 @@ export default function ConAppScreen({navigation}: any) {
             <Text style={{width: 80, fontSize: 20}} />
           </View>
         </View>
+
+        {/* try */}
         <View style={{width: 350, marginBottom: 100}}>
-          {list.map(items => (
+          {select === '熱門遊戲'
+            ? HotList.map(items => (
+                <HomeItemCard
+                  product_name={items.product_name}
+                  product_image={
+                    <Image
+                      style={{width: 80, height: 80, borderRadius: 5}}
+                      source={imageObject[items.product_image]}
+                    />
+                  }
+                  release_date={items.release_date}
+                  product_status={items.product_status}
+                  product_intro={items.product_intro}
+                  id={items.id}
+                />
+              ))
+            : select === '即將發行'
+            ? ComingProduct.map(items => (
+                <HomeItemCard
+                  product_name={items.product_name}
+                  product_image={
+                    <Image
+                      style={{width: 80, height: 80, borderRadius: 5}}
+                      source={imageObject[items.product_image]}
+                    />
+                  }
+                  release_date={items.release_date}
+                  product_status={items.product_status}
+                  product_intro={items.product_intro}
+                  id={items.id}
+                />
+              ))
+            : null}
+        </View>
+
+        {/* <View style={{width: 350, marginBottom: 100}}>
+          {HotList.map(items => (
             <HomeItemCard
-              name={items.name}
-              image={items.image}
-              date={items.date}
-              status={items.status}
-              id={0}
+              product_name={items.product_name}
+              product_image={
+                <Image
+                  style={{width: 80, height: 80, borderRadius: 5}}
+                  source={imageObject[items.product_image]}
+                />
+              }
+              release_date={items.release_date}
+              product_status={items.product_status}
+              product_intro={items.product_intro}
+              id={items.id}
             />
           ))}
-        </View>
+        </View> */}
       </SafeAreaView>
     </ScrollView>
   );

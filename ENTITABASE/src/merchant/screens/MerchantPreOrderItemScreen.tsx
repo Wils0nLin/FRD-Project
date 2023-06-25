@@ -10,6 +10,7 @@ import MerchantForehead from '../../objects/MerchantForeheadView';
 import MerPreRecordItemCard from '../../objects/MerPreRecordItemCard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useState, useEffect} from 'react';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function PreOrderItemScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -21,7 +22,7 @@ export default function PreOrderItemScreen({}) {
     const getData = async () => {
       let id: any;
       console.log(userId);
-      await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -32,7 +33,7 @@ export default function PreOrderItemScreen({}) {
           console.log(id);
         });
 
-      await fetch(`http://192.168.160.142:3000/merchant/preOrderItem/${id}`, {
+      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/preOrderItem/${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

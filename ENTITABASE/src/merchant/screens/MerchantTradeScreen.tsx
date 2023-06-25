@@ -10,6 +10,7 @@ import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
+import {IP_Of_LOCAL} from '../../../IP';
 
 interface record {
   amount: number;
@@ -30,7 +31,7 @@ export default function TradeScreen({}) {
       let dataArr: any;
       let id: any;
       console.log(userId);
-      await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -41,7 +42,7 @@ export default function TradeScreen({}) {
           console.log(id);
         });
 
-      await fetch(`http://192.168.160.142:3000/merchant/orderRecord/${id}`, {
+      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/orderRecord/${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -58,7 +59,7 @@ export default function TradeScreen({}) {
           create_time: item.create_time,
         };
 
-        await fetch('http://192.168.160.142:3000/merchant/tradeInfo/', {
+        await fetch(`http://${IP_Of_LOCAL}:3000/merchant/tradeInfo/`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(form),

@@ -23,6 +23,7 @@ import {useSelector} from 'react-redux';
 import {IRootState} from '../../../../app/store';
 import {useNavigation} from '@react-navigation/native';
 import {format, compareAsc, endOfDay} from 'date-fns';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 const ConGameInfoScreen = ({route}: any) => {
   const navigation = useNavigation<any>();
@@ -52,17 +53,22 @@ const ConGameInfoScreen = ({route}: any) => {
 
       try {
         console.log(form);
-        await axios.post('http://10.0.2.2:3000/consumer/order/create', form);
+        await axios.post(
+          `http://${IP_Of_LOCAL}:3000/consumer/order/create`,
+          form,
+        );
       } catch (error) {
         console.log(error);
       }
     }
   };
+
+  // ---------------------------------------------------------------------------------------------------------
   const selectVersion = async (version_id: number) => {
     console.log(version_id);
     let ItemsState: Array<any> = [];
     setSelectVersion(version_id);
-    await fetch(`http://10.0.2.2:3000/public/filter/Items/${version_id}`)
+    await fetch(`http://${IP_Of_LOCAL}:3000/public/filter/Items/${version_id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -75,7 +81,9 @@ const ConGameInfoScreen = ({route}: any) => {
   useEffect(() => {
     const getVersion = async () => {
       let VersionState: Array<any> = [];
-      await fetch(`http://10.0.2.2:3000/public/filter/versions/${product_id}`)
+      await fetch(
+        `http://${IP_Of_LOCAL}:3000/public/filter/versions/${product_id}`,
+      )
         .then(response => response.json())
         .then(data => {
           data.forEach((items: any) => {
@@ -87,7 +95,7 @@ const ConGameInfoScreen = ({route}: any) => {
     };
     const getuserData = async () => {
       let userState: Array<any> = [];
-      await fetch(`http://10.0.2.2:3000/consumer/userInfo/${userId}`)
+      await fetch(`http://${IP_Of_LOCAL}:3000/consumer/userInfo/${userId}`)
         .then(response => response.json())
         .then(data => {
           console.log(data[0]);
@@ -99,6 +107,8 @@ const ConGameInfoScreen = ({route}: any) => {
     getuserData();
     getVersion();
   }, []);
+
+  // ---------------------------------------------------------------------------------------------------------
   return (
     <ScrollView style={{backgroundColor: '#202124', height: 600}}>
       <View style={{flexDirection: 'row'}}>

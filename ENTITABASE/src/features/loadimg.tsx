@@ -4,13 +4,15 @@ import React, {useEffect, useState} from 'react';
 import {Button, Image, ScrollView} from 'react-native';
 
 import {encode as btoa} from 'base-64';
+import {IP_Of_LOCAL} from '../../IP';
+import ConsumerCartScreen from '../consumer/navigation/tab/consumer/conCartScreen';
 
 const demo = () => {
   const [buffer, setbuffer] = useState<any>();
   const [img, setImg] = useState<any>();
   useEffect(() => {
     const getPhoto = async () => {
-      await fetch('http://10.0.2.2:3000/consumer/test')
+      await fetch(`http://${IP_Of_LOCAL}:3000/consumer/test`)
         .then(resopnse => resopnse.json())
         .then(data => {
           console.log(data);

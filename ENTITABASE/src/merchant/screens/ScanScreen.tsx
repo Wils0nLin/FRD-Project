@@ -13,6 +13,7 @@ import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
+import {IP_Of_LOCAL} from '../../../IP';
 
 interface scanner {
   scanner: any;
@@ -26,7 +27,7 @@ function QRScanScreen(this: scanner) {
   useEffect(() => {
     const getData = async () => {
       const resp = await fetch(
-        `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+        `http://${IP_Of_LOCAL}:3000/merchant/userInfo/${userId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},
@@ -53,16 +54,16 @@ function QRScanScreen(this: scanner) {
         <View style={styles.QRCodeBox}>
           <View style={{height: 55}} />
 
-          <QRCodeScanner
+          {/* <QRCodeScanner
             ref={node => {
               this.scanner = node;
             }}
             onRead={e => {
               console.log(e.data);
-              navigation.navigate('MerchantOrderInfo', {QRcode: e.data});
+              navigation.navigate('MerchantOrderInfo', {QRcode e.data});
               this.scanner.reactivate();
             }}
-          />
+          /> */}
           <View style={styles.QRCodeScanner} />
           <View style={styles.ORCodeBorder} />
           <View style={styles.errorBackground1} />

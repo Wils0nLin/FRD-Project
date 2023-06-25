@@ -15,6 +15,7 @@ import axios from 'axios';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 import PublicForehead from '../../objects/PublicForeheadView';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function ConRegister({navigation}: any) {
   const [Name, setName] = React.useState('');
@@ -58,7 +59,7 @@ export default function ConRegister({navigation}: any) {
         consumer_phone: Phone,
       };
       axios
-        .post('http://192.168.160.77:3000/public/register/conRegister', form)
+        .post(`http://${IP_Of_LOCAL}:3000/public/register/conRegister`, form)
         .then(function (response) {
           console.log(response);
           Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的遊戲世界吧');

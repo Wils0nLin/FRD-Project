@@ -150,6 +150,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const hot = await prisma.$queryRaw `select * from product join hot on product_id = product.id;`;
         return hot;
     }
+    async getAllProduct() {
+        const coming = await prisma.$queryRaw `select * from product`;
+        return coming;
+    }
 };
 exports.ConsumerService = ConsumerService = __decorate([
     (0, common_1.Injectable)()
