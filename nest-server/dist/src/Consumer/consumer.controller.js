@@ -80,6 +80,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     getHot() {
         return this.consumerService.getHot();
     }
+    getAllProduct() {
+        return this.consumerService.getAllProduct();
+    }
 };
 __decorate([
     (0, common_1.Get)("userInfo/:userId"),
@@ -182,6 +185,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "getHot", null);
+__decorate([
+    (0, common_1.Get)("allProduct"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ConsumerController.prototype, "getAllProduct", null);
 exports.ConsumerController = ConsumerController = __decorate([
     (0, common_1.Controller)("consumer"),
     __metadata("design:paramtypes", [consumer_service_1.ConsumerService,

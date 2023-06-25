@@ -17,6 +17,8 @@ import {StarRatingDisplay} from 'react-native-star-rating-widget';
 import {IRootState} from '../app/store';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
+import {IP_Of_LOCAL} from '../../IP';
+
 type cardInfo = {
   id: number;
   merId: number;
@@ -51,7 +53,7 @@ export default function VersionItemCard(props: cardInfo) {
         create_time: ('' + new Date().toISOString()).slice(0, 10),
       };
       console.log(form);
-      const resp = await fetch('http://13.213.207.204/consumer/order/create', {
+      const resp = await fetch(`http://${IP_Of_LOCAL}/consumer/order/create`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(form),
@@ -67,7 +69,7 @@ export default function VersionItemCard(props: cardInfo) {
 
   useEffect(() => {
     const getData = async () => {
-      await fetch(`http://13.213.207.204/consumer/userInfo/${userId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/consumer/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

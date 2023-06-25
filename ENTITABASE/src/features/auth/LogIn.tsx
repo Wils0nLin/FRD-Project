@@ -16,6 +16,7 @@ import {AppDispatch} from '../../app/store';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import PublicForehead from '../../objects/PublicForeheadView';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function Login({navigation}: any) {
   const [username, setUsername] = useState('');
@@ -28,7 +29,7 @@ export default function Login({navigation}: any) {
       username: username,
       password: password,
     };
-    const resp = await fetch('http://192.168.132.70:3000/public/login', {
+    const resp = await fetch(`http://${IP_Of_LOCAL}/public/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(form),

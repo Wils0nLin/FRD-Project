@@ -187,4 +187,9 @@ export class ConsumerService {
             await prisma.$queryRaw`select * from product join hot on product_id = product.id;`;
         return hot;
     }
+
+    async getAllProduct() {
+        const coming = await prisma.$queryRaw`select * from product`;
+        return coming;
+    }
 }

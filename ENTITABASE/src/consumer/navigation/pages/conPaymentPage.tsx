@@ -1,9 +1,10 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {CardField, useStripe} from '@stripe/stripe-react-native';
 
 export default function PaymentScreen() {
   const {confirmPayment} = useStripe();
-  console.log(confirmPayment)
+  console.log(confirmPayment);
 
   return (
     <CardField

@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
@@ -11,12 +12,15 @@ import {
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
+import {logout} from '../../features/auth/authSlice';
+import {AppDispatch} from '../../app/store';
 import {StackParamList} from '../../public/navigators/StackParamList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function ConsumerSettingModal() {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <View>
@@ -99,6 +103,7 @@ export default function ConsumerSettingModal() {
               <TouchableOpacity
                 style={styles.modalButtonFor1}
                 onPress={() => {
+                  dispatch(logout);
                   setModalVisible(!modalVisible);
                   navigation.navigate('Public');
                 }}>

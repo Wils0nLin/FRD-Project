@@ -15,6 +15,7 @@ import {useSelector} from 'react-redux';
 import {IRootState} from '../../../../app/store';
 import {gameListAreaStyle} from './conWishListScreen';
 import {FlatList} from 'react-native';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 const ConOrderRecord = () => {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -53,7 +54,7 @@ const ConOrderRecord = () => {
       setPassTradeArr(passArr);
     };
     const getData = async () => {
-      await fetch(`http://10.0.2.2:3000/consumer/order/history/${userId}`)
+      await fetch(`http://${IP_Of_LOCAL}/consumer/order/history/${userId}`)
         .then(response => response.json())
         .then(data => {
           console.log(data);

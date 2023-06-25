@@ -22,6 +22,7 @@ import ConShopItemCard from '../../../../objects/ConShopItemCard';
 import CommentCard from '../../../../objects/CommentCard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 export default function ConMerInfoScreen({route}: any) {
   const {merId}: any = route.params;
@@ -46,7 +47,7 @@ export default function ConMerInfoScreen({route}: any) {
   useEffect(() => {
     console.log(merId);
     const getData = async () => {
-      await fetch(`http://13.213.207.204/consumer/shopInfo/${merId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/consumer/shopInfo/${merId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -61,7 +62,7 @@ export default function ConMerInfoScreen({route}: any) {
           setHour(data[0].opening_hour);
         });
 
-      await fetch(`http://13.213.207.204/merchant/allItem/${merId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/allItem/${merId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -82,7 +83,7 @@ export default function ConMerInfoScreen({route}: any) {
           setPreOrderList(preOrder);
         });
 
-      await fetch(`http://13.213.207.204/merchant/comment/${merId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/comment/${merId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

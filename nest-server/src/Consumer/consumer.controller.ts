@@ -106,4 +106,9 @@ export class ConsumerController {
     getHot() {
         return this.consumerService.getHot();
     }
+
+    @Get("allProduct")
+    getAllProduct() {
+        return this.consumerService.getAllProduct();
+    }
 }

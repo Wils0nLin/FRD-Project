@@ -6,13 +6,11 @@ import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {StackNavigationProp} from '@react-navigation/stack';
-
-import {StackParamList} from '../../public/navigators/StackParamList';
-
 import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
+import {IP_Of_LOCAL} from '../../../IP';
 
 interface scanner {
   scanner: any;
@@ -26,7 +24,7 @@ function QRScanScreen(this: scanner) {
   useEffect(() => {
     const getData = async () => {
       const resp = await fetch(
-        `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
+        `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},
@@ -52,13 +50,11 @@ function QRScanScreen(this: scanner) {
         </View>
         <View style={styles.QRCodeBox}>
           <View style={{height: 55}} />
-
           <QRCodeScanner
             ref={node => {
               this.scanner = node;
             }}
             onRead={e => {
-              console.log(e.data);
               navigation.navigate('MerchantOrderInfo', {QRcode: e.data});
               this.scanner.reactivate();
             }}

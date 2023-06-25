@@ -14,6 +14,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {StackParamList} from '../../public/navigators/StackParamList';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {IP_Of_LOCAL} from '../../../IP';
 
 type cardInfo = {
   id: number;
@@ -31,7 +32,7 @@ export default function MerchantItemCardWithDel(props: cardInfo) {
 
   const Submit = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/merchant/delete/${props.id}`,
+      `http://${IP_Of_LOCAL}/merchant/delete/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

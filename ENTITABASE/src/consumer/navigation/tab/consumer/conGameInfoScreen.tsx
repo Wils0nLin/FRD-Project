@@ -19,6 +19,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProductItemCard from '../../../../objects/ProductItemCard';
 import VersionItemCard from '../../../../objects/VersionItemCard';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 export default function ConGameInfoScreen({route}: any) {
   const navigation = useNavigation<any>();
@@ -34,7 +35,7 @@ export default function ConGameInfoScreen({route}: any) {
   const [allItem, setAllItem] = useState<Array<any>>([]);
 
   const getVersionItem = async (id: number) => {
-    await fetch(`http://13.213.207.204/public/versionItem/${id}`, {
+    await fetch(`http://${IP_Of_LOCAL}/public/versionItem/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     })
@@ -46,7 +47,7 @@ export default function ConGameInfoScreen({route}: any) {
 
   useEffect(() => {
     const getData = async () => {
-      await fetch(`http://13.213.207.204/public/productInfo/${product_id}`, {
+      await fetch(`http://${IP_Of_LOCAL}/public/productInfo/${product_id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -58,7 +59,7 @@ export default function ConGameInfoScreen({route}: any) {
           setType(data);
         });
 
-      await fetch(`http://13.213.207.204/public/productItem/${product_id}`, {
+      await fetch(`http://${IP_Of_LOCAL}/public/productItem/${product_id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -69,7 +70,7 @@ export default function ConGameInfoScreen({route}: any) {
           setList(data);
         });
 
-      await fetch(`http://13.213.207.204/public/productVersion/${product_id}`, {
+      await fetch(`http://${IP_Of_LOCAL}/public/productVersion/${product_id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

@@ -36,4 +36,5 @@ export declare class ConsumerController {
     editConProfile(conId: any, form: any): Promise<boolean>;
     editPassword(userId: any, form: any): Promise<boolean>;
     getHot(): Promise<unknown>;
+    getAllProduct(): Promise<unknown>;
 }

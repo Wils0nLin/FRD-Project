@@ -31,7 +31,7 @@ const ConsumerCartScreen = ({navigation}: any) => {
   const [totalAmount, setTotalAMount] = useState(0);
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const deleteOrder = async (id: number) => {
-    await fetch(`http://${IP_Of_LOCAL}:3000/consumer/order/delete/${id}`)
+    await fetch(`http://${IP_Of_LOCAL}/consumer/order/delete/${id}`)
       .then(response => response.json())
       .then(data => {
         userState.push(data[0]);
@@ -63,14 +63,14 @@ const ConsumerCartScreen = ({navigation}: any) => {
 
   const getData = async () => {
     let userState: Array<any> = [];
-    await fetch(`http://${IP_Of_LOCAL}:3000/consumer/userInfo/${userId}`)
+    await fetch(`http://${IP_Of_LOCAL}/consumer/userInfo/${userId}`)
       .then(response => response.json())
       .then(data => {
         userState.push(data[0]);
         setUserState(userState);
       });
 
-    await fetch(`http://${IP_Of_LOCAL}:3000/consumer/order/${userState[0].id}`)
+    await fetch(`http://${IP_Of_LOCAL}/consumer/order/${userState[0].id}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -83,7 +83,7 @@ const ConsumerCartScreen = ({navigation}: any) => {
   };
   const onchaneOrderValue = async () => {
     const response = await fetch(
-      `http://${IP_Of_LOCAL}:3000/consumer/order/payment`,
+      `http://${IP_Of_LOCAL}/consumer/order/payment`,
       {
         method: 'POST',
         headers: {
@@ -98,7 +98,7 @@ const ConsumerCartScreen = ({navigation}: any) => {
 
   const onCHeckout = async () => {
     const response = await fetch(
-      `http://${IP_Of_LOCAL}:3000/stripe/payments/intents`,
+      `http://${IP_Of_LOCAL}/stripe/payments/intents`,
       {
         method: 'POST',
         headers: {

@@ -17,6 +17,7 @@ import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import LogoIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function BREditScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -25,7 +26,7 @@ export default function BREditScreen({}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

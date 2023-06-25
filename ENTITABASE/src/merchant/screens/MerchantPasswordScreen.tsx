@@ -16,6 +16,7 @@ import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
+import {IP_Of_LOCAL} from '../../../IP';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -28,7 +29,7 @@ export default function PasswordScreen({}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://10.0.2.2/merchant/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

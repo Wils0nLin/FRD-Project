@@ -18,6 +18,7 @@ import MerchantForehead from '../../objects/MerchantForeheadView';
 import MerPerOrderItemCard from '../../objects/MerPreOrderItemCard';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useState, useEffect} from 'react';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function MerchantItemScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -34,7 +35,7 @@ export default function MerchantItemScreen({}) {
 
   const getUserData = async () => {
     const resp = await fetch(
-      `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -47,7 +48,7 @@ export default function MerchantItemScreen({}) {
   };
 
   const getItemData = async (id: any) => {
-    const resp = await fetch(`http://10.0.2.2:3000/merchant/allItem/${id}`, {
+    const resp = await fetch(`http://${IP_Of_LOCAL}/merchant/allItem/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });

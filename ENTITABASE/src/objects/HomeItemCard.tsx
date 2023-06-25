@@ -2,20 +2,23 @@
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 // import {} from "../assets"
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type cardInfo = {
-  name: string;
-  image: any;
-  date: string;
-  status: string;
+  product_name: string;
+  product_image: any;
+  release_date: string;
+  product_status: string;
+  product_intro: string;
   id: number;
 };
 
 export default function HomeItemCard(props: cardInfo) {
+  console.log('Yo props: ', props);
+
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [wish, setWish] = useState(false);
 
@@ -24,14 +27,14 @@ export default function HomeItemCard(props: cardInfo) {
       style={styles.screenCardBackground}
       onPress={() => navigation.navigate('GameInfo', {product_id: props.id})}>
       <View style={styles.screenCardLine} />
-      <View style={styles.screenCardImage}>{props.image}</View>
+      <View style={styles.screenCardImage}>{props.product_image}</View>
       <View style={{flex: 1, marginLeft: 10}}>
         <Text
           style={{width: 165, fontSize: 18, color: '#E4E4E4'}}
           numberOfLines={1}>
-          {props.name}
+          {props.product_name}
         </Text>
-        <Text style={styles.screenCardText}>發行日：{props.date}</Text>
+        <Text style={styles.screenCardText}>發行日：{props.release_date}</Text>
       </View>
       <View
         style={{
@@ -45,7 +48,7 @@ export default function HomeItemCard(props: cardInfo) {
             color={'#7700A6'}
           />
         </TouchableOpacity>
-        <Text style={styles.screenCardState}>{props.status}</Text>
+        <Text style={styles.screenCardState}>{props.product_status}</Text>
       </View>
     </TouchableOpacity>
   );

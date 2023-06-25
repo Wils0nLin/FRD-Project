@@ -20,6 +20,7 @@ import {Calendar} from 'react-native-calendars';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import SelectDropdown from 'react-native-select-dropdown';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function AddScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -115,7 +116,7 @@ export default function AddScreen({}) {
   const itemUpload = async () => {
     const getUserData = async () => {
       const resp = await fetch(
-        `http://13.213.207.204/merchant/userInfo/${userId}`,
+        `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},
@@ -129,7 +130,7 @@ export default function AddScreen({}) {
     getUserData();
 
     const getMerchantId = async (merchantId: any) => {
-      const resp = await fetch(`http://13.213.207.204/merchant/${merchantId}`, {
+      const resp = await fetch(`http://${IP_Of_LOCAL}/merchant/${merchantId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       });
@@ -150,7 +151,7 @@ export default function AddScreen({}) {
       };
       console.log('我post野啦: ', itemPost);
 
-      await fetch('http://13.213.207.204/merchant/uploadItems', {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/uploadItems`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +169,7 @@ export default function AddScreen({}) {
 
   useEffect(() => {
     const getProduct = async () => {
-      const getProduct = await fetch('http://13.213.207.204/merchant/product');
+      const getProduct = await fetch(`http://${IP_Of_LOCAL}/merchant/product`);
       const productList = await getProduct.json();
 
       setProductList(productList);
@@ -176,7 +177,7 @@ export default function AddScreen({}) {
 
     const getVersion = async () => {
       const getVersion = await fetch(
-        'http://13.213.207.204/merchant/product/version',
+        `http://${IP_Of_LOCAL}/merchant/product/version`,
       );
       const versionList = await getVersion.json();
       console.log(versionList);
