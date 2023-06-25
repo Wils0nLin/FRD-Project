@@ -39,4 +39,5 @@ export type StackParamList = {
   PublicHome: undefined;
   PublicSetting: undefined;
   PublicAdmin: undefined;
+  Testing: undefined;
 };

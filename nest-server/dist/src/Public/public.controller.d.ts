@@ -44,4 +44,8 @@ export declare class PublicController {
     })[]>;
     ratingDesc(productId: any, versionId: any): void;
     ratingAsce(productId: any, versionId: any): void;
+    getProductInfo(productId: any): Promise<unknown>;
+    getProductItem(productId: any): Promise<unknown>;
+    getProductVersion(productId: any): Promise<unknown>;
+    getVersionItem(versionId: any): Promise<unknown>;
 }

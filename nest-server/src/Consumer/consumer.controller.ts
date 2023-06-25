@@ -72,6 +72,12 @@ export class ConsumerController {
     //     return this.consumerService.updateWishList(parm.id);
     // }
     // ---------------------------------------------------------------------------------------------------------
+    @Get("shopInfo/:shopId")
+    async getShopInfo(@Param("shopId") shopId: any) {
+        return await this.consumerService.getShopInfo(shopId);
+    }
+    
+    // ---------------------------------------------------------------------------------------------------------
     @Get("order/:JWT")
     displayOrder(@Param("JWT") JWTpayload: any) {
         console.log();

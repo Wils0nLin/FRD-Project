@@ -97,12 +97,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     borderRadius: 5,
   },
-  screenCardState: {
-    fontSize: 15,
-    backgroundColor: '#202124',
-    padding: 2,
-    paddingHorizontal: 5,
-    borderRadius: 5,
-    color: '#E4E4E4',
-  },
 });

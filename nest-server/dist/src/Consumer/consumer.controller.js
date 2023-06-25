@@ -49,6 +49,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
             return { success: false, error: error.message };
         }
     }
+    async getShopInfo(shopId) {
+        return await this.consumerService.getShopInfo(shopId);
+    }
     displayOrder(JWTpayload) {
         console.log();
         return this.consumerService.displayOrder(JWTpayload);
@@ -98,6 +101,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "deleteWishList", null);
+__decorate([
+    (0, common_1.Get)("shopInfo/:shopId"),
+    __param(0, (0, common_1.Param)("shopId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "getShopInfo", null);
 __decorate([
     (0, common_1.Get)("order/:JWT"),
     __param(0, (0, common_1.Param)("JWT")),

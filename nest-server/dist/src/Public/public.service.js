@@ -318,6 +318,22 @@ let PublicService = exports.PublicService = class PublicService {
     displayOrderHistory(JWTpayload) {
         console.log(`display order history by userId`, JWTpayload);
     }
+    async getProductInfo(productId) {
+        const foundProduct = await prisma.$queryRawUnsafe(`select product_name, product_image, release_date, product_intro, platform, tag from product JOIN platform ON platform.id = platform_id JOIN product_tag ON product.id = product_id JOIN tag ON tag.id = tag_id WHERE product.id = ${productId};`);
+        return foundProduct;
+    }
+    async getProductItem(productId) {
+        const foundItem = await prisma.$queryRawUnsafe(`select item.id, product_name, version, merchant_id, merchant_name, address, district, area, stock_status, price from product JOIN version ON product.id = product_id JOIN item ON version.id = version_id JOIN merchant ON merchant.id = merchant_id JOIN district on district.id = district_id JOIN area on area.id = area_id where product.id = ${productId} AND item.availability = true;`);
+        return foundItem;
+    }
+    async getProductVersion(productId) {
+        const foundVersion = await prisma.$queryRawUnsafe(`select version.id, version from product JOIN version ON product.id = product_id JOIN platform ON platform.id = platform_id where product.id = ${productId};`);
+        return foundVersion;
+    }
+    async getVersionItem(versionId) {
+        const foundItem = await prisma.$queryRawUnsafe(`select item.id, product_name, version, merchant_id, merchant_name, address, district, area, stock_status, price from product JOIN version ON product.id = product_id JOIN item ON version.id = version_id JOIN merchant ON merchant.id = merchant_id JOIN district on district.id = district_id JOIN area on area.id = area_id where version.id = ${versionId} AND item.availability = true;`);
+        return foundItem;
+    }
 };
 exports.PublicService = PublicService = __decorate([
     (0, common_1.Injectable)(),

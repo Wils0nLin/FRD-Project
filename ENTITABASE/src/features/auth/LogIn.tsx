@@ -28,7 +28,7 @@ export default function Login({navigation}: any) {
       username: username,
       password: password,
     };
-    const resp = await fetch('http://10.0.2.2:3000/public/login', {
+    const resp = await fetch('http://192.168.132.70:3000/public/login', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(form),
