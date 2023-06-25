@@ -21,6 +21,7 @@ const ConOrderRecord = () => {
   const [preOrderArr, setPreOrderArr] = useState<Array<any>>([]);
   const [inStockArr, setInStockArr] = useState<Array<any>>([]);
   const [passTradeArr, setPassTradeArr] = useState<Array<any>>([]);
+  const [username, setUsername] = useState('');
   const [select, setSelect] = useState('');
   const [list, setList] = useState(preOrderArr);
 
@@ -34,17 +35,17 @@ const ConOrderRecord = () => {
           console.log('payed', i);
           if (i.stock_status == '預購中') {
             console.log('noTake', i);
-            i.path = `../../../../assets/imageUpload/imageProduct/${i.product_image}`;
             preArr.push(i);
+            setUsername(i.consumer_name);
           } else {
             console.log('canTake', i);
-            i.path = `../../../../assets/imageUpload/imageProduct/${i.product_image}`;
             inArr.push(i);
+            setUsername(i.consumer_name);
           }
         } else {
           console.log('takeded', i);
-          i.path = `../../../../assets/imageUpload/imageProduct/${i.product_image}`;
           passArr.push(i);
+          setUsername(i.consumer_name);
         }
       }
       setPreOrderArr(preArr);
@@ -75,11 +76,24 @@ const ConOrderRecord = () => {
     }
     return [list, select];
   };
+  const imageObject = {
+    'Switch_Sport.jpeg': require('../../../../assets/imageUpload/imageProduct/Switch_Sport.jpeg'),
+    'PKM朱紫.jpeg': require('../../../../assets/imageUpload/imageProduct/PKM朱紫.jpeg'),
+    '2K23.jpeg': require('../../../../assets/imageUpload/imageProduct/2K23.jpeg'),
+    'Call_Duty.jpeg': require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+    'GTA5.jpeg': require('../../../../assets/imageUpload/imageProduct/GTA5.jpeg'),
+    'Spider_Man_Miles_ps5.jpeg': require('../../../../assets/imageUpload/imageProduct/Spider_Man_Miles_ps5.jpeg'),
+    'THE_KING_OF_FIGHTERS_XV_XBOX.jpeg': require('../../../../assets/imageUpload/imageProduct/THE_KING_OF_FIGHTERS_XV_XBOX.jpeg'),
+    '哈利波特_ps.jpeg': require('../../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
+    '星之卡比.jpeg': require('../../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
+    '薩爾達傳說王國之淚.jpeg': require('../../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
+    // default: require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+  } as Record<string, any>;
 
   return (
     <ScrollView style={{backgroundColor: 'rgb(40,40,40)'}}>
       <Layout style={styles.layout}>
-        {ConsumerInfoHeader({Name: preOrderArr[0].consumer_name})}
+        {ConsumerInfoHeader({Name: username})}
         <Layout style={{backgroundColor: 'rgb(40,40,40)'}}></Layout>
         <Layout style={styles.row}>
           <Button
@@ -110,64 +124,75 @@ const ConOrderRecord = () => {
           renderItem={({item}) => (
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '90%',
-                margin: 8,
-                padding: 5,
-                paddingHorizontal: 10,
-                borderRadius: 10,
                 backgroundColor: '#74787C',
+                padding: 5,
+                margin: 5,
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                borderRadius: 5,
               }}>
-              <View
-                style={{
-                  position: 'absolute',
-                  bottom: 6,
-                  left: 50,
-                  width: 150,
-                  borderBottomWidth: 3,
-                  borderColor: '#7A04EB',
-                }}
-              />
-              <TouchableOpacity style={{padding: 5}}>
+              <View style={{top: 10, marginLeft: 10}}>
+                <Image
+                  source={imageObject[item.product_image]}
+                  style={{width: 100, height: 100}}
+                />
+              </View>
+              <View style={{margin: 10}}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: 'white',
+                    marginBottom: 1,
+                    backgroundColor: 'rgb(40,40,40)',
+                    borderBottomRightRadius: 5,
+                    borderTopRightRadius: 5,
+                    padding: 10,
+                  }}>
+                  {item.product_name}
+                </Text>
+                <Text style={{fontSize: 15, color: 'white', marginBottom: 1}}>
+                  {item.version}
+                </Text>
                 <View
                   style={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    width: 80,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                   }}>
-                  <Image
-                    source={require('../../../../assets/imageUpload/imageProduct/Spider_Man_Miles_ps5.jpeg')}
-                    style={{width: 80, height: 80}}></Image>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => console.log()}>
-                <View style={{flex: 1}}>
-                  <Text
-                    style={{fontSize: 25, color: 'white'}}
-                    numberOfLines={1}>
-                    {item.product_name}
+                  <Text style={{fontSize: 20, color: 'white', marginBottom: 1}}>
+                    $HKD {item.amount}.00
                   </Text>
                   <Text
-                    style={{fontSize: 25, color: 'white'}}
-                    numberOfLines={1}>
-                    {item.version}
+                    style={
+                      item.stock_status == '預購中'
+                        ? {
+                            alignSelf: 'center',
+                            fontSize: 15,
+                            color: 'white',
+                            backgroundColor: 'rgb(60,60,60)',
+                            padding: 5,
+                            borderRadius: 5,
+                            borderColor: '#E11F6B',
+                            borderWidth: 3,
+                            textAlign: 'center',
+                            marginLeft: 5,
+                          }
+                        : {
+                            alignSelf: 'center',
+                            fontSize: 15,
+                            color: 'white',
+                            backgroundColor: 'rgb(60,60,60)',
+                            padding: 5,
+                            borderRadius: 5,
+                            borderColor: '#00BC00',
+                            borderWidth: 3,
+                            textAlign: 'center',
+                            marginLeft: 5,
+                          }
+                    }>
+                    {item.stock_status}
                   </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text style={{fontSize: 17, color: 'white'}}>
-                      {item.amount}
-                    </Text>
-                    <Text style={{fontSize: 20, color: 'white'}}>
-                      {item.stock_status}
-                    </Text>
-                  </View>
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
           )}
         />
