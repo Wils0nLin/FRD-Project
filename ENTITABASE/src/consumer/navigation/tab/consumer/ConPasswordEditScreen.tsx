@@ -16,6 +16,7 @@ import {
 import {IRootState} from '../../../../app/store';
 import ConsumerForehead from '../../../../objects/ConsumerForeheadView';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 const ConPasswordEditScreen = ({navigation}: any) => {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -29,7 +30,7 @@ const ConPasswordEditScreen = ({navigation}: any) => {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/consumer/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/consumer/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -53,7 +54,7 @@ const ConPasswordEditScreen = ({navigation}: any) => {
         newPassword: newPass,
       };
       const resp = await fetch(
-        `http://13.213.207.204/consumer/password/edit/${userId}`,
+        `http://${IP_Of_LOCAL}/consumer/password/edit/${userId}`,
         {
           method: 'PUT',
           headers: {'Content-Type': 'application/json'},

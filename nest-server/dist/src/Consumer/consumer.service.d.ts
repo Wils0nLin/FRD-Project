@@ -6,10 +6,12 @@ export declare class ConsumerService {
         product: import(".prisma/client").Product;
     })[]>;
     deleteOrder(id: number): Promise<unknown>;
+    getOrderRecord(userId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): Promise<unknown>;
     uploadWishList(consumerId: number, productId: number): Promise<void>;
     deleteWishList(consumerId: number, productId: number): Promise<Prisma.BatchPayload>;
-    createOrder(form: any): Promise<unknown>;
+    getShopInfo(shopId: any): Promise<unknown>;
+    createOrder(form: any): Promise<boolean>;
     paymentConfirm(paymentArr: Array<number>): Promise<Promise<unknown>[]>;
     editUserProfile(userId: any, form: any): Promise<boolean>;
     editConProfile(conId: any, form: any): Promise<boolean>;

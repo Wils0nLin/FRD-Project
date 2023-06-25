@@ -9,6 +9,7 @@ import {IRootState} from '../../app/store';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function AnnoEditScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -17,7 +18,7 @@ export default function AnnoEditScreen({}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

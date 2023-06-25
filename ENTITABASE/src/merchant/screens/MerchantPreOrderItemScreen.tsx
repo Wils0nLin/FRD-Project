@@ -22,7 +22,7 @@ export default function PreOrderItemScreen({}) {
     const getData = async () => {
       let id: any;
       console.log(userId);
-      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -33,7 +33,7 @@ export default function PreOrderItemScreen({}) {
           console.log(id);
         });
 
-      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/preOrderItem/${id}`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/preOrderItem/${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

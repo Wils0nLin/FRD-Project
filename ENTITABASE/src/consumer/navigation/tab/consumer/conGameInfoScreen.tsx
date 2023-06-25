@@ -1,469 +1,398 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import GameInfoPhotoSVG from '../../../../assets/svg/consumerSVG/ConsumerGameInfoSVG';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import GameBoxSVG from '../../../../assets/svg/consumerSVG/ConsumerGameBoxSVG';
-import SearchLogoSVG from '../../../../assets/svg/SearchLogoSVG';
-import Entypo from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import AddressModal from '../../../modals/AddressModal';
-import {TouchableOpacity} from 'react-native';
-import axios from 'axios';
-import {useSelector} from 'react-redux';
-import {IRootState} from '../../../../app/store';
-import {useNavigation} from '@react-navigation/native';
-import {format, compareAsc, endOfDay} from 'date-fns';
-import {IP_Of_LOCAL} from '../../../../../IP';
 
-const ConGameInfoScreen = ({route}: any) => {
+import AddressModal from '../../../modals/AddressModal';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProductItemCard from '../../../../objects/ProductItemCard';
+import VersionItemCard from '../../../../objects/VersionItemCard';
+
+export default function ConGameInfoScreen({route}: any) {
   const navigation = useNavigation<any>();
   const {product_id}: any = route.params;
-  console.log(product_id);
-  const login = useSelector((state: IRootState) => state.auth.isAuth);
-  const userId = useSelector((state: IRootState) => state.auth.userId);
-  const [userState, setUserState] = useState<any>();
-  const [version, setVersion] = useState<Array<any>>([]);
-  const [selectedVersion, setSelectVersion] = useState(0);
-  const [items, setItems] = useState<Array<any>>([]);
   const [text, onChangeText] = useState('');
+  const [name, setName] = useState('');
+  const [date, setDate] = useState('');
+  const [platform, setPlatform] = useState('');
+  const [type, setType] = useState<Array<any>>([]);
+  const [version, setVersion] = useState<Array<any>>([]);
+  const [selected, setSelected] = useState(false);
+  const [list, setList] = useState<Array<any>>([]);
+  const [allItem, setAllItem] = useState<Array<any>>([]);
 
-  const handleOrder = async (id: number, amount: number) => {
-    if (!login) {
-      navigation.navigate('LogIn');
-    } else {
-      const form = {
-        consumer_id: userState[0].id,
-        itemId: id,
-        QRcode: userState[0].QRcode,
-        amount: amount,
-        order_status: false,
-        payment: false,
-        create_time: format(endOfDay(new Date()), 'yyyy-MM-dd'),
-      };
-
-      try {
-        console.log(form);
-        await axios.post(
-          `http://${IP_Of_LOCAL}:3000/consumer/order/create`,
-          form,
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  // ---------------------------------------------------------------------------------------------------------
-  const selectVersion = async (version_id: number) => {
-    console.log(version_id);
-    let ItemsState: Array<any> = [];
-    setSelectVersion(version_id);
-    await fetch(`http://${IP_Of_LOCAL}:3000/public/filter/Items/${version_id}`)
+  const getVersionItem = async (id: number) => {
+    await fetch(`http://13.213.207.204/public/versionItem/${id}`, {
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        data.forEach((items: any) => {
-          ItemsState.push(items);
-        });
+        setList(data);
       });
-    setItems(ItemsState);
   };
+
   useEffect(() => {
-    const getVersion = async () => {
-      let VersionState: Array<any> = [];
-      await fetch(
-        `http://${IP_Of_LOCAL}:3000/public/filter/versions/${product_id}`,
-      )
+    const getData = async () => {
+      await fetch(`http://13.213.207.204/public/productInfo/${product_id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
         .then(response => response.json())
         .then(data => {
-          data.forEach((items: any) => {
-            VersionState.push(items);
-          });
-        });
-      setVersion(VersionState);
-      console.log(version);
-    };
-    const getuserData = async () => {
-      let userState: Array<any> = [];
-      await fetch(`http://${IP_Of_LOCAL}:3000/consumer/userInfo/${userId}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data[0]);
-          userState.push(data[0]);
+          setName(data[0].product_name);
+          setDate(data[0].release_date);
+          setPlatform(data[0].platform);
+          setType(data);
         });
 
-      setUserState(userState);
+      await fetch(`http://13.213.207.204/public/productItem/${product_id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          setAllItem(data);
+          setList(data);
+        });
+
+      await fetch(`http://13.213.207.204/public/productVersion/${product_id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+        .then(response => response.json())
+        .then(data => {
+          setVersion(data);
+        });
     };
-    getuserData();
-    getVersion();
+
+    getData();
   }, []);
 
-  // ---------------------------------------------------------------------------------------------------------
   return (
-    <ScrollView style={{backgroundColor: '#202124', height: 600}}>
-      <View style={{flexDirection: 'row'}}>
-        <GameInfoPhotoSVG style={{marginLeft: 30}} />
-
-        <View
-          style={{
-            width: 70,
-            height: 18,
-            borderWidth: 1,
-            borderColor: 'white',
-            backgroundColor: '#2A2E32',
-            position: 'absolute',
-            top: 14,
-            left: 60,
-            borderRadius: 5,
-          }}>
-          <Text style={{color: 'white', fontSize: 10, marginLeft: 15}}>
-            現貨發售中
-          </Text>
-        </View>
-        <GameBoxSVG style={{position: 'absolute', left: 53, top: 12}} />
-      </View>
-      <View
-        style={{
-          width: 130,
-          height: 100,
-          backgroundColor: '#2A2E32',
-          marginLeft: 140,
-          borderRadius: 5,
-          borderWidth: 2,
-          borderColor: '#B7C1DE',
-          position: 'absolute',
-          top: 70,
-        }}>
-        <Image
-          style={{width: 100, height: 80, marginTop: 8, marginLeft: 13}}
-          source={require('../../../../assets/images/Pokemon_purple_and_red.jpeg')}
-        />
-      </View>
-      <View style={{marginLeft: 280, marginTop: 3}}>
-        <Icon
-          name="heart"
-          color={'#7A04EB'}
-          size={25}
-          style={{marginLeft: 30, padding: 0, marginTop: 0, height: 25}}>
-          {'\n '}
-        </Icon>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 15,
-            marginLeft: 12,
-          }}>
-          關注遊戲
-        </Text>
-      </View>
-
-      <Text
-        style={{
-          color: 'white',
-          fontSize: 15,
-          textAlign: 'center',
-          marginTop: 5,
-        }}>
-        寶可夢 朱/紫
-      </Text>
-      <View style={{flexDirection: 'row', marginLeft: 115, marginTop: 5}}>
-        <View
-          style={{
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginRight: 5,
-            borderRadius: 5,
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 13,
-              textAlign: 'center',
-              padding: 5,
-            }}>
-            角色扮演
-          </Text>
-        </View>
-        <View
-          style={{
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginRight: 5,
-            borderRadius: 5,
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 13,
-              textAlign: 'center',
-              padding: 5,
-            }}>
-            動作冒險
-          </Text>
-        </View>
-        <View
-          style={{
-            borderColor: '#B7C1DE',
-            borderWidth: 2,
-            marginRight: 5,
-            borderRadius: 5,
-          }}>
-          <Text
-            style={{
-              color: 'white',
-              fontSize: 13,
-              textAlign: 'center',
-              padding: 5,
-            }}>
-            育成
-          </Text>
-        </View>
-      </View>
-
-      <View style={{marginLeft: 40, marginTop: 10}}>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{color: 'white', marginRight: 40}}>商品資訊</Text>
-          <Text style={{color: 'white'}}>商品簡介</Text>
-        </View>
-        <View
-          style={{
-            borderColor: '#7A04EB',
-            borderWidth: 2,
-            width: 30,
-            height: 0,
-            marginLeft: 12,
-            marginTop: 3,
-          }}
-        />
-      </View>
-      <View
-        style={{
-          borderWidth: 2,
-          borderColor: '#B7C1DE',
-          width: 350,
-          borderRadius: 5,
-          marginLeft: 32,
-          marginTop: 8,
-          padding: 8,
-        }}>
-        <Text style={{color: 'white'}}>發行日期：2022年11月18日</Text>
-        <Text style={{color: 'white'}}>遊戲平台：NINTENDO SWITCH</Text>
-        <Text style={{color: 'white'}}>發行商：The Pokémon Company</Text>
-        <Text style={{color: 'white'}}>銷售商：任天堂株式會社</Text>
-      </View>
-      <View style={{marginLeft: 30, marginTop: 20, flexDirection: 'row'}}>
-        <View
-          style={{
-            borderColor: '#7D7D7D',
-            borderWidth: 3,
-            width: 5,
-            height: 30,
-            borderRadius: 3,
-          }}
-        />
-        <Text style={{color: 'white', fontSize: 20, marginLeft: 10}}>
-          包裝版本
-        </Text>
-      </View>
-      <View>
-        {version.map((items: any) => (
-          <TouchableOpacity
-            onPress={() => selectVersion(items.version_id)}
-            style={
-              selectedVersion == items.version_id
-                ? styles.versionSelect
-                : styles.version
-            }>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 20,
-                textAlign: 'center',
-                padding: 5,
-              }}>
-              {items.version}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <View
-        style={{
-          marginLeft: 30,
-          marginTop: 20,
-          flexDirection: 'row',
-        }}>
-        <View
-          style={{
-            borderColor: '#7D7D7D',
-            borderWidth: 3,
-            width: 5,
-            height: 30,
-            borderRadius: 3,
-          }}
-        />
-        <Text style={{color: 'white', fontSize: 20, marginLeft: 10}}>
-          商戶報價
-        </Text>
-      </View>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          borderColor: '#B7C1DE',
-          borderWidth: 2,
-          marginLeft: 32,
-          width: 350,
-          borderRadius: 5,
-          marginTop: 10,
-          height: 40,
-        }}>
-        <TextInput
-          onChangeText={(newtext: React.SetStateAction<string>) =>
-            onChangeText(newtext)
-          }
-          value={text}
-        />
-
-        <SearchLogoSVG
-          width="80%"
-          height="80%"
-          fill="#E4E4E4"
-          style={{marginLeft: 155, marginTop: 3}}
-        />
-      </View>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingLeft: 35,
-          paddingRight: 35,
-          paddingTop: 10,
-        }}>
-        <Text style={{color: 'white', fontSize: 20}}>共200間商戶</Text>
-        <View>
-          {/* <Text style={{color: 'white', padding: 5}}>標籤搜尋</Text> */}
-          <AddressModal />
-        </View>
-      </View>
-      <ScrollView style={{marginBottom: 100}}>
-        {items.map((items: any) => (
-          <View style={{marginLeft: 20, marginRight: 20}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                margin: 8,
-                padding: 5,
-                paddingHorizontal: 10,
-                height: 90,
-                borderRadius: 10,
-                backgroundColor: '#rgba(255,255,255,0.25)',
-              }}>
-              <View>
-                <Text
-                  style={{
-                    width: 165,
-                    fontSize: 20,
-                    color: 'white',
-                  }}
-                  numberOfLines={1}
-                  onPress={() => navigation.navigate('ShopInfo')}>
-                  {items.merchant_name}
-                </Text>
-                <View style={{flexDirection: 'row', paddingTop: 5}}>
-                  <Entypo
-                    name={'location'}
-                    color={'white'}
-                    size={20}
-                    style={{}}
-                  />
-                  <Text
-                    style={{color: 'white', paddingLeft: 5}}
-                    numberOfLines={2}>
-                    {items.district}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row', paddingTop: 5}}>
-                  <Entypo
-                    name={'location'}
-                    color={'white'}
-                    size={20}
-                    style={{}}
-                  />
-                  <Text
-                    style={{color: 'white', paddingLeft: 5}}
-                    numberOfLines={2}>
-                    {items.address}
-                  </Text>
-                </View>
-                <View style={{paddingTop: 5, flexDirection: 'row'}}>
-                  <Entypo name={'phone'} size={20} color={'white'} />
-                  <Text style={{color: 'white', paddingLeft: 5}}>
-                    {items.merchant_phone}
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  alignItems: 'flex-end',
-                  justifyContent: 'space-between',
-                }}>
-                <TouchableOpacity
-                  style={{flexDirection: 'row', paddingTop: 5}}
-                  onPress={() => {
-                    handleOrder(items.item_id, items.price);
-                  }}>
-                  <AntDesign
-                    name={'shoppingcart'}
-                    size={30}
-                    color={'white'}
-                    style={{paddingLeft: 20}}
-                  />
-                </TouchableOpacity>
-                <View style={{alignItems: 'flex-end'}}>
-                  <Text style={{fontSize: 20, color: 'white'}}>
-                    HK${items.price}.00
-                  </Text>
-                </View>
-              </View>
+    <ScrollView
+      style={{
+        backgroundColor: '#2A2E32',
+      }}>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={{alignItems: 'center'}}>
+          <Image
+            style={styles.foreheadBackground}
+            source={require('../../../../assets/images/test2-removebg-preview.png')}
+          />
+          <View style={styles.miniSlogan1}>
+            <Text style={styles.miniSlogan}>現貨發售中</Text>
+            <View style={styles.foreheadCheck}>
+              <Ionicons
+                name={'game-controller-outline'}
+                size={23}
+                color={'#000000'}
+              />
             </View>
           </View>
-        ))}
-      </ScrollView>
+        </View>
+        <View style={styles.merchantLogoBorder}>
+          <Image
+            style={styles.merchantLogo}
+            source={require('../../../../assets/images/merchant_logo.jpg')}
+          />
+        </View>
+        <TouchableOpacity style={styles.heartLogo}>
+          <AntDesign name={'hearto'} size={35} color={'#7A04EB'} />
+          <Text style={{color: '#E4E4E4', fontSize: 10}}>關注遊戲</Text>
+        </TouchableOpacity>
+        <View style={{height: 40}} />
+        <View style={styles.merchantInfo}>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>{name}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 5,
+            width: 250,
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}>
+          {type.map(items => (
+            <Text style={styles.miniSloganText}>{items.tag}</Text>
+          ))}
+        </View>
+        <View style={styles.tabButtonBox}>
+          <TouchableOpacity style={styles.tabButtonTrue}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              商品資訊
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabButtonFalse}>
+            <Text style={{width: 80, fontSize: 20, color: '#E4E4E4'}}>
+              商品簡介
+            </Text>
+          </TouchableOpacity>
+          <View style={{alignItems: 'center', width: 40}}>
+            <Text style={{width: 80, fontSize: 20}} />
+          </View>
+        </View>
+        <View style={{width: 350}}>
+          <View style={styles.merchantAnno}>
+            <Text style={styles.merchantAnnoText}>發行日期：{date}</Text>
+            <Text style={styles.merchantAnnoText}>遊玩平台：{platform}</Text>
+          </View>
+        </View>
+        <View style={styles.pageTitle}>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>包裝版本</Text>
+          <View style={styles.pageTitleLine} />
+        </View>
+        <View style={{alignItems: 'center', width: 350}}>
+          <TouchableOpacity
+            style={styles.screenButtonFor1}
+            onPress={() => {
+              setList(allItem);
+              setSelected(false);
+            }}>
+            <Text style={{fontSize: 17, color: '#E4E4E4'}}>全部商品</Text>
+          </TouchableOpacity>
+          {version.map(items => (
+            <TouchableOpacity
+              style={styles.screenButtonFor1}
+              onPress={() => {
+                getVersionItem(items.id);
+                setSelected(true);
+              }}>
+              <Text style={{fontSize: 17, color: '#E4E4E4'}}>
+                {items.version}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        <View style={styles.pageTitle}>
+          <Text style={{fontSize: 20, color: '#E4E4E4'}}>商戶報價</Text>
+          <View style={styles.pageTitleLine} />
+        </View>
+        <View style={{width: 350}}>
+          <View style={styles.inputBox}>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={onChangeText}
+              value={text}
+              placeholder="請輸入商品名稱"
+            />
+            <FontAwesome5 name={'search'} size={25} color={'#E4E4E4'} />
+          </View>
+        </View>
+        <View style={styles.tagSearchBar}>
+          <Text style={{fontSize: 17, color: '#E4E4E4'}}>
+            共 {list.length} 件商品
+          </Text>
+          <AddressModal />
+        </View>
+        <View style={{width: 350, marginBottom: 100}}>
+          {list.map(items =>
+            selected ? (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ShopInfo', {
+                    merId: items.merchant_id,
+                  })
+                }>
+                <VersionItemCard
+                  id={items.id}
+                  merId={items.merchant_id}
+                  merName={items.merchant_name}
+                  district={items.district}
+                  area={items.area}
+                  address={items.address}
+                  status={items.stock_status}
+                  price={items.price}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('ShopInfo', {
+                    merId: items.merchant_id,
+                  })
+                }>
+                <ProductItemCard
+                  id={items.id}
+                  merId={items.merchant_id}
+                  merName={items.merchant_name}
+                  proName={items.product_name}
+                  version={items.version}
+                  status={items.stock_status}
+                  price={items.price}
+                />
+              </TouchableOpacity>
+            ),
+          )}
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
-};
+}
+
 const styles = StyleSheet.create({
-  version: {
-    flexDirection: 'column',
-    borderColor: '#B7C1DE',
-    borderWidth: 2,
-    marginLeft: 32,
-    width: 350,
-    borderRadius: 5,
-    marginTop: 10,
+  safeArea: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  versionSelect: {
-    flexDirection: 'column',
-    backgroundColor: '#b57acf',
-    borderColor: '#B7C1DE',
-    borderWidth: 2,
-    marginLeft: 32,
-    width: 350,
-    borderRadius: 5,
-    marginTop: 10,
+  foreheadBackground: {
+    width: 385,
+    height: 170,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
+  foreheadCheck: {
+    position: 'absolute',
+    left: -15,
+    padding: 3,
+    paddingLeft: 4,
+    paddingRight: 4,
+    backgroundColor: '#ffffff',
+    borderRadius: 20,
+  },
+  merchantLogoBorder: {
+    position: 'absolute',
+    top: 85,
+    backgroundColor: '#2A2E32',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: '#B7C1DE',
+  },
+  merchantLogo: {margin: 8, width: 100, height: 100, borderRadius: 5},
+  merchantInfo: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  tabButtonBox: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+    margin: 5,
+    marginTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    width: 350,
+  },
+  tabButtonTrue: {
+    alignItems: 'center',
+    width: 40,
+    borderBottomWidth: 3,
+    borderColor: '#7A04EB',
+  },
+  tabButtonFalse: {
+    alignItems: 'center',
+    width: 40,
+    borderBottomWidth: 3,
+    borderColor: '#2A2E32',
+  },
+  merchantAnno: {
+    margin: 8,
+    marginBottom: 0,
+    padding: 20,
+    paddingTop: 10,
+    height: 100,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  merchantAnnoText: {color: '#E4E4E4'},
+  tagSearchBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingLeft: 10,
+    width: 335,
+  },
+  pageTitle: {
+    flexDirection: 'row',
+    marginTop: 20,
+    marginBottom: 10,
+    marginLeft: 10,
+    paddingLeft: 10,
+    width: 350,
+    borderLeftWidth: 3,
+    borderColor: '#7D7D7D',
+  },
+  pageTitleLine: {
+    position: 'absolute',
+    bottom: -3,
+    left: 60,
+    width: 100,
+    borderBottomWidth: 3,
+    borderColor: '#7A04EB',
+  },
+  miniSlogan: {
+    color: '#E4E4E4',
+    justifyContent: 'center',
+    paddingTop: 3,
+    paddingRight: 5,
+    paddingLeft: 20,
+    backgroundColor: '#202124',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  miniSloganText: {
+    color: '#E4E4E4',
+    justifyContent: 'center',
+    marginHorizontal: 3,
+    marginBottom: 6,
+    paddingTop: 3,
+    paddingRight: 5,
+    paddingLeft: 10,
+    backgroundColor: '#202124',
+    borderRadius: 7,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  miniSlogan1: {
+    height: 30,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 10,
+    left: 53,
+  },
+  heartLogo: {
+    position: 'absolute',
+    alignItems: 'center',
+    top: 175,
+    right: 35,
+  },
+  screenButtonFor1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 8,
+    marginBottom: 0,
+    width: 335,
+    height: 35,
+    backgroundColor: '#202124',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#7A04EB',
+  },
+  inputBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+    height: 45,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#B7C1DE',
+  },
+  textInput: {fontSize: 17, padding: 0, color: '#E4E4E4', width: 250},
 });
-export default ConGameInfoScreen;

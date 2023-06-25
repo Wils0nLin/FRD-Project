@@ -61,28 +61,28 @@ const MerRegister = ({navigation}: any) => {
 
   const getAreaList = async () => {
     const area = await fetch(
-      `http://${IP_Of_LOCAL}:3000/public/register/selectArea`,
+      `http://${IP_Of_LOCAL}/public/register/selectArea`,
     );
     const arealist = await area.json();
     setAreaList(arealist);
   };
   const getDistricList = async () => {
     const district = await fetch(
-      `http://${IP_Of_LOCAL}:3000/public/register/selectDistrict`,
+      `http://${IP_Of_LOCAL}/public/register/selectDistrict`,
     );
     const districtList = await district.json();
     setDristList(districtList);
   };
   const getBankList = async () => {
     const branch = await fetch(
-      `http://${IP_Of_LOCAL}:3000/public/register/bank`,
+      `http://${IP_Of_LOCAL}/public/register/bank`,
     );
     const bankList = await branch.json();
     setBankList(bankList);
   };
   const getBranchList = async () => {
     const Branch = await fetch(
-      `http://${IP_Of_LOCAL}:3000/public/register/branch`,
+      `http://${IP_Of_LOCAL}/public/register/branch`,
     );
     const BranchLists = await Branch.json();
     setbranchList(BranchLists);
@@ -183,7 +183,7 @@ const MerRegister = ({navigation}: any) => {
 
     try {
       // const uploadResponse =
-      await fetch('http://${IP_Of_LOCAL}:3000/public/register/merRegister', {
+      await fetch(`http://${IP_Of_LOCAL}/public/register/merRegister`, {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

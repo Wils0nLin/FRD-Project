@@ -56,12 +56,21 @@ export default function AddScreen({}) {
     Array<{id: number; product_name: string}>
   >([]);
   // const [isModalVisible, setIsModalVisible] = React.useState(false);
-
+  const unique = (arr: Array<any>, track = new Set()) =>
+    arr.filter(({product_name}) =>
+      track.has(product_name) ? false : track.add(product_name),
+    );
+  const unique2 = (arr: Array<any>, track = new Set()) =>
+    arr.filter(({version}) =>
+      track.has(version) ? false : track.add(version),
+    );
   const performSearch = (query: any) => {
+    console.log('hi', query);
     const results: any = ProductList.filter(item =>
       item.product_name.includes(query),
     );
-    setSearchResults(results);
+    console.log();
+    setSearchResults(unique(results));
   };
   const renderSearchResults = () => {
     if (searchQuery === '') {
@@ -108,7 +117,7 @@ export default function AddScreen({}) {
   const itemUpload = async (merchantId: any) => {
     const getUserData = async () => {
       const resp = await fetch(
-        `http://${IP_Of_LOCAL}:3000/merchant/userInfo/${userId}`,
+        `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},
@@ -122,13 +131,10 @@ export default function AddScreen({}) {
     getUserData();
 
     const getMerchantId = async (merchantId: any) => {
-      const resp = await fetch(
-        `http://${IP_Of_LOCAL}:3000/merchant/${merchantId}`,
-        {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json'},
-        },
-      );
+      const resp = await fetch(`http://${IP_Of_LOCAL}/merchant/${merchantId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      });
       const merData = await resp.json();
       console.log('攞到merchant data:', merData);
       itemPost(merData[0].id);
@@ -146,7 +152,7 @@ export default function AddScreen({}) {
       };
       console.log('我post野啦: ', itemPost);
 
-      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/uploadItems`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/uploadItems`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -164,9 +170,7 @@ export default function AddScreen({}) {
 
   useEffect(() => {
     const getProduct = async () => {
-      const getProduct = await fetch(
-        `http://${IP_Of_LOCAL}:3000/merchant/product`,
-      );
+      const getProduct = await fetch(`http://${IP_Of_LOCAL}/merchant/product`);
       const productList = await getProduct.json();
 
       setProductList(productList);
@@ -174,10 +178,10 @@ export default function AddScreen({}) {
 
     const getVersion = async () => {
       const getVersion = await fetch(
-        `http://${IP_Of_LOCAL}:3000/merchant/product/version`,
+        `http://${IP_Of_LOCAL}/merchant/product/version`,
       );
       const versionList = await getVersion.json();
-
+      console.log(versionList);
       setVersionList(versionList);
     };
 
@@ -249,8 +253,10 @@ export default function AddScreen({}) {
           {SelectedProduct && searchQuery !== '' && (
             <>
               <Text>Version:</Text>
-              {VersionList.filter(
-                version => version.product_id === SelectedProduct,
+              {unique2(
+                VersionList.filter(
+                  version => version.product_id === SelectedProduct,
+                ),
               ).map(item => (
                 <TouchableOpacity
                   key={item.id}

@@ -41,6 +41,7 @@ let PublicController = exports.PublicController = class PublicController {
         return this.publicService.branch();
     }
     login(form) {
+        console.log(form);
         return this.publicService.login(form);
     }
     hot() {
@@ -93,6 +94,18 @@ let PublicController = exports.PublicController = class PublicController {
     }
     ratingAsce(productId, versionId) {
         return this.publicService.ratingAsce(productId, versionId);
+    }
+    async getProductInfo(productId) {
+        return await this.publicService.getProductInfo(productId);
+    }
+    async getProductItem(productId) {
+        return await this.publicService.getProductItem(productId);
+    }
+    async getProductVersion(productId) {
+        return await this.publicService.getProductVersion(productId);
+    }
+    async getVersionItem(versionId) {
+        return await this.publicService.getVersionItem(versionId);
     }
 };
 __decorate([
@@ -246,6 +259,34 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], PublicController.prototype, "ratingAsce", null);
+__decorate([
+    (0, common_1.Get)("productInfo/:productId"),
+    __param(0, (0, common_1.Param)("productId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "getProductInfo", null);
+__decorate([
+    (0, common_1.Get)("productItem/:productId"),
+    __param(0, (0, common_1.Param)("productId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "getProductItem", null);
+__decorate([
+    (0, common_1.Get)("productVersion/:productId"),
+    __param(0, (0, common_1.Param)("productId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "getProductVersion", null);
+__decorate([
+    (0, common_1.Get)("versionItem/:versionId"),
+    __param(0, (0, common_1.Param)("versionId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], PublicController.prototype, "getVersionItem", null);
 exports.PublicController = PublicController = __decorate([
     (0, common_1.Controller)("public"),
     __metadata("design:paramtypes", [public_service_1.PublicService])

@@ -83,6 +83,7 @@ export class PublicController {
     //done
     @Post("login")
     login(@Body() form: any) {
+        console.log(form)
         return this.publicService.login(form);
     }
     //
@@ -215,5 +216,25 @@ export class PublicController {
 
     // search for search bar typing for version
     //未完
+
+    @Get("productInfo/:productId")
+    async getProductInfo(@Param("productId") productId: any) {
+        return await this.publicService.getProductInfo(productId);
+    }
+
+    @Get("productItem/:productId")
+    async getProductItem(@Param("productId") productId: any) {
+        return await this.publicService.getProductItem(productId);
+    }
+
+    @Get("productVersion/:productId")
+    async getProductVersion(@Param("productId") productId: any) {
+        return await this.publicService.getProductVersion(productId);
+    }
+
+    @Get("versionItem/:versionId")
+    async getVersionItem(@Param("versionId") versionId: any) {
+        return await this.publicService.getVersionItem(versionId);
+    }
    
 }

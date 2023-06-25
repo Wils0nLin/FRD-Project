@@ -23,7 +23,8 @@ import CommentCard from '../../../../objects/CommentCard';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function ConMerInfoScreen() {
+export default function ConMerInfoScreen({route}: any) {
+  const {merId}: any = route.params;
   const [name, setName] = useState('');
   const [rating, setRating] = useState(0);
   const [phone, setPhone] = useState('');
@@ -42,60 +43,59 @@ export default function ConMerInfoScreen() {
   let spotItem: Array<any> = [];
   let preOrder: Array<any> = [];
 
-  const getData = async () => {
-    const resp = await fetch(`http://13.213.207.204/consumer/shopInfo/2`, {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    });
-    const data = await resp.json();
-    console.log(data[0]);
-    setName(data[0].merchant_name);
-    setPhone(data[0].merchant_phone);
-    setArea(data[0].area);
-    setDistrict(data[0].district);
-    setAddress(data[0].address);
-    setHour(data[0].opening_hour);
-    getItemData();
-    getCommentData();
-  };
-  const whatsappURL = `https://wa.me/852${phone}`;
-
-  const getItemData = async () => {
-    const resp = await fetch(`http://13.213.207.204/merchant/allItem/2`, {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    });
-    const data = await resp.json();
-    console.log(data);
-
-    for (let item of data) {
-      if (item.stock_status === '預購中' || item.stock_status === '等待到貨') {
-        preOrder.push(item);
-      } else {
-        spotItem.push(item);
-      }
-    }
-    setList(spotItem);
-    setSpotList(spotItem);
-    setPreOrderList(preOrder);
-  };
-
-  const getCommentData = async () => {
-    const resp = await fetch(`http://13.213.207.204/merchant/comment/2`, {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    });
-    const data = await resp.json();
-    console.log(data);
-
-    for (let item of data) {
-      star += item.rating;
-    }
-    setRating(Math.round(star / data.length));
-    setComment(data);
-  };
-
   useEffect(() => {
+    console.log(merId);
+    const getData = async () => {
+      await fetch(`http://13.213.207.204/consumer/shopInfo/${merId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          setName(data[0].merchant_name);
+          setPhone(data[0].merchant_phone);
+          setArea(data[0].area);
+          setDistrict(data[0].district);
+          setAddress(data[0].address);
+          setHour(data[0].opening_hour);
+        });
+
+      await fetch(`http://13.213.207.204/merchant/allItem/${merId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+        .then(response => response.json())
+        .then(data => {
+          for (let item of data) {
+            if (
+              item.stock_status === '預購中' ||
+              item.stock_status === '等待到貨'
+            ) {
+              preOrder.push(item);
+            } else {
+              spotItem.push(item);
+            }
+          }
+          setList(spotItem);
+          setSpotList(spotItem);
+          setPreOrderList(preOrder);
+        });
+
+      await fetch(`http://13.213.207.204/merchant/comment/${merId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
+        .then(response => response.json())
+        .then(data => {
+          for (let item of data) {
+            star += item.rating;
+          }
+          setRating(Math.round(star / data.length));
+          setComment(data);
+        });
+    };
+
     getData();
   }, []);
 

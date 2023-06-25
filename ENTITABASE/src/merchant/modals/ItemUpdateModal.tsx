@@ -45,7 +45,7 @@ export default function ItemUpdateModal(props: cardInfo) {
     };
     console.log(form);
     const resp = await fetch(
-      `http://${IP_Of_LOCAL}:3000/merchant/update/${props.id}`,
+      `http://${IP_Of_LOCAL}/merchant/update/${props.id}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

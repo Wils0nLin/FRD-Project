@@ -41,6 +41,26 @@ export class ConsumerService {
         const result = await prisma.$queryRaw`delete from orders where id =${id};`;
         return result;
     }
+    async getOrderRecord(userId: any) {
+        console.log(userId)
+        const result = await prisma.$queryRaw`SELECT merchant.merchant_name,
+        consumer.consumer_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        item.stock_status,
+        version.version,
+        product.product_name,
+        product.product_image
+    FROM orders
+        JOIN item on item.id = orders.item_id
+        JOIN version on version.id = item.version_id
+        JOIN product on product.id = version.product_id
+        JOIN merchant on merchant.id = item.merchant_id
+        JOIN consumer ON consumer.id = orders.consumer_id
+        JOIN users on users.id = consumer.users_id where users.id = ${Number(userId)};`
+        return result
+    }
     async displayOrder(JWTpayload: any) {
         console.log("i am ser ", JWTpayload);
         const result = await prisma.$queryRaw`SELECT product.product_name,
@@ -87,31 +107,22 @@ export class ConsumerService {
         return deleteWishList;
         console.log(`del product by id`);
     }
+
+    // ---------------------------------------------------------------------------------------------------------
+    async getShopInfo(shopId: any) {
+        const foundShop = await prisma.$queryRawUnsafe(
+            `select merchant_name, merchant_phone, address, opening_hour, district, area from merchant JOIN district on district.id = district_id JOIN area on area.id = area_id where merchant.id = ${shopId};`
+        );
+        return foundShop;
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     async createOrder(form: any) {
         console.log("iamser", form);
-        const result = await prisma.$queryRaw`insert into orders (
-                item_id,
-                amount,
-                order_status,
-                payment,
-                create_time,
-                consumer_id,
-                consumer_qrcode
-        
-            )
-        values (
-               
-               ${form.itemId},
-               ${form.amount},
-               ${form.order_status},
-               ${form.payment},
-               ${form.create_time},
-               ${form.consumer_id},
-               ${form.QRcode}
-              
-            )`;
-        return result;
+        const result =
+            await prisma.$queryRaw`insert into orders ( item_id, amount, order_status, payment, create_time, consumer_id, "QRcode" )
+        values (${form.itemId}, ${form.amount}, ${form.order_status}, ${form.payment}, ${form.create_time}, ${form.consumer_id}, ${form.QRcode})`;
+        return true;
     }
     //full pay
     async paymentConfirm(paymentArr: Array<number>) {

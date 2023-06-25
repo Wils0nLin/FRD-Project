@@ -20,7 +20,7 @@ export default function MerPreOrderScreen({route}: any) {
 
   useEffect(() => {
     const getData = async () => {
-      await fetch(`http://${IP_Of_LOCAL}:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -29,13 +29,10 @@ export default function MerPreOrderScreen({route}: any) {
           setName(data[0].merchant_name);
         });
 
-      await fetch(
-        `http://${IP_Of_LOCAL}:3000/merchant/preOrderRecord/${itemId}`,
-        {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json'},
-        },
-      )
+      await fetch(`http://${IP_Of_LOCAL}/merchant/preOrderRecord/${itemId}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      })
         .then(response => response.json())
         .then(data => {
           setList(data);

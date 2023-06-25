@@ -17,6 +17,7 @@ import {IRootState} from '../../../../app/store';
 import ConsumerForehead from '../../../../objects/ConsumerForeheadView';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCom from 'react-native-vector-icons/MaterialCommunityIcons';
+import {IP_Of_LOCAL} from '../../../../../IP';
 
 const ConProfileEditScreen = ({navigation}: any) => {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -28,7 +29,7 @@ const ConProfileEditScreen = ({navigation}: any) => {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/consumer/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/consumer/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -54,7 +55,7 @@ const ConProfileEditScreen = ({navigation}: any) => {
       phone: phone,
     };
     const userResp = await fetch(
-      `http://13.213.207.204/consumer/userProfile/edit/${userId}`,
+      `http://${IP_Of_LOCAL}/consumer/userProfile/edit/${userId}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -62,7 +63,7 @@ const ConProfileEditScreen = ({navigation}: any) => {
       },
     );
     const conResp = await fetch(
-      `http://13.213.207.204/consumer/conProfile/edit/${conId}`,
+      `http://${IP_Of_LOCAL}/consumer/conProfile/edit/${conId}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

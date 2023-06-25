@@ -3,6 +3,7 @@ import { ConsumerService } from "./consumer.service";
 import { PublicService } from "src/Public/public.service";
 import { JwtGuard } from "src/Public/guard";
 import { GetUser } from "src/Public/decorator";
+import { userInfo } from "os";
 @Controller("consumer")
 export class ConsumerController {
     constructor(
@@ -48,6 +49,12 @@ export class ConsumerController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
+    @Get("shopInfo/:shopId")
+    async getShopInfo(@Param("shopId") shopId: any) {
+        return await this.consumerService.getShopInfo(shopId);
+    }
+    
+    // ---------------------------------------------------------------------------------------------------------
     @Get("order/:JWT")
     displayOrder(@Param("JWT") JWTpayload: any) {
         console.log();
@@ -58,9 +65,10 @@ export class ConsumerController {
         console.log(id);
         return this.consumerService.deleteOrder(Number(id));
     }
-    @Get("order/history")
-    displayOrderHistory(@Body() JWTpayload: any) {
-        return this.publicService.displayOrderHistory(JWTpayload);
+    @Get("order/history/:userId")
+    displayOrderHistory(@Param('userId') userId: any) {
+        console.log(userId)
+        return this.consumerService.getOrderRecord(userId)
     }
     @Post("order/create")
     createOrder(@Body() form: any) {

@@ -45,6 +45,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
             return { success: false, error: error.message };
         }
     }
+    async getShopInfo(shopId) {
+        return await this.consumerService.getShopInfo(shopId);
+    }
     displayOrder(JWTpayload) {
         console.log();
         return this.consumerService.displayOrder(JWTpayload);
@@ -53,8 +56,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
         console.log(id);
         return this.consumerService.deleteOrder(Number(id));
     }
-    displayOrderHistory(JWTpayload) {
-        return this.publicService.displayOrderHistory(JWTpayload);
+    displayOrderHistory(userId) {
+        console.log(userId);
+        return this.consumerService.getOrderRecord(userId);
     }
     createOrder(form) {
         console.log(form);
@@ -110,6 +114,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "deleteWishList", null);
 __decorate([
+    (0, common_1.Get)("shopInfo/:shopId"),
+    __param(0, (0, common_1.Param)("shopId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ConsumerController.prototype, "getShopInfo", null);
+__decorate([
     (0, common_1.Get)("order/:JWT"),
     __param(0, (0, common_1.Param)("JWT")),
     __metadata("design:type", Function),
@@ -124,8 +135,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "deleteOrder", null);
 __decorate([
-    (0, common_1.Get)("order/history"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)("order/history/:userId"),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

@@ -40,100 +40,6 @@ export default function ConAppScreen({navigation}: any) {
   const [GetAllProduct, setGetAllProduct] = React.useState<Array<any>>([]);
   const [ComingProduct, setComingProduct] = React.useState<Array<any>>([]);
 
-  const HotArr = [
-    {
-      image: (
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 5,
-          }}
-          source={require('../../../../assets/images/splatoon3.png')}
-        />
-      ),
-      name: '斯普拉遁 3',
-      date: '2022年9月9日',
-      status: '現貨發售中',
-    },
-    {
-      image: (
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 5,
-          }}
-          source={require('../../../../assets/images/Kirby.jpg')}
-        />
-      ),
-      name: '星之卡比 探索發現',
-      date: '2022年3月25日',
-      status: '現貨發售中',
-    },
-    {
-      image: (
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 5,
-          }}
-          source={require('../../../../assets/images/arceus.jpg')}
-        />
-      ),
-      name: '寶可夢傳說 阿爾宙斯',
-      date: '2022年1月28日',
-      status: '現貨發售中',
-    },
-  ];
-  const ComingArr = [
-    {
-      image: (
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 5,
-          }}
-          source={require('../../../../assets/images/pikmin4.jpg')}
-        />
-      ),
-      name: '皮克敏 4',
-      date: '2023年7月21日',
-      status: '預購進行中',
-    },
-    {
-      image: (
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 5,
-          }}
-          source={require('../../../../assets/images/island.jpg')}
-        />
-      ),
-      name: '迪士尼奇幻島：米奇與好朋友大冒險',
-      date: '2023年7月28日',
-      status: '預購進行中',
-    },
-    {
-      image: (
-        <Image
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 5,
-          }}
-          source={require('../../../../assets/images/zelda.jpg')}
-        />
-      ),
-      name: '薩爾達傳說 王國之淚',
-      date: '2023年5月12日',
-      status: '預購進行中',
-    },
-  ];
   const [select, setSelect] = useState('熱門遊戲');
   const [list, setList] = useState(HotList);
 
@@ -142,7 +48,7 @@ export default function ConAppScreen({navigation}: any) {
       setList(HotList);
       setSelect('熱門遊戲');
     } else if (button === '即將發行') {
-      setList(ComingArr);
+      setList(ComingProduct);
       setSelect('即將發行');
     }
     return [list, select];
@@ -151,7 +57,7 @@ export default function ConAppScreen({navigation}: any) {
   const findSwitchGames = async () => {
     try {
       const process = await fetch(
-        `http://${IP_Of_LOCAL}:3000/public/filter/platform/?platformId=${1}`,
+        `http://${IP_Of_LOCAL}/public/filter/platform/?platformId=${1}`,
         {
           method: 'GET',
           headers: {
@@ -181,7 +87,7 @@ export default function ConAppScreen({navigation}: any) {
   useEffect(() => {
     const getAllProduct = async () => {
       const getAllProduct = await fetch(
-        `http://${IP_Of_LOCAL}:3000/consumer/allProduct`,
+        `http://${IP_Of_LOCAL}/consumer/allProduct`,
       );
       const productList = await getAllProduct.json();
 
@@ -189,7 +95,7 @@ export default function ConAppScreen({navigation}: any) {
     };
 
     const getHot = async () => {
-      const getProduct = await fetch(`http://${IP_Of_LOCAL}:3000/consumer/hot`);
+      const getProduct = await fetch(`http://${IP_Of_LOCAL}/consumer/hot`);
       const hotList = await getProduct.json();
 
       setHotList(hotList);
@@ -410,3 +316,97 @@ const styles = StyleSheet.create({
     borderColor: '#65DC98',
   },
 });
+// const HotArr = [
+//   {
+//     image: (
+//       <Image
+//         style={{
+//           width: 80,
+//           height: 80,
+//           borderRadius: 5,
+//         }}
+//         source={require('../../../../assets/images/splatoon3.png')}
+//       />
+//     ),
+//     name: '斯普拉遁 3',
+//     date: '2022年9月9日',
+//     status: '現貨發售中',
+//   },
+//   {
+//     image: (
+//       <Image
+//         style={{
+//           width: 80,
+//           height: 80,
+//           borderRadius: 5,
+//         }}
+//         source={require('../../../../assets/images/Kirby.jpg')}
+//       />
+//     ),
+//     name: '星之卡比 探索發現',
+//     date: '2022年3月25日',
+//     status: '現貨發售中',
+//   },
+//   {
+//     image: (
+//       <Image
+//         style={{
+//           width: 80,
+//           height: 80,
+//           borderRadius: 5,
+//         }}
+//         source={require('../../../../assets/images/arceus.jpg')}
+//       />
+//     ),
+//     name: '寶可夢傳說 阿爾宙斯',
+//     date: '2022年1月28日',
+//     status: '現貨發售中',
+//   },
+// ];
+// const ComingArr = [
+//   {
+//     image: (
+//       <Image
+//         style={{
+//           width: 80,
+//           height: 80,
+//           borderRadius: 5,
+//         }}
+//         source={require('../../../../assets/images/pikmin4.jpg')}
+//       />
+//     ),
+//     name: '皮克敏 4',
+//     date: '2023年7月21日',
+//     status: '預購進行中',
+//   },
+//   {
+//     image: (
+//       <Image
+//         style={{
+//           width: 80,
+//           height: 80,
+//           borderRadius: 5,
+//         }}
+//         source={require('../../../../assets/images/island.jpg')}
+//       />
+//     ),
+//     name: '迪士尼奇幻島：米奇與好朋友大冒險',
+//     date: '2023年7月28日',
+//     status: '預購進行中',
+//   },
+//   {
+//     image: (
+//       <Image
+//         style={{
+//           width: 80,
+//           height: 80,
+//           borderRadius: 5,
+//         }}
+//         source={require('../../../../assets/images/zelda.jpg')}
+//       />
+//     ),
+//     name: '薩爾達傳說 王國之淚',
+//     date: '2023年5月12日',
+//     status: '預購進行中',
+//   },
+// ];

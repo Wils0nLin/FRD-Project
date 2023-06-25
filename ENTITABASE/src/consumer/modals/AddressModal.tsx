@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
+    paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#rgba(0,0,0,0.8)',

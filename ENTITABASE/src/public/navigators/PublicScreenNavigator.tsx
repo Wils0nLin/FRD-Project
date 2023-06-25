@@ -16,31 +16,13 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GameSearchScreen} from '../../consumer/navigation/pages/searchScreen';
 import MerchantCenterScreen from '../screens/MerchantCenterScreen';
 import ConGameInfoScreen from '../../consumer/navigation/tab/consumer/conGameInfoScreen';
-// import MerRegister from '../screens/MerRegister';
-import ReverseHeader from '../../consumer/navigation/ReverseHeader';
 import ConMerInfoScreen from '../../consumer/navigation/tab/consumer/ConMerInfoScreen';
-// import GameInfoScreen from '../../consumer/navigation/tab/consumer/GameInfoScreen';
 const Stack = createNativeStackNavigator();
 
 const PublicScreenNavigator = () => {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="ShopInfo"
-        component={ConMerInfoScreen}
-        options={{
-          headerBackVisible: false,
-          headerTitle: 'SHOP INFO',
-          headerRight: () => (
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
-            </TouchableOpacity>
-          ),
-          headerStyle: styles.topBarBackground,
-          headerTitleStyle: styles.topBarText,
-        }}
-      />
       <Stack.Screen
         name="PublicHome"
         component={ConAppScreen}
@@ -98,13 +80,6 @@ const PublicScreenNavigator = () => {
           headerTitleStyle: styles.topBarText,
         }}
       />
-      {/* <Stack.Screen
-        name="MerRegister"
-        component={MerRegister}
-        options={({}) => ({
-          header: () => ReverseHeader('MerRes'),
-        })}
-      /> */}
       <Stack.Screen
         name="ConsumerRegis"
         component={ConRegister}
@@ -156,6 +131,21 @@ const PublicScreenNavigator = () => {
         options={{
           headerBackVisible: false,
           headerTitle: 'GAME INFO',
+          headerRight: () => (
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />
+            </TouchableOpacity>
+          ),
+          headerStyle: styles.topBarBackground,
+          headerTitleStyle: styles.topBarText,
+        }}
+      />
+      <Stack.Screen
+        name="ShopInfo"
+        component={ConMerInfoScreen}
+        options={{
+          headerBackVisible: false,
+          headerTitle: 'SHOP INFO',
           headerRight: () => (
             <TouchableOpacity onPress={navigation.goBack}>
               <Icon name={'arrow-left'} size={30} color={'#E4E4E4'} />

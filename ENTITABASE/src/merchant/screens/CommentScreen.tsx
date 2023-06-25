@@ -8,6 +8,7 @@ import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
 import CommentCard from '../../objects/CommentCard';
 import {useState, useEffect} from 'react';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function CommentScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -16,7 +17,7 @@ export default function CommentScreen({}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -29,7 +30,7 @@ export default function CommentScreen({}) {
   };
 
   const getCommentData = async (id: number) => {
-    const resp = await fetch(`http://13.213.207.204/merchant/comment/${id}`, {
+    const resp = await fetch(`http://${IP_Of_LOCAL}/merchant/comment/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });

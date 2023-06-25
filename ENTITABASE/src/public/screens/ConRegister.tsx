@@ -59,7 +59,7 @@ export default function ConRegister({navigation}: any) {
         consumer_phone: Phone,
       };
       axios
-        .post(`http://${IP_Of_LOCAL}:3000/public/register/conRegister`, form)
+        .post(`http://${IP_Of_LOCAL}/public/register/conRegister`, form)
         .then(function (response) {
           console.log(response);
           Alert.alert('註冊成功', '立即登入體驗ENTITÀBASE的遊戲世界吧');

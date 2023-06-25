@@ -12,7 +12,7 @@ const demo = () => {
   const [img, setImg] = useState<any>();
   useEffect(() => {
     const getPhoto = async () => {
-      await fetch(`http://${IP_Of_LOCAL}:3000/consumer/test`)
+      await fetch(`http://${IP_Of_LOCAL}/consumer/test`)
         .then(resopnse => resopnse.json())
         .then(data => {
           console.log(data);
