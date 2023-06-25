@@ -83,6 +83,7 @@ export class PublicController {
     //done
     @Post("login")
     login(@Body() form: any) {
+        console.log(form)
         return this.publicService.login(form);
     }
     //

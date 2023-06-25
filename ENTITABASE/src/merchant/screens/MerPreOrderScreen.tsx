@@ -19,7 +19,7 @@ export default function MerPreOrderScreen({route}: any) {
 
   useEffect(() => {
     const getData = async () => {
-      await fetch(`http://192.168.160.142:3000/merchant/userInfo/${userId}`, {
+      await fetch(`http://10.0.2.2:3000/merchant/userInfo/${userId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -29,7 +29,7 @@ export default function MerPreOrderScreen({route}: any) {
         });
 
       await fetch(
-        `http://192.168.160.142:3000/merchant/preOrderRecord/${itemId}`,
+        `http://10.0.2.2:3000/merchant/preOrderRecord/${itemId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},

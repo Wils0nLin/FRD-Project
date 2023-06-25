@@ -5,12 +5,29 @@ export declare class PublicService {
     private readonly prisma;
     private readonly jwt;
     private readonly config;
+    getHot(): void;
     constructor(prisma: PrismaService, jwt: JwtService, config: ConfigService);
     Register(form: any, identity: string, files: any | null): Promise<void>;
-    selectArea(): Promise<import(".prisma/client").Area[]>;
-    selectDistrict(): Promise<import(".prisma/client").District[]>;
-    bank(): Promise<import(".prisma/client").Bank[]>;
-    branch(): Promise<import(".prisma/client").Branch[]>;
+    selectArea(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        area: string;
+    }, unknown> & {})[]>;
+    selectDistrict(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        area_id: number;
+        district: string;
+    }, unknown> & {})[]>;
+    bank(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        bank_code: string;
+        bank_name: string;
+    }, unknown> & {})[]>;
+    branch(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        bank_id: number;
+        branch_code: string;
+        branch_name: string;
+    }, unknown> & {})[]>;
     login(form: any): Promise<{
         access_token: string;
     }>;
@@ -18,17 +35,62 @@ export declare class PublicService {
         access_token: string;
     }>;
     hot(): string;
-    comingSoon(): Promise<import(".prisma/client").Product[]>;
-    displayTag(): Promise<import(".prisma/client").Tag[]>;
-    displayPlatform(): Promise<import(".prisma/client").Platform[]>;
-    platformFilter(platformName: string): Promise<(import(".prisma/client").Platform & {
-        products: (import(".prisma/client").Product & {
-            versions: import(".prisma/client").Version[];
-        })[];
-    })[]>;
-    tagFilter(tags: string[]): Promise<(import(".prisma/client").Product & {
-        product_tags: import(".prisma/client").Product_tag[];
-    })[]>;
+    comingSoon(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        product_name: string;
+        product_status: boolean;
+        product_image: string;
+        release_date: string;
+        product_intro: string;
+        view: number;
+        platform_id: number;
+    }, unknown> & {})[]>;
+    displayTag(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        tag: string;
+    }, unknown> & {})[]>;
+    displayPlatform(): Promise<(import("@prisma/client/runtime").GetResult<{
+        id: number;
+        platform: string;
+    }, unknown> & {})[]>;
+    platformFilter(platformName: string): Promise<({
+        products: ({
+            versions: (import("@prisma/client/runtime").GetResult<{
+                id: number;
+                product_id: number;
+                version: string;
+                version_image: string;
+            }, unknown> & {})[];
+        } & import("@prisma/client/runtime").GetResult<{
+            id: number;
+            product_name: string;
+            product_status: boolean;
+            product_image: string;
+            release_date: string;
+            product_intro: string;
+            view: number;
+            platform_id: number;
+        }, unknown> & {})[];
+    } & import("@prisma/client/runtime").GetResult<{
+        id: number;
+        platform: string;
+    }, unknown> & {})[]>;
+    tagFilter(tags: string[]): Promise<({
+        product_tags: (import("@prisma/client/runtime").GetResult<{
+            id: number;
+            product_id: number;
+            tag_id: number;
+        }, unknown> & {})[];
+    } & import("@prisma/client/runtime").GetResult<{
+        id: number;
+        product_name: string;
+        product_status: boolean;
+        product_image: string;
+        release_date: string;
+        product_intro: string;
+        view: number;
+        platform_id: number;
+    }, unknown> & {})[]>;
     searchVersion(id: number): Promise<unknown>;
     searchItem(version_id: number): Promise<unknown>;
     getMerchantByItemId(itemId: any): Promise<{
@@ -53,16 +115,60 @@ export declare class PublicService {
     }>;
     district(productid: any, versionId: any, district: any): void;
     area(productid: any, versionId: any, area: any): void;
-    priceDesc(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {
-        version: import(".prisma/client").Version & {
-            product: import(".prisma/client").Product;
-        };
-    })[]>;
-    priceAsec(productid: any, versionId: any): Promise<(import(".prisma/client").Item & {
-        version: import(".prisma/client").Version & {
-            product: import(".prisma/client").Product;
-        };
-    })[]>;
+    priceDesc(productid: any, versionId: any): Promise<({
+        version: {
+            product: import("@prisma/client/runtime").GetResult<{
+                id: number;
+                product_name: string;
+                product_status: boolean;
+                product_image: string;
+                release_date: string;
+                product_intro: string;
+                view: number;
+                platform_id: number;
+            }, unknown> & {};
+        } & import("@prisma/client/runtime").GetResult<{
+            id: number;
+            product_id: number;
+            version: string;
+            version_image: string;
+        }, unknown> & {};
+    } & import("@prisma/client/runtime").GetResult<{
+        id: number;
+        merchant_id: number;
+        version_id: number;
+        price: number;
+        end_date: string;
+        stock_status: string;
+        availability: boolean;
+    }, unknown> & {})[]>;
+    priceAsec(productid: any, versionId: any): Promise<({
+        version: {
+            product: import("@prisma/client/runtime").GetResult<{
+                id: number;
+                product_name: string;
+                product_status: boolean;
+                product_image: string;
+                release_date: string;
+                product_intro: string;
+                view: number;
+                platform_id: number;
+            }, unknown> & {};
+        } & import("@prisma/client/runtime").GetResult<{
+            id: number;
+            product_id: number;
+            version: string;
+            version_image: string;
+        }, unknown> & {};
+    } & import("@prisma/client/runtime").GetResult<{
+        id: number;
+        merchant_id: number;
+        version_id: number;
+        price: number;
+        end_date: string;
+        stock_status: string;
+        availability: boolean;
+    }, unknown> & {})[]>;
     ratingDesc(productid: any, versionId: any): void;
     ratingAsce(productid: any, versionId: any): void;
     displayOrderHistory(JWTpayload: any): void;

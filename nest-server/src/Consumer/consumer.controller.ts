@@ -3,6 +3,7 @@ import { ConsumerService } from "./consumer.service";
 import { PublicService } from "src/Public/public.service";
 import { JwtGuard } from "src/Public/guard";
 import { GetUser } from "src/Public/decorator";
+import { userInfo } from "os";
 @Controller("consumer")
 export class ConsumerController {
     constructor(
@@ -15,62 +16,38 @@ export class ConsumerController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    //未攞到consumer id
-    // @Get("wishlist")
-    // displayWishList(@Query("consumer_id") consumer_id: number) {
-    //     return this.consumerService.displayWishList(consumer_id);
-    // }
+    // 未攞到consumer id
+    @Get("wishlist")
+    displayWishList(@Query("consumer_id") consumer_id: number) {
+        return this.consumerService.displayWishList(consumer_id);
+    }
     // ---------------------------------------------------
     //done
     @Post("wishlist/upload")
-    async uploadWishList(@Body() formData: any) {
-        let consumerId = 2;
-        let productId = 2;
-        let versionId = 1;
-
+    async uploadWishList(
+        @Body("consumerId") consumerId: number,
+        @Body("productId") productId: number
+    ) {
         try {
-            const { targetPrice, notification } = formData;
-            const uploadWishList = await this.consumerService.uploadWishList(
-                consumerId,
-                productId,
-                versionId,
-                targetPrice,
-                notification
-            );
+            const uploadWishList = await this.consumerService.uploadWishList(consumerId, productId);
             return { success: true, data: uploadWishList };
         } catch (error) {
             return { success: false, error: error.message };
         }
     }
 
-    // @Post("wishlist/upload/")
-    // async uploadWishList(@Body() parm: any) {
-    //     return this.consumerService.uploadWishList(parm.id);
-    // }
     // ---------------------------------------------------
     //done
     @Delete("wishlist/delete/")
-    async deleteWishList(@Body() requestData: any) {
-        // const { consumerId, productId, versionId } = requestData;
-        const consumerId = 1;
-        const productId = 1;
-        const versionId = 1;
+    async deleteWishList(@Body() consumerId: number, productId: number) {
         try {
-            const deleteWishList = await this.consumerService.deleteWishList(
-                consumerId,
-                productId,
-                versionId
-            );
+            const deleteWishList = await this.consumerService.deleteWishList(consumerId, productId);
             return { success: true, data: deleteWishList };
         } catch (error) {
             return { success: false, error: error.message };
         }
     }
-    // @Delete("wishlist/update/")
-    // async deleteWishList(@Body() parm: any) {
 
-    //     return this.consumerService.updateWishList(parm.id);
-    // }
     // ---------------------------------------------------------------------------------------------------------
     @Get("shopInfo/:shopId")
     async getShopInfo(@Param("shopId") shopId: any) {
@@ -85,34 +62,27 @@ export class ConsumerController {
     }
     @Get("order/delete/:id")
     deleteOrder(@Param("id") id: number) {
-        console.log(id)
+        console.log(id);
         return this.consumerService.deleteOrder(Number(id));
     }
-    @Get("order/history")
-    displayOrderHistory(@Body() JWTpayload: any) {
-        return this.publicService.displayOrderHistory(JWTpayload);
+    @Get("order/history/:userId")
+    displayOrderHistory(@Param('userId') userId: any) {
+        console.log(userId)
+        return this.consumerService.getOrderRecord(userId)
     }
     @Post("order/create")
     createOrder(@Body() form: any) {
         console.log(form);
         return this.consumerService.createOrder(form);
     }
-    // @Post("order/create/")
-    // createOrder(@Body() param: any) {
-
-    //     ;
-    // }
 
     //full pay
-    @Post("order/payment?:intent")
-    paymentConfirm(@Body() paymentIntent: any) { 
-        return this.consumerService.paymentIntent( );
+    @Post("order/payment")
+    paymentConfirm(@Body() paymentArr: any) {
+        console.log();
+        return this.consumerService.paymentConfirm(paymentArr.idArr);
     }
 
-    // @Post("order/remain/payment")
-    // remainPaymentConfirm(@Body() paymentstatus: any) {
-    //     return this.consumerService.remainPaymentConfirm(paymentstatus);
-    // }
     // ---------------------------------------------------------------------------------------------------------
     //done
     @Put("userProfile/edit/:userId")
@@ -131,28 +101,9 @@ export class ConsumerController {
     }
 
     // ---------------------------------------------------------------------------------------------------------
-    //唔知點解加左rating就唔work
-    // @Post("reaction/feedback/")
-    // feedback(@Body() reaction: any) {
-    //     let merchantId = 1;
-    //     let consumerId = 1;
-
-    //     return this.consumerService.feedback(
-    //         reaction.comment,
-    //         reaction.rating,
-    //         merchantId,
-    //         consumerId
-    //     );
-    // }
-
-    // @Post("reaction/rating/")
-    // rating(@Body() reaction: any) {
-    //     const merchantId = 1
-    //     const consumerId = 1
-    //     return this.consumerService.rating(reaction.rating, merchantId, consumerId);
-    // }
-    // @Post("reaction/rating/")
-    // rating(@Body() reaction: any) {
-    //     return this.consumerService.rating(reaction.rating, reaction.merchantId);
-    // }
+    // get hot game
+    @Get("hot")
+    getHot() {
+        return this.consumerService.getHot();
+    }
 }

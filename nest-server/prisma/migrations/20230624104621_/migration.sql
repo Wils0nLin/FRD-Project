@@ -24,7 +24,7 @@ CREATE TABLE "consumer" (
 CREATE TABLE "orders" (
     "id" SERIAL NOT NULL,
     "consumer_id" INTEGER NOT NULL,
-    "QRcode" TEXT NOT NULL,
+    "consumer_qrcode" TEXT NOT NULL,
     "item_id" INTEGER NOT NULL,
     "amount" INTEGER NOT NULL,
     "order_status" BOOLEAN NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE "product" (
     "id" SERIAL NOT NULL,
     "product_name" TEXT NOT NULL,
     "product_status" BOOLEAN NOT NULL,
-    "product_image" TEXT NOT NULL,
+    "product_image" TEXT NOT NULL DEFAULT '',
     "release_date" TEXT NOT NULL,
     "product_intro" TEXT NOT NULL,
     "view" INTEGER NOT NULL,
@@ -121,9 +121,6 @@ CREATE TABLE "wishlist_product" (
     "id" SERIAL NOT NULL,
     "consumer_id" INTEGER NOT NULL,
     "product_id" INTEGER NOT NULL,
-    "version_id" INTEGER NOT NULL,
-    "target_price" INTEGER NOT NULL,
-    "notification" BOOLEAN NOT NULL,
 
     CONSTRAINT "wishlist_product_pkey" PRIMARY KEY ("id")
 );
@@ -132,10 +129,10 @@ CREATE TABLE "wishlist_product" (
 CREATE TABLE "merchant" (
     "id" SERIAL NOT NULL,
     "users_id" INTEGER NOT NULL,
-    "merchant_image" BYTEA NOT NULL DEFAULT '\x',
+    "merchant_image" TEXT NOT NULL DEFAULT '',
     "merchant_name" TEXT NOT NULL,
     "merchant_phone" TEXT NOT NULL,
-    "biz_registration" BYTEA NOT NULL DEFAULT '\x',
+    "biz_registration" TEXT NOT NULL DEFAULT '',
     "district_id" INTEGER NOT NULL,
     "address" TEXT NOT NULL,
     "bank_account" TEXT NOT NULL DEFAULT '',
@@ -226,9 +223,6 @@ ALTER TABLE "wishlist_product" ADD CONSTRAINT "wishlist_product_consumer_id_fkey
 
 -- AddForeignKey
 ALTER TABLE "wishlist_product" ADD CONSTRAINT "wishlist_product_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "wishlist_product" ADD CONSTRAINT "wishlist_product_version_id_fkey" FOREIGN KEY ("version_id") REFERENCES "version"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "merchant" ADD CONSTRAINT "merchant_users_id_fkey" FOREIGN KEY ("users_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

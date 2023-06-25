@@ -46,7 +46,7 @@ export default function ConMerInfoScreen({route}: any) {
   useEffect(() => {
     console.log(merId);
     const getData = async () => {
-      await fetch(`http://192.168.160.142:3000/consumer/shopInfo/${merId}`, {
+      await fetch(`http://13.213.207.204/consumer/shopInfo/${merId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -61,7 +61,7 @@ export default function ConMerInfoScreen({route}: any) {
           setHour(data[0].opening_hour);
         });
 
-      await fetch(`http://192.168.160.142:3000/merchant/allItem/${merId}`, {
+      await fetch(`http://13.213.207.204/merchant/allItem/${merId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })
@@ -82,7 +82,7 @@ export default function ConMerInfoScreen({route}: any) {
           setPreOrderList(preOrder);
         });
 
-      await fetch(`http://192.168.160.142:3000/merchant/comment/${merId}`, {
+      await fetch(`http://13.213.207.204/merchant/comment/${merId}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
       })

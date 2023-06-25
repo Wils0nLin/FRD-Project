@@ -878,7 +878,6 @@ async function main() {
     // });
 
     // const existMerchant = await prisma.merchant.findMany();
-    //
 
     // tag
     const tag = await prisma.tag.createMany({
@@ -1028,7 +1027,7 @@ async function main() {
                 product_status: true,
                 product_name: "Nintendo Switch 運動",
                 product_image: "Switch_Sport.jpeg",
-                release_date: "2022-04-29",
+                release_date: "2023-10-29",
                 product_intro: "Sport",
                 view: 0,
                 platform_id: 2,
@@ -1037,7 +1036,7 @@ async function main() {
                 product_status: true,
                 product_name: "霍格華茲的傳承",
                 product_image: "哈利波特_ps.jpeg",
-                release_date: "2023-02-07",
+                release_date: "2023-10-07",
                 product_intro: "哈利波特",
                 view: 0,
                 platform_id: 1,
@@ -1046,7 +1045,7 @@ async function main() {
                 product_status: true,
                 product_name: "THE KING OF FIGHTERS XV",
                 product_image: "THE_KING_OF_FIGHTERS_XV_XBOX.jpeg",
-                release_date: "2022-02-14",
+                release_date: "2023-10-14",
                 product_intro: "格鬥天王",
                 view: 0,
                 platform_id: 3,
@@ -1055,6 +1054,21 @@ async function main() {
     });
 
     const existProduct = await prisma.product.findMany();
+
+    // hot
+    const hot = await prisma.hot.createMany({
+        data: [
+            {
+                product_id: existProduct[0].id,
+            },
+            {
+                product_id: existProduct[1].id,
+            },
+            {
+                product_id: existProduct[8].id,
+            },
+        ],
+    });
 
     // version
     const version = await prisma.version.createMany({

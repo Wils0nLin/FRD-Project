@@ -19,14 +19,14 @@ interface scanner {
 }
 
 function QRScanScreen(this: scanner) {
-  const navigation = useNavigation<StackNavigationProp<StackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const userId = useSelector((state: IRootState) => state.auth.userId);
   const [name, setName] = useState('');
 
   useEffect(() => {
     const getData = async () => {
       const resp = await fetch(
-        `http://192.168.160.142:3000/merchant/userInfo/${userId}`,
+        `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
         {
           method: 'GET',
           headers: {'Content-Type': 'application/json'},

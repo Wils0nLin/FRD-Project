@@ -24,25 +24,21 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async getSelfInfo(userId) {
         return await this.consumerService.getSelfInfo(userId);
     }
-    async uploadWishList(formData) {
-        let consumerId = 2;
-        let productId = 2;
-        let versionId = 1;
+    displayWishList(consumer_id) {
+        return this.consumerService.displayWishList(consumer_id);
+    }
+    async uploadWishList(consumerId, productId) {
         try {
-            const { targetPrice, notification } = formData;
-            const uploadWishList = await this.consumerService.uploadWishList(consumerId, productId, versionId, targetPrice, notification);
+            const uploadWishList = await this.consumerService.uploadWishList(consumerId, productId);
             return { success: true, data: uploadWishList };
         }
         catch (error) {
             return { success: false, error: error.message };
         }
     }
-    async deleteWishList(requestData) {
-        const consumerId = 1;
-        const productId = 1;
-        const versionId = 1;
+    async deleteWishList(consumerId, productId) {
         try {
-            const deleteWishList = await this.consumerService.deleteWishList(consumerId, productId, versionId);
+            const deleteWishList = await this.consumerService.deleteWishList(consumerId, productId);
             return { success: true, data: deleteWishList };
         }
         catch (error) {
@@ -60,15 +56,17 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
         console.log(id);
         return this.consumerService.deleteOrder(Number(id));
     }
-    displayOrderHistory(JWTpayload) {
-        return this.publicService.displayOrderHistory(JWTpayload);
+    displayOrderHistory(userId) {
+        console.log(userId);
+        return this.consumerService.getOrderRecord(userId);
     }
     createOrder(form) {
         console.log(form);
         return this.consumerService.createOrder(form);
     }
-    paymentConfirm(paymentIntent) {
-        return this.consumerService.paymentIntent();
+    paymentConfirm(paymentArr) {
+        console.log();
+        return this.consumerService.paymentConfirm(paymentArr.idArr);
     }
     async editUserProfile(userId, form) {
         return await this.consumerService.editUserProfile(userId, form);
@@ -79,6 +77,9 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async editPassword(userId, form) {
         return await this.consumerService.editPassword(userId, form);
     }
+    getHot() {
+        return this.consumerService.getHot();
+    }
 };
 __decorate([
     (0, common_1.Get)("userInfo/:userId"),
@@ -88,17 +89,25 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "getSelfInfo", null);
 __decorate([
-    (0, common_1.Post)("wishlist/upload"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)("wishlist"),
+    __param(0, (0, common_1.Query)("consumer_id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], ConsumerController.prototype, "displayWishList", null);
+__decorate([
+    (0, common_1.Post)("wishlist/upload"),
+    __param(0, (0, common_1.Body)("consumerId")),
+    __param(1, (0, common_1.Body)("productId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "uploadWishList", null);
 __decorate([
     (0, common_1.Delete)("wishlist/delete/"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number, Number]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "deleteWishList", null);
 __decorate([
@@ -123,8 +132,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "deleteOrder", null);
 __decorate([
-    (0, common_1.Get)("order/history"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)("order/history/:userId"),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
@@ -137,7 +146,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "createOrder", null);
 __decorate([
-    (0, common_1.Post)("order/payment?:intent"),
+    (0, common_1.Post)("order/payment"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -167,6 +176,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "editPassword", null);
+__decorate([
+    (0, common_1.Get)("hot"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], ConsumerController.prototype, "getHot", null);
 exports.ConsumerController = ConsumerController = __decorate([
     (0, common_1.Controller)("consumer"),
     __metadata("design:paramtypes", [consumer_service_1.ConsumerService,

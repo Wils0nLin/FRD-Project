@@ -18,6 +18,9 @@ const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
 const prisma = new client_1.PrismaClient();
 let PublicService = exports.PublicService = class PublicService {
+    getHot() {
+        throw new Error("Method not implemented.");
+    }
     constructor(prisma, jwt, config) {
         this.prisma = prisma;
         this.jwt = jwt;

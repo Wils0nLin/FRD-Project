@@ -16,7 +16,7 @@ export default function MerchantAdminScreen({}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      `http:/10.0.2.2:3000/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

@@ -16,9 +16,45 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         const foundUser = await prisma.$queryRawUnsafe(`select * from users join consumer on users.id = users_id where users.id = ${userId};`);
         return foundUser;
     }
+    async displayWishList(consumer_id) {
+        try {
+            const displayWishlist = await prisma.wishlist_product.findMany({
+                where: {
+                    consumer: { id: consumer_id },
+                },
+                include: {
+                    product: true,
+                },
+            });
+            return displayWishlist;
+        }
+        catch (error) {
+            throw new Error("無法獲取願望清單");
+        }
+    }
     async deleteOrder(id) {
         console.log("i am del ser", id);
         const result = await prisma.$queryRaw `delete from orders where id =${id};`;
+        return result;
+    }
+    async getOrderRecord(userId) {
+        console.log(userId);
+        const result = await prisma.$queryRaw `SELECT merchant.merchant_name,
+        consumer.consumer_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        item.stock_status,
+        version.version,
+        product.product_name,
+        product.product_image
+    FROM orders
+        JOIN item on item.id = orders.item_id
+        JOIN version on version.id = item.version_id
+        JOIN product on product.id = version.product_id
+        JOIN merchant on merchant.id = item.merchant_id
+        JOIN consumer ON consumer.id = orders.consumer_id
+        JOIN users on users.id = consumer.users_id where users.id = ${Number(userId)};`;
         return result;
     }
     async displayOrder(JWTpayload) {
@@ -35,15 +71,14 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         join version on version.id = item.version_id
         join product on product.id = version.product_id
         join merchant on merchant.id = item.merchant_id
-        WHERE orders.consumer_id = ${Number(JWTpayload)}; `;
+        WHERE orders.consumer_id = ${Number(JWTpayload)} and orders.payment = false; `;
         return result;
     }
-    async uploadWishList(consumerId, productId, versionId, targetPrice, notification) {
+    async uploadWishList(consumerId, productId) {
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
         if (existingWishlistProduct) {
@@ -51,12 +86,11 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         }
         console.log(`upload product by id`);
     }
-    async deleteWishList(consumerId, productId, versionId) {
+    async deleteWishList(consumerId, productId) {
         const deleteWishList = await prisma.wishlist_product.deleteMany({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
         return deleteWishList;
@@ -72,7 +106,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
         values (${form.itemId}, ${form.amount}, ${form.order_status}, ${form.payment}, ${form.create_time}, ${form.consumer_id}, ${form.QRcode})`;
         return true;
     }
-    paymentIntent() { }
+    async paymentConfirm(paymentArr) {
+        console.log(Array);
+        return paymentArr.map(async (id) => await prisma.$queryRaw `update orders set payment = true where id = ${Number(id)};`);
+    }
     async editUserProfile(userId, form) {
         let userInfo = {
             email: form.email,
@@ -113,6 +150,10 @@ let ConsumerService = exports.ConsumerService = class ConsumerService {
             });
             return true;
         }
+    }
+    async getHot() {
+        const hot = await prisma.$queryRaw `select * from product join hot on product_id = product.id;`;
+        return hot;
     }
 };
 exports.ConsumerService = ConsumerService = __decorate([

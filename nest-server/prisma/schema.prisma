@@ -94,7 +94,7 @@ model Product {
   id                Int      @id @default(autoincrement())
   product_name      String
   product_status    Boolean  
-  product_image     string   @default("")
+  product_image     String   @default("")
   release_date      String
   product_intro     String
   view              Int
@@ -119,7 +119,7 @@ model Version {
   version_image     String
 
   items             Item[]
-  wishlist_products Wishlist_product[]
+
 
   @@map("version")
 }
@@ -177,10 +177,8 @@ model Wishlist_product {
   consumer_id       Int      @map("consumer_id")
   product           Product  @relation(fields: [product_id], references: [id])
   product_id        Int      @map("product_id")
-  version           Version  @relation(fields: [version_id], references: [id])
-  version_id        Int      @map("version_id")
-  target_price      Int
-  notification      Boolean
+
+
 
   @@map("wishlist_product")
 }
@@ -197,10 +195,10 @@ model Merchant {
   id                Int      @id @default(autoincrement())
   users             Users    @relation(fields: [users_id], references: [id])
   users_id          Int      @map("users_id")
-  merchant_image    string    @default("")
+  merchant_image    Bytes    @default("")
   merchant_name     String
   merchant_phone    String
-  biz_registration  string    @default("")
+  biz_registration  Bytes    @default("")
   district          District @relation(fields: [district_id], references: [id])
   district_id       Int      @map("district_id")
   address           String

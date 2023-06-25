@@ -28,7 +28,7 @@ const ConProfileEditScreen = ({navigation}: any) => {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/consumer/userInfo/${userId}`,
+      `http://10.0.2.2:3000/consumer/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -54,7 +54,7 @@ const ConProfileEditScreen = ({navigation}: any) => {
       phone: phone,
     };
     const userResp = await fetch(
-      `http://13.213.207.204/consumer/userProfile/edit/${userId}`,
+      `http://10.0.2.2:3000/consumer/userProfile/edit/${userId}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
@@ -62,7 +62,7 @@ const ConProfileEditScreen = ({navigation}: any) => {
       },
     );
     const conResp = await fetch(
-      `http://13.213.207.204/consumer/conProfile/edit/${conId}`,
+      `http://10.0.2.2:3000/consumer/conProfile/edit/${conId}`,
       {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},

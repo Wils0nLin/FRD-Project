@@ -2,6 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -20,7 +21,7 @@ import Icon2 from 'react-native-vector-icons/Entypo';
 import {IP_Of_LOCAL} from '../../../../../IP';
 import {useSelector} from 'react-redux';
 import {IRootState} from '../../../../app/store';
-import axios from 'axios';
+import {useStripe} from '@stripe/stripe-react-native';
 
 const ConsumerCartScreen = ({navigation}: any) => {
   const userId = useSelector((state: IRootState) => state.auth.userId);
@@ -28,6 +29,7 @@ const ConsumerCartScreen = ({navigation}: any) => {
   const [unpayOrder, setUnpayOrder] = useState<Array<any>>([]);
   const [payment, setPayment] = useState<Array<any>>([]);
   const [totalAmount, setTotalAMount] = useState(0);
+  const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const deleteOrder = async (id: number) => {
     await fetch(`http://${IP_Of_LOCAL}:3000/consumer/order/delete/${id}`)
       .then(response => response.json())
@@ -79,15 +81,58 @@ const ConsumerCartScreen = ({navigation}: any) => {
         }
       });
   };
+  const onchaneOrderValue = async () => {
+    const response = await fetch(
+      `http://${IP_Of_LOCAL}:3000/consumer/order/payment`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/json',
+        },
+        body: JSON.stringify({idArr: payment}),
+      },
+    ).then(response => response.json());
+
+    setPayment([]);
+  };
 
   const onCHeckout = async () => {
-    await fetch(`http://${IP_Of_LOCAL}:3000/stripe/payments/intents`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/json',
+    const response = await fetch(
+      `http://${IP_Of_LOCAL}:3000/stripe/payments/intents`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/json',
+        },
+        body: JSON.stringify({price: totalAmount}),
       },
-      body: JSON.stringify({price: totalAmount}),
-    }).then(response => console.log(response));
+    )
+      .then(response => response.json())
+      .then(data => data);
+    if (response.error) {
+      console.log(response.error);
+      Alert.alert('payment reject please try again');
+      return;
+    }
+
+    const initResponse = await initPaymentSheet({
+      merchantDisplayName: 'ENTITABASE',
+      paymentIntentClientSecret: response.client_secret,
+    });
+    if (initResponse.error) {
+      console.log(initResponse.error);
+      Alert.alert('payment reject please try again');
+      return;
+    }
+    const paymentResponse = await presentPaymentSheet();
+    if (paymentResponse.error) {
+      Alert.alert(
+        `Error.code: ${paymentResponse.error.code}`,
+        paymentResponse.error.message,
+      );
+      return;
+    }
+    onchaneOrderValue();
   };
   useEffect(() => {
     getData();
@@ -135,7 +180,7 @@ const ConsumerCartScreen = ({navigation}: any) => {
               }}>
               <Image
                 style={gameImgStyle.container}
-                source={require('../../../../assets/images/pokemon_both.png')}
+                source={require('../../../../assets/images/arceus.jpg')}
               />
             </View>
             <View style={{flex: 1}}>

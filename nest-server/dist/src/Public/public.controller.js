@@ -41,6 +41,7 @@ let PublicController = exports.PublicController = class PublicController {
         return this.publicService.branch();
     }
     login(form) {
+        console.log(form);
         return this.publicService.login(form);
     }
     hot() {

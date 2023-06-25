@@ -16,7 +16,7 @@ export default function CommentScreen({}) {
 
   const getData = async () => {
     const resp = await fetch(
-      `http://13.213.207.204/merchant/userInfo/${userId}`,
+      `http://10.0.2.2:3000/merchant/userInfo/${userId}`,
       {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -29,7 +29,7 @@ export default function CommentScreen({}) {
   };
 
   const getCommentData = async (id: number) => {
-    const resp = await fetch(`http://13.213.207.204/merchant/comment/${id}`, {
+    const resp = await fetch(`http://10.0.2.2:3000/merchant/comment/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });

@@ -16,33 +16,50 @@ export class ConsumerService {
 
     // ---------------------------------------------------------------------------------------------------------
     //未攞到consumer id
-    // async displayWishList(consumer_id: number) {
-    //     try {
-    //         const displayWishlist = await prisma.wishlist_product.findMany({
-    //             where: {
-    //                 consumer: { id: consumer_id },
-    //             },
-    //             include: {
-    //                 product: true,
-    //                 version: true,
-    //             },
-    //         });
-    //         return displayWishlist;
-    //     } catch (error) {
-    //         throw new Error("無法獲取願望清單");
-    //     }
+    async displayWishList(consumer_id: number) {
+        try {
+            const displayWishlist = await prisma.wishlist_product.findMany({
+                where: {
+                    consumer: { id: consumer_id },
+                },
+                include: {
+                    product: true,
+                },
+            });
+            return displayWishlist;
+        } catch (error) {
+            throw new Error("無法獲取願望清單");
+        }
 
-    //     // console.log(`display wish list`);
-    // }
-    // displayWishList() {
-    //     console.log(`display wish list`);
-    // }
+        // console.log(`display wish list`);
+    }
+
     // ---------------------------------------------------
     //done
     async deleteOrder(id: number) {
         console.log("i am del ser", id);
         const result = await prisma.$queryRaw`delete from orders where id =${id};`;
         return result;
+    }
+    async getOrderRecord(userId: any) {
+        console.log(userId)
+        const result = await prisma.$queryRaw`SELECT merchant.merchant_name,
+        consumer.consumer_name,
+        orders.amount,
+        orders.payment,
+        orders.order_status,
+        item.stock_status,
+        version.version,
+        product.product_name,
+        product.product_image
+    FROM orders
+        JOIN item on item.id = orders.item_id
+        JOIN version on version.id = item.version_id
+        JOIN product on product.id = version.product_id
+        JOIN merchant on merchant.id = item.merchant_id
+        JOIN consumer ON consumer.id = orders.consumer_id
+        JOIN users on users.id = consumer.users_id where users.id = ${Number(userId)};`
+        return result
     }
     async displayOrder(JWTpayload: any) {
         console.log("i am ser ", JWTpayload);
@@ -58,22 +75,15 @@ export class ConsumerService {
         join version on version.id = item.version_id
         join product on product.id = version.product_id
         join merchant on merchant.id = item.merchant_id
-        WHERE orders.consumer_id = ${Number(JWTpayload)}; `;
+        WHERE orders.consumer_id = ${Number(JWTpayload)} and orders.payment = false; `;
         return result;
     }
-    async uploadWishList(
-        consumerId: number,
-        productId: number,
-        versionId: number,
-        targetPrice: number,
-        notification: boolean
-    ) {
+    async uploadWishList(consumerId: number, productId: number) {
         //不能重覆upload相同product or version去wishlist
         const existingWishlistProduct = await prisma.wishlist_product.findFirst({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
 
@@ -81,31 +91,17 @@ export class ConsumerService {
             throw new Error("該產品和版本已經在願望清單中");
         }
 
-        // const wishlistProduct = await prisma.wishlist_product.create({
-        //     data: {
-        //         consumer: { connect: { id: consumerId } },
-        //         product: { connect: { id: productId } },
-        //         version: { connect: { id: versionId } },
-        //         target_price: targetPrice,
-        //         notification: notification,
-        //     },
-        // });
-        // return wishlistProduct;
         console.log(`upload product by id`);
     }
 
-    // uploadWishList(id: any) {
-
-    //     console.log(`upload product by id`);
     // }
     // ---------------------------------------------------
     //done
-    async deleteWishList(consumerId: number, productId: number, versionId: number) {
+    async deleteWishList(consumerId: number, productId: number) {
         const deleteWishList = await prisma.wishlist_product.deleteMany({
             where: {
                 consumer_id: consumerId,
                 product_id: productId,
-                version_id: versionId,
             },
         });
         return deleteWishList;
@@ -129,7 +125,13 @@ export class ConsumerService {
         return true;
     }
     //full pay
-    paymentIntent() {}
+    async paymentConfirm(paymentArr: Array<number>) {
+        console.log(Array);
+        return paymentArr.map(
+            async (id) =>
+                await prisma.$queryRaw`update orders set payment = true where id = ${Number(id)};`
+        );
+    }
 
     // remainPaymentConfirm(paymentStatus: any) {
     //     console.log(`update to payed by case`);
@@ -180,23 +182,9 @@ export class ConsumerService {
         }
     }
     // ---------------------------------------------------------------------------------------------------------
-    //唔知點解加左rating就唔work
-    // async feedback(comment: any, merchantId: any, consumerId: any, rating: number) {
-    //     const savedFeedback = await prisma.feedback.create({
-    //         data: {
-    //             comment: comment,
-    //             merchant: { connect: { id: merchantId } },
-    //             consumer: { connect: { id: consumerId } },
-    //             rating: rating,
-    //         },
-    //     });
-
-    //     return savedFeedback;
-    //     console.log(`insert feedback`);
-    // }
-
-    // rating(merchantId: string, rating: number, consumerId: any) {
-
-    //     console.log(`inserting rating by merchantID`);
-    // }
+    async getHot() {
+        const hot =
+            await prisma.$queryRaw`select * from product join hot on product_id = product.id;`;
+        return hot;
+    }
 }

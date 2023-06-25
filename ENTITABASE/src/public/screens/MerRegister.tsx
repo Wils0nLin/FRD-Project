@@ -59,7 +59,9 @@ const MerRegister = ({navigation}: any) => {
   const [address, setAddress] = useState('');
 
   const getAreaList = async () => {
-    const area = await fetch('http://10.0.2.2:3000/public/register/selectArea');
+    const area = await fetch(
+      'http://10.0.2.2:3000/public/register/selectArea',
+    );
     const arealist = await area.json();
     setAreaList(arealist);
   };
@@ -71,12 +73,16 @@ const MerRegister = ({navigation}: any) => {
     setDristList(districtList);
   };
   const getBankList = async () => {
-    const branch = await fetch('http://10.0.2.2:3000/public/register/bank');
+    const branch = await fetch(
+      'http://10.0.2.2:3000/public/register/bank',
+    );
     const bankList = await branch.json();
     setBankList(bankList);
   };
   const getBranchList = async () => {
-    const Branch = await fetch('http://10.0.2.2:3000/public/register/branch');
+    const Branch = await fetch(
+      'http://10.0.2.2:3000/public/register/branch',
+    );
     const BranchLists = await Branch.json();
     setbranchList(BranchLists);
   };
@@ -176,7 +182,7 @@ const MerRegister = ({navigation}: any) => {
 
     try {
       // const uploadResponse =
-      await fetch('http://192.168.160.142:3000/public/register/merRegister', {
+      await fetch('http://10.0.2.2:3000/public/register/merRegister', {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',

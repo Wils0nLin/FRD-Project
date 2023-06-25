@@ -9,7 +9,7 @@ export class StripeService {
     checkout(cart: any) {
         const totalPrice = cart.price;
         return this.stripe.paymentIntents.create({
-            amount: 100 * 100,
+            amount: totalPrice * 100,
             currency: "hkd",
             automatic_payment_methods: {
                 enabled: true,
