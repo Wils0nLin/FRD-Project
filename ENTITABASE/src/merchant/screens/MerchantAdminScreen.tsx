@@ -9,7 +9,7 @@ import MerchantForehead from '../../objects/MerchantForeheadView';
 import {IRootState} from '../../app/store';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { IP_Of_LOCAL } from '../../../IP';
+import {IP_Of_LOCAL} from '../../../IP';
 
 export default function MerchantAdminScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);

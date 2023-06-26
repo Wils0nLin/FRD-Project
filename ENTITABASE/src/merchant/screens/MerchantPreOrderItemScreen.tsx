@@ -30,7 +30,6 @@ export default function PreOrderItemScreen({}) {
         .then(data => {
           setName(data[0].merchant_name);
           id = data[0].id;
-          console.log(id);
         });
 
       await fetch(`http://${IP_Of_LOCAL}/merchant/preOrderItem/${id}`, {

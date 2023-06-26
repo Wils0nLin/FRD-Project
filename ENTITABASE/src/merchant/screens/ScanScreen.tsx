@@ -6,9 +6,6 @@ import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {StackNavigationProp} from '@react-navigation/stack';
-
-import {StackParamList} from '../../public/navigators/StackParamList';
-
 import {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MerchantForehead from '../../objects/MerchantForeheadView';
@@ -53,13 +50,11 @@ function QRScanScreen(this: scanner) {
         </View>
         <View style={styles.QRCodeBox}>
           <View style={{height: 55}} />
-
           <QRCodeScanner
             ref={node => {
               this.scanner = node;
             }}
             onRead={e => {
-              console.log(e.data);
               navigation.navigate('MerchantOrderInfo', {QRcode: e.data});
               this.scanner.reactivate();
             }}

@@ -5,26 +5,57 @@ export declare class ConsumerController {
     private readonly publicService;
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
-    getConsumerInfo(userId: any): Promise<unknown>;
-    displayWishList(userId: any): Promise<unknown>;
-    uploadWishList(form: any): Promise<{
-        success: boolean;
-        data: import(".prisma/client").Wishlist_product;
-        error?: undefined;
-    } | {
-        success: boolean;
-        error: any;
-        data?: undefined;
-    }>;
-    deleteWishList(id: any): Promise<{
-        success: boolean;
-        data: unknown;
-        error?: undefined;
-    } | {
-        success: boolean;
-        error: any;
-        data?: undefined;
-    }>;
+    displayWishList(consumer_id: number): Promise<
+        ({
+            product: import("@prisma/client/runtime").GetResult<
+                {
+                    id: number;
+                    product_name: string;
+                    product_status: boolean;
+                    product_image: string;
+                    release_date: string;
+                    product_intro: string;
+                    view: number;
+                    platform_id: number;
+                },
+                unknown
+            > & {};
+        } & import("@prisma/client/runtime").GetResult<
+            {
+                id: number;
+                consumer_id: number;
+                product_id: number;
+            },
+            unknown
+        > & {})[]
+    >;
+    uploadWishList(
+        consumerId: number,
+        productId: number
+    ): Promise<
+        | {
+              success: boolean;
+              data: import(".prisma/client").Wishlist_product;
+              error?: undefined;
+          }
+        | {
+              success: boolean;
+              error: any;
+              data?: undefined;
+          }
+    >;
+    deleteWishList(id: any): Promise<
+        | {
+              success: boolean;
+              data: unknown;
+              error?: undefined;
+          }
+        | {
+              success: boolean;
+              error: any;
+              data?: undefined;
+          }
+    >;
     getShopInfo(shopId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): Promise<unknown>;
     deleteOrder(id: number): Promise<unknown>;

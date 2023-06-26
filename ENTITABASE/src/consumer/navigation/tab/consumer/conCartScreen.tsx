@@ -23,6 +23,7 @@ import {useSelector} from 'react-redux';
 import {IRootState} from '../../../../app/store';
 import {useStripe} from '@stripe/stripe-react-native';
 
+
 const ConsumerCartScreen = ({navigation}: any) => {
   const userId = useSelector((state: IRootState) => state.auth.userId);
   const [userState, setUserState] = useState<any>([]);
@@ -61,6 +62,20 @@ const ConsumerCartScreen = ({navigation}: any) => {
     }
     setTotalAMount(cloneTotalAmount);
   };
+  const imageObject = {
+    'Switch_Sport.jpeg': require('../../../../assets/imageUpload/imageProduct/Switch_Sport.jpeg'),
+    'PKM朱紫.jpeg': require('../../../../assets/imageUpload/imageProduct/PKM朱紫.jpeg'),
+    '2K23.jpeg': require('../../../../assets/imageUpload/imageProduct/2K23.jpeg'),
+    'Call_Duty.jpeg': require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+    'GTA5.jpeg': require('../../../../assets/imageUpload/imageProduct/GTA5.jpeg'),
+    'Spider_Man_Miles_ps5.jpeg': require('../../../../assets/imageUpload/imageProduct/Spider_Man_Miles_ps5.jpeg'),
+    'THE_KING_OF_FIGHTERS_XV_XBOX.jpeg': require('../../../../assets/imageUpload/imageProduct/THE_KING_OF_FIGHTERS_XV_XBOX.jpeg'),
+    '哈利波特_ps.jpeg': require('../../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
+    '星之卡比.jpeg': require('../../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
+    '薩爾達傳說王國之淚.jpeg': require('../../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
+    // default: require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
+  } as Record<string, any>;
+
 
   const getData = async () => {
     let userState: Array<any> = [];
@@ -180,63 +195,73 @@ const ConsumerCartScreen = ({navigation}: any) => {
                 width: 80,
               }}>
               <Image
-                style={gameImgStyle.container}
-                source={require('../../../../assets/images/arceus.jpg')}
+                style={ {
+                  width:100,
+                  height: 100,
+                  margin: 5
+                }}
+                source={imageObject[items.product_image]}
               />
             </View>
-            <View style={{flex: 1}}>
-              <View>
+            
+            <View style={{flex: 1,marginLeft:15}}>
                 <View
                   style={{
                     flexDirection: 'row',
+                    justifyContent:'space-between'
                   }}>
                   <TouchableOpacity
                     onPress={() => {
                       paymentSelect(items.order_id);
                     }}>
                     <Text
-                      style={{fontSize: 25, marginRight: 80}}
+                      style={{fontSize: 25, marginRight: 75}}
                       numberOfLines={1}>
                       {items.product_name}
                     </Text>
                   </TouchableOpacity>
-
-                  <TouchableOpacity
+                
+                <TouchableOpacity
                     onPress={() => {
                       deleteOrder(items.order_id);
                     }}>
                     <Icon2
                       name={'cross'}
-                      size={30}
-                      color={'white'}
-                      // style={{marginLeft: 100}}
+                      size={40}
+                      color={'#f24b6a'}
+                      style={{ position: 'absolute', right:-25,bottom:10}}
                     />
-                  </TouchableOpacity>
+                </TouchableOpacity>
                 </View>
-              </View>
-
               <View style={{flexDirection: 'column'}}>
                 <Text style={{fontSize: 17}}>{items.merchant_name}</Text>
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row',marginRight:30,marginBottom:5}}>
                   <Text
                     style={{
-                      marginLeft: 100,
+                      marginLeft: '30%',
                       backgroundColor: '#2A2E32',
                       color: 'white',
                       borderRadius: 5,
+                      padding:5,
                       textAlign: 'center',
-                      width: 30,
+                      width: 60,
+                      borderColor: '#d196e3',
+                      borderWidth:3,
+                      marginTop:20,
                     }}>
                     {items.version}
                   </Text>
 
                   <Text
                     style={{
+                      padding:5,
+                      marginTop:20,
                       marginLeft: 10,
                       backgroundColor: '#2A2E32',
                       color: 'white',
                       borderRadius: 5,
                       textAlign: 'center',
+                      fontSize :15
                     }}>
                     HK$ {items.amount}.00
                   </Text>
@@ -289,7 +314,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 8,
-    padding: 5,
     paddingHorizontal: 10,
     borderRadius: 10,
     backgroundColor: '#74787C',
@@ -303,7 +327,9 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     borderRadius: 10,
-    backgroundColor: '#b57acf',
+    backgroundColor: '#74787C',
+    borderWidth:1,
+    borderColor:'#ff19f7',
     marginLeft: 30,
     marginRight: 30,
   },

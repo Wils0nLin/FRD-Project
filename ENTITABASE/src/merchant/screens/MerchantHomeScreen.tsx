@@ -66,7 +66,7 @@ export default function MerchantHomeScreen({navigation}: {navigation: any}) {
         <View style={styles.merchantLogoBorder}>
           <Image
             style={styles.merchantLogo}
-            source={require('../../assets/images/merchant_logo.jpg')}
+            source={require('../../assets/images/merchant_icon.jpg')}
           />
         </View>
         <View style={{height: 40}} />

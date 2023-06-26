@@ -1,7 +1,11 @@
-import { Wishlist_product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 export declare class ConsumerService {
     getSelfInfo(userId: any): Promise<unknown>;
-    getConsumerInfo(userId: any): Promise<unknown>;
+    displayWishList(consumer_id: number): Promise<
+        (Wishlist_product & {
+            product: import(".prisma/client").Product;
+        })[]
+    >;
     deleteOrder(id: number): Promise<unknown>;
     getOrderRecord(userId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): Promise<unknown>;

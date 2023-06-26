@@ -54,6 +54,7 @@ export class ConsumerService {
     async displayOrder(JWTpayload: any) {
         console.log("i am ser ", JWTpayload);
         const result = await prisma.$queryRaw`SELECT product.product_name,
+        product.product_image,
         orders.amount,
         orders.payment,
         orders.order_status,
