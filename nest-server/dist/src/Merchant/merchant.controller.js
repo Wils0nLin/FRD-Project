@@ -74,8 +74,9 @@ let MerchantController = exports.MerchantController = class MerchantController {
     getAllVersion() {
         return this.merchantService.getAllVersion();
     }
-    getMerchantInfo() {
-        return this.merchantService.getMerchantInfo();
+    getMerchantInfo(userId) {
+        console.log(userId);
+        return this.merchantService.getMerchantInfo(userId);
     }
 };
 __decorate([
@@ -184,9 +185,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "getAllVersion", null);
 __decorate([
-    (0, common_1.Get)(":merchantId"),
+    (0, common_1.Get)("getInfo/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MerchantController.prototype, "getMerchantInfo", null);
 exports.MerchantController = MerchantController = __decorate([

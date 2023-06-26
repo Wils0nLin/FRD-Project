@@ -24,21 +24,28 @@ let ConsumerController = exports.ConsumerController = class ConsumerController {
     async getSelfInfo(userId) {
         return await this.consumerService.getSelfInfo(userId);
     }
-    displayWishList(consumer_id) {
-        return this.consumerService.displayWishList(consumer_id);
+    getConsumerInfo(userId) {
+        console.log(userId);
+        return this.consumerService.getConsumerInfo(userId);
     }
-    async uploadWishList(consumerId, productId) {
+    async displayWishList(userId) {
+        return this.consumerService.displayWishList(userId);
+    }
+    async uploadWishList(form) {
+        const { consumerId, productId } = form;
+        console.log("yoman: ", form);
         try {
-            const uploadWishList = await this.consumerService.uploadWishList(consumerId, productId);
+            const uploadWishList = await this.consumerService.uploadWishList(form);
             return { success: true, data: uploadWishList };
         }
         catch (error) {
             return { success: false, error: error.message };
         }
     }
-    async deleteWishList(consumerId, productId) {
+    async deleteWishList(id) {
+        console.log("del me:", id);
         try {
-            const deleteWishList = await this.consumerService.deleteWishList(consumerId, productId);
+            const deleteWishList = await this.consumerService.deleteWishList(id);
             return { success: true, data: deleteWishList };
         }
         catch (error) {
@@ -92,25 +99,31 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "getSelfInfo", null);
 __decorate([
-    (0, common_1.Get)("wishlist"),
-    __param(0, (0, common_1.Query)("consumer_id")),
+    (0, common_1.Get)("consumerInfo/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
+], ConsumerController.prototype, "getConsumerInfo", null);
+__decorate([
+    (0, common_1.Get)("wishlist/get/:userId"),
+    __param(0, (0, common_1.Param)("userId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "displayWishList", null);
 __decorate([
     (0, common_1.Post)("wishlist/upload"),
-    __param(0, (0, common_1.Body)("consumerId")),
-    __param(1, (0, common_1.Body)("productId")),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "uploadWishList", null);
 __decorate([
-    (0, common_1.Delete)("wishlist/delete/"),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Delete)("wishlist/del/:id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "deleteWishList", null);
 __decorate([
@@ -136,7 +149,7 @@ __decorate([
 ], ConsumerController.prototype, "deleteOrder", null);
 __decorate([
     (0, common_1.Get)("order/history/:userId"),
-    __param(0, (0, common_1.Param)('userId')),
+    __param(0, (0, common_1.Param)("userId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
@@ -180,13 +193,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ConsumerController.prototype, "editPassword", null);
 __decorate([
-    (0, common_1.Get)("hot"),
+    (0, common_1.Get)("product/hot"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], ConsumerController.prototype, "getHot", null);
 __decorate([
-    (0, common_1.Get)("allProduct"),
+    (0, common_1.Get)("product/allProduct"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

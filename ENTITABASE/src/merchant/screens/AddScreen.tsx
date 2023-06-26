@@ -27,6 +27,7 @@ import {IP_Of_LOCAL} from '../../../IP';
 
 export default function AddScreen({}) {
   const userId = useSelector((state: IRootState) => state.auth.userId);
+
   const [Texts, onChangeTexts] = React.useState('');
   const [result, setResult] = React.useState<any>([]);
   const [name, setName] = useState('');
@@ -115,31 +116,16 @@ export default function AddScreen({}) {
   };
 
   const itemUpload = async (merchantId: any) => {
-    const getUserData = async () => {
-      const resp = await fetch(
-        `http://${IP_Of_LOCAL}/merchant/userInfo/${userId}`,
-        {
-          method: 'GET',
-          headers: {'Content-Type': 'application/json'},
-        },
-      );
-      const data = await resp.json();
-      setName(data[0].merchant_name);
-      getMerchantId(data[0].id);
-      console.log('get user data: ', data);
-    };
-    getUserData();
-
-    const getMerchantId = async (merchantId: any) => {
-      const resp = await fetch(`http://${IP_Of_LOCAL}/merchant/${merchantId}`, {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-      });
-      const merData = await resp.json();
-      console.log('攞到merchant data:', merData);
-      itemPost(merData[0].id);
+    //get merchant id
+    const getMerchantId = async () => {
+      await fetch(`http://${IP_Of_LOCAL}/merchant/getInfo/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+          itemPost(data[0].id);
+        });
     };
 
+    //post item with merchant id
     const itemPost = async (merchantId: any) => {
       const itemPost = {
         // product_id: SelectedProduct,
@@ -166,8 +152,8 @@ export default function AddScreen({}) {
         });
       console.log('got you merchant: ');
     };
+    getMerchantId();
   };
-
   useEffect(() => {
     const getProduct = async () => {
       const getProduct = await fetch(`http://${IP_Of_LOCAL}/merchant/product`);
@@ -197,6 +183,7 @@ export default function AddScreen({}) {
     }
   }, [ItemPosted]);
 
+  console.log('user: ', userId);
   // ---------------------------------------------------------------------------------------------------------
 
   return (
@@ -411,7 +398,11 @@ const styles = StyleSheet.create({
 });
 
 const gameListStyles = StyleSheet.create({
-  itemName: {fontSize: 20, borderBottomWidth: 3, borderBottomColor: '#7D7D7D'},
+  itemName: {
+    fontSize: 20,
+    borderBottomWidth: 3,
+    borderBottomColor: '#7D7D7D',
+  },
   itemInfoBox: {
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -470,86 +461,3 @@ const dropStyles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-{
-  /* <TouchableOpacity
-          onPress={() => {
-            setIsClicked(!isClicked);
-          }}>
-          <Text>{selectedProduct}</Text>
-          {isClicked}
-        </TouchableOpacity>
-        {isClicked ? (
-          <View
-            style={{
-              width: '90%',
-              height: 300,
-              borderRadius: 10,
-              marginTop: 20,
-              backgroundColor: '#fffff',
-              elevation: 5,
-              alignSelf: 'center',
-            }}>
-            <TextInput
-              placeholder="Search"
-              style={{
-                width: '90%',
-                height: 50,
-                borderRadius: 10,
-                borderWidth: 0.5,
-                borderColor: '#8e8e8e',
-                alignSelf: 'center',
-                marginTop: 20,
-                paddingLeft: 15,
-              }}
-              onChangeText={txt => onSearch(txt)}
-            />
-            <FlatList
-              data={productData}
-              renderItem={({item, index}) => {
-                return (
-                  <TouchableOpacity
-                    style={{
-                      width: '85%',
-                      height: 50,
-                      borderBottomWidth: 0.2,
-                      borderBottomColor: '#8e8e8e',
-                      alignSelf: 'center',
-                    }}
-                    onPress={() => {
-                      setSelectedProduct(item.product_name);
-                      onSearch('');
-                      setIsClicked(false);
-                      passProductId(item.id);
-                      setResult({id: item.id, name: item.name});
-                    }}>
-                    <Text>{item.product_name}</Text>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-        ) : null} */
-}
-
-{
-  /* <Select>
-          {productList.map(() => (
-            <SelectItem />
-          ))}
-        </Select> */
-}
-{
-  /* 
-        <View style={{width: 350}}>
-          <View style={styles.inputBox}>
-            <TextInput
-              style={{fontSize: 15, padding: 0}}
-              onChangeText={onChangeText}
-              value={text}
-              placeholder="請輸入遊戲名稱"
-            />
-            <Icon name={'search'} size={25} color={'#E4E4E4'} />
-          </View>
-        </View> */
-}

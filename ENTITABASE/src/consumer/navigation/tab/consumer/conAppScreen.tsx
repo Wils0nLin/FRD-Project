@@ -31,21 +31,27 @@ const imageObject = {
   '哈利波特_ps.jpeg': require('../../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
   '星之卡比.jpeg': require('../../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
   '薩爾達傳說王國之淚.jpeg': require('../../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
+  'The_Last_of_Us_Part_I.jpeg': require('../../../assets/imageUpload/imageProduct/The_Last_of_Us_Part_I.jpeg'),
+  '動物森友會.jpeg': require('../../../assets/imageUpload/imageProduct/動物森友會.jpeg'),
   // default: require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
 } as Record<string, any>;
 // ---------------------------------------------------------------------------------------------------------
 
 export default function ConAppScreen({navigation}: any) {
-  const [HotList, setHotList] = React.useState<Array<any>>([]);
+  //try set render times
+
+  //
+  const [HotProduct, setHotProduct] = React.useState<Array<any>>([]);
   const [GetAllProduct, setGetAllProduct] = React.useState<Array<any>>([]);
   const [ComingProduct, setComingProduct] = React.useState<Array<any>>([]);
+  const [count, setCount] = useState(0);
 
   const [select, setSelect] = useState('熱門遊戲');
-  const [list, setList] = useState(HotList);
+  const [list, setList] = useState(HotProduct);
 
   const isSelect = (button: string) => {
     if (button === '熱門遊戲') {
-      setList(HotList);
+      setList(HotProduct);
       setSelect('熱門遊戲');
     } else if (button === '即將發行') {
       setList(ComingProduct);
@@ -72,6 +78,8 @@ export default function ConAppScreen({navigation}: any) {
     }
   };
 
+  // ---------------------------------------------------------------------------------------------------------
+
   function comingProduct() {
     const currentDate = new Date();
     const comingProduct = GetAllProduct.filter(product => {
@@ -82,30 +90,37 @@ export default function ConAppScreen({navigation}: any) {
     setComingProduct(comingProduct);
   }
 
-  console.log('欣妮哈哈: ', ComingProduct);
+  function getHot() {
+    const hotProduct = GetAllProduct.filter(product => product.hot === true);
 
+    setHotProduct(hotProduct);
+  }
+
+  // ---------------------------------------------------------------------------------------------------------
   useEffect(() => {
     const getAllProduct = async () => {
       const getAllProduct = await fetch(
-        `http://${IP_Of_LOCAL}/consumer/allProduct`,
+        `http://${IP_Of_LOCAL}/consumer/product/allProduct`,
       );
       const productList = await getAllProduct.json();
 
       setGetAllProduct(productList);
+      getHot();
+      comingProduct();
     };
-
-    const getHot = async () => {
-      const getProduct = await fetch(`http://${IP_Of_LOCAL}/consumer/hot`);
-      const hotList = await getProduct.json();
-
-      setHotList(hotList);
-    };
-
     getAllProduct();
-    getHot();
-    comingProduct();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(prevCount => prevCount + 1);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  // ---------------------------------------------------------------------------------------------------------
   return (
     <ScrollView
       style={{
@@ -190,10 +205,12 @@ export default function ConAppScreen({navigation}: any) {
         </View>
 
         {/* try */}
+
         <View style={{width: 350, marginBottom: 100}}>
           {select === '熱門遊戲'
-            ? HotList.map(items => (
+            ? HotProduct.map(items => (
                 <HomeItemCard
+                  key={items.id}
                   product_name={items.product_name}
                   product_image={
                     <Image
@@ -210,6 +227,7 @@ export default function ConAppScreen({navigation}: any) {
             : select === '即將發行'
             ? ComingProduct.map(items => (
                 <HomeItemCard
+                  key={items.id}
                   product_name={items.product_name}
                   product_image={
                     <Image
@@ -225,24 +243,6 @@ export default function ConAppScreen({navigation}: any) {
               ))
             : null}
         </View>
-
-        {/* <View style={{width: 350, marginBottom: 100}}>
-          {HotList.map(items => (
-            <HomeItemCard
-              product_name={items.product_name}
-              product_image={
-                <Image
-                  style={{width: 80, height: 80, borderRadius: 5}}
-                  source={imageObject[items.product_image]}
-                />
-              }
-              release_date={items.release_date}
-              product_status={items.product_status}
-              product_intro={items.product_intro}
-              id={items.id}
-            />
-          ))}
-        </View> */}
       </SafeAreaView>
     </ScrollView>
   );
@@ -410,3 +410,11 @@ const styles = StyleSheet.create({
 //     status: '預購進行中',
 //   },
 // ];
+// const getHot = async () => {
+//   const getProduct = await fetch(
+//     `http://${IP_Of_LOCAL}/consumer/product/hot`,
+//   );
+//   const hotList = await getProduct.json();
+
+//   setHotList(hotList);
+// };

@@ -5,21 +5,20 @@ export declare class ConsumerController {
     private readonly publicService;
     constructor(consumerService: ConsumerService, publicService: PublicService);
     getSelfInfo(userId: any): Promise<unknown>;
-    displayWishList(consumer_id: number): Promise<(import(".prisma/client").Wishlist_product & {
-        product: import(".prisma/client").Product;
-    })[]>;
-    uploadWishList(consumerId: number, productId: number): Promise<{
+    getConsumerInfo(userId: any): Promise<unknown>;
+    displayWishList(userId: any): Promise<unknown>;
+    uploadWishList(form: any): Promise<{
         success: boolean;
-        data: void;
+        data: import(".prisma/client").Wishlist_product;
         error?: undefined;
     } | {
         success: boolean;
         error: any;
         data?: undefined;
     }>;
-    deleteWishList(consumerId: number, productId: number): Promise<{
+    deleteWishList(id: any): Promise<{
         success: boolean;
-        data: import(".prisma/client").Prisma.BatchPayload;
+        data: unknown;
         error?: undefined;
     } | {
         success: boolean;

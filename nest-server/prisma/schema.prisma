@@ -100,10 +100,10 @@ model Product {
   view              Int
   platform          Platform @relation(fields: [platform_id], references: [id])
   platform_id       Int      @map("platform_id")
+  hot               Boolean
 
   versions          Version[]
   wishlist_products Wishlist_product[]
-  hots              Hot[]
   product_tags      Product_tag[] 
 
   @@map("product")
@@ -124,13 +124,7 @@ model Version {
   @@map("version")
 }
 
-model Hot {
-  id                Int      @id @default(autoincrement())
-  product           Product  @relation(fields: [product_id], references: [id])
-  product_id        Int      @map("product_id")
 
-  @@map("hot")
-}
 
 model Tag {
   id                Int      @id @default(autoincrement())

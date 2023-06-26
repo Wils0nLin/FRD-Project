@@ -882,6 +882,7 @@ async function main() {
                 product_intro: "pokemon",
                 view: 0,
                 platform_id: 2,
+                hot: true,
             },
             {
                 product_status: true,
@@ -891,6 +892,7 @@ async function main() {
                 product_intro: "zelda",
                 view: 0,
                 platform_id: 2,
+                hot: true,
             },
             {
                 product_status: true,
@@ -900,6 +902,7 @@ async function main() {
                 product_intro: "NBA",
                 view: 0,
                 platform_id: 1,
+                hot: false,
             },
             {
                 product_status: true,
@@ -909,6 +912,7 @@ async function main() {
                 product_intro: "Hi",
                 view: 0,
                 platform_id: 2,
+                hot: false,
             },
             {
                 product_status: true,
@@ -918,6 +922,7 @@ async function main() {
                 product_intro: "GTA 5",
                 view: 0,
                 platform_id: 3,
+                hot: false,
             },
             {
                 product_status: true,
@@ -927,6 +932,7 @@ async function main() {
                 product_intro: "Call of Duty",
                 view: 0,
                 platform_id: 3,
+                hot: false,
             },
             {
                 product_status: true,
@@ -936,6 +942,7 @@ async function main() {
                 product_intro: "Spider-Man",
                 view: 0,
                 platform_id: 1,
+                hot: false,
             },
             {
                 product_status: true,
@@ -945,6 +952,7 @@ async function main() {
                 product_intro: "Sport",
                 view: 0,
                 platform_id: 2,
+                hot: false,
             },
             {
                 product_status: true,
@@ -954,6 +962,7 @@ async function main() {
                 product_intro: "哈利波特",
                 view: 0,
                 platform_id: 1,
+                hot: true,
             },
             {
                 product_status: true,
@@ -963,23 +972,11 @@ async function main() {
                 product_intro: "格鬥天王",
                 view: 0,
                 platform_id: 3,
+                hot: false,
             },
         ],
     });
     const existProduct = await prisma.product.findMany();
-    const hot = await prisma.hot.createMany({
-        data: [
-            {
-                product_id: existProduct[0].id,
-            },
-            {
-                product_id: existProduct[1].id,
-            },
-            {
-                product_id: existProduct[8].id,
-            },
-        ],
-    });
     const version = await prisma.version.createMany({
         data: [
             {

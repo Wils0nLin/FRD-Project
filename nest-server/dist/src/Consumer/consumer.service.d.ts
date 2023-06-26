@@ -1,15 +1,13 @@
 import { Wishlist_product } from "@prisma/client";
-import { Prisma } from "@prisma/client";
 export declare class ConsumerService {
     getSelfInfo(userId: any): Promise<unknown>;
-    displayWishList(consumer_id: number): Promise<(Wishlist_product & {
-        product: import(".prisma/client").Product;
-    })[]>;
+    getConsumerInfo(userId: any): Promise<unknown>;
     deleteOrder(id: number): Promise<unknown>;
     getOrderRecord(userId: any): Promise<unknown>;
     displayOrder(JWTpayload: any): Promise<unknown>;
-    uploadWishList(consumerId: number, productId: number): Promise<void>;
-    deleteWishList(consumerId: number, productId: number): Promise<Prisma.BatchPayload>;
+    uploadWishList(form: any): Promise<Wishlist_product>;
+    displayWishList(userId: any): Promise<unknown>;
+    deleteWishList(id: any): Promise<unknown>;
     getShopInfo(shopId: any): Promise<unknown>;
     createOrder(form: any): Promise<boolean>;
     paymentConfirm(paymentArr: Array<number>): Promise<Promise<unknown>[]>;

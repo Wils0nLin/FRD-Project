@@ -11,3 +11,10 @@ FROM product AS p
 JOIN version AS v ON v.product_id = p.id
 WHERE p.id = 2
   AND v.id = 4;
+
+select * from users join merchant on users.id = merchant.users_id where users.id = 4
+
+
+select * from wishlist_product join product on product.id = wishlist_product.product_id join consumer on consumer.id = wishlist_product.consumer_id join users on users.id = consumer.users_id where users.id = 2
+
+select wishlist_product.id as wpid , * from wishlist_product join product on product.id = wishlist_product.product_id join consumer on consumer.id = wishlist_product.consumer_id join users on users.id = consumer.users_id where users.id = 2

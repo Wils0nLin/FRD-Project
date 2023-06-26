@@ -968,6 +968,7 @@ async function main() {
                 product_intro: "pokemon",
                 view: 0,
                 platform_id: 2,
+                hot: true,
             },
             {
                 product_status: true,
@@ -977,6 +978,7 @@ async function main() {
                 product_intro: "zelda",
                 view: 0,
                 platform_id: 2,
+                hot: true,
             },
             {
                 product_status: true,
@@ -986,6 +988,7 @@ async function main() {
                 product_intro: "NBA",
                 view: 0,
                 platform_id: 1,
+                hot: false,
             },
             {
                 product_status: true,
@@ -995,6 +998,7 @@ async function main() {
                 product_intro: "Hi",
                 view: 0,
                 platform_id: 2,
+                hot: false,
             },
             {
                 product_status: true,
@@ -1004,6 +1008,7 @@ async function main() {
                 product_intro: "GTA 5",
                 view: 0,
                 platform_id: 3,
+                hot: false,
             },
             {
                 product_status: true,
@@ -1013,6 +1018,7 @@ async function main() {
                 product_intro: "Call of Duty",
                 view: 0,
                 platform_id: 3,
+                hot: false,
             },
             {
                 product_status: true,
@@ -1022,6 +1028,7 @@ async function main() {
                 product_intro: "Spider-Man",
                 view: 0,
                 platform_id: 1,
+                hot: false,
             },
             {
                 product_status: true,
@@ -1031,6 +1038,7 @@ async function main() {
                 product_intro: "Sport",
                 view: 0,
                 platform_id: 2,
+                hot: false,
             },
             {
                 product_status: true,
@@ -1040,6 +1048,7 @@ async function main() {
                 product_intro: "哈利波特",
                 view: 0,
                 platform_id: 1,
+                hot: true,
             },
             {
                 product_status: true,
@@ -1049,26 +1058,47 @@ async function main() {
                 product_intro: "格鬥天王",
                 view: 0,
                 platform_id: 3,
+                hot: false,
+            },
+            {
+                product_status: true,
+                product_name: "The Last of Us Part I",
+                product_image: "The_Last_of_Us_Part_I.jpeg",
+                release_date: "2022-2-10",
+                product_intro: "The Last of Us Part I",
+                view: 0,
+                platform_id: 1,
+                hot: false,
+            },
+            {
+                product_status: true,
+                product_name: "動物森友會",
+                product_image: "動物森友會.jpeg",
+                release_date: "2021-7-10",
+                product_intro: "動物森友會",
+                view: 0,
+                platform_id: 2,
+                hot: false,
             },
         ],
     });
 
     const existProduct = await prisma.product.findMany();
 
-    // hot
-    const hot = await prisma.hot.createMany({
-        data: [
-            {
-                product_id: existProduct[0].id,
-            },
-            {
-                product_id: existProduct[1].id,
-            },
-            {
-                product_id: existProduct[8].id,
-            },
-        ],
-    });
+    // // hot
+    // const hot = await prisma.hot.createMany({
+    //     data: [
+    //         {
+    //             product_id: existProduct[0].id,
+    //         },
+    //         {
+    //             product_id: existProduct[1].id,
+    //         },
+    //         {
+    //             product_id: existProduct[8].id,
+    //         },
+    //     ],
+    // });
 
     // version
     const version = await prisma.version.createMany({
@@ -1167,6 +1197,16 @@ async function main() {
                 product_id: existProduct[9].id,
                 version: "豪華版",
                 version_image: "THE_KING_OF_FIGHTERS_XV_標準.jpeg",
+            },
+            {
+                product_id: existProduct[10].id,
+                version: "標準版",
+                version_image: "The_Last_of_Us_Part_I_標準.jpeg",
+            },
+            {
+                product_id: existProduct[11].id,
+                version: "標準版",
+                version_image: "動物森友會_標準.jpeg",
             },
         ],
     });
@@ -1307,6 +1347,22 @@ async function main() {
             {
                 product_id: existProduct[9].id,
                 tag_id: 9,
+            },
+            {
+                product_id: existProduct[10].id,
+                tag_id: 1,
+            },
+            {
+                product_id: existProduct[10].id,
+                tag_id: 17,
+            },
+            {
+                product_id: existProduct[11].id,
+                tag_id: 16,
+            },
+            {
+                product_id: existProduct[11].id,
+                tag_id: 11,
             },
         ],
     });

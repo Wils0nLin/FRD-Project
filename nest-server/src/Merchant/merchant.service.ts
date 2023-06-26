@@ -1,4 +1,4 @@
-import { Body, Injectable } from "@nestjs/common";
+import { Body, Injectable, Param } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { Prisma, PrismaClient, Users } from "@prisma/client";
 import { sqltag } from "@prisma/client/runtime";
@@ -120,9 +120,8 @@ export class MerchantService {
     }
 
     async getTradeInfo(form: any) {
-        const foundRecord = await prisma.$queryRaw
-            `select product_name, version, amount from orders JOIN consumer ON consumer.id = consumer_id JOIN item ON item.id = item_id JOIN version ON version.id = version_id JOIN product ON product.id = product_id WHERE consumer.id = ${form.conId} AND create_time = ${form.create_time} AND merchant_id = ${form.merId} AND order_status = true ;`
-        ;
+        const foundRecord =
+            await prisma.$queryRaw`select product_name, version, amount from orders JOIN consumer ON consumer.id = consumer_id JOIN item ON item.id = item_id JOIN version ON version.id = version_id JOIN product ON product.id = product_id WHERE consumer.id = ${form.conId} AND create_time = ${form.create_time} AND merchant_id = ${form.merId} AND order_status = true ;`;
         return foundRecord;
     }
 
@@ -156,8 +155,11 @@ export class MerchantService {
     }
 
     //get merchant info
-    async getMerchantInfo() {
-        const getMerchantId = await prisma.merchant.findMany();
+    async getMerchantInfo(userId: any) {
+        const getMerchantId =
+            await prisma.$queryRaw`select * from users join merchant on users.id = merchant.users_id where users.id = ${Number(
+                userId
+            )}`;
         return getMerchantId;
     }
 }

@@ -121,8 +121,8 @@ let MerchantService = exports.MerchantService = class MerchantService {
         const getAllVersion = await prisma.version.findMany();
         return getAllVersion;
     }
-    async getMerchantInfo() {
-        const getMerchantId = await prisma.merchant.findMany();
+    async getMerchantInfo(userId) {
+        const getMerchantId = await prisma.$queryRaw `select * from users join merchant on users.id = merchant.users_id where users.id = ${Number(userId)}`;
         return getMerchantId;
     }
 };

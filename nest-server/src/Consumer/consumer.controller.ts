@@ -4,6 +4,7 @@ import { PublicService } from "src/Public/public.service";
 import { JwtGuard } from "src/Public/guard";
 import { GetUser } from "src/Public/decorator";
 import { userInfo } from "os";
+import { log } from "console";
 @Controller("consumer")
 export class ConsumerController {
     constructor(
@@ -15,33 +16,41 @@ export class ConsumerController {
         return await this.consumerService.getSelfInfo(userId);
     }
 
+    @Get("consumerInfo/:userId")
+    getConsumerInfo(@Param("userId") userId: any) {
+        console.log(userId);
+
+        return this.consumerService.getConsumerInfo(userId);
+    }
+
     // ---------------------------------------------------------------------------------------------------------
     // 未攞到consumer id
-    @Get("wishlist")
-    displayWishList(@Query("consumer_id") consumer_id: number) {
-        return this.consumerService.displayWishList(consumer_id);
+    @Get("wishlist/get/:userId")
+    async displayWishList(@Param("userId") userId: any) {
+        return this.consumerService.displayWishList(userId);
     }
     // ---------------------------------------------------
     //done
     @Post("wishlist/upload")
-    async uploadWishList(
-        @Body("consumerId") consumerId: number,
-        @Body("productId") productId: number
-    ) {
+    async uploadWishList(@Body() form: any) {
+        const { consumerId, productId } = form;
+        console.log("yoman: ", form);
+
         try {
-            const uploadWishList = await this.consumerService.uploadWishList(consumerId, productId);
+            const uploadWishList = await this.consumerService.uploadWishList(form);
             return { success: true, data: uploadWishList };
         } catch (error) {
             return { success: false, error: error.message };
         }
     }
 
-    // ---------------------------------------------------
     //done
-    @Delete("wishlist/delete/")
-    async deleteWishList(@Body() consumerId: number, productId: number) {
+    @Delete("wishlist/del/:id")
+    async deleteWishList(@Param("id") id: any) {
+        console.log("del me:", id);
+
         try {
-            const deleteWishList = await this.consumerService.deleteWishList(consumerId, productId);
+            const deleteWishList = await this.consumerService.deleteWishList(id);
             return { success: true, data: deleteWishList };
         } catch (error) {
             return { success: false, error: error.message };
@@ -53,7 +62,7 @@ export class ConsumerController {
     async getShopInfo(@Param("shopId") shopId: any) {
         return await this.consumerService.getShopInfo(shopId);
     }
-    
+
     // ---------------------------------------------------------------------------------------------------------
     @Get("order/:JWT")
     displayOrder(@Param("JWT") JWTpayload: any) {
@@ -66,9 +75,9 @@ export class ConsumerController {
         return this.consumerService.deleteOrder(Number(id));
     }
     @Get("order/history/:userId")
-    displayOrderHistory(@Param('userId') userId: any) {
-        console.log(userId)
-        return this.consumerService.getOrderRecord(userId)
+    displayOrderHistory(@Param("userId") userId: any) {
+        console.log(userId);
+        return this.consumerService.getOrderRecord(userId);
     }
     @Post("order/create")
     createOrder(@Body() form: any) {
@@ -102,13 +111,15 @@ export class ConsumerController {
 
     // ---------------------------------------------------------------------------------------------------------
     // get hot game
-    @Get("hot")
+    @Get("product/hot")
     getHot() {
         return this.consumerService.getHot();
     }
 
-    @Get("allProduct")
+    @Get("product/allProduct")
     getAllProduct() {
         return this.consumerService.getAllProduct();
     }
+
+    // ---------------------------------------------------------------------------------------------------------
 }

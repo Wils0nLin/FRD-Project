@@ -1,11 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 // import {} from "../assets"
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {IP_Of_LOCAL} from '../../IP';
+import {useSelector} from 'react-redux';
+import {IRootState} from '../app/store';
 
 type cardInfo = {
   product_name: string;
@@ -17,10 +20,100 @@ type cardInfo = {
 };
 
 export default function HomeItemCard(props: cardInfo) {
-  console.log('Yo props: ', props);
+  //use orange juice get user info
+  const userId = useSelector((state: IRootState) => state.auth.userId);
+  const [Name, setName] = useState('');
 
+  //
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [wish, setWish] = useState(false);
+
+  // ---------------------------------------------------------------------------------------------------------
+  // fetch function
+  //get user info
+
+  const createWishlist = async () => {
+    // const getUserData = async () => {
+    //   const resp = await fetch(
+    //     `http://${IP_Of_LOCAL}/consumer/userInfo/${userId}`,
+    //     {
+    //       method: 'GET',
+    //       headers: {'Content-Type': 'application/json'},
+    //     },
+    //   );
+    //   const data = await resp.json();
+    //   // console.log('你的數據: ', data);
+
+    //   setName(data[0].consumer_name);
+    //   getConsumerId(data[0].id);
+    // };
+
+    //get consumer info
+    const getConsumerId = async () => {
+      const resp = await fetch(
+        `http://${IP_Of_LOCAL}/consumer/consumerInfo/${userId}`,
+        {
+          method: 'GET',
+          headers: {'Content-Type': 'application/json'},
+        },
+      );
+      const conData = await resp.json();
+
+      postWishlist(conData[0].id);
+    };
+
+    // ---------------------------------------------------------------------------------------------------------
+    //post to wishlist
+    const postWishlist = async (consumerId: any) => {
+      try {
+        const resp = await fetch(
+          `http://${IP_Of_LOCAL}/consumer/wishlist/upload`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              consumerId: consumerId,
+              productId: props.id,
+            }),
+          },
+        );
+        return resp;
+
+        // if (!resp.ok) {
+        //   throw new Error('Failed to create wishlist');
+        // }
+
+        // deleteWishlist(wishlistId);
+
+        console.log('Wishlist created successfully');
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    setWish(true);
+    getConsumerId();
+  };
+
+  useEffect(() => {});
+
+  // ---------------------------------------------------------------------------------------------------------
+  // delete wishlist
+
+  // const handlePress = async () => {};
+
+  // const deleteWishlist = async (id: number) => {
+  //   await fetch(`http://${IP_Of_LOCAL}/consumer/wishlist/delete/${id}`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setWish(false);
+  //       console.log(data);
+  //     });
+  //   setWish(false);
+  // };
+
+  // ---------------------------------------------------------------------------------------------------------
 
   return (
     <TouchableOpacity
@@ -41,13 +134,21 @@ export default function HomeItemCard(props: cardInfo) {
           alignItems: 'flex-end',
           justifyContent: 'space-between',
         }}>
-        <TouchableOpacity onPress={() => setWish(!wish)}>
+        {/* try */}
+        <TouchableOpacity onPress={createWishlist}>
           <Ionicons
             name={wish ? 'heart' : 'heart-outline'}
             size={40}
             color={'#7700A6'}
           />
         </TouchableOpacity>
+        {/* <TouchableOpacity onPress={() => setWish(!wish)}>
+          <Ionicons
+            name={wish ? 'heart' : 'heart-outline'}
+            size={40}
+            color={'#7700A6'}
+          />
+        </TouchableOpacity> */}
         <Text style={styles.screenCardState}>{props.product_status}</Text>
       </View>
     </TouchableOpacity>

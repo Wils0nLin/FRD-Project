@@ -46,6 +46,8 @@ const imageObject = {
   '哈利波特_ps.jpeg': require('../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
   '星之卡比.jpeg': require('../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
   '薩爾達傳說王國之淚.jpeg': require('../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
+  'The_Last_of_Us_Part_I.jpeg': require('../../../assets/imageUpload/imageProduct/The_Last_of_Us_Part_I.jpeg'),
+  '動物森友會.jpeg': require('../../../assets/imageUpload/imageProduct/動物森友會.jpeg'),
   // default: require('../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
 } as Record<string, any>;
 
@@ -72,9 +74,7 @@ export const GameSearchScreen = ({route, navigation}: any) => {
 
       if (Array.isArray(tagArr)) {
         for (let i = 0; i < tagArr.length; i++) {
-          await fetch(
-            `http://${IP_Of_LOCAL}/public/filter/tag/${tagArr[i]}`,
-          )
+          await fetch(`http://${IP_Of_LOCAL}/public/filter/tag/${tagArr[i]}`)
             .then(response => response.json())
             .then(data => {
               data.map((items: Product) => {

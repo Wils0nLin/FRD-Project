@@ -54,16 +54,16 @@ function QRScanScreen(this: scanner) {
         <View style={styles.QRCodeBox}>
           <View style={{height: 55}} />
 
-          {/* <QRCodeScanner
+          <QRCodeScanner
             ref={node => {
               this.scanner = node;
             }}
             onRead={e => {
               console.log(e.data);
-              navigation.navigate('MerchantOrderInfo', {QRcode e.data});
+              navigation.navigate('MerchantOrderInfo', {QRcode: e.data});
               this.scanner.reactivate();
             }}
-          /> */}
+          />
           <View style={styles.QRCodeScanner} />
           <View style={styles.ORCodeBorder} />
           <View style={styles.errorBackground1} />

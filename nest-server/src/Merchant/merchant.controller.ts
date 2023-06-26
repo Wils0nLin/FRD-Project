@@ -115,8 +115,10 @@ export class MerchantController {
         return this.merchantService.getAllVersion();
     }
 
-    @Get(":merchantId")
-    getMerchantInfo() {
-        return this.merchantService.getMerchantInfo();
+    @Get("getInfo/:userId")
+    getMerchantInfo(@Param("userId") userId: any) {
+        console.log(userId);
+
+        return this.merchantService.getMerchantInfo(userId);
     }
 }

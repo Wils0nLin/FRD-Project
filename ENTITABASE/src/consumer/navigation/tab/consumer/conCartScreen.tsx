@@ -30,6 +30,7 @@ const ConsumerCartScreen = ({navigation}: any) => {
   const [payment, setPayment] = useState<Array<any>>([]);
   const [totalAmount, setTotalAMount] = useState(0);
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
+
   const deleteOrder = async (id: number) => {
     await fetch(`http://${IP_Of_LOCAL}/consumer/order/delete/${id}`)
       .then(response => response.json())
