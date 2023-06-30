@@ -15,7 +15,6 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import HomePageSlider from '../../../../objects/HomePageSlider';
 import GameTypeSlider from '../../../../objects/GameTypeSlider';
 import HomeItemCard from '../../../../objects/HomeItemCard';
-import {Switch} from 'react-native-gesture-handler';
 import {IP_Of_LOCAL} from '../../../../../IP';
 
 // ---------------------------------------------------------------------------------------------------------
@@ -31,8 +30,8 @@ const imageObject = {
   '哈利波特_ps.jpeg': require('../../../../assets/imageUpload/imageProduct/哈利波特_ps.jpeg'),
   '星之卡比.jpeg': require('../../../../assets/imageUpload/imageProduct/星之卡比.jpeg'),
   '薩爾達傳說王國之淚.jpeg': require('../../../../assets/imageUpload/imageProduct/薩爾達傳說王國之淚.jpeg'),
-  'The_Last_of_Us_Part_I.jpeg': require('../../../assets/imageUpload/imageProduct/The_Last_of_Us_Part_I.jpeg'),
-  '動物森友會.jpeg': require('../../../assets/imageUpload/imageProduct/動物森友會.jpeg'),
+  'The_Last_of_Us_Part_I.jpeg': require('../../../../assets/imageUpload/imageProduct/The_Last_of_Us_Part_I.jpeg'),
+  '動物森友會.jpeg': require('../../../../assets/imageUpload/imageProduct/動物森友會.jpeg'),
   // default: require('../../../../assets/imageUpload/imageProduct/Call_Duty.jpeg'),
 } as Record<string, any>;
 // ---------------------------------------------------------------------------------------------------------
@@ -60,29 +59,11 @@ export default function ConAppScreen({navigation}: any) {
     return [list, select];
   };
 
-  const findSwitchGames = async () => {
-    try {
-      const process = await fetch(
-        `http://${IP_Of_LOCAL}/public/filter/platform/?platformId=${1}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      const result = await process.json();
-      return result;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // ---------------------------------------------------------------------------------------------------------
 
-  function comingProduct() {
+  function comingProduct(clonelist: any) {
     const currentDate = new Date();
-    const comingProduct = GetAllProduct.filter(product => {
+    const comingProduct = clonelist.filter(product => {
       const releaseDate = new Date(product.release_date);
 
       return releaseDate >= currentDate;
@@ -90,8 +71,8 @@ export default function ConAppScreen({navigation}: any) {
     setComingProduct(comingProduct);
   }
 
-  function getHot() {
-    const hotProduct = GetAllProduct.filter(product => product.hot === true);
+  function getHot(clonelist: any) {
+    const hotProduct = clonelist.filter(product => product.hot === true);
 
     setHotProduct(hotProduct);
   }
@@ -104,21 +85,11 @@ export default function ConAppScreen({navigation}: any) {
       );
       const productList = await getAllProduct.json();
 
-      setGetAllProduct(productList);
-      getHot();
-      comingProduct();
+      getHot(productList);
+      comingProduct(productList);
     };
     getAllProduct();
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount(prevCount => prevCount + 1);
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  }, [count]);
 
   // ---------------------------------------------------------------------------------------------------------
   return (
@@ -316,105 +287,3 @@ const styles = StyleSheet.create({
     borderColor: '#65DC98',
   },
 });
-// const HotArr = [
-//   {
-//     image: (
-//       <Image
-//         style={{
-//           width: 80,
-//           height: 80,
-//           borderRadius: 5,
-//         }}
-//         source={require('../../../../assets/images/splatoon3.png')}
-//       />
-//     ),
-//     name: '斯普拉遁 3',
-//     date: '2022年9月9日',
-//     status: '現貨發售中',
-//   },
-//   {
-//     image: (
-//       <Image
-//         style={{
-//           width: 80,
-//           height: 80,
-//           borderRadius: 5,
-//         }}
-//         source={require('../../../../assets/images/Kirby.jpg')}
-//       />
-//     ),
-//     name: '星之卡比 探索發現',
-//     date: '2022年3月25日',
-//     status: '現貨發售中',
-//   },
-//   {
-//     image: (
-//       <Image
-//         style={{
-//           width: 80,
-//           height: 80,
-//           borderRadius: 5,
-//         }}
-//         source={require('../../../../assets/images/arceus.jpg')}
-//       />
-//     ),
-//     name: '寶可夢傳說 阿爾宙斯',
-//     date: '2022年1月28日',
-//     status: '現貨發售中',
-//   },
-// ];
-// const ComingArr = [
-//   {
-//     image: (
-//       <Image
-//         style={{
-//           width: 80,
-//           height: 80,
-//           borderRadius: 5,
-//         }}
-//         source={require('../../../../assets/images/pikmin4.jpg')}
-//       />
-//     ),
-//     name: '皮克敏 4',
-//     date: '2023年7月21日',
-//     status: '預購進行中',
-//   },
-//   {
-//     image: (
-//       <Image
-//         style={{
-//           width: 80,
-//           height: 80,
-//           borderRadius: 5,
-//         }}
-//         source={require('../../../../assets/images/island.jpg')}
-//       />
-//     ),
-//     name: '迪士尼奇幻島：米奇與好朋友大冒險',
-//     date: '2023年7月28日',
-//     status: '預購進行中',
-//   },
-//   {
-//     image: (
-//       <Image
-//         style={{
-//           width: 80,
-//           height: 80,
-//           borderRadius: 5,
-//         }}
-//         source={require('../../../../assets/images/zelda.jpg')}
-//       />
-//     ),
-//     name: '薩爾達傳說 王國之淚',
-//     date: '2023年5月12日',
-//     status: '預購進行中',
-//   },
-// ];
-// const getHot = async () => {
-//   const getProduct = await fetch(
-//     `http://${IP_Of_LOCAL}/consumer/product/hot`,
-//   );
-//   const hotList = await getProduct.json();
-
-//   setHotList(hotList);
-// };
